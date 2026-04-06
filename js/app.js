@@ -3,7 +3,7 @@
 
 import { NAV, SECTION_META } from './data.js';
 import { State } from './state.js';
-import { buildNav, switchTab } from './nav.js';
+import { buildNav, switchTab, switchGroup } from './nav.js';
 import { initOnboarding } from './onboarding.js';
 import { renderAccueil, initAccueil }           from './sections/accueil.js';
 import { renderEchauffement, initEchauffement } from './sections/echauffement.js';
