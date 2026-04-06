@@ -61,10 +61,10 @@ export function renderAccueil(meta) {
         </div>
 
         <div class="stats-grid">
-            <div class="card stat-card"><div class="value">${fmt(rm.squat)}</div><div class="label">Squat</div></div>
-            <div class="card stat-card"><div class="value">${fmt(rm.bench)}</div><div class="label">Bench</div></div>
-            <div class="card stat-card"><div class="value">${fmt(rm.deadlift)}</div><div class="label">Deadlift</div></div>
-            <div class="stat-total"><div class="value">${total} kg</div><div class="label">Total</div></div>
+            <div class="stat-total stat-card--total"><div class="value">${total} kg</div><div class="label">Total</div></div>
+            <div class="card stat-card stat-card--squat"><div class="value">${fmt(rm.squat)}</div><div class="label">Squat</div></div>
+            <div class="card stat-card stat-card--bench"><div class="value">${fmt(rm.bench)}</div><div class="label">Bench</div></div>
+            <div class="card stat-card stat-card--deadlift"><div class="value">${fmt(rm.deadlift)}</div><div class="label">Deadlift</div></div>
         </div>
 
         <div class="card progress-bar-wrap">
