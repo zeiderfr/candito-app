@@ -90,8 +90,8 @@ export function bootApp() {
     // Build nav with tab change callback
     buildNav(renderTab);
 
-    // Default tab: Accueil
-    renderTab('accueil');
+    // Default tab: Accueil (using switchTab to trigger active class in nav)
+    switchTab('accueil');
 }
 
 // Reset
