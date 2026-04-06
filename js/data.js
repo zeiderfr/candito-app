@@ -1,30 +1,31 @@
 // js/data.js — NAV, SECTION_META, PROGRAM, ALL_SESSIONS
 // Aucune dépendance — module racine du graphe
+// Lexique : Tactical Blueprint
 
 export const NAV = [
-    {id:'accueil',label:'Accueil'},
-    {id:'echauffement',label:'Échauffement'},
+    {id:'accueil',label:'Tableau de bord'},
+    {id:'echauffement',label:'Protocole Init'},
     {id:'s1s2',label:'S1-S2'},
     {id:'s3',label:'S3'},
     {id:'s4',label:'S4'},
     {id:'s5',label:'S5'},
     {id:'s6',label:'S6'},
-    {id:'nutrition',label:'Nutrition'},
+    {id:'nutrition',label:'Carburant'},
     {id:'rpe',label:'RPE'},
-    {id:'charges',label:'Charges'},
+    {id:'charges',label:'Télémétrie'},
 ];
 
 export const SECTION_META = {
-    accueil:       {title:'Accueil',          subtitle:''},
-    echauffement:  {title:'Échauffement',     subtitle:'Wenning • Kabuki • Gammes montantes'},
-    s1s2:          {title:'Semaines 1-2',     subtitle:'Accumulation — 5 séances/semaine — 78-82%'},
-    s3:            {title:'Semaine 3',        subtitle:'Transmutation — 3 séances — 85-88%'},
-    s4:            {title:'Semaine 4',        subtitle:'Acclimatation — 3 séances — 90-93%'},
-    s5:            {title:'Semaine 5',        subtitle:'Peaking — Tests AMRAP — 95%'},
-    s6:            {title:'Semaine 6',        subtitle:'Test Maxis ou Décharge'},
-    nutrition:     {title:'Nutrition',        subtitle:'Macros • Timing • Hydratation'},
+    accueil:       {title:'Tableau de bord',          subtitle:''},
+    echauffement:  {title:'Protocole d\'Initialisation', subtitle:'Activation Wenning • Gammes montantes'},
+    s1s2:          {title:'Semaines 1-2',     subtitle:'Phase d\'accumulation — 5 séances — 78-82%'},
+    s3:            {title:'Semaine 3',        subtitle:'Phase de transmutation — 3 séances — 85-88%'},
+    s4:            {title:'Semaine 4',        subtitle:'Phase d\'acclimatation — 3 séances — 90-93%'},
+    s5:            {title:'Semaine 5',        subtitle:'Phase de peaking — Tests AMRAP — 95%'},
+    s6:            {title:'Semaine 6',        subtitle:'Test Maxis ou Protocole de refroidissement'},
+    nutrition:     {title:'Matrice Carburant',  subtitle:'Macros • Timing • Hydratation'},
     rpe:           {title:'RPE & Autorégulation', subtitle:'Échelle RPE-RIR • Signaux d\'alerte'},
-    charges:       {title:'Tableau des Charges',  subtitle:'Calculateur 1RM intégré — 40% à 102%'},
+    charges:       {title:'Matrice de Télémétrie',  subtitle:'Calculateur intégré — 40% à 102%'},
 };
 
 export const PROGRAM = [
@@ -118,11 +119,11 @@ export const PROGRAM = [
       {name:'Bench 2ème',sets:1,reps:'1',lo:.96,hi:.98,lift:'bench',primary:['Pectoraux','Triceps'],secondary:['Deltoïdes ant.','Core']},
       {name:'Bench PR',sets:1,reps:'1',lo:1.00,hi:1.02,lift:'bench',isPR:true,primary:['Pectoraux','Triceps'],secondary:['Deltoïdes ant.','Core']},
     ]},
-    { id:'s6_dec_lun', day:'Lundi (Décharge)', focus:'SQ + DL Léger', alt:'decharge', exercises:[
+    { id:'s6_dec_lun', day:'Lundi (Refroidissement)', focus:'SQ + DL Léger', alt:'decharge', exercises:[
       {name:'Squat',sets:2,reps:'3',lo:.80,hi:.80,lift:'squat',primary:['Quadriceps','Fessiers'],secondary:['Ischio-jambiers']},
       {name:'Soulevé de terre',sets:1,reps:'3',lo:.80,hi:.80,lift:'deadlift',primary:['Érecteurs','Ischio-jambiers','Fessiers'],secondary:['Quadriceps']},
     ]},
-    { id:'s6_dec_mer', day:'Mercredi (Décharge)', focus:'Bench Léger', alt:'decharge', exercises:[
+    { id:'s6_dec_mer', day:'Mercredi (Refroidissement)', focus:'Bench Léger', alt:'decharge', exercises:[
       {name:'Développé couché',sets:2,reps:'3',lo:.80,hi:.80,lift:'bench',primary:['Pectoraux','Triceps'],secondary:['Deltoïdes ant.']},
     ]},
   ]},

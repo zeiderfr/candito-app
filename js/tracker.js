@@ -1,5 +1,5 @@
 // js/tracker.js — Module mutualisé pour S1-S2 → S6
-// Gère : rendu tableaux, RPE slider (Idée D), PR celebration (Idée B)
+// Tactical Blueprint : RPE Compte-tours, PR Overdrive, Fatigue moteur
 // Dépend de : data.js, state.js, utils.js
 
 import { PROGRAM } from './data.js';
@@ -16,7 +16,7 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
 
     let html = meta.title
         ? `<div class="section-header"><h2>${meta.title}</h2><div class="subtitle">${meta.subtitle}</div></div>`
-        : `<div style="margin:4px 0 16px"><span class="label" style="font-size:0.9rem;font-weight:600;color:var(--text-2)">${meta.subtitle}</span></div>`;
+        : `<div style="margin:4px 0 16px;padding-left:12px;border-left:2px solid var(--cyan-20)"><span class="label">${meta.subtitle}</span></div>`;
 
     html += '<div class="section-cards-grid">';
 
@@ -27,15 +27,15 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
         const doneSets = (sd.sets || []).filter(Boolean).length;
         const sessionDone = doneSets >= totalSets;
 
-        // Calcul fatigue moyenne (Idée D)
+        // Calcul fatigue moyenne
         const rpes = (sd.rpes || []).filter(v => v != null);
         const avgRpe = rpes.length > 0 ? (rpes.reduce((a, b) => a + b, 0) / rpes.length).toFixed(1) : null;
 
-        html += `<div class="card reveal exercise-card" id="session-${session.id}" style="position:relative">`;
-        html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">`;
+        html += `<div class="card exercise-card" id="session-${session.id}" style="position:relative">`;
+        html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">`;
         html += `<h3 style="margin:0">${session.day} — ${session.focus}</h3>`;
-        if (sessionDone) html += `<span class="badge badge-green">Terminée ✓</span>`;
-        else if (doneSets > 0) html += `<span class="badge badge-orange">${doneSets}/${totalSets} séries</span>`;
+        if (sessionDone) html += `<span class="badge badge-green">VALIDÉE</span>`;
+        else if (doneSets > 0) html += `<span class="badge badge-orange">${doneSets}/${totalSets} SÉRIES</span>`;
         html += `</div>`;
         html += `<div class="table-wrap"><table><thead><tr>
             <th>Exercice</th><th>Séries×Reps</th><th>Charge cible</th>
@@ -55,23 +55,24 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
                 html += `<tr class="${rowClass}" data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}">`;
                 if (si === 0) {
                     html += `<td rowspan="${ex.sets}" style="font-weight:600;vertical-align:top">${ex.name}</td>`;
-                    html += `<td rowspan="${ex.sets}" style="vertical-align:top">${ex.sets}×${ex.reps}</td>`;
-                    html += `<td rowspan="${ex.sets}" style="vertical-align:top">${targetLoad}</td>`;
+                    html += `<td rowspan="${ex.sets}" style="vertical-align:top;font-family:var(--mono)">${ex.sets}×${ex.reps}</td>`;
+                    html += `<td rowspan="${ex.sets}" style="vertical-align:top;font-family:var(--mono)">${targetLoad}</td>`;
                 }
                 html += `<td><input class="input input-sm tracker-load" type="number"
                     data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}"
                     value="${storedLoad || defaultLoad}" placeholder="${defaultLoad}" inputmode="decimal"
                     aria-label="Charge réelle série ${idx + 1}"></td>`;
 
-                // ⭐ RPE SLIDER (Idée D)
+                // ⭐ RPE SLIDER (Compte-tours HUD)
                 const rpeVal = storedRpe || 6;
-                const hue = Math.max(0, 120 - (rpeVal - 6) * 30);
+                const isRedline = rpeVal >= 9.5;
+                const grindClass = isRedline ? ' grind' : '';
+                const redlineClass = isRedline ? ' redline' : '';
                 html += `<td style="min-width:80px">
-                    <input type="range" class="rpe-slider tracker-rpe" min="6" max="10" step="0.5" value="${rpeVal}"
+                    <input type="range" class="rpe-slider tracker-rpe${grindClass}" min="6" max="10" step="0.5" value="${rpeVal}"
                         data-session="${session.id}" data-idx="${idx}"
-                        aria-label="RPE série ${idx + 1}"
-                        style="background:linear-gradient(90deg,hsl(${hue + 20},80%,50%),hsl(${hue},90%,50%))">
-                    <div class="rpe-value">${rpeVal > 6 ? rpeVal : '—'}</div>
+                        aria-label="RPE série ${idx + 1}">
+                    <div class="rpe-value${redlineClass}">${rpeVal > 6 ? rpeVal : '—'}</div>
                 </td>`;
 
                 html += `<td class="set-checkbox"><input type="checkbox" class="tracker-check"
@@ -84,15 +85,27 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
 
         html += `</tbody></table></div>`;
 
-        // ⭐ Jauge de fatigue (Idée D)
+        // ⭐ Jauge de fatigue (Indicateur température moteur)
         if (avgRpe) {
-            const fatHue = Math.max(0, 120 - (avgRpe - 6) * 30);
             const fatPct = Math.round(((avgRpe - 6) / 4) * 100);
+            // Color from cyan (6) to orange (10)
+            const fatColor = avgRpe >= 8.5
+                ? 'var(--alert)'
+                : avgRpe >= 7.5
+                    ? 'var(--warn)'
+                    : 'var(--cyan)';
             html += `<div class="fatigue-gauge">
-                <span class="fatigue-label">Fatigue</span>
-                <div class="fatigue-bar"><div class="fatigue-fill" style="width:${fatPct}%;background:hsl(${fatHue},80%,50%)"></div></div>
-                <span class="fatigue-label">RPE moy. ${avgRpe}</span>
+                <span class="fatigue-label">TEMP.</span>
+                <div class="fatigue-bar"><div class="fatigue-fill" style="width:${fatPct}%;background:${fatColor}"></div></div>
+                <span class="fatigue-label">RPE ${avgRpe}</span>
             </div>`;
+
+            // Alerte surchauffe
+            if (parseFloat(avgRpe) >= 9.0) {
+                html += `<div class="fatigue-alert">
+                    [ ALERTE SYSTÈME : Surchauffe détectée. Recommandation : Ajuster la matrice de charge de -2.5kg ]
+                </div>`;
+            }
         }
         html += `</div>`; // fin .card
     });
@@ -115,7 +128,7 @@ export function initTracker(sectionId) {
             saveImmediate();
             e.target.closest('tr').classList.toggle('tracker-row-done', e.target.checked);
 
-            // ⭐ PR DETECTION (Idée B)
+            // ⭐ PR DETECTION — OVERDRIVE
             if (e.target.checked) {
                 const row = e.target.closest('tr');
                 const lift = row.dataset.lift;
@@ -124,17 +137,31 @@ export function initTracker(sectionId) {
                     const weight = parseFloat(loadInput.value);
                     if (weight && checkAndRecordPR(lift, weight)) {
                         const card = row.closest('.card');
+
+                        // Flash blanc + bordure orange
                         card.classList.add('pr-celebration');
-                        // Retirer l'animation après qu'elle est terminée
                         card.addEventListener('animationend', () => card.classList.remove('pr-celebration'), { once: true });
-                        // Badge PR inline
+
+                        // Badge OVERRIDE
                         if (!row.querySelector('.pr-badge-inline')) {
                             const badge = document.createElement('span');
                             badge.className = 'pr-badge-inline';
-                            badge.textContent = 'Nouveau PR';
+                            badge.textContent = 'OVERRIDE';
                             row.querySelector('td').style.position = 'relative';
                             row.querySelector('td').appendChild(badge);
                         }
+
+                        // Message OVERRIDE sous le tableau
+                        const existingMsg = card.querySelector('.pr-override-msg');
+                        if (!existingMsg) {
+                            const msg = document.createElement('div');
+                            msg.className = 'pr-override-msg';
+                            msg.textContent = `[ OVERRIDE : NOUVELLE SPÉCIFICATION ENREGISTRÉE — ${lift.toUpperCase()} >> ${weight} KG ]`;
+                            card.appendChild(msg);
+                        }
+
+                        // Vibration haptique
+                        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                     }
                 }
             }
@@ -151,15 +178,24 @@ export function initTracker(sectionId) {
         });
     });
 
-    // ⭐ RPE SLIDER (Idée D) — dégradé dynamique + grind
+    // ⭐ RPE SLIDER — Compte-tours HUD (cyan → orange)
     section.querySelectorAll('.tracker-rpe').forEach(slider => {
         slider.addEventListener('input', e => {
             const val = parseFloat(e.target.value);
-            const hue = Math.max(0, 120 - (val - 6) * 30);
-            e.target.style.background = `linear-gradient(90deg,hsl(${hue + 20},80%,50%),hsl(${hue},90%,50%))`;
-            e.target.classList.toggle('grind', val >= 9.5);
+            const isRedline = val >= 9.5;
+
+            // Grind class + redline blink
+            e.target.classList.toggle('grind', isRedline);
             const label = e.target.parentElement.querySelector('.rpe-value');
-            if (label) label.textContent = val > 6 ? val : '—';
+            if (label) {
+                label.textContent = val > 6 ? val : '—';
+                label.classList.toggle('redline', isRedline);
+            }
+
+            // Vibration on redline
+            if (isRedline && navigator.vibrate) {
+                navigator.vibrate([50, 30, 50]);
+            }
         });
         slider.addEventListener('change', e => {
             const { session, idx } = e.target.dataset;

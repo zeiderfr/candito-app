@@ -1,4 +1,4 @@
-// js/sections/s6.js — Deux alternatives : Test Maxis / Décharge
+// js/sections/s6.js — Test Maxis / Protocole de Refroidissement
 import { renderWeekTracker, initTracker } from '../tracker.js';
 
 export function renderS6(meta) {
@@ -9,14 +9,14 @@ export function renderS6(meta) {
     );
     const decHtml = renderWeekTracker(
         's6',
-        { title: null, subtitle: 'Alternative 2 — Décharge : Maintien technique @80%' },
+        { title: null, subtitle: 'Alternative 2 — Protocole de Refroidissement @80%' },
         'decharge'
     );
     return `
         ${testHtml}
         <div class="note" style="margin:16px 0">
-            <strong>Ou, si tu ne testes pas les maxis cette semaine :</strong>
-            utilise la décharge pour maintenir la technique sans accumuler de fatigue.
+            <strong>[ INFO ]</strong> Si les maxis ne sont pas testés cette semaine,
+            utiliser le protocole de refroidissement pour maintenir la technique sans accumuler de fatigue systémique.
         </div>
         ${decHtml}
     `;
