@@ -70,7 +70,6 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
                     aria-label="Charge réelle série ${idx + 1}"></td>`;
 
                 // ⭐ RPE SLIDER
-                const rpeVal = storedRpe || 6;
                 const isRedline = rpeVal >= 9.5;
                 const grindClass = isRedline ? ' grind' : '';
                 const redlineClass = isRedline ? ' redline' : '';
