@@ -5,7 +5,7 @@ import { SECTION_META } from '../data.js';
 
 export function renderAccueil(meta) {
     const rm = State.rm;
-    const total = rm.squat + rm.bench + rm.deadlift;
+    const total = Number(rm.squat || 0) + Number(rm.bench || 0) + Number(rm.deadlift || 0);
     const next = getNextSession();
     const prog = getProgress();
     const prs = State.prs || [];
