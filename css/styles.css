@@ -976,13 +976,11 @@ tbody tr { transition: background 0.2s var(--ease); }
 /* ============================================
    25. SHIMMER GLASS
    ============================================ */
-.btn:not(.btn-outline):not(.btn-tunnel-vision),
-.onb-btn {
+.btn:not(.btn-outline):not(.btn-tunnel-vision) {
     position: relative;
     overflow: hidden;
 }
-.btn:not(.btn-outline):not(.btn-tunnel-vision)::after,
-.onb-btn::after {
+.btn:not(.btn-outline):not(.btn-tunnel-vision)::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -995,8 +993,7 @@ tbody tr { transition: background 0.2s var(--ease); }
     transform: translateX(-150%);
     pointer-events: none;
 }
-.btn:not(.btn-outline):not(.btn-tunnel-vision):hover::after,
-.onb-btn:hover::after {
+.btn:not(.btn-outline):not(.btn-tunnel-vision):hover::after {
     animation: shimmerSwipe 0.55s ease forwards;
 }
 @keyframes shimmerSwipe {
