@@ -167,18 +167,20 @@ td input[type="number"] {
    7. CARDS (iOS Elevated Surface)
    ============================================ */
 .card {
-    background: var(--card-bg);
-    border: 0.5px solid rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(255, 255, 255, 0.8);
     border-radius: var(--r-card);
     padding: 24px;
     margin-bottom: 16px;
-    box-shadow: var(--shadow-s);
+    box-shadow: var(--shadow-s), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     transition: transform 0.35s var(--spring), box-shadow 0.35s ease;
     will-change: transform;
 }
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-m);
+    box-shadow: var(--shadow-m), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
 }
 .card:active {
     transform: scale(0.98);
@@ -457,59 +459,75 @@ tbody tr { transition: background 0.2s var(--ease); }
    ============================================ */
 .stats-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: minmax(80px, auto) minmax(80px, auto);
-    grid-template-areas:
-        "total squat bench"
-        "total deadlift deadlift";
-    gap: 12px;
-    margin-bottom: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
 }
-.stat-card--total    { grid-area: total; }
-.stat-card--squat    { grid-area: squat; }
-.stat-card--bench    { grid-area: bench; }
-.stat-card--deadlift { grid-area: deadlift; }
+.stat-card--total { grid-column: 1 / -1; }
+.stat-card--squat { grid-column: span 1; }
+.stat-card--bench { grid-column: span 1; }
+.stat-card--deadlift { grid-column: span 1; }
+
+@media (max-width: 500px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .stat-card--deadlift { grid-column: 1 / -1; }
+}
+
 .stat-card {
     text-align: center;
-    padding: 20px 12px;
+    padding: 24px 12px;
 }
 .stat-card .value {
-    font-size: 1.875rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--text);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 .stat-card .label { 
-    margin-top: 6px; 
-    font-size: 0.75rem; 
-    font-weight: 600; 
+    margin-top: 8px; 
+    font-size: 0.8125rem; 
+    font-weight: 700; 
     color: var(--text-2); 
     text-transform: uppercase; 
-    letter-spacing: 0.04em; 
+    letter-spacing: 0.05em; 
 }
 .stat-total {
-    background: var(--text);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
     border-radius: var(--r-card);
-    padding: 24px 20px;
+    padding: 32px 20px;
     text-align: center;
-    border: none;
-    box-shadow: var(--shadow-m);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: transform 0.35s var(--spring), box-shadow 0.35s ease;
+    will-change: transform;
+}
+.stat-total:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+.stat-total:active {
+    transform: scale(0.98);
 }
 .stat-total .value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.03em;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.04em;
+    text-shadow: 0 4px 16px rgba(255, 255, 255, 0.6);
 }
 .stat-total .label { 
-    color: rgba(255, 255, 255, 0.6); 
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    color: var(--text-2); 
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-top: 4px;
 }
@@ -719,41 +737,47 @@ tbody tr { transition: background 0.2s var(--ease); }
    20. WALL OF FAME (PR Log)
    ============================================ */
 .wall-of-fame {
-    background: linear-gradient(145deg, #1D1D1F, #2C2C2E);
-    color: #fff;
-    border: none;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    color: var(--text);
 }
 .wall-of-fame h3 {
-    color: #fff;
-    margin-bottom: 12px;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
 }
 .pr-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 .pr-item:last-child { border: none; padding-bottom: 0 }
 .pr-item .pr-lift {
-    font-size: 0.6875rem;
-    font-weight: 700;
+    font-size: 0.75rem;
+    font-weight: 800;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #FF3B30, #FF6B30);
+    background: var(--text);
     color: #fff;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: var(--r-pill);
-    min-width: 56px;
+    min-width: 60px;
     text-align: center;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 .pr-item .pr-weight {
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text);
     flex: 1;
 }
 .pr-item .pr-date {
-    font-size: 0.6875rem;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-3);
     flex-shrink: 0;
 }
 
