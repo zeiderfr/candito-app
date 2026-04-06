@@ -147,20 +147,26 @@ td input[type="number"] {
    6. SECTION HEADERS
    ============================================ */
 .section-header {
-    background: var(--text);
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
     border-radius: var(--r-card);
-    padding: 20px 24px;
-    margin-bottom: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    transition: box-shadow 0.3s ease;
 }
 .section-header h2 {
-    color: #fff;
+    color: var(--text);
     margin: 0;
     letter-spacing: -0.01em;
 }
 .section-header .subtitle {
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 0.8125rem;
-    margin-top: 4px;
+    color: var(--text-2);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-top: 6px;
 }
 
 /* ============================================
@@ -308,9 +314,11 @@ td input[type="number"] {
     overflow-x: auto;
     border-radius: 12px;
     margin-bottom: 20px;
-    background: var(--card-bg);
-    border: 0.5px solid rgba(0, 0, 0, 0.08); /* Slightly stronger border for definition */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02); /* Very subtle depth */
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 0.5px solid rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-s), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 table { 
     width: 100%; 
@@ -320,7 +328,7 @@ table {
     text-align: left;
 }
 thead th {
-    background: rgba(245, 245, 247, 0.8);
+    background: rgba(255, 255, 255, 0.4);
     position: sticky;
     top: 0;
     z-index: 10;
