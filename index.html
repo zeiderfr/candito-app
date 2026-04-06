@@ -54,9 +54,6 @@
      ========================================== -->
 <div id="app" class="hidden">
 
-    <!-- Sub-nav chips (contextuelle, top) -->
-    <div class="sub-nav hidden" id="sub-nav" role="tablist" aria-label="Sous-navigation"></div>
-
     <!-- Main content -->
     <main id="main"></main>
 
@@ -66,8 +63,39 @@
         <button class="btn btn-outline btn-sm" id="btn-reset">Réinitialiser le programme</button>
     </footer>
 
-    <!-- Bottom tab bar -->
-    <nav class="tab-bar" id="tab-bar" aria-label="Navigation principale"></nav>
+    <!-- ==========================================
+         NAVIGATION "DYNAMIC PILL"
+         ========================================== -->
+    <div id="dynamic-nav-container">
+        <button id="nav-pill" aria-haspopup="dialog" aria-expanded="false" aria-label="Ouvrir le menu">
+            <span class="pill-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </span>
+            <span id="pill-text">Menu</span>
+        </button>
+    </div>
+
+    <!-- ==========================================
+         FULLSCREEN MENU BENTO
+         ========================================== -->
+    <div id="fullscreen-menu" role="dialog" aria-modal="true" class="hidden">
+        <div class="menu-header">
+            <h2 class="menu-title">Navigation</h2>
+            <button id="menu-close-btn" aria-label="Fermer le menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="bento-grid" id="bento-grid">
+            <!-- Injecté via nav.js -->
+        </div>
+    </div>
 </div>
 
 <!-- ==========================================
