@@ -55,7 +55,7 @@ html { scroll-behavior: smooth }
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', system-ui, sans-serif;
     background: var(--bg);
-    background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 80%),
+    background-image: radial-gradient(circle at 50% 0%, rgba(248, 245, 238, 0.85) 0%, transparent 80%),
                       url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
     color: var(--text);
     line-height: 1.55;
@@ -975,20 +975,20 @@ tbody tr { transition: background 0.2s var(--ease); }
 }
 .blob-1 {
     width: 520px; height: 520px;
-    background: var(--blob-1, #A8C5FF);
+    background: var(--blob-1, #D4B872); /* Soft Gold */
     top: -10%; left: -10%;
     --duration: 22s;
 }
 .blob-2 {
     width: 420px; height: 420px;
-    background: var(--blob-2, #D4A8FF);
+    background: var(--blob-2, #CBA36B); /* Warm Sand / Bronze */
     top: 40%; right: -10%;
     --duration: 18s;
     animation-delay: -6s;
 }
 .blob-3 {
     width: 360px; height: 360px;
-    background: var(--blob-3, #A8FFD4);
+    background: var(--blob-3, #D6AD94); /* Warm Terracotta / Cream */
     bottom: -10%; left: 30%;
     --duration: 25s;
     animation-delay: -12s;
