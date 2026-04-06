@@ -9,12 +9,34 @@ export let State = loadState();
 export function loadState() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : defaultState();
+        const data = raw ? JSON.parse(raw) : defaultState();
+        // 🛡️ SANITIZATION : Force numeric RM to avoid "150200 kg" bugs
+        data.rm = sanitizeRM(data.rm);
+        return data;
     } catch { return defaultState(); }
 }
 
 export function defaultState() {
-    return { rm: { squat: 150, bench: 110, deadlift: 170 }, initialized: false, sessions: {}, prs: [] };
+    return { 
+        rm: { squat: 150, bench: 110, deadlift: 170 }, 
+        initialized: false, 
+        sessions: {}, 
+        prs: [], 
+        v: 2 // Version schema for future migrations
+    };
+}
+
+function sanitizeRM(rm) {
+    const fresh = { squat: 0, bench: 0, deadlift: 0 };
+    Object.keys(fresh).forEach(k => {
+        let val = Number(rm[k] || 0);
+        // Si absurde (> 600kg ou < 20kg), on reset à une valeur saine par défaut.
+        if (isNaN(val) || val <= 0 || val > 600) {
+            val = (k === 'squat') ? 150 : (k === 'bench' ? 110 : 170);
+        }
+        fresh[k] = val;
+    });
+    return fresh;
 }
 
 // ⭐ DEBOUNCE : 300ms pour inputs numériques, immédiat pour checkboxes
