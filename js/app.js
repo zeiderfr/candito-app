@@ -32,8 +32,6 @@ const RENDERERS = {
 const $onb     = document.getElementById('onboarding');
 const $overlay = document.getElementById('calc-overlay');
 const $app     = document.getElementById('app');
-const $tabBar  = document.getElementById('tab-bar');
-const $subNav  = document.getElementById('sub-nav');
 const $main    = document.getElementById('main');
 
 // Track current tab for programmatic switching
@@ -90,7 +88,7 @@ export function bootApp() {
     $app.classList.remove('hidden');
 
     // Build nav with tab change callback
-    buildNav($tabBar, $subNav, renderTab);
+    buildNav(renderTab);
 
     // Default tab: Accueil
     renderTab('accueil');
