@@ -684,27 +684,24 @@ tbody tr { transition: background 0.2s var(--ease); }
 }
 
 /* ============================================
-   19. SESSION FATIGUE GAUGE
+   19. SESSION FATIGUE GAUGE (SVG Ring)
    ============================================ */
 .fatigue-gauge {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 10px;
     margin-top: 12px;
-}
-.fatigue-bar {
-    flex: 1; height: 5px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 3px;
-    overflow: hidden;
-}
-.fatigue-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 0.4s var(--ease);
 }
 .fatigue-label {
     font-size: 0.6875rem;
     font-weight: 600;
     color: var(--text-3);
+}
+.fatigue-ring { flex-shrink: 0; }
+.ring-progress {
+    animation: ringFill 0.9s var(--spring) both;
+    animation-delay: 0.3s;
+}
+@keyframes ringFill {
+    from { stroke-dashoffset: 100.53px; }
 }
 
 /* Surchauffe alert */
