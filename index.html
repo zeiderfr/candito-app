@@ -54,6 +54,41 @@
      ========================================== -->
 <div id="app" class="hidden">
 
+    <!-- Luxury Premium Header Logo -->
+    <header class="app-luxury-header" aria-hidden="true" style="display:flex; justify-content:center; padding: 32px 0 0; opacity: 0; animation: onbIn 1s var(--ease) forwards;">
+        <svg class="luxury-logo" viewBox="0 0 200 200" width="100" height="100" style="color: var(--gold);">
+            <!-- Outer Circle Arcs -->
+            <path d="M 46 90 A 64 64 0 0 1 154 90" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 46 110 A 64 64 0 0 0 154 110" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Central Barbell pieces -->
+            <g fill="currentColor">
+                <!-- Center Ring -->
+                <circle cx="100" cy="100" r="16" fill="none" stroke="currentColor" stroke-width="4"/>
+                
+                <!-- Inner Shafts -->
+                <rect x="66" y="98" width="18" height="4" />
+                <rect x="116" y="98" width="18" height="4" />
+                
+                <!-- Inner plate pair -->
+                <rect x="56" y="78" width="10" height="44" rx="2" /> 
+                <rect x="134" y="78" width="10" height="44" rx="2" />
+                
+                <!-- Outer plate pair -->
+                <rect x="42" y="84" width="12" height="32" rx="2" />
+                <rect x="146" y="84" width="12" height="32" rx="2" />
+                
+                <!-- End Caps -->
+                <rect x="34" y="92" width="6" height="16" rx="1" />
+                <rect x="160" y="92" width="6" height="16" rx="1" />
+
+                <!-- Bar Extremities -->
+                <rect x="28" y="98" width="6" height="4" />
+                <rect x="166" y="98" width="6" height="4" />
+            </g>
+        </svg>
+    </header>
+
     <!-- Main content -->
     <main id="main"></main>
 
