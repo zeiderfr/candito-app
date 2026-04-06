@@ -4,7 +4,7 @@
 
 import { PROGRAM } from './data.js';
 import { State, save, saveImmediate, checkAndRecordPR } from './state.js';
-import { fmt, loadRange, calcLoad } from './utils.js';
+import { fmt, loadRange, calcLoad, calculateAutoRPE } from './utils.js';
 
 // ⭐ Rendu HTML d'une semaine entière
 // altFilter (optionnel) : 'test' | 'decharge' — utilisé pour S6
@@ -48,18 +48,24 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
                 const idx = setIndex++;
                 const done = (sd.sets || [])[idx] || false;
                 const storedLoad = (sd.loads || [])[idx] ?? '';
-                const storedRpe = (sd.rpes || [])[idx] ?? 6;
+                const storedRpe = (sd.rpes || [])[idx] ?? null;
                 const defaultLoad = ex.lift ? fmt(calcLoad(State.rm[ex.lift], ex.lo)) : '';
+                
+                const loadToUse = storedLoad || (ex.lift ? calcLoad(State.rm[ex.lift], ex.lo) : null);
+                const true1RM = ex.lift ? State.rm[ex.lift] : null;
+                const autoRpe = calculateAutoRPE(true1RM, loadToUse, ex.reps);
+                const rpeVal = storedRpe ?? autoRpe;
+                
                 const rowClass = done ? 'tracker-row-done' : '';
 
-                html += `<tr class="${rowClass}" data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}">`;
+                html += `<tr class="${rowClass}" data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}" data-reps="${ex.reps}">`;
                 if (si === 0) {
                     html += `<td rowspan="${ex.sets}" style="font-weight:600;vertical-align:top">${ex.name}</td>`;
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${ex.sets}×${ex.reps}</td>`;
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${targetLoad}</td>`;
                 }
                 html += `<td><input class="input input-sm tracker-load" type="number"
-                    data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}"
+                    data-session="${session.id}" data-idx="${idx}"
                     value="${storedLoad || defaultLoad}" placeholder="${defaultLoad}" inputmode="decimal"
                     aria-label="Charge réelle série ${idx + 1}"></td>`;
 
@@ -167,13 +173,29 @@ export function initTracker(sectionId) {
         });
     });
 
-    // Charge réelle — save (debounce 300ms)
+    // Charge réelle — save (debounce 300ms) et recalcul RPE Auto
     section.querySelectorAll('.tracker-load').forEach(inp => {
         inp.addEventListener('change', e => {
             const { session, idx } = e.target.dataset;
             ensureSession(session);
-            State.sessions[session].loads[parseInt(idx)] = parseFloat(e.target.value) || null;
+            const loadVal = parseFloat(e.target.value) || null;
+            State.sessions[session].loads[parseInt(idx)] = loadVal;
             save();
+
+            // ⭐ RPE AUTO UPDATE
+            const row = e.target.closest('tr');
+            const lift = row.dataset.lift;
+            const reps = row.dataset.reps;
+            if (lift && loadVal) {
+                const newRPE = calculateAutoRPE(State.rm[lift], loadVal, reps);
+                const slider = row.querySelector('.tracker-rpe');
+                if (slider) {
+                    slider.value = newRPE;
+                    slider.dispatchEvent(new Event('input')); // Mets à jour la valeur visuelle 6..10
+                    State.sessions[session].rpes[parseInt(idx)] = newRPE;
+                    saveImmediate();
+                }
+            }
         });
     });
 
