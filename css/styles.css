@@ -808,7 +808,188 @@ tbody tr { transition: background 0.2s var(--ease); }
 .app-footer .btn { max-width: 280px; margin: 0 auto }
 
 /* ============================================
-   24. RESPONSIVE (DESKTOP)
+   24. AMBIENT BACKGROUND (Mesh Gradient)
+   ============================================ */
+.ambient-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    contain: strict;
+}
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.48;
+    will-change: transform;
+    animation: blobDrift var(--duration, 20s) ease-in-out infinite alternate;
+}
+.blob-1 {
+    width: 520px; height: 520px;
+    background: var(--blob-1, #A8C5FF);
+    top: -10%; left: -10%;
+    --duration: 22s;
+}
+.blob-2 {
+    width: 420px; height: 420px;
+    background: var(--blob-2, #D4A8FF);
+    top: 40%; right: -10%;
+    --duration: 18s;
+    animation-delay: -6s;
+}
+.blob-3 {
+    width: 360px; height: 360px;
+    background: var(--blob-3, #A8FFD4);
+    bottom: -10%; left: 30%;
+    --duration: 25s;
+    animation-delay: -12s;
+}
+.ambient-background {
+    transition: opacity 1s ease;
+}
+@keyframes blobDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(40px, -30px) scale(1.05); }
+    66%  { transform: translate(-20px, 40px) scale(0.97); }
+    100% { transform: translate(30px, 20px) scale(1.03); }
+}
+
+/* ============================================
+   25. SHIMMER GLASS
+   ============================================ */
+.btn:not(.btn-outline):not(.btn-tunnel-vision),
+.onb-btn {
+    position: relative;
+    overflow: hidden;
+}
+.btn:not(.btn-outline):not(.btn-tunnel-vision)::after,
+.onb-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        115deg,
+        rgba(255,255,255,0)    0%,
+        rgba(255,255,255,0.22) 50%,
+        rgba(255,255,255,0)    100%
+    );
+    transform: translateX(-150%);
+    pointer-events: none;
+}
+.btn:not(.btn-outline):not(.btn-tunnel-vision):hover::after,
+.onb-btn:hover::after {
+    animation: shimmerSwipe 0.55s ease forwards;
+}
+@keyframes shimmerSwipe {
+    from { transform: translateX(-150%); }
+    to   { transform: translateX(150%); }
+}
+
+/* ============================================
+   26. TUNNEL VISION (Focus Mode)
+   ============================================ */
+#tunnel-vision-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20vh;
+    gap: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+#tunnel-vision-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+.tunnel-lift-name {
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+    color: rgba(235, 235, 245, 0.65);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.tunnel-load-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+.tunnel-load {
+    font-size: clamp(5rem, 18vw, 8rem);
+    font-weight: 800;
+    color: #FF3B30;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+.tunnel-unit {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: #FF3B30;
+    opacity: 0.7;
+    padding-bottom: 0.6rem;
+}
+.tunnel-btn-validate {
+    margin-top: 16px;
+    padding: 18px 52px;
+    background: #FF3B30;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.3s var(--spring), opacity 0.2s;
+    min-height: 56px;
+}
+.tunnel-btn-validate:active { transform: scale(0.96); }
+.tunnel-btn-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+}
+.tunnel-btn-close:hover { background: rgba(255, 255, 255, 0.2); }
+.btn-tunnel-vision {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 4px 10px;
+    background: rgba(255, 59, 48, 0.08);
+    color: var(--red);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    border-radius: var(--r-pill);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.2s var(--spring);
+    white-space: nowrap;
+}
+.btn-tunnel-vision:hover {
+    background: rgba(255, 59, 48, 0.15);
+    transform: scale(1.04);
+}
+
+/* ============================================
+   27. RESPONSIVE (DESKTOP)
    ============================================ */
 @media (min-width: 768px) {
     .app-section { padding: 36px 28px }
