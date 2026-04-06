@@ -100,83 +100,102 @@ td input[type="number"] {
 .app-section { padding: 28px 20px; max-width: 840px; margin: 0 auto }
 
 /* ============================================
-   5. NAVIGATION — Bottom Tab Bar + Sub-nav
+   5. NAVIGATION (DYNAMIC PILL & FULLSCREEN BENTO)
    ============================================ */
 
-/* ── Bottom Tab Bar ── */
-.tab-bar {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    height: calc(60px + env(safe-area-inset-bottom));
-    background: rgba(245, 245, 247, 0.88);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
-    display: flex; align-items: stretch;
+/* ── Dynamic Pill ── */
+#dynamic-nav-container {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
-.tab-item {
-    flex: 1;
+#nav-pill {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--text);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-size: 1.0625rem; font-weight: 700;
+    letter-spacing: -0.01em;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    transition: transform 0.25s var(--spring), box-shadow 0.25s ease;
+    will-change: transform;
+}
+#nav-pill:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+#nav-pill:active {
+    transform: scale(0.96);
+}
+.pill-icon { display: flex; align-items: center; justify-content: center; opacity: 0.8; }
+
+/* ── Fullscreen Menu Overlay ── */
+#fullscreen-menu {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(235, 235, 240, 0.65);
+    backdrop-filter: blur(35px) saturate(200%);
+    -webkit-backdrop-filter: blur(35px) saturate(200%);
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 3px;
-    padding-bottom: env(safe-area-inset-bottom);
-    color: var(--text-3);
-    background: transparent;
-    transition: color 0.2s var(--spring), transform 0.15s var(--spring);
-    min-height: 60px;
+    opacity: 0; pointer-events: none; visibility: hidden;
+    transform: scale(0.96) translateY(20px);
+    transition: opacity 0.4s var(--spring), transform 0.4s var(--spring), visibility 0.4s;
 }
-.tab-item svg {
-    width: 24px; height: 24px;
-    flex-shrink: 0;
+#fullscreen-menu.is-open {
+    opacity: 1; pointer-events: auto; visibility: visible;
+    transform: scale(1) translateY(0);
 }
-.tab-item span {
-    font-size: 0.6875rem; font-weight: 600;
-    letter-spacing: 0.01em;
+.menu-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 32px 24px 20px;
 }
-.tab-item:active {
-    transform: scale(0.88);
+.menu-title { font-size: 2rem; font-weight: 800; color: var(--text); letter-spacing: -0.04em; margin: 0; }
+#menu-close-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05); color: var(--text);
+    display: flex; justify-content: center; align-items: center;
+    transition: background 0.2s;
 }
-.tab-item.active {
-    color: var(--blue);
-}
+#menu-close-btn:hover { background: rgba(0, 0, 0, 0.1); }
 
-/* ── Sub-nav chips (contextuelle, top) ── */
-.sub-nav {
-    position: sticky; top: 0; z-index: 90;
-    height: 44px;
-    background: rgba(245, 245, 247, 0.80);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
-    display: flex; align-items: center;
-    gap: 6px; padding: 0 16px;
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+/* ── Bento Grid ── */
+.bento-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 10px 24px 120px;
+    overflow-y: auto;
+    align-content: start;
+    -webkit-overflow-scrolling: touch;
 }
-.sub-nav::-webkit-scrollbar { display: none }
-.sub-nav.hidden { display: none }
+.bento-tile {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 24px 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px;
+    color: var(--text); font-weight: 700; font-size: 1.0625rem;
+    transition: transform 0.25s var(--spring), background 0.2s, box-shadow 0.2s;
+}
+.bento-tile svg { opacity: 0.6; color: var(--text-2); transition: opacity 0.2s, transform 0.2s; }
+.bento-tile:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+.bento-tile:hover svg { opacity: 1; transform: scale(1.1); color: var(--blue); }
+.bento-tile:active { transform: scale(0.96); }
 
-.sub-chip {
-    flex-shrink: 0;
-    padding: 6px 13px;
-    border-radius: var(--r-pill);
-    font-size: 0.8125rem; font-weight: 600;
-    color: var(--text-2);
-    background: transparent;
-    transition: all 0.25s var(--spring);
-    white-space: nowrap;
-    min-height: 30px;
+/* Tuile large (prend 2 colonnes) */
+.bento-tile.wide {
+    grid-column: span 2;
+    padding: 28px 24px;
+    flex-direction: row; justify-content: space-between;
+    font-size: 1.25rem;
 }
-.sub-chip:active {
-    transform: scale(0.94);
-}
-.sub-chip:hover {
-    color: var(--text);
-    background: rgba(0, 0, 0, 0.03);
-}
-.sub-chip.active {
-    color: var(--text);
-    background: var(--card-bg);
-    box-shadow: var(--shadow-pill);
-}
+.bento-tile.wide svg { opacity: 0.8; width: 32px; height: 32px; }
 
 /* Espace bas pour que le contenu ne soit pas caché par la tab-bar */
 #main {
