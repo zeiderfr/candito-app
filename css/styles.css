@@ -457,10 +457,18 @@ tbody tr { transition: background 0.2s var(--ease); }
    ============================================ */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: minmax(80px, auto) minmax(80px, auto);
+    grid-template-areas:
+        "total squat bench"
+        "total deadlift deadlift";
     gap: 12px;
     margin-bottom: 16px;
 }
+.stat-card--total    { grid-area: total; }
+.stat-card--squat    { grid-area: squat; }
+.stat-card--bench    { grid-area: bench; }
+.stat-card--deadlift { grid-area: deadlift; }
 .stat-card {
     text-align: center;
     padding: 20px 12px;
