@@ -1,15 +1,10 @@
-// js/nav.js — Navigation : bottom tab bar + sub-nav chips
+// js/nav.js — Navigation : Dynamic Pill & Fullscreen Menu
 // Dépend de : data.js
 
 import { NAV, NAV_GROUPS } from './data.js';
 
 // Callback de changement d'onglet — injecté par app.js
 let _onTabChange = null;
-let _$tabBar = null;
-let _$subNav = null;
-
-// Mémorise le dernier onglet visité par groupe
-const _lastTabInGroup = {};
 
 // ─── Icônes SVG inline (SF Symbols-style, 24×24, currentColor) ────────────
 const ICONS = {
@@ -30,121 +25,84 @@ const ICONS = {
     </svg>`,
 };
 
-// ─── Build ─────────────────────────────────────────────────────────────────
-
-export function buildNav($tabBar, $subNav, onTabChange) {
+/**
+ * Initialise le système de navigation
+ * @param {Function} onTabChange - callback appelé à chaque changement
+ */
+export function buildNav(onTabChange) {
     _onTabChange = onTabChange;
-    _$tabBar = $tabBar;
-    _$subNav = $subNav;
 
-    // Build bottom tab items
-    $tabBar.innerHTML = '';
-    NAV_GROUPS.forEach((group, i) => {
+    const navPill = document.getElementById('nav-pill');
+    const fullscreenMenu = document.getElementById('fullscreen-menu');
+    const menuCloseBtn = document.getElementById('menu-close-btn');
+    const bentoGrid = document.getElementById('bento-grid');
+
+    if (!navPill || !fullscreenMenu || !bentoGrid) return;
+
+    // 1. Ouvrir le Menu
+    navPill.addEventListener('click', () => {
+        fullscreenMenu.classList.add('is-open');
+        navPill.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden'; // Bloquer le scroll derrière
+    });
+
+    // 2. Fermer le Menu
+    const closeMenu = () => {
+        fullscreenMenu.classList.remove('is-open');
+        navPill.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    };
+
+    menuCloseBtn.addEventListener('click', closeMenu);
+
+    // 3. Générer la grille Bento depuis NAV
+    // On peut utiliser NAV_GROUPS pour structurer, ou simplement itérer sur NAV.
+    bentoGrid.innerHTML = '';
+    
+    NAV.forEach((navItem, i) => {
         const btn = document.createElement('button');
-        btn.className = 'tab-item' + (i === 0 ? ' active' : '');
-        btn.dataset.group = group.id;
-        btn.setAttribute('aria-label', `Naviguer vers ${group.label}`);
-        btn.innerHTML = `${ICONS[group.icon]}<span>${group.label}</span>`;
-        btn.addEventListener('click', () => switchGroup(group.id));
-        $tabBar.appendChild(btn);
-    });
+        btn.className = 'bento-tile';
+        
+        // Retrouver l'icône via NAV_GROUPS (s'il appartient à un groupe)
+        const parentGroup = NAV_GROUPS.find(g => g.tabs.includes(navItem.id));
+        const iconSvg = parentGroup && ICONS[parentGroup.icon] ? ICONS[parentGroup.icon] : ICONS.home;
+        
+        btn.innerHTML = `${iconSvg} <span>${navItem.label}</span>`;
+        
+        // Mettre Accueil en tuile large
+        if (navItem.id === 'accueil') {
+            btn.classList.add('wide');
+        }
 
-    // Build sub-nav chips (all groups, shown/hidden contextually)
-    _buildSubNav();
-}
-
-function _buildSubNav() {
-    _$subNav.innerHTML = '';
-
-    NAV_GROUPS.forEach(group => {
-        if (group.tabs.length <= 1) return; // Pas de sub-nav pour groupes solo
-
-        group.tabs.forEach(tabId => {
-            const navItem = NAV.find(n => n.id === tabId);
-            if (!navItem) return;
-
-            const chip = document.createElement('button');
-            chip.className = 'sub-chip';
-            chip.textContent = navItem.label;
-            chip.dataset.tab = tabId;
-            chip.dataset.group = group.id;
-            chip.setAttribute('role', 'tab');
-            chip.setAttribute('aria-label', `Naviguer vers ${navItem.label}`);
-            chip.setAttribute('aria-selected', 'false');
-            chip.addEventListener('click', () => switchTab(tabId));
-            _$subNav.appendChild(chip);
+        btn.addEventListener('click', () => {
+            switchTab(navItem.id);
+            closeMenu();
         });
+
+        bentoGrid.appendChild(btn);
     });
 }
 
-// ─── Switch group (bottom tab tap) ────────────────────────────────────────
-
-export function switchGroup(groupId) {
-    const group = NAV_GROUPS.find(g => g.id === groupId);
-    if (!group) return;
-
-    // Update bottom tab active state
-    _$tabBar.querySelectorAll('.tab-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.group === groupId);
-    });
-
-    // Show/hide sub-nav chips for this group
-    const hasSubNav = group.tabs.length > 1;
-    if (hasSubNav) {
-        _$subNav.classList.remove('hidden');
-        // Show only chips belonging to this group
-        _$subNav.querySelectorAll('.sub-chip').forEach(chip => {
-            const belongs = chip.dataset.group === groupId;
-            chip.style.display = belongs ? '' : 'none';
-        });
-    } else {
-        _$subNav.classList.add('hidden');
-    }
-
-    // Navigate to last tab in group (or first)
-    const targetTab = _lastTabInGroup[groupId] ?? group.tabs[0];
-    switchTab(targetTab);
-}
-
-// ─── Switch tab (chip tap or programmatic) ────────────────────────────────
+// ─── Switch tab (programmatic) ────────────────────────────────────────
 
 export function switchTab(tabId) {
-    // Find group for this tab
-    const group = NAV_GROUPS.find(g => g.tabs.includes(tabId));
-    if (!group) return;
+    const navItem = NAV.find(n => n.id === tabId);
+    if (!navItem) return;
 
-    // Remember last tab in group
-    _lastTabInGroup[group.id] = tabId;
-
-    // Sync bottom tab active state
-    if (_$tabBar) {
-        _$tabBar.querySelectorAll('.tab-item').forEach(item => {
-            item.classList.toggle('active', item.dataset.group === group.id);
-        });
-    }
-
-    // Sync sub-nav chip active state
-    if (_$subNav) {
-        const hasSubNav = group.tabs.length > 1;
-        if (hasSubNav) {
-            _$subNav.classList.remove('hidden');
-            _$subNav.querySelectorAll('.sub-chip').forEach(chip => {
-                const belongs = chip.dataset.group === group.id;
-                chip.style.display = belongs ? '' : 'none';
-                if (belongs) {
-                    const isActive = chip.dataset.tab === tabId;
-                    chip.classList.toggle('active', isActive);
-                    chip.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                    if (isActive) {
-                        chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                    }
-                }
-            });
-        } else {
-            _$subNav.classList.add('hidden');
-        }
+    // Mettre à jour l'intitulé de la pilule
+    const pillText = document.getElementById('pill-text');
+    if (pillText) {
+        pillText.textContent = navItem.label;
     }
 
     // Call render callback
     if (_onTabChange) _onTabChange(tabId);
+}
+
+export function switchGroup(groupId) {
+    // Rétrocompatibilité : rediriger le groupe vers son premier tab
+    const group = NAV_GROUPS.find(g => g.id === groupId);
+    if (group && group.tabs.length > 0) {
+        switchTab(group.tabs[0]);
+    }
 }
