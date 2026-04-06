@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Programme Candito 6 Semaines — Suivi interactif d'entraînement powerlifting pour Théo. Squat, Bench, Deadlift.">
+    <title>Candito 6 Semaines — Programme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ==========================================
+     ONBOARDING CINÉMATIQUE
+     ========================================== -->
+<div id="onboarding">
+    <div class="onb-card">
+        <h1>Bienvenue.</h1>
+        <p>Paramétrons tes charges actuelles pour générer tes 6 prochaines semaines.</p>
+        <div class="onb-fields">
+            <div class="onb-field">
+                <label for="onb-squat">Squat</label>
+                <input type="number" id="onb-squat" value="150" inputmode="numeric" min="20" max="500">
+                <span class="unit">kg</span>
+            </div>
+            <div class="onb-field">
+                <label for="onb-bench">Bench</label>
+                <input type="number" id="onb-bench" value="110" inputmode="numeric" min="20" max="400">
+                <span class="unit">kg</span>
+            </div>
+            <div class="onb-field">
+                <label for="onb-deadlift">Deadlift</label>
+                <input type="number" id="onb-deadlift" value="170" inputmode="numeric" min="20" max="500">
+                <span class="unit">kg</span>
+            </div>
+        </div>
+        <button class="onb-btn" id="onb-go">Générer le programme</button>
+    </div>
+</div>
+
+<div id="calc-overlay"></div>
+
+<!-- ==========================================
+     APPLICATION
+     ========================================== -->
+<div id="app" class="hidden">
+
+    <!-- Nav sticky -->
+    <nav class="nav" id="nav" aria-label="Navigation programme">
+        <div class="nav-track" id="nav-track" role="tablist"></div>
+    </nav>
+
+    <!-- Main content -->
+    <main id="main"></main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p style="color:var(--text-3);font-size:0.8125rem;margin-bottom:16px">Programme Candito 6 Semaines — v1.0</p>
+        <button class="btn btn-outline btn-sm" id="btn-reset">Réinitialiser le programme</button>
+    </footer>
+</div>
+
+<!-- NOTE: ES modules en file:// sont bloqués par Safari. Utiliser Chrome/Edge en local ou: python3 -m http.server 8080 -->
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
