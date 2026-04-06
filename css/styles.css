@@ -488,13 +488,16 @@ tbody tr { transition: background 0.2s var(--ease); }
     letter-spacing: 0.04em; 
 }
 .stat-total {
-    grid-column: 1 / -1;
     background: var(--text);
     border-radius: var(--r-card);
     padding: 24px 20px;
     text-align: center;
     border: none;
     box-shadow: var(--shadow-m);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .stat-total .value {
     font-size: 2.5rem;
