@@ -89,38 +89,34 @@
     </footer>
 
     <!-- ==========================================
-         NAVIGATION "DYNAMIC PILL"
+         SMART BOTTOM BAR
          ========================================== -->
-    <div id="dynamic-nav-container">
-        <button id="nav-pill" aria-haspopup="dialog" aria-expanded="false" aria-label="Ouvrir le menu">
-            <span class="pill-icon">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </span>
-            <span id="pill-text">Menu</span>
+    <nav id="smart-bottom-bar">
+        <button class="nav-item active" data-target="accueil" aria-label="Accueil">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/>
+            </svg>
+            <span>Accueil</span>
         </button>
-    </div>
-
-    <!-- ==========================================
-         FULLSCREEN MENU BENTO
-         ========================================== -->
-    <div id="fullscreen-menu" role="dialog" aria-modal="true" class="hidden">
-        <div class="menu-header">
-            <h2 class="menu-title">Navigation</h2>
-            <button id="menu-close-btn" aria-label="Fermer le menu">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-        <div class="bento-grid" id="bento-grid">
-            <!-- Injecté via nav.js -->
-        </div>
-    </div>
+        <button class="nav-item" data-target="echauffement" aria-label="Échauffement">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L4.5 13.5H12L11 22l8.5-11.5H12L13 2z"/>
+            </svg>
+            <span>Warm up</span>
+        </button>
+        <button class="nav-item" id="btn-nav-programme" aria-label="Programme">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            <span>Programme</span>
+        </button>
+        <button class="nav-item" data-target="nutrition" aria-label="Nutrition">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 4 13c0-4.97 4-9 9-9 3.54 0 7 2.5 7 7 0 4-2 7-6 9"/><path d="M4 20c2-2 4-4 7-6"/>
+            </svg>
+            <span>Nutrition</span>
+        </button>
+    </nav>
 </div>
 
 <!-- ==========================================
