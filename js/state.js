@@ -81,11 +81,12 @@ export function getProgress() {
 // ⭐ PR DETECTION — appelé depuis tracker.js
 export function checkAndRecordPR(lift, weight) {
     if (weight > State.rm[lift]) {
+        if (!Array.isArray(State.prs)) State.prs = []; // QA: Sécurisation Array
         const existing = State.prs.find(p => p.lift === lift && p.weight === weight);
         if (!existing) {
             State.prs.push({ lift, weight, date: new Date().toLocaleDateString('fr-FR') });
             saveImmediate();
-            // Vibration haptique (Idée B)
+            // Vibration haptique
             if (navigator.vibrate) navigator.vibrate(200);
             return true;
         }
