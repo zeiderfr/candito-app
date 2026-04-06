@@ -170,12 +170,15 @@ td input[type="number"] {
     padding: 24px;
     margin-bottom: 16px;
     box-shadow: var(--shadow-s);
-    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    transition: transform 0.35s var(--spring), box-shadow 0.35s ease;
     will-change: transform;
 }
 .card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-m);
+}
+.card:active {
+    transform: scale(0.98);
 }
 
 /* ============================================
