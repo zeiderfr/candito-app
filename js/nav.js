@@ -27,7 +27,8 @@ export function buildNav(onTabChange) {
     if (btnProgramme) {
         btnProgramme.addEventListener('click', () => {
             const next = getNextSession();
-            const weekId = next ? next.weekId : 's1s2'; // S1-S2 par défaut
+            // QA : Si getNextSession retourne null, c'est que le programme est terminé. On l'oriente vers la semaine 6 (la conclusion).
+            const weekId = next ? next.weekId : 's6'; 
             switchTab(weekId);
         });
     }
