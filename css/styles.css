@@ -132,130 +132,68 @@ td input[type="number"] {
 .app-section { padding: 28px 20px; max-width: 840px; margin: 0 auto }
 
 /* ============================================
-   5. NAVIGATION (DYNAMIC PILL & FULLSCREEN BENTO)
+   5. NAVIGATION (SMART BOTTOM BAR)
    ============================================ */
-
-/* ── Dynamic Pill ── */
-#dynamic-nav-container {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%);
+#smart-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-}
-.onb-btn {
-    display: block; width: 100%;
-    margin-top: 32px;
-    background: linear-gradient(135deg, var(--gold), var(--bronze));
-    color: #fff; border: none;
-    padding: 18px 24px;
-    border-radius: var(--r-btn);
-    font-size: 1.0625rem; font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(202, 164, 93, 0.25);
-    transition: transform 0.3s var(--spring), box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-.onb-btn::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    transform: skewX(-20deg);
-    animation: shimmer 4s infinite;
-    animation-delay: 1s;
-}
-#nav-pill {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--text);
-    color: var(--gold-light);
-    padding: 14px 28px;
-    border-radius: 100px;
-    font-size: 1.0625rem; font-weight: 700;
-    letter-spacing: -0.01em;
-    box-shadow: 0 8px 32px rgba(35, 31, 28, 0.4), inset 0 0 0 1px rgba(202, 164, 93, 0.25);
-    transition: transform 0.25s var(--spring), box-shadow 0.25s ease;
-    will-change: transform;
-}
-#nav-pill:hover {
-    transform: scale(1.02);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.25);
-}
-#nav-pill:active {
-    transform: scale(0.96);
-}
-.pill-icon { display: flex; align-items: center; justify-content: center; opacity: 0.8; }
-
-/* ── Fullscreen Menu Overlay ── */
-#fullscreen-menu {
-    position: fixed; inset: 0; z-index: 10000;
-    background: rgba(235, 235, 240, 0.65);
-    backdrop-filter: blur(35px) saturate(200%);
-    -webkit-backdrop-filter: blur(35px) saturate(200%);
-    display: flex; flex-direction: column;
-    opacity: 0; pointer-events: none; visibility: hidden;
-    transform: scale(0.96) translateY(20px);
-    transition: opacity 0.4s var(--spring), transform 0.4s var(--spring), visibility 0.4s;
-}
-#fullscreen-menu.is-open {
-    opacity: 1; pointer-events: auto; visibility: visible;
-    transform: scale(1) translateY(0);
-}
-.menu-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 32px 24px 20px;
-}
-.menu-title { font-size: 2rem; font-weight: 800; color: var(--text); letter-spacing: -0.04em; margin: 0; }
-#menu-close-btn {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(0, 0, 0, 0.05); color: var(--text);
-    display: flex; justify-content: center; align-items: center;
-    transition: background 0.2s;
-}
-#menu-close-btn:hover { background: rgba(0, 0, 0, 0.1); }
-
-/* ── Bento Grid ── */
-.bento-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 10px 24px 120px;
-    overflow-y: auto;
-    align-content: start;
-    -webkit-overflow-scrolling: touch;
-}
-.bento-tile {
     background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 1);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-    border-radius: 24px;
-    padding: 24px 16px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 8px;
-    color: var(--text); font-weight: 700; font-size: 1.0625rem;
-    transition: transform 0.25s var(--spring), background 0.2s, box-shadow 0.2s;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-top: 1px solid rgba(0, 0, 0, 0.05); /* Subtile séparation */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    padding-top: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
 }
-.bento-tile svg { opacity: 0.6; color: var(--text-2); transition: opacity 0.2s, transform 0.2s; }
-.bento-tile:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-}
-.bento-tile:hover svg { opacity: 1; transform: scale(1.1); color: var(--blue); }
-.bento-tile:active { transform: scale(0.96); }
 
-/* Tuile large (prend 2 colonnes) */
-.bento-tile.wide {
-    grid-column: span 2;
-    padding: 28px 24px;
-    flex-direction: row; justify-content: space-between;
-    font-size: 1.25rem;
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--text-3);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s var(--spring);
+    flex: 1;
+    padding: 4px 0;
 }
-.bento-tile.wide svg { opacity: 0.8; width: 32px; height: 32px; }
+
+.nav-item svg {
+    color: currentColor;
+    opacity: 0.6;
+    transition: transform 0.3s var(--spring), opacity 0.3s ease;
+}
+
+/* État Actif */
+.nav-item.active {
+    color: var(--text); /* Charcoal Luxury */
+}
+.nav-item.active svg {
+    opacity: 1;
+    color: var(--gold); /* Highlight Gold ! */
+    transform: scale(1.15);
+}
+
+.nav-item:active {
+    transform: scale(0.92);
+}
 
 /* Espace bas pour que le contenu ne soit pas caché par la tab-bar */
 #main {
-    padding-bottom: calc(60px + env(safe-area-inset-bottom) + 24px);
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
 }
 
 /* ============================================
