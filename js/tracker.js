@@ -1,10 +1,87 @@
 // js/tracker.js — Module mutualisé pour S1-S2 → S6
-// Gère : rendu tableaux, RPE slider, PR celebration
+// Gère : rendu tableaux, RPE slider, PR celebration, SVG rings, Tunnel Vision
 // Dépend de : data.js, state.js, utils.js
 
 import { PROGRAM } from './data.js';
 import { State, save, saveImmediate, checkAndRecordPR } from './state.js';
 import { fmt, loadRange, calcLoad, calculateAutoRPE } from './utils.js';
+
+// ── SVG Ring constants ──
+const RING_R = 16;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_R; // ≈ 100.53
+
+function fatigueColor(avgRpe) {
+    if (avgRpe < 7.5) return 'var(--green)';
+    if (avgRpe < 8.5) return 'var(--orange)';
+    return 'var(--red)';
+}
+
+function createFatigueRing(avgRpe) {
+    const percent = Math.round(((avgRpe - 6) / 4) * 100);
+    const offset = RING_CIRCUMFERENCE - (RING_CIRCUMFERENCE * percent / 100);
+    const color = fatigueColor(avgRpe);
+    return `<svg class="fatigue-ring" width="40" height="40" viewBox="0 0 40 40" aria-label="Fatigue RPE ${avgRpe}">
+        <circle cx="20" cy="20" r="${RING_R}" stroke="rgba(0,0,0,0.08)" stroke-width="4" fill="none"/>
+        <circle class="ring-progress" cx="20" cy="20" r="${RING_R}"
+            stroke="${color}" stroke-width="4" fill="none"
+            stroke-dasharray="${RING_CIRCUMFERENCE.toFixed(2)}"
+            stroke-dashoffset="${offset.toFixed(2)}"
+            stroke-linecap="round"
+            transform="rotate(-90 20 20)"/>
+    </svg>`;
+}
+
+// ── PR Ambient Glow ──
+function triggerPRGlow() {
+    document.documentElement.style.setProperty('--blob-1', '#FF9F0A');
+    document.documentElement.style.setProperty('--blob-2', '#FF6B35');
+    const bg = document.querySelector('.ambient-background');
+    if (bg) bg.style.opacity = '0.8';
+    setTimeout(() => {
+        document.documentElement.style.removeProperty('--blob-1');
+        document.documentElement.style.removeProperty('--blob-2');
+        if (bg) bg.style.opacity = '';
+    }, 4000);
+}
+
+// ── Tunnel Vision ──
+function openTunnelVision(liftName, targetLoad, triggerEl) {
+    const overlay = document.getElementById('tunnel-vision-overlay');
+    if (!overlay) return;
+    const row = triggerEl.closest('tr');
+
+    document.getElementById('tunnel-lift-name').textContent = liftName;
+    document.getElementById('tunnel-load').textContent = targetLoad;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    document.getElementById('tunnel-validate').onclick = () => {
+        if (row) {
+            const loadInput = row.querySelector('.tracker-load');
+            if (loadInput) loadInput.value = targetLoad;
+            const checkEl = row.querySelector('.tracker-check');
+            if (checkEl) {
+                checkEl.checked = true;
+                checkEl.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+        closeTunnelVision();
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    };
+
+    document.getElementById('tunnel-close').onclick = closeTunnelVision;
+}
+
+function closeTunnelVision() {
+    const overlay = document.getElementById('tunnel-vision-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Expose to global scope for inline onclick handlers
+window.openTunnelVision = openTunnelVision;
+window.closeTunnelVision = closeTunnelVision;
 
 // ⭐ Rendu HTML d'une semaine entière
 // altFilter (optionnel) : 'test' | 'decharge' — utilisé pour S6
@@ -44,6 +121,9 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
 
         session.exercises.forEach(ex => {
             const targetLoad = ex.lift ? loadRange(ex.lift, ex.lo, ex.hi) : '—';
+            const tunnelLoad = ex.lift ? fmt(calcLoad(State.rm[ex.lift], ex.lo)) : '—';
+            const isFocusEx = ex.isTest || ex.isPR;
+
             for (let si = 0; si < ex.sets; si++) {
                 const idx = setIndex++;
                 const done = (sd.sets || [])[idx] || false;
@@ -60,7 +140,10 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
 
                 html += `<tr class="${rowClass}" data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}" data-reps="${ex.reps}">`;
                 if (si === 0) {
-                    html += `<td rowspan="${ex.sets}" style="font-weight:600;vertical-align:top">${ex.name}</td>`;
+                    const tunnelBtn = isFocusEx
+                        ? `<button class="btn-tunnel-vision" onclick="openTunnelVision('${ex.name}', '${tunnelLoad}', this)" aria-label="Mode Focus">🎯 Focus</button>`
+                        : '';
+                    html += `<td rowspan="${ex.sets}" style="font-weight:600;vertical-align:top">${ex.name}${tunnelBtn ? '<br>' + tunnelBtn : ''}</td>`;
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${ex.sets}×${ex.reps}</td>`;
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${targetLoad}</td>`;
                 }
@@ -90,21 +173,14 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
 
         html += `</tbody></table></div>`;
 
-        // ⭐ Jauge de fatigue
+        // ⭐ Jauge de fatigue — SVG Ring
         if (avgRpe) {
-            const fatPct = Math.round(((avgRpe - 6) / 4) * 100);
-            const fatColor = avgRpe >= 8.5
-                ? 'var(--red)'
-                : avgRpe >= 7.5
-                    ? 'var(--orange)'
-                    : 'var(--green)';
             html += `<div class="fatigue-gauge">
                 <span class="fatigue-label">Fatigue</span>
-                <div class="fatigue-bar"><div class="fatigue-fill" style="width:${fatPct}%;background:${fatColor}"></div></div>
+                ${createFatigueRing(parseFloat(avgRpe))}
                 <span class="fatigue-label">RPE moy. ${avgRpe}</span>
             </div>`;
 
-            // Alerte fatigue
             if (parseFloat(avgRpe) >= 9.0) {
                 html += `<div class="fatigue-alert">
                     ⚠️ Fatigue élevée détectée. Envisage de réduire tes charges de 2.5 kg la séance prochaine.
@@ -145,6 +221,9 @@ export function initTracker(sectionId) {
                         // Glow animation
                         card.classList.add('pr-celebration');
                         card.addEventListener('animationend', () => card.classList.remove('pr-celebration'), { once: true });
+
+                        // Ambient glow (mesh gradient)
+                        triggerPRGlow();
 
                         // Badge PR
                         if (!row.querySelector('.pr-badge-inline')) {
@@ -190,7 +269,7 @@ export function initTracker(sectionId) {
                 const slider = row.querySelector('.tracker-rpe');
                 if (slider) {
                     slider.value = newRPE;
-                    slider.dispatchEvent(new Event('input')); // Mets à jour la valeur visuelle 6..10
+                    slider.dispatchEvent(new Event('input'));
                     State.sessions[session].rpes[parseInt(idx)] = newRPE;
                     saveImmediate();
                 }
@@ -211,7 +290,6 @@ export function initTracker(sectionId) {
                 label.classList.toggle('redline', isRedline);
             }
 
-            // Vibration on redline
             if (isRedline && navigator.vibrate) {
                 navigator.vibrate([50, 30, 50]);
             }
