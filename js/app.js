@@ -29,11 +29,12 @@ const RENDERERS = {
     charges:      { render: renderCharges,      init: initCharges },
 };
 
-const $onb      = document.getElementById('onboarding');
-const $overlay  = document.getElementById('calc-overlay');
-const $app      = document.getElementById('app');
-const $navTrack = document.getElementById('nav-track');
-const $main     = document.getElementById('main');
+const $onb     = document.getElementById('onboarding');
+const $overlay = document.getElementById('calc-overlay');
+const $app     = document.getElementById('app');
+const $tabBar  = document.getElementById('tab-bar');
+const $subNav  = document.getElementById('sub-nav');
+const $main    = document.getElementById('main');
 
 // Track current tab for programmatic switching
 let _currentTab = null;
