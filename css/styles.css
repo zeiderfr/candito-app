@@ -1129,20 +1129,20 @@ tbody tr { transition: background 0.2s var(--ease); }
 }
 
 .hero-card-workout {
-    background: var(--text);
+    background: #2B2622;
     border-radius: 20px;
     padding: 28px 24px;
     color: white;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 16px 40px rgba(35, 31, 28, 0.4), inset 0 0 0 1px rgba(202, 164, 93, 0.15);
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
 }
-/* Subtile touche rouge de guerrier */
+/* Touch or subtile */
 .hero-card-workout::before {
     content: ''; position: absolute; top: 0; left: 0;
     width: 60px; height: 100%;
-    background: linear-gradient(90deg, rgba(255, 59, 48, 0.2) 0%, transparent 100%);
+    background: linear-gradient(90deg, rgba(202, 164, 93, 0.15) 0%, transparent 100%);
     pointer-events: none;
 }
 
@@ -1185,7 +1185,7 @@ tbody tr { transition: background 0.2s var(--ease); }
 
 .btn-start-war {
     display: block; width: 100%;
-    background: linear-gradient(135deg, var(--red), #FF6B35);
+    background: linear-gradient(135deg, var(--gold), var(--bronze));
     color: white;
     font-size: 1.1rem;
     font-weight: 800;
@@ -1194,18 +1194,35 @@ tbody tr { transition: background 0.2s var(--ease); }
     padding: 24px 20px;
     border-radius: 100px;
     border: none;
-    box-shadow: 0 8px 24px rgba(255, 59, 48, 0.3);
+    box-shadow: 0 8px 24px rgba(202, 164, 93, 0.3);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: transform 0.2s var(--spring), box-shadow 0.2s;
-    animation: pulse-glow 2.5s infinite alternate;
+    animation: gold-pulse 3s infinite alternate;
+}
+.btn-start-war::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transform: skewX(-20deg);
+    animation: shimmer 4s infinite;
 }
 .btn-start-war:active {
     transform: scale(0.96);
 }
 
-@keyframes pulse-glow {
-    0% { box-shadow: 0 8px 24px rgba(255, 59, 48, 0.2); transform: scale(1); }
-    100% { box-shadow: 0 12px 32px rgba(255, 59, 48, 0.5); transform: scale(1.02); }
+@keyframes gold-pulse {
+    0% { box-shadow: 0 8px 24px rgba(202, 164, 93, 0.2); transform: scale(1); }
+    100% { box-shadow: 0 12px 32px rgba(202, 164, 93, 0.5); transform: scale(1.01); }
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
 }
 
 .stats-title {
