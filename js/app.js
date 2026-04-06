@@ -83,14 +83,14 @@ function renderTab(tabId) {
  * Programmatic tab switch — used by accueil.js buttons
  */
 export function navigateToTab(tabId) {
-    switchTab(tabId, $navTrack);
+    switchTab(tabId);
 }
 
 export function bootApp() {
     $app.classList.remove('hidden');
 
     // Build nav with tab change callback
-    buildNav($navTrack, renderTab);
+    buildNav($tabBar, $subNav, renderTab);
 
     // Default tab: Accueil
     renderTab('accueil');
