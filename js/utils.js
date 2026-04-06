@@ -4,7 +4,9 @@
 import { State } from './state.js';
 
 export function calcLoad(rm, pct) {
-    return Math.round(rm * pct / 2.5) * 2.5;
+    const rawRM = Number(rm || 0);
+    const rawPct = Number(pct || 0);
+    return Math.round(rawRM * rawPct / 2.5) * 2.5;
 }
 
 export function fmt(v) {
