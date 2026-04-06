@@ -22,3 +22,10 @@ npm-debug.log*
 
 # Dependencies (si applicable plus tard)
 node_modules/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
