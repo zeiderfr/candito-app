@@ -14,6 +14,13 @@ export const NAV = [
     {id:'charges',label:'Charges'},
 ];
 
+export const NAV_GROUPS = [
+    { id:'accueil',   label:'Accueil',   icon:'home',     tabs:['accueil'] },
+    { id:'programme', label:'Programme', icon:'calendar', tabs:['echauffement','s1s2','s3','s4','s5','s6'] },
+    { id:'nutrition', label:'Nutrition', icon:'leaf',     tabs:['nutrition'] },
+    { id:'outils',    label:'Outils',    icon:'bolt',     tabs:['rpe','charges'] },
+];
+
 export const SECTION_META = {
     accueil:       {title:'Accueil',          subtitle:''},
     echauffement:  {title:'Échauffement',     subtitle:'Wenning • Kabuki • Gammes montantes'},
