@@ -50,12 +50,12 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
                 const storedLoad = (sd.loads || [])[idx] ?? '';
                 const storedRpe = (sd.rpes || [])[idx] ?? null;
                 const defaultLoad = ex.lift ? fmt(calcLoad(State.rm[ex.lift], ex.lo)) : '';
-                
+
                 const loadToUse = storedLoad || (ex.lift ? calcLoad(State.rm[ex.lift], ex.lo) : null);
                 const true1RM = ex.lift ? State.rm[ex.lift] : null;
                 const autoRpe = calculateAutoRPE(true1RM, loadToUse, ex.reps);
                 const rpeVal = storedRpe ?? autoRpe;
-                
+
                 const rowClass = done ? 'tracker-row-done' : '';
 
                 html += `<tr class="${rowClass}" data-session="${session.id}" data-idx="${idx}" data-lift="${ex.lift || ''}" data-reps="${ex.reps}">`;
