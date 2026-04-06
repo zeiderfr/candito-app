@@ -7,10 +7,22 @@ export function initOnboarding(onComplete) {
     const $onb     = document.getElementById('onboarding');
     const $overlay = document.getElementById('calc-overlay');
 
+    // ⭐ Focus UX : Sélectionne tout le texte pour éviter d'écrire "150200" au lieu de "200"
+    ['onb-squat', 'onb-bench', 'onb-deadlift'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('focus', () => el.select());
+    });
+
     document.getElementById('onb-go').addEventListener('click', () => {
-        State.rm.squat    = parseInt(document.getElementById('onb-squat').value)    || 150;
-        State.rm.bench    = parseInt(document.getElementById('onb-bench').value)    || 110;
-        State.rm.deadlift = parseInt(document.getElementById('onb-deadlift').value) || 170;
+        State.rm.squat    = Number(document.getElementById('onb-squat').value)    || 150;
+        State.rm.bench    = Number(document.getElementById('onb-bench').value)    || 110;
+        State.rm.deadlift = Number(document.getElementById('onb-deadlift').value) || 170;
+
+        // Force check once more for absurd values from UI
+        if (State.rm.squat > 600) State.rm.squat = 150;
+        if (State.rm.bench > 450) State.rm.bench = 110;
+        if (State.rm.deadlift > 650) State.rm.deadlift = 170;
+
         State.initialized = true;
         saveImmediate();
 

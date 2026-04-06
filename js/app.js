@@ -5,34 +5,34 @@ import { NAV, SECTION_META } from './data.js';
 import { State } from './state.js';
 import { buildNav, switchTab, switchGroup } from './nav.js';
 import { initOnboarding } from './onboarding.js';
-import { renderAccueil, initAccueil }           from './sections/accueil.js';
+import { renderAccueil, initAccueil } from './sections/accueil.js';
 import { renderEchauffement, initEchauffement } from './sections/echauffement.js';
-import { renderS1S2, initS1S2 }                 from './sections/s1s2.js';
-import { renderS3, initS3 }                     from './sections/s3.js';
-import { renderS4, initS4 }                     from './sections/s4.js';
-import { renderS5, initS5 }                     from './sections/s5.js';
-import { renderS6, initS6 }                     from './sections/s6.js';
-import { renderNutrition, initNutrition }       from './sections/nutrition.js';
-import { renderRPE, initRPE }                   from './sections/rpe.js';
-import { renderCharges, initCharges }           from './sections/charges.js';
+import { renderS1S2, initS1S2 } from './sections/s1s2.js';
+import { renderS3, initS3 } from './sections/s3.js';
+import { renderS4, initS4 } from './sections/s4.js';
+import { renderS5, initS5 } from './sections/s5.js';
+import { renderS6, initS6 } from './sections/s6.js';
+import { renderNutrition, initNutrition } from './sections/nutrition.js';
+import { renderRPE, initRPE } from './sections/rpe.js';
+import { renderCharges, initCharges } from './sections/charges.js';
 
 const RENDERERS = {
-    accueil:      { render: renderAccueil,      init: initAccueil },
+    accueil: { render: renderAccueil, init: initAccueil },
     echauffement: { render: renderEchauffement, init: initEchauffement },
-    s1s2:         { render: renderS1S2,         init: initS1S2 },
-    s3:           { render: renderS3,           init: initS3 },
-    s4:           { render: renderS4,           init: initS4 },
-    s5:           { render: renderS5,           init: initS5 },
-    s6:           { render: renderS6,           init: initS6 },
-    nutrition:    { render: renderNutrition,    init: initNutrition },
-    rpe:          { render: renderRPE,          init: initRPE },
-    charges:      { render: renderCharges,      init: initCharges },
+    s1s2: { render: renderS1S2, init: initS1S2 },
+    s3: { render: renderS3, init: initS3 },
+    s4: { render: renderS4, init: initS4 },
+    s5: { render: renderS5, init: initS5 },
+    s6: { render: renderS6, init: initS6 },
+    nutrition: { render: renderNutrition, init: initNutrition },
+    rpe: { render: renderRPE, init: initRPE },
+    charges: { render: renderCharges, init: initCharges },
 };
 
-const $onb     = document.getElementById('onboarding');
+const $onb = document.getElementById('onboarding');
 const $overlay = document.getElementById('calc-overlay');
-const $app     = document.getElementById('app');
-const $main    = document.getElementById('main');
+const $app = document.getElementById('app');
+const $main = document.getElementById('main');
 
 // Track current tab for programmatic switching
 let _currentTab = null;
