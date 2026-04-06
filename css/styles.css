@@ -7,30 +7,29 @@
    1. CUSTOM PROPERTIES
    ============================================ */
 :root {
-    /* ── Surfaces ── */
-    --bg:          #F5F5F7;
+    /* ── Surfaces (Sand & Cream) ── */
+    --bg:          #F4F1EA;
     --card-bg:     #FFFFFF;
-    --card-bg-glass: rgba(255, 255, 255, 0.72);
-    --surface:     #F2F2F7;
+    --card-bg-glass: rgba(255, 255, 255, 0.65);
+    --surface:     #E8E3DA;
 
-    /* ── Texte ── */
-    --text:   #1D1D1F;
-    --text-2: #86868B;
-    --text-3: #AEAEB2;
+    /* ── Texte (Deep Charcoal & Soft Browns) ── */
+    --text:   #231F1C;
+    --text-2: #7C7365;
+    --text-3: #B0A899;
 
-    /* ── Accents iOS ── */
-    --blue:   #007AFF;
-    --green:  #34C759;
-    --red:    #FF3B30;
-    --orange: #FF9F0A;
-    --cyan:   #5AC8FA;
-
-    /* ── Ombres ── */
-    --shadow-s: 0 2px 12px rgba(0, 0, 0, 0.04);
-    --shadow-m: 0 4px 20px rgba(0, 0, 0, 0.06);
-    --shadow-l: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --shadow-pill: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-glow: 0 0 24px rgba(255, 59, 48, 0.18);
+    /* ── Accents Luxury ── */
+    --gold:       #C2A060;
+    --gold-light: #DFC287;
+    --bronze:     #8A6732;
+    --blue:       #3A4E5E;
+    --red:        #BA453D;
+    
+    /* ── Ombres (Soft Warm Shadows) ── */
+    --shadow-s: 0 4px 16px rgba(35, 31, 28, 0.05);
+    --shadow-m: 0 8px 24px rgba(35, 31, 28, 0.06);
+    --shadow-l: 0 16px 48px rgba(35, 31, 28, 0.08);
+    --shadow-glow: 0 0 24px rgba(194, 160, 96, 0.35);
 
     /* ── Motion ── */
     --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -38,13 +37,13 @@
     --spring-fast: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     /* ── Géométrie ── */
-    --r-card: 16px;
-    --r-btn: 12px;
+    --r-card: 20px;
+    --r-btn: 14px;
     --r-pill: 100px;
-    --r-input: 10px;
+    --r-input: 12px;
     --nav-h: 52px;
 
-    /* ── Mono (chiffres uniquement) ── */
+    /* ── Typographie additionnelle ── */
     --mono: 'SF Mono', 'Menlo', 'Courier New', monospace;
 }
 
