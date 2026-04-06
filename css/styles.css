@@ -100,47 +100,87 @@ td input[type="number"] {
 .app-section { padding: 28px 20px; max-width: 840px; margin: 0 auto }
 
 /* ============================================
-   5. NAVIGATION (iOS Frosted Glass)
+   5. NAVIGATION — Bottom Tab Bar + Sub-nav
    ============================================ */
-.nav {
-    position: sticky; top: 0; z-index: 100;
-    height: var(--nav-h);
-    background: rgba(245, 245, 247, 0.72);
+
+/* ── Bottom Tab Bar ── */
+.tab-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    height: calc(60px + env(safe-area-inset-bottom));
+    background: rgba(245, 245, 247, 0.88);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
-    display: flex; align-items: center;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+    display: flex; align-items: stretch;
 }
-.nav-track {
-    display: flex; gap: 6px; padding: 0 16px;
+.tab-item {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 3px;
+    padding-bottom: env(safe-area-inset-bottom);
+    color: var(--text-3);
+    background: transparent;
+    transition: color 0.2s var(--spring), transform 0.15s var(--spring);
+    min-height: 60px;
+}
+.tab-item svg {
+    width: 24px; height: 24px;
+    flex-shrink: 0;
+}
+.tab-item span {
+    font-size: 0.6875rem; font-weight: 600;
+    letter-spacing: 0.01em;
+}
+.tab-item:active {
+    transform: scale(0.88);
+}
+.tab-item.active {
+    color: var(--blue);
+}
+
+/* ── Sub-nav chips (contextuelle, top) ── */
+.sub-nav {
+    position: sticky; top: 0; z-index: 90;
+    height: 44px;
+    background: rgba(245, 245, 247, 0.80);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+    display: flex; align-items: center;
+    gap: 6px; padding: 0 16px;
     overflow-x: auto; -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
-.nav-track::-webkit-scrollbar { display: none }
+.sub-nav::-webkit-scrollbar { display: none }
+.sub-nav.hidden { display: none }
 
-.nav-pill {
+.sub-chip {
     flex-shrink: 0;
-    padding: 7px 14px;
+    padding: 6px 13px;
     border-radius: var(--r-pill);
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.8125rem; font-weight: 600;
     color: var(--text-2);
     background: transparent;
-    transition: all 0.3s var(--spring);
+    transition: all 0.25s var(--spring);
     white-space: nowrap;
-    min-height: 34px;
+    min-height: 30px;
 }
-.nav-pill:active {
+.sub-chip:active {
     transform: scale(0.94);
 }
-.nav-pill:hover {
+.sub-chip:hover {
     color: var(--text);
     background: rgba(0, 0, 0, 0.03);
 }
-.nav-pill.active {
+.sub-chip.active {
     color: var(--text);
     background: var(--card-bg);
     box-shadow: var(--shadow-pill);
+}
+
+/* Espace bas pour que le contenu ne soit pas caché par la tab-bar */
+#main {
+    padding-bottom: calc(60px + env(safe-area-inset-bottom) + 24px);
 }
 
 /* ============================================
