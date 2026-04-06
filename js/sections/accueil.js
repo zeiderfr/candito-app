@@ -112,21 +112,44 @@ export function renderAccueil(meta) {
     }
 
     const statsHtml = `
-        <div class="stats-title">Tes Maximas Actuels</div>
-        <div class="stats-grid">
-            <div class="stat-total stat-card--total"><div class="value">${total} kg</div><div class="label">Total</div></div>
-            <div class="card stat-card stat-card--squat"><div class="value">${fmt(rm.squat)}</div><div class="label">Squat</div></div>
-            <div class="card stat-card stat-card--bench"><div class="value">${fmt(rm.bench)}</div><div class="label">Bench</div></div>
-            <div class="card stat-card stat-card--deadlift"><div class="value">${fmt(rm.deadlift)}</div><div class="label">Deadlift</div></div>
-        </div>
-
-        <div class="card progress-bar-wrap" style="margin-top:16px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-                <h3 style="margin:0">Progression</h3>
-                <span class="badge badge-green">${prog.pct}%</span>
+        <div class="stats-title" style="margin-top:16px;">Dossier Athlète</div>
+        <div class="hero-card-workout" style="padding:20px 24px; display:flex; flex-direction:column; gap:20px;">
+            <!-- Barres de Max -->
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="text-align:center; flex:1;">
+                    <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:4px;">Squat</div>
+                    <div style="font-size:1.15rem; font-weight:700; color:var(--text-3); font-variant-numeric:tabular-nums;">${fmt(rm.squat)}</div>
+                </div>
+                <div style="text-align:center; flex:1; border-left:1px solid rgba(255,255,255,0.05); border-right:1px solid rgba(255,255,255,0.05);">
+                    <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:4px;">Bench</div>
+                    <div style="font-size:1.15rem; font-weight:700; color:var(--text-3); font-variant-numeric:tabular-nums;">${fmt(rm.bench)}</div>
+                </div>
+                <div style="text-align:center; flex:1;">
+                    <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:4px;">Deadlift</div>
+                    <div style="font-size:1.15rem; font-weight:700; color:var(--text-3); font-variant-numeric:tabular-nums;">${fmt(rm.deadlift)}</div>
+                </div>
+                <div style="text-align:center; flex:1.2; border-left:1px solid rgba(255,255,255,0.1); padding-left:8px;">
+                    <div style="font-size:0.65rem; color:rgba(202,164,93,0.7); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:4px;">Total</div>
+                    <div style="font-size:1.2rem; font-weight:800; color:var(--gold); font-variant-numeric:tabular-nums; text-shadow:0 0 12px rgba(202,164,93,0.3);">${total}</div>
+                </div>
             </div>
-            <div class="progress-bar"><div class="progress-bar-fill" style="width:${prog.pct}%"></div></div>
-            <div class="progress-label"><span>${prog.done} séances</span><span>${prog.total} total</span></div>
+
+            <!-- Ligne de séparation douce -->
+            <div style="height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);"></div>
+
+            <!-- Progression Compacte -->
+            <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Progression du Programme</div>
+                    <div style="font-size:0.75rem; color:var(--gold-light); font-weight:700; font-variant-numeric:tabular-nums;">${prog.pct}%</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px; overflow:hidden;">
+                    <div style="background:linear-gradient(90deg, var(--gold), var(--gold-light)); width:${prog.pct}%; height:100%; box-shadow:0 0 8px rgba(202,164,93,0.4); border-radius:3px;"></div>
+                </div>
+                <div style="margin-top:6px; font-size:0.65rem; color:rgba(255,255,255,0.4); text-align:right;">
+                    ${prog.done} sur ${prog.total} complétées
+                </div>
+            </div>
         </div>
     `;
 
