@@ -195,17 +195,17 @@ td input[type="number"] {
     padding: 13px 24px;
     font-weight: 600;
     font-size: 0.9375rem;
-    transition: all 0.25s var(--ease);
+    transition: transform 0.3s var(--spring), box-shadow 0.3s ease, background 0.2s ease;
     min-height: 48px;
     cursor: pointer;
     letter-spacing: -0.01em;
 }
 .btn:hover {
     background: #000;
-    transform: scale(1.02);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-m);
 }
-.btn:active { transform: scale(0.97) }
+.btn:active { transform: scale(0.96) }
 .btn-outline {
     background: transparent;
     color: var(--text-2);
