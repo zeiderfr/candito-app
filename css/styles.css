@@ -297,27 +297,42 @@ td input[type="number"] {
 .table-wrap {
     overflow-x: auto;
     border-radius: 12px;
-    margin-bottom: 14px;
-    border: 0.5px solid rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+    background: var(--card-bg);
+    border: 0.5px solid rgba(0, 0, 0, 0.08); /* Slightly stronger border for definition */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02); /* Very subtle depth */
 }
-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem }
-thead { background: var(--text) }
-th {
-    padding: 10px 14px;
+table { 
+    width: 100%; 
+    border-collapse: separate; 
+    border-spacing: 0; 
+    font-size: 0.875rem; 
     text-align: left;
+}
+thead th {
+    background: rgba(245, 245, 247, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 12px 16px;
     font-weight: 600;
     font-size: 0.75rem;
-    color: #fff;
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
     white-space: nowrap;
-    letter-spacing: 0.02em;
+    backdrop-filter: blur(8px);
 }
 td {
-    padding: 9px 14px;
+    padding: 14px 16px;
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.04);
     color: var(--text);
+    vertical-align: middle;
 }
-tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.01) }
-tbody tr:hover { background: rgba(0, 122, 255, 0.03) }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(0, 122, 255, 0.02); }
+tbody tr { transition: background 0.2s var(--ease); }
 
 /* ============================================
    13. ONBOARDING (Apple Style — Frosted Glass)
