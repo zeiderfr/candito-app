@@ -319,8 +319,19 @@ export function initTracker(sectionId) {
             save();
         });
     });
+
+    // ── Feature 8 : AMRAP reps ──
+    section.querySelectorAll('.tracker-amrap-reps').forEach(inp => {
+        inp.addEventListener('change', e => {
+            const { session, idx } = e.target.dataset;
+            ensureSession(session);
+            if (!State.sessions[session].repsAMRAP) State.sessions[session].repsAMRAP = [];
+            State.sessions[session].repsAMRAP[parseInt(idx)] = parseInt(e.target.value) || null;
+            save();
+        });
+    });
 }
 
 function ensureSession(id) {
-    if (!State.sessions[id]) State.sessions[id] = { sets: [], loads: [], rpes: [] };
+    if (!State.sessions[id]) State.sessions[id] = { sets: [], loads: [], rpes: [], repsAMRAP: [] };
 }
