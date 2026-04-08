@@ -151,7 +151,12 @@ export function renderAccueil(meta) {
         }
 
     } else {
-        headerHtml = `<div class="locker-room-header"><h2>Programme terminé. 🎉</h2></div>`;
+        headerHtml = `
+            <div class="coach-card" style="margin-top:10px;">
+                <div class="coach-greeting">Bonsoir · Programme terminé</div>
+                <div class="coach-message">Tu as tout donné sur 6 semaines.<br>Repose-toi — tu l'as mérité.</div>
+            </div>
+        `;
         mainHtml = `
             <div class="card next-session rest">
                 <div class="session-focus">Tu as complété l'intégralité du Candito 6 Semaines. Bravo ! Repose-toi.</div>
