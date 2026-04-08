@@ -3,10 +3,68 @@ import { State, getNextSession, getProgress, getLastCompletedSession } from '../
 import { fmt, loadRange } from '../utils.js';
 import { SECTION_META } from '../data.js';
 
+function buildCoachMessage(last, next, prs, prog) {
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+
+    const sessionFocus = next ? next.session.focus : null;
+
+    let line1 = '';
+    let line2 = '';
+    let dataLine = '';
+
+    // Analyse de la dernière séance
+    if (last) {
+        const rpes = (last.data.rpes || []).filter(r => r !== null && r !== undefined && r !== '');
+        const avgRpe = rpes.length > 0 ? rpes.reduce((a, b) => Number(a) + Number(b), 0) / rpes.length : null;
+
+        // Vérifier PR récent (3 dernières séances complétées)
+        const recentPR = Array.isArray(prs) && prs.length > 0 && prog.done <= 3
+            ? prs[prs.length - 1]
+            : null;
+
+        if (recentPR) {
+            line1 = "Tu viens de battre un record.";
+            line2 = "Ce soir on consolide — c'est comme ça qu'on construit un total.";
+        } else if (avgRpe !== null && avgRpe >= 8.5) {
+            line1 = "Tu as mis du cœur la dernière fois.";
+            line2 = "Laisse le travail parler ce soir — la progression est dans la constance.";
+        } else if (avgRpe !== null && avgRpe <= 7.0) {
+            line1 = "Tu avais encore en réserve la dernière fois.";
+            line2 = "Ce soir, c'est l'heure de monter les charges.";
+        } else {
+            line1 = "Bonne maîtrise la dernière fois.";
+            line2 = "Ce soir, même engagement — tu progresses.";
+        }
+
+        // Ligne de données : exercice principal + charge + RPE
+        const mainEx = last.session.exercises[0];
+        const mainLoad = (last.data.loads || [])[0];
+        const mainRpe = (last.data.rpes || [])[0];
+        if (mainEx && mainLoad) {
+            dataLine = `Dernière séance : ${mainEx.name} ${mainLoad} kg`;
+            if (mainRpe) dataLine += ` · RPE ${mainRpe}`;
+        }
+    } else {
+        line1 = "C'est le début. Chaque grand total commence ici.";
+        line2 = "Technique propre, charges contrôlées — on construit.";
+    }
+
+    // Contexte de progression
+    if (prog.pct >= 80) {
+        line2 = "Tu es en finale. Chaque séance compte double à ce stade.";
+    } else if (prog.pct >= 50 && !line2.includes('construit') && !line2.includes('total')) {
+        line2 += " La fondation est solide.";
+    }
+
+    return { greeting, sessionFocus, line1, line2, dataLine };
+}
+
 export function renderAccueil(meta) {
     const rm = State.rm;
     const total = Number(rm.squat || 0) + Number(rm.bench || 0) + Number(rm.deadlift || 0);
     const next = getNextSession();
+    const last = getLastCompletedSession();
     const prog = getProgress();
     const prs = State.prs || [];
 
@@ -15,17 +73,20 @@ export function renderAccueil(meta) {
 
     if (next) {
         const s = next.session;
-        const weekId = next.weekId;
-        
-        // 1. Mantra (Motivation)
-        let mantra = "Prépare-toi pour la séance.";
-        if (weekId === 's1s2') mantra = "Volume et technique.<br>Construis la fondation.";
-        else if (weekId === 's3') mantra = "Transmutation.<br>La charge monte, reste gainé.";
-        else if (weekId === 's4') mantra = "Acclimatation lourde.<br>Le système nerveux s'éveille.";
-        else if (weekId === 's5') mantra = "Jour d'AMRAP.<br>Ne laisse rien dans le réservoir.";
-        else if (weekId === 's6') mantra = "Semaine 6.<br>C'est l'heure de la guerre.";
 
-        headerHtml = `<div class="locker-room-header" style="margin-top: 10px;"><h2>${mantra}</h2></div>`;
+        // 1. Coach card dynamique
+        const { greeting, sessionFocus, line1, line2, dataLine } = buildCoachMessage(last, next, prs, prog);
+        const greetingLine = sessionFocus
+            ? `${greeting} · <span style="color:var(--gold-light)">${sessionFocus}</span>`
+            : greeting;
+
+        headerHtml = `
+            <div class="coach-card" style="margin-top:10px;">
+                <div class="coach-greeting">${greetingLine}</div>
+                <div class="coach-message">${line1}<br>${line2}</div>
+                ${dataLine ? `<div class="coach-data">${dataLine}</div>` : ''}
+            </div>
+        `;
 
         // 2. Main Event
         const mainEx = s.exercises && s.exercises.length > 0 ? s.exercises[0] : null;
