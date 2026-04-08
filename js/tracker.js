@@ -121,9 +121,14 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
             <th>Charge réelle</th><th>RPE</th><th>✓</th>
         </tr></thead><tbody>`;
 
+        // Lire le modificateur readiness pour cette session
+        const readinessMod = sd.readiness ? sd.readiness.modifier : 0;
+
         session.exercises.forEach(ex => {
-            const targetLoad = ex.lift ? loadRange(ex.lift, ex.lo, ex.hi) : '—';
-            const tunnelLoad = ex.lift ? fmt(calcLoad(State.rm[ex.lift], ex.lo)) : '—';
+            const adjLo = ex.lo * (1 + readinessMod);
+            const adjHi = ex.hi * (1 + readinessMod);
+            const targetLoad = ex.lift ? loadRange(ex.lift, adjLo, adjHi) : '—';
+            const tunnelLoad = ex.lift ? fmt(calcLoad(State.rm[ex.lift], adjLo)) : '—';
             const isFocusEx = ex.isTest || ex.isPR;
 
             for (let si = 0; si < ex.sets; si++) {
