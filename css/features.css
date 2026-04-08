@@ -1,0 +1,465 @@
+/* ================================================
+   features.css — Styles pour les 4 nouvelles features
+   F6: Readiness Check | F7: Week Summary
+   F8: Max Prediction  | F4: Progression Charts
+   ================================================ */
+
+/* ─── FEATURE 6 : READINESS CHECK ─────────────── */
+
+.readiness-panel {
+    margin-bottom: 16px;
+}
+
+.readiness-form {
+    background: var(--surface);
+    border-radius: var(--r-input);
+    padding: 16px;
+    border: 1px solid rgba(194,160,96,0.15);
+}
+
+.readiness-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+
+.readiness-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.readiness-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.readiness-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-2);
+    min-width: 68px;
+}
+
+.readiness-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.1);
+    outline: none;
+    cursor: pointer;
+}
+.readiness-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.18);
+    cursor: pointer;
+}
+.readiness-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.18);
+    cursor: pointer;
+}
+
+.readiness-val {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 18px;
+    text-align: center;
+}
+
+.readiness-submit {
+    width: 100%;
+    padding: 10px;
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    border-radius: var(--r-input);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s;
+}
+.readiness-submit:active { opacity: 0.8; }
+
+.readiness-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: var(--r-pill, 999px);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    background: var(--surface);
+    margin-bottom: 12px;
+}
+
+.readiness-badge--great    { color: var(--green);  border: 1px solid rgba(52,199,89,0.25); }
+.readiness-badge--normal   { color: var(--text-2); border: 1px solid rgba(0,0,0,0.08); }
+.readiness-badge--fatigued { color: var(--orange); border: 1px solid rgba(255,149,0,0.25); }
+.readiness-badge--exhausted{ color: var(--red);    border: 1px solid rgba(255,59,48,0.25); }
+
+.readiness-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.readiness-badge--great    .readiness-badge-dot { background: var(--green); }
+.readiness-badge--normal   .readiness-badge-dot { background: var(--text-3); }
+.readiness-badge--fatigued .readiness-badge-dot { background: var(--orange); }
+.readiness-badge--exhausted .readiness-badge-dot { background: var(--red); }
+
+/* ─── FEATURE 7 : RÉSUMÉ DE SEMAINE ───────────── */
+
+.btn-week-summary {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: transparent;
+    border: 1.5px solid rgba(194,160,96,0.4);
+    border-radius: var(--r-input);
+    color: var(--gold);
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, border-color 0.2s;
+}
+.btn-week-summary:active {
+    background: rgba(194,160,96,0.08);
+}
+
+.week-summary-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.week-summary-modal {
+    background: var(--card-bg, #fff);
+    border-radius: 24px 24px 0 0;
+    padding: 32px 24px 40px;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.12);
+    position: relative;
+    animation: wksSumSlideUp 0.35s cubic-bezier(.22,.68,0,1.2) both;
+}
+
+@keyframes wksSumSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.week-summary-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--surface);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.week-summary-week-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+}
+
+.week-summary-modal h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 24px;
+    color: var(--text);
+}
+
+.week-summary-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.wks-stat {
+    background: var(--surface);
+    border-radius: var(--r-input);
+    padding: 16px 12px;
+    text-align: center;
+}
+
+.wks-stat-value {
+    display: block;
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.03em;
+}
+
+.wks-stat-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-top: 4px;
+}
+
+.wks-trend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: var(--r-input);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.wks-trend--up      { background: rgba(255,59,48,0.06);   color: var(--red); }
+.wks-trend--down    { background: rgba(52,199,89,0.06);   color: var(--green); }
+.wks-trend--neutral { background: var(--surface);          color: var(--text-2); }
+
+.wks-prs {
+    margin-bottom: 20px;
+}
+
+.wks-prs-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+
+.wks-pr-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.wks-share-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold) 0%, #a8843a 100%);
+    color: #fff;
+    border: none;
+    border-radius: var(--r-input);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: opacity 0.2s;
+}
+.wks-share-btn:active { opacity: 0.85; }
+
+/* ─── FEATURE 8 : PRÉDICTION DE MAX ───────────── */
+
+.pred-section {
+    margin-bottom: 24px;
+}
+
+.pred-section-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.pred-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 400px) {
+    .pred-cards-grid { grid-template-columns: 1fr; }
+}
+
+.pred-card {
+    background: var(--card-bg, #fff);
+    border-radius: var(--r-card, 16px);
+    padding: 18px 12px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+}
+
+.pred-lift-name {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 8px;
+}
+
+.pred-value {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.pred-value--empty { color: var(--text-3); font-size: 1.5rem; }
+
+.pred-confidence {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.pred-conf-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pred-confidence--high   { color: var(--green);  }
+.pred-confidence--high   .pred-conf-dot { background: var(--green); }
+.pred-confidence--medium { color: var(--orange); }
+.pred-confidence--medium .pred-conf-dot { background: var(--orange); }
+.pred-confidence--low    { color: var(--text-3); }
+.pred-confidence--low    .pred-conf-dot { background: var(--text-3); }
+.pred-confidence--none   { color: var(--text-3); }
+.pred-confidence--none   .pred-conf-dot { background: var(--text-3); }
+
+.pred-note {
+    font-size: 0.5625rem;
+    color: var(--text-3);
+    margin-top: 5px;
+}
+
+.tracker-amrap-reps {
+    display: block;
+    width: 56px;
+    margin-top: 4px;
+    padding: 4px 6px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-align: center;
+    background: var(--surface);
+    color: var(--text);
+}
+.tracker-amrap-reps::placeholder { color: var(--text-3); font-size: 0.75rem; }
+
+/* ─── FEATURE 4 : GRAPHIQUES DE PROGRESSION ───── */
+
+.chart-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.chart-toggle-btn {
+    padding: 8px 18px;
+    border-radius: var(--r-pill, 999px);
+    border: 1.5px solid rgba(0,0,0,0.12);
+    background: transparent;
+    color: var(--text-2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.chart-toggle-btn.active {
+    background: var(--text);
+    color: var(--card-bg, #fff);
+    border-color: var(--text);
+}
+
+.chart-card {
+    margin-bottom: 20px;
+}
+
+.chart-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.chart-card-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.chart-area {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.chart-area svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.chart-empty {
+    text-align: center;
+    color: var(--text-3);
+    padding: 32px 16px;
+    font-size: 0.875rem;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .week-summary-modal { animation: none; }
+}
