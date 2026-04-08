@@ -110,6 +110,7 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
         const avgRpe = rpes.length > 0 ? (rpes.reduce((a, b) => a + b, 0) / rpes.length).toFixed(1) : null;
 
         html += `<div class="card exercise-card" id="session-${session.id}" style="position:relative">`;
+        html += renderReadinessPanel(session.id);
         html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">`;
         html += `<h3 style="margin:0">${session.day} — ${session.focus}</h3>`;
         if (sessionDone) html += `<span class="badge badge-green">Terminée ✓</span>`;
