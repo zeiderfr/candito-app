@@ -5,6 +5,7 @@
 import { PROGRAM } from './data.js';
 import { State, save, saveImmediate, checkAndRecordPR } from './state.js';
 import { fmt, loadRange, calcLoad, calculateAutoRPE } from './utils.js';
+import { renderReadinessPanel, initReadiness } from './readiness.js';
 
 // ── SVG Ring constants ──
 const RING_R = 16;
