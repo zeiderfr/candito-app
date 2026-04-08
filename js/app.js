@@ -15,6 +15,7 @@ import { renderS6, initS6 } from './sections/s6.js';
 import { renderNutrition, initNutrition } from './sections/nutrition.js';
 import { renderRPE, initRPE } from './sections/rpe.js';
 import { renderCharges, initCharges } from './sections/charges.js';
+import { renderProgression, initProgression } from './sections/progression.js';
 
 const RENDERERS = {
     accueil: { render: renderAccueil, init: initAccueil },
