@@ -33,6 +33,7 @@ export const SECTION_META = {
     nutrition:     {title:'Nutrition',        subtitle:'Macros • Timing • Hydratation'},
     rpe:           {title:'RPE & Autorégulation', subtitle:'Échelle RPE-RIR • Signaux d\'alerte'},
     charges:       {title:'Tableau des Charges',  subtitle:'Calculateur 1RM intégré — 40% à 102%'},
+    progression:   {title:'Progression',          subtitle:'Évolution des charges et RPE par mouvement'},
 };
 
 export const PROGRAM = [
