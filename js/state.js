@@ -78,6 +78,24 @@ export function getProgress() {
     return { done, total: ALL_SESSIONS.length, pct: Math.round((done / ALL_SESSIONS.length) * 100) };
 }
 
+export function getLastCompletedSession() {
+    let last = null;
+    for (const week of PROGRAM) {
+        for (const session of week.sessions) {
+            const sd = State.sessions[session.id];
+            if (!sd) return last;
+            const totalSets = session.exercises.reduce((sum, ex) => sum + ex.sets, 0);
+            const doneSets = (sd.sets || []).filter(Boolean).length;
+            if (doneSets >= totalSets) {
+                last = { weekId: week.id, session, data: sd };
+            } else {
+                return last;
+            }
+        }
+    }
+    return last;
+}
+
 // ⭐ PR DETECTION — appelé depuis tracker.js
 export function checkAndRecordPR(lift, weight) {
     if (weight > State.rm[lift]) {
