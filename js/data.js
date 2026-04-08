@@ -12,13 +12,14 @@ export const NAV = [
     {id:'nutrition',label:'Nutrition'},
     {id:'rpe',label:'RPE'},
     {id:'charges',label:'Charges'},
+    {id:'progression',label:'Progression'},
 ];
 
 export const NAV_GROUPS = [
     { id:'accueil',   label:'Accueil',   icon:'home',     tabs:['accueil'] },
     { id:'programme', label:'Programme', icon:'calendar', tabs:['echauffement','s1s2','s3','s4','s5','s6'] },
     { id:'nutrition', label:'Nutrition', icon:'leaf',     tabs:['nutrition'] },
-    { id:'outils',    label:'Outils',    icon:'bolt',     tabs:['rpe','charges'] },
+    { id:'outils',    label:'Outils',    icon:'bolt',     tabs:['rpe','charges','progression'] },
 ];
 
 export const SECTION_META = {
