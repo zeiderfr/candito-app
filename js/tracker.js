@@ -154,10 +154,18 @@ export function renderWeekTracker(weekId, meta, altFilter = null) {
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${ex.sets}×${ex.reps}</td>`;
                     html += `<td rowspan="${ex.sets}" style="vertical-align:top">${targetLoad}</td>`;
                 }
+                const storedAmrapReps = ex.isTest && ex.reps === 'AMRAP' ? ((sd.repsAMRAP || [])[idx] ?? '') : null;
                 html += `<td><input class="input input-sm tracker-load" type="number"
                     data-session="${session.id}" data-idx="${idx}"
                     value="${storedLoad || defaultLoad}" placeholder="${defaultLoad}" inputmode="decimal"
-                    aria-label="Charge réelle série ${idx + 1}"></td>`;
+                    aria-label="Charge réelle série ${idx + 1}">`;
+                if (storedAmrapReps !== null) {
+                    html += `<input class="tracker-amrap-reps" type="number"
+                        data-session="${session.id}" data-idx="${idx}"
+                        value="${storedAmrapReps}" placeholder="Reps" inputmode="numeric"
+                        min="1" max="50" aria-label="Répétitions réalisées AMRAP">`;
+                }
+                html += `</td>`;
 
                 // ⭐ RPE SLIDER
                 const isRedline = rpeVal >= 9.5;
