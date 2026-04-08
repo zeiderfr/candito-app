@@ -214,6 +214,9 @@ export function initTracker(sectionId) {
     const section = document.getElementById(sectionId);
     if (!section) return;
 
+    // ── Feature 6 : Readiness ──
+    initReadiness(sectionId);
+
     // Checkboxes — saveImmediate
     section.querySelectorAll('.tracker-check').forEach(cb => {
         cb.addEventListener('change', e => {
