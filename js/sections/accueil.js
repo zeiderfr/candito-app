@@ -1,5 +1,5 @@
 // js/sections/accueil.js — Dashboard Accueil (Mode Locker Room) + Wall of Fame
-import { State, getNextSession, getProgress } from '../state.js';
+import { State, getNextSession, getProgress, getLastCompletedSession } from '../state.js';
 import { fmt, loadRange } from '../utils.js';
 import { SECTION_META } from '../data.js';
 
