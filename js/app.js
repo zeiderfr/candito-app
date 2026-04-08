@@ -28,6 +28,7 @@ const RENDERERS = {
     nutrition: { render: renderNutrition, init: initNutrition },
     rpe: { render: renderRPE, init: initRPE },
     charges: { render: renderCharges, init: initCharges },
+    progression: { render: renderProgression, init: initProgression },
 };
 
 const $onb = document.getElementById('onboarding');
