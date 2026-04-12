@@ -131,9 +131,12 @@ function SessionCard({
   onToggle: () => void
   rm: { squat: number; bench: number; deadlift: number }
 }) {
+  const isPeakSession = session.id.startsWith('s6_test')
+
   return (
     <div className={cn(
       "glass rounded-card overflow-hidden transition-opacity duration-200",
+      isPeakSession && "border-l-4 border-accent",
       isCompleted && "opacity-60"
     )}>
       {/* Header */}
@@ -168,7 +171,10 @@ function SessionCard({
           return (
             <div key={i} className="px-5 py-3 flex items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-white truncate">{ex.name}</p>
+                <p className={cn(
+                  "text-sm truncate",
+                  (ex.percentage?.lo ?? 0) >= 1.00 ? "text-accent font-bold" : "text-white"
+                )}>{ex.name}</p>
               </div>
               <div className="flex items-center gap-3 shrink-0">
                 <span className="text-xs text-muted tabular-nums">
@@ -206,7 +212,7 @@ export function Programme() {
   return (
     <div className={cn(
       "flex flex-col gap-6",
-      "animate-in fade-in slide-in-from-bottom-4 duration-500"
+      "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
       {/* Editorial Header */}
       <div className="space-y-1">
