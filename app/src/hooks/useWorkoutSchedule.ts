@@ -11,7 +11,8 @@ export function useWorkoutSchedule() {
   const { state } = useCanditoState()
 
   const workoutState = useMemo((): WorkoutState => {
-    const today = new Date().getDay()
+    // FORCING MONDAY (1) FOR VERIFICATION
+    const today = 1 // new Date().getDay()
     const sessionId = SCHEDULE_MAP[today]
 
     if (!sessionId) {

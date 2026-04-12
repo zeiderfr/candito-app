@@ -8,7 +8,7 @@ const DEFAULT_STATE: CanditoState = {
   initialized: false,
   athlete: {
     name: 'Athlète',
-    rm: { squat: 0, bench: 0, deadlift: 0 }
+    rm: { squat: 160, bench: 100, deadlift: 200 }
   },
   progress: {
     completedSessions: [],
