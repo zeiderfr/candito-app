@@ -9,13 +9,12 @@ export function UpdatePrompt() {
   const [, setCurrentVersion] = useState<string | null>(null)
 
   useEffect(() => {
-    // Variable locale pour éviter les problèmes de closure avec le setInterval
     let activeVersion: string | null = null
 
     const fetchVersion = async () => {
       try {
         const res = await fetch(VERSION_URL + '?t=' + Date.now(), {
-          cache: 'no-store', // Force le navigateur à ignorer le cache
+          cache: 'no-store',
           headers: {
             'Cache-Control': 'no-cache, no-store, must-revalidate',
             'Pragma': 'no-cache',
@@ -29,43 +28,58 @@ export function UpdatePrompt() {
       }
     }
 
-
     const checkUpdate = async () => {
       const latestV = await fetchVersion()
-      if (!latestV) return // Si erreur réseau, on ignore ce cycle
+      if (!latestV) return
 
       if (!activeVersion) {
-        console.log("🚀 Candito App Version Loaded:", latestV)
         activeVersion = latestV
         setCurrentVersion(latestV)
       } else if (latestV !== activeVersion) {
-        console.log("✨ Nouvelle version détectée !", latestV)
         setShow(true)
       }
     }
 
-    // 1. Première vérification immédiate
+    // 1. Initialisation + Polling
+    const interval = setInterval(checkUpdate, 10000)
     checkUpdate()
 
-    // 2. Vérification toutes les 10 secondes (ne meurt jamais)
-    const interval = setInterval(checkUpdate, 10000)
-
-    // 3. Vérification à la sortie de veille de l'application
-    const handleVisibilityChange = () => {
+    // 2. Événements de visibilité (Resumption)
+    const handleVisible = () => {
       if (document.visibilityState === 'visible') checkUpdate()
     }
-    document.addEventListener('visibilitychange', handleVisibilityChange)
+    document.addEventListener('visibilitychange', handleVisible)
+
+    // 3. Liaison avec le Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (!reg) return
+        
+        // Détecte si un nouveau SW est en attente
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                setShow(true)
+              }
+            })
+          }
+        })
+      })
+    }
 
     return () => {
       clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      document.removeEventListener('visibilitychange', handleVisible)
     }
-  }, []) // Dépendance vide : l'effet se lance une seule fois au montage
+  }, [])
 
   const handleUpdate = () => {
-    // Force un rechargement complet de l'index.html pour contourner le cache PWA iOS
+    // Force reload with cache bypass
     window.location.href = window.location.pathname + '?update=' + Date.now()
   }
+
 
   if (!show) return null
 
