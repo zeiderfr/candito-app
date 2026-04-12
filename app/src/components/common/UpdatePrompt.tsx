@@ -8,6 +8,9 @@ export function UpdatePrompt() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
+    // En mode développement, pas de vérification de mise à jour
+    // (la version injectée par Vite ne correspondra jamais à version.json)
+    if (import.meta.env.DEV) return
 
     const fetchVersion = async () => {
       try {
@@ -30,9 +33,8 @@ export function UpdatePrompt() {
       const latestV = await fetchVersion()
       if (!latestV) return
 
-      // __APP_VERSION__ inyected by Vite at build time
+      // __APP_VERSION__ injected by Vite at build time
       if (latestV !== __APP_VERSION__) {
-        console.log("✨ Nouvelle version détectée !", latestV, "Actuelle:", __APP_VERSION__)
         setShow(true)
       }
     }
