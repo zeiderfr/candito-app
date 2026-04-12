@@ -3,6 +3,7 @@
 
 import { State } from '../state.js';
 import { PROGRAM } from '../data.js';
+import { fmt, calcLoad } from '../utils.js';
 
 // ── Labels courts par session ───────────────────────────────────────────────
 const SESSION_LABELS = {
@@ -272,8 +273,6 @@ export function initProgression() {
 }
 
 // ── Charges content (inline) ────────────────────────────────────────────────
-import { State } from '../state.js';
-import { fmt, calcLoad } from '../utils.js';
 
 const PERCENTAGES = [40, 50, 60, 65, 70, 75, 78, 80, 82, 85, 88, 90, 92, 93, 95, 98, 100, 102];
 const USAGE_MAP = {
