@@ -39,26 +39,40 @@ class DeployHandler(FileSystemEventHandler):
     def deploy_if_ready(self):
         if self.pending and (time.time() - self.last_event) >= DELAY:
             self.pending = False
-            print("\n Déploiement en cours...")
-            result = subprocess.run(
-                ["git", "add", ".", "&&", "git", "commit", "-m", "auto-update", "&&", "git", "push"],
-                shell=False,
-                cwd="/Users/theodiez/Documents/Programme CANDITO",
-                capture_output=True, text=True
+            print("\n🚀 Préparation du déploiement React...")
+            
+            # 1. Build de l'application React
+            print("  [1/3] Compilation du code moderne...")
+            build_res = subprocess.run(
+                "export PATH=/usr/local/bin:$PATH && cd app && npm run build",
+                shell=True, capture_output=True, text=True
             )
-            # Utilise shell=True pour le chaînage
+            if build_res.returncode != 0:
+                print(f"  ❌ Erreur de build : {build_res.stderr}")
+                return
+
+            # 2. Synchronisation vers la racine (pour Cloudflare Pages)
+            print("  [2/3] Synchronisation vers la racine...")
+            sync_res = subprocess.run(
+                "cp -R app/dist/ .",
+                shell=True, capture_output=True, text=True
+            )
+
+            # 3. Push vers GitHub
+            print("  [3/3] Envoi vers GitHub...")
             result = subprocess.run(
-                'git add . && git commit -m "auto-update" && git push',
+                'git add . && git commit -m "auto-deploy: React version" && git push',
                 shell=True,
                 cwd="/Users/theodiez/Documents/Programme CANDITO",
                 capture_output=True, text=True
             )
+            
             if "nothing to commit" in result.stdout or "nothing to commit" in result.stderr:
-                print(" Aucun changement à envoyer.")
+                print("  ✅ Identique à la version en ligne.")
             elif result.returncode == 0:
-                print(" Déployé sur Netlify avec succès !\n")
+                print("  🎉 DÉPLOYÉ AVEC SUCCÈS sur programme-candito.pages.dev !\n")
             else:
-                print(f" Erreur : {result.stderr}\n")
+                print(f"  ❌ Erreur Git : {result.stderr}\n")
 
 
 if __name__ == "__main__":
