@@ -204,6 +204,7 @@ export function renderProgression(meta) {
 // ── Init ────────────────────────────────────────────────────────────────────
 export function initProgression() {
     let mode = 'load';
+    _chargesListenersInit = false; // Reset pour re-navigation
 
     function renderAllCharts() {
         ['squat', 'bench', 'deadlift'].forEach(lift => {
