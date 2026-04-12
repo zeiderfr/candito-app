@@ -7,10 +7,11 @@ import { Nutrition } from '@/pages/Nutrition'
 import { Progres } from '@/pages/Progres'
 import { UpdatePrompt } from '@/components/common/UpdatePrompt'
 import { type TabId } from '@/components/layout/BottomNav'
+import { NavigationContext } from '@/context/NavigationContext'
 
 /**
  * Main App Component — Candito 6-Week React Migration.
- * Phase 2: All 5 modules fully wired.
+ * Phase 2: All 5 modules fully wired + NavigationContext for cross-tab CTA.
  */
 function App() {
   const [activeTab, setActiveTab] = useState<TabId>('accueil')
@@ -26,10 +27,12 @@ function App() {
   }
 
   return (
-    <AppLayout activeTab={activeTab} onTabChange={setActiveTab}>
-      <UpdatePrompt />
-      {renderContent()}
-    </AppLayout>
+    <NavigationContext.Provider value={setActiveTab}>
+      <AppLayout activeTab={activeTab} onTabChange={setActiveTab}>
+        <UpdatePrompt />
+        {renderContent()}
+      </AppLayout>
+    </NavigationContext.Provider>
   )
 }
 

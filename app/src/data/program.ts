@@ -17,6 +17,35 @@ export const PROGRAM_METADATA: Record<string, { title: string; subtitle: string 
   s6_dec: { title: 'Semaine 6', subtitle: 'Décharge — Récupération active — 80%' },
 }
 
+// ── COACH MESSAGES ─────────────────────────────────────────────────
+// Message dynamique affiché dans CoachCard selon la semaine active.
+export const COACH_MESSAGES: Record<string, { tone: string; message: string }> = {
+  s1s2: {
+    tone: 'Fondations',
+    message: "Construisons les fondations. Volume élevé, RPE contrôlé — la fatigue est normale, c'est le signal que tu progresses.",
+  },
+  s3: {
+    tone: 'Transition',
+    message: "Les charges montent. Reste technique sous la barre. Le physique s'adapte, le mental aussi.",
+  },
+  s4: {
+    tone: 'Acclimatation',
+    message: "Acclimatation aux charges lourdes. Chaque rep compte. La confiance se construit maintenant.",
+  },
+  s5: {
+    tone: 'Peaking',
+    message: "Semaine de test AMRAP. Pousse au maximum sur chaque mouvement — note chaque répétition, elles calculeront ton prochain 1RM.",
+  },
+  s6_test: {
+    tone: 'Jour J',
+    message: "C'est le jour J. 6 semaines de travail pour ce moment. Confiance absolue dans le processus — tu es prêt.",
+  },
+  s6_dec: {
+    tone: 'Récupération',
+    message: "Semaine de décharge. Le travail est fait. Récupère pleinement — le prochain cycle commence dans quelques jours.",
+  },
+}
+
 // ── WEEK_SCHEDULE_MAP ───────────────────────────────────────────────
 // Maps weekId -> { dayOfWeek: sessionId | null }
 // dayOfWeek: 0=Dimanche, 1=Lundi, ..., 6=Samedi

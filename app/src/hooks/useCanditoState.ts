@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { type CanditoState, type RM } from '../types'
+import { type CanditoState, type RM, type PR } from '../types'
 
 const STORAGE_KEY = 'candito_tracker_data'
 
