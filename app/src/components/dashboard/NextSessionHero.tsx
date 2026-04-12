@@ -1,21 +1,24 @@
 import { cn } from '@/lib/utils'
 import { Zap, ChevronRight, Moon, Coffee } from 'lucide-react'
 import { type Session } from '@/types'
+import { useNavigation } from '@/context/NavigationContext'
 
 interface NextSessionHeroProps {
-  workoutState: 
-    | { type: 'workout'; session: Session } 
+  workoutState:
+    | { type: 'workout'; session: Session }
     | { type: 'rest'; action: string; suggestion: string }
   getWeight: (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => number | null
 }
 
 export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProps) {
+  const navigate = useNavigation()
+
   // ── ÉTAT REPOS (EMPTY STATE PREMIUM) ───────────────────────────────────────
   if (workoutState.type === 'rest') {
     return (
       <div className={cn(
         "glass p-8 rounded-card border-none flex flex-col gap-6 bg-surface/40",
-        "animate-in fade-in slide-in-from-bottom-4 duration-700"
+        "animate-in fade-in slide-in-from-bottom-4 duration-300"
       )}>
         <div className="flex items-center gap-2">
           <Moon size={14} className="text-dim" />
@@ -34,19 +37,23 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
         </div>
 
         <div className="flex gap-3 pt-2">
-          <button className={cn(
-            "flex-1 bg-white/5 hover:bg-white/10 transition-colors",
-            "text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl",
-            "flex items-center justify-center gap-2 cursor-pointer"
-          )}>
+          <button
+            onClick={() => navigate('nutrition')}
+            className={cn(
+              "flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200",
+              "text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl",
+              "flex items-center justify-center gap-2 cursor-pointer"
+            )}>
             <Coffee size={14} />
             CONSEILS NUTRITION
           </button>
-          <button className={cn(
-            "flex-1 bg-white/5 hover:bg-white/10 transition-colors",
-            "text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl",
-            "flex items-center justify-center gap-2 cursor-pointer"
-          )}>
+          <button
+            onClick={() => navigate('warmup')}
+            className={cn(
+              "flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200",
+              "text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl",
+              "flex items-center justify-center gap-2 cursor-pointer"
+            )}>
             MOBILITÉ ACTIVE
           </button>
         </div>
@@ -57,14 +64,14 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
   // ── ÉTAT ENTRAÎNEMENT (SESSION ACTIVE) ─────────────────────────────────────
   const { session } = workoutState
   const primaryEx = session.exercises[0]
-  const targetWeight = primaryEx.percentage 
-      ? getWeight(primaryEx.lift, primaryEx.percentage.hi) 
+  const targetWeight = primaryEx.percentage
+      ? getWeight(primaryEx.lift, primaryEx.percentage.hi)
       : null
 
   return (
     <div className={cn(
       "relative group glass p-8 rounded-card border-none flex flex-col gap-8 overflow-hidden",
-      "animate-in fade-in slide-in-from-bottom-4 duration-500"
+      "animate-in fade-in slide-in-from-bottom-4 duration-300"
     )}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -113,11 +120,13 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
         </div>
       </div>
 
-      <button className={cn(
-        "w-full bg-accent hover:bg-[#77cc7b] active:scale-[0.98] transition-all",
-        "text-background font-bold uppercase tracking-widest text-[12px] py-6 px-4 rounded-pill",
-        "flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer"
-      )}>
+      <button
+        onClick={() => navigate('programme')}
+        className={cn(
+          "w-full bg-accent hover:bg-[#77cc7b] active:scale-[0.98] transition-all duration-200",
+          "text-background font-bold uppercase tracking-widest text-[12px] py-6 px-4 rounded-pill",
+          "flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer"
+        )}>
         DÉMARRER LA SÉANCE
         <ChevronRight size={16} />
       </button>
