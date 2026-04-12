@@ -111,6 +111,23 @@ export function useCanditoState() {
     setState(prev => ({ ...prev, currentWeekId: weekId }))
   }, [])
 
+  const addPR = useCallback((lift: 'squat' | 'bench' | 'deadlift', weight: number, reps: number) => {
+    const newPR: PR = {
+      id: `${lift}_${Date.now()}`,
+      lift,
+      weight,
+      reps,
+      date: new Date().toISOString().split('T')[0],
+    }
+    setState(prev => ({
+      ...prev,
+      progress: {
+        ...prev.progress,
+        prs: [...prev.progress.prs, newPR],
+      },
+    }))
+  }, [])
+
   return {
     state,
     updateRM,
@@ -118,6 +135,7 @@ export function useCanditoState() {
     toggleSession,
     getTotal,
     setCurrentWeek,
+    addPR,
     isInitialized: state.initialized
   }
 }
