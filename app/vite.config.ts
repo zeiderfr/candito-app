@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   define: {
-    __APP_VERSION__: JSON.stringify(Date.now().toString()),
+    __APP_VERSION__: JSON.stringify(process.env.VITE_APP_VERSION || Date.now().toString()),
   },
   resolve: {
     alias: {
