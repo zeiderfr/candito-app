@@ -22,7 +22,32 @@ export function useCanditoState() {
     const saved = localStorage.getItem(STORAGE_KEY)
     if (saved) {
       try {
-        return JSON.parse(saved)
+        const data = JSON.parse(saved)
+        
+        // ── MIGRATION LAYER (Vanilla JS -> React v2) ────────────────────────
+        // L'ancienne app stocke 'rm' à la racine. La nouvelle dans 'athlete'.
+        if (data.rm && !data.athlete) {
+          console.log("Migration des données Candito détectée...")
+          return {
+            version: 2,
+            initialized: data.initialized ?? true,
+            athlete: {
+              name: 'Athlète',
+              rm: {
+                squat: Number(data.rm.squat || 0),
+                bench: Number(data.rm.bench || 0),
+                deadlift: Number(data.rm.deadlift || 0),
+              }
+            },
+            progress: {
+              completedSessions: [], // Sessions à réinitialiser pour la v2
+              prs: Array.isArray(data.prs) ? data.prs : []
+            },
+            currentWeekId: 's1s2'
+          }
+        }
+        
+        return data
       } catch (e) {
         console.error("Failed to parse Candito state", e)
       }
