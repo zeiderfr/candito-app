@@ -19,23 +19,24 @@ export function UpdatePrompt() {
       }
     }
 
-    // 1. Détection de la version au démarrage (après un court délai pour laisser l'app se charger)
-    setTimeout(async () => {
+    // 1. Détection immédiate de la version au démarrage
+    const init = async () => {
       const v = await fetchVersion()
       if (v) {
-        console.log("🚀 Candito App Version:", v)
+        console.log("🚀 Candito App Version Loaded:", v)
         setCurrentVersion(v)
       }
-    }, 2000)
+    }
+    init()
 
-    // 2. Vérification périodique toutes les 30 secondes
+    // 2. Vérification périodique toutes les 10 secondes
     const interval = setInterval(async () => {
       const latestV = await fetchVersion()
       if (latestV && currentVersion && latestV !== currentVersion) {
         console.log("✨ Nouvelle version détectée !", latestV)
         setShow(true)
       }
-    }, 30000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [currentVersion])
