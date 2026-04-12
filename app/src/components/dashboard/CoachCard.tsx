@@ -28,7 +28,7 @@ export function CoachCard({ name, sessionFocus }: CoachCardProps) {
               Coach Candito AI
             </span>
           </div>
-          <span className="text-[9px] text-muted/40 font-mono italic">v1.3.5-Final</span>
+          <span className="text-[9px] text-muted/40 font-mono italic">v1.4.0-Production</span>
         </div>
 
       <div className="space-y-1">

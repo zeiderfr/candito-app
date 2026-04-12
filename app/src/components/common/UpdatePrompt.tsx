@@ -6,7 +6,7 @@ const VERSION_URL = '/version.json'
 
 export function UpdatePrompt() {
   const [show, setShow] = useState(false)
-  const [currentVersion, setCurrentVersion] = useState<string | null>(null)
+  const [, setCurrentVersion] = useState<string | null>(null)
 
   useEffect(() => {
     // Variable locale pour éviter les problèmes de closure avec le setInterval
