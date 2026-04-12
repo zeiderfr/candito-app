@@ -226,6 +226,9 @@ export function initTracker(sectionId) {
             saveImmediate();
             e.target.closest('tr').classList.toggle('tracker-row-done', e.target.checked);
 
+            // ⭐ LIVE BADGE UPDATE — recalculer le compteur de séries
+            updateSessionBadge(e.target.closest('.card'), session);
+
             // ⭐ PR DETECTION
             if (e.target.checked) {
                 const row = e.target.closest('tr');
