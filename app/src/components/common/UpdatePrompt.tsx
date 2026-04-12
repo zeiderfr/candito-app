@@ -10,38 +10,39 @@ export function UpdatePrompt() {
   const [currentVersion, setCurrentVersion] = useState<string | null>(null)
 
   useEffect(() => {
-    // 1. Charger la version initiale au montage
-    const fetchInitial = async () => {
+    const fetchVersion = async () => {
       try {
         const res = await fetch(VERSION_URL + '?t=' + Date.now())
         const data = await res.json()
-        setCurrentVersion(data.version)
+        return data.version
       } catch (e) {
-        console.error("UpdatePrompt: Initial fetch failed", e)
+        return null
       }
     }
 
-    fetchInitial()
-
-    // 2. Polling interval pour détecter les nouvelles versions
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetch(VERSION_URL + '?t=' + Date.now())
-        const data = await res.json()
-        
-        if (currentVersion && data.version !== currentVersion) {
-          setShow(true)
-        }
-      } catch (e) {
-        console.warn("UpdatePrompt: Check failed (server might be down/rebuilding)")
+    // 1. Détection de la version au démarrage (après un court délai pour laisser l'app se charger)
+    setTimeout(async () => {
+      const v = await fetchVersion()
+      if (v) {
+        console.log("🚀 Candito App Version:", v)
+        setCurrentVersion(v)
       }
-    }, CHECK_INTERVAL)
+    }, 2000)
+
+    // 2. Vérification périodique toutes les 30 secondes
+    const interval = setInterval(async () => {
+      const latestV = await fetchVersion()
+      if (latestV && currentVersion && latestV !== currentVersion) {
+        console.log("✨ Nouvelle version détectée !", latestV)
+        setShow(true)
+      }
+    }, 30000)
 
     return () => clearInterval(interval)
   }, [currentVersion])
 
   const handleUpdate = () => {
-    // Force reload with cache bypass
+    // Clear cache and reload
     window.location.reload()
   }
 
@@ -49,45 +50,45 @@ export function UpdatePrompt() {
 
   return (
     <div className={cn(
-      "fixed top-6 left-4 right-4 z-[100]",
-      "animate-in fade-in slide-in-from-top-6 duration-700"
+      "fixed inset-0 z-[200] flex items-center justify-center p-6 bg-background/80 backdrop-blur-md",
+      "animate-in fade-in duration-500"
     )}>
       <div className={cn(
-        "glass p-4 rounded-2xl border border-white/10 shadow-2xl",
-        "flex items-center gap-4 bg-surface/90 backdrop-blur-xl"
+        "glass w-full max-w-[320px] p-8 rounded-[32px] border border-white/10 shadow-3xl text-center space-y-6",
+        "animate-in zoom-in-95 slide-in-from-bottom-4 duration-500"
       )}>
-        <div className="size-10 rounded-full bg-accent/20 flex items-center justify-center text-accent">
-          <RefreshCcw size={18} className="animate-spin-slow" />
+        <div className="mx-auto size-16 rounded-3xl bg-accent/10 flex items-center justify-center text-accent">
+          <RefreshCcw size={32} className="animate-spin-slow" />
         </div>
         
-        <div className="flex-1 space-y-0.5">
-          <p className="text-[12px] font-bold text-white uppercase tracking-wider">
-            Mise à jour disponible
-          </p>
-          <p className="text-[10px] text-muted leading-tight">
-            De nouvelles fonctionnalités et corrections sont prêtes.
+        <div className="space-y-2">
+          <h2 className="text-2xl font-display text-white italic">Mise à jour</h2>
+          <p className="text-muted text-sm leading-relaxed">
+            Une nouvelle version du programme est disponible pour ton entraînement.
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-3">
            <button 
              onClick={handleUpdate}
              className={cn(
-               "px-4 py-2 bg-accent hover:bg-[#77cc7b] text-background",
-               "text-[10px] font-bold uppercase tracking-widest rounded-pill transition-all"
+               "w-full py-5 bg-accent hover:bg-[#77cc7b] active:scale-95 text-background",
+               "text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all",
+               "shadow-lg shadow-accent/20"
              )}
            >
-             ACTUALISER
+             INSTALLER MAINTENANT
            </button>
            
            <button 
              onClick={() => setShow(false)}
-             className="p-2 text-muted hover:text-white transition-colors"
+             className="text-[10px] text-muted font-bold uppercase tracking-widest hover:text-white transition-colors py-2"
            >
-             <X size={16} />
+             PLUS TARD
            </button>
         </div>
       </div>
     </div>
   )
 }
+
