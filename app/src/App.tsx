@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Dashboard } from '@/pages/Dashboard'
+import { UpdatePrompt } from '@/components/common/UpdatePrompt'
 import { type TabId } from '@/components/layout/BottomNav'
 
 /**
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <AppLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      <UpdatePrompt />
       {renderContent()}
     </AppLayout>
   )
