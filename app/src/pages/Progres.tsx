@@ -53,7 +53,8 @@ function SubTabBar({ active, onChange }: { active: SubTab; onChange: (t: SubTab)
 
 // ── Charges Panel ───────────────────────────────────────────────────
 function ChargesPanel() {
-  const { state, updateRM } = useCanditoState()
+  const { state, updateRM, updateName } = useCanditoState()
+  const [localName, setLocalName] = useState(state.athlete.name)
   const [localRM, setLocalRM] = useState({
     squat: state.athlete.rm.squat.toString(),
     bench: state.athlete.rm.bench.toString(),
@@ -73,6 +74,21 @@ function ChargesPanel() {
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Name Input */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-[10px] font-bold uppercase tracking-widest text-muted">
+          Ton Prénom
+        </label>
+        <input
+          type="text"
+          value={localName}
+          onChange={e => setLocalName(e.target.value)}
+          onBlur={() => updateName(localName)}
+          placeholder="Ex: Théo"
+          className="bg-white/5 border border-border rounded-input py-3 px-4 text-base font-display text-white w-full focus:border-accent/50 transition-colors"
+        />
+      </div>
+
       {/* RM Inputs */}
       <div className="grid grid-cols-3 gap-3">
         {(['squat', 'bench', 'deadlift'] as const).map(lift => (
