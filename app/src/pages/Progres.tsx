@@ -26,6 +26,154 @@ const RPE_DATA = [
   { rpe: 6, rir: '4+', sensation: 'Échauffement / Technique' },
 ]
 
+const WEEK_DISPLAY: Record<string, string> = {
+  s1: 'S1', s2: 'S2', s3: 'S3', s4: 'S4', s5: 'S5', s6_test: 'S6T', s6_dec: 'S6D'
+}
+
+// ── Session Timeline ─────────────────────────────────────────────────
+function SessionTimeline({ completedSessions }: { completedSessions: string[] }) {
+  return (
+    <div className="glass rounded-card p-5 space-y-3">
+      <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted">Progression du programme</h3>
+      <div className="flex flex-col gap-3">
+        {WEEK_ORDER.map(weekId => {
+          const week = PROGRAM_DATA[weekId]
+          if (!week) return null
+          const sessions = week.sessions
+          const done = sessions.filter((s: { id: string }) => completedSessions.includes(s.id)).length
+          return (
+            <div key={weekId} className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-muted w-8 shrink-0">{WEEK_DISPLAY[weekId]}</span>
+              <div className="flex gap-1.5 flex-1">
+                {sessions.map((s: { id: string }) => (
+                  <div key={s.id} className={cn(
+                    "h-2 flex-1 rounded-full transition-colors duration-300",
+                    completedSessions.includes(s.id) ? "bg-accent" : "bg-white/10"
+                  )} />
+                ))}
+              </div>
+              <span className="text-[10px] tabular-nums text-muted shrink-0 w-8 text-right">
+                {done}/{sessions.length}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// ── PR Section ───────────────────────────────────────────────────────
+function PRSection() {
+  const { state, addPR } = useCanditoState()
+  const [showForm, setShowForm] = useState(false)
+  const [formLift, setFormLift] = useState<'squat' | 'bench' | 'deadlift'>('squat')
+  const [formWeight, setFormWeight] = useState('')
+  const [formReps, setFormReps] = useState('1')
+
+  const prs = state.progress.prs ?? []
+
+  const lastPRs = (['squat', 'bench', 'deadlift'] as const).map(lift => {
+    const liftPRs = prs.filter(p => p.lift === lift)
+    return liftPRs.length ? liftPRs[liftPRs.length - 1] : null
+  }).filter(Boolean)
+
+  const handleSubmit = () => {
+    const w = Number(formWeight)
+    const r = Number(formReps)
+    if (!w || !r) return
+    addPR(formLift, w, r)
+    setFormWeight('')
+    setFormReps('1')
+    setShowForm(false)
+  }
+
+  return (
+    <div className="glass rounded-card overflow-hidden">
+      <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+            <Trophy size={16} />
+          </div>
+          <h3 className="text-lg font-display text-white italic">Records personnels</h3>
+        </div>
+        <button
+          onClick={() => setShowForm(v => !v)}
+          className={cn(
+            "size-8 rounded-lg flex items-center justify-center transition-colors duration-200 cursor-pointer",
+            showForm ? "bg-accent text-background" : "bg-white/5 text-muted hover:text-white"
+          )}
+        >
+          <Plus size={16} />
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="px-5 py-4 border-b border-border space-y-3 bg-white/[0.02]">
+          <div className="grid grid-cols-3 gap-2">
+            {(['squat', 'bench', 'deadlift'] as const).map(lift => (
+              <button
+                key={lift}
+                onClick={() => setFormLift(lift)}
+                className={cn(
+                  "py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 cursor-pointer",
+                  formLift === lift ? "bg-accent text-background" : "bg-white/5 text-muted hover:text-white"
+                )}
+              >
+                {lift === 'deadlift' ? 'DL' : lift}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex flex-col gap-1">
+              <label className="text-[9px] font-bold uppercase tracking-widest text-muted">Poids (kg)</label>
+              <input
+                type="number"
+                inputMode="decimal"
+                value={formWeight}
+                onChange={e => setFormWeight(e.target.value)}
+                placeholder="0"
+                className="bg-white/5 border border-border rounded-input py-2.5 px-3 text-center text-lg font-display text-white tabular-nums focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/60 transition-colors"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-[9px] font-bold uppercase tracking-widest text-muted">Reps</label>
+              <input
+                type="number"
+                inputMode="numeric"
+                value={formReps}
+                onChange={e => setFormReps(e.target.value)}
+                min={1}
+                className="bg-white/5 border border-border rounded-input py-2.5 px-3 text-center text-lg font-display text-white tabular-nums focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/60 transition-colors"
+              />
+            </div>
+          </div>
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-accent hover:bg-[#77cc7b] text-background font-bold uppercase tracking-widest text-[11px] py-3 rounded-pill transition-colors duration-200 cursor-pointer"
+          >
+            Enregistrer le PR
+          </button>
+        </div>
+      )}
+
+      <div className="divide-y divide-border">
+        {lastPRs.length === 0 ? (
+          <p className="px-5 py-6 text-sm text-muted text-center">Aucun PR enregistré</p>
+        ) : lastPRs.map((pr, i) => pr && (
+          <div key={i} className="px-5 py-3.5 flex items-center justify-between">
+            <div>
+              <p className="text-sm text-white font-medium capitalize">{pr.lift}</p>
+              <p className="text-[10px] text-muted mt-0.5">{pr.date} • {pr.reps} rep{pr.reps > 1 ? 's' : ''}</p>
+            </div>
+            <span className="text-accent font-bold tabular-nums text-lg font-display">{pr.weight} kg</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ── Sub Tab Bar ─────────────────────────────────────────────────────
 function SubTabBar({ active, onChange }: { active: SubTab; onChange: (t: SubTab) => void }) {
   const tabs: { id: SubTab; label: string }[] = [
@@ -229,7 +377,7 @@ export function Progres() {
   return (
     <div className={cn(
       "flex flex-col gap-6",
-      "animate-in fade-in slide-in-from-bottom-4 duration-500"
+      "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
       {/* Editorial Header */}
       <div className="space-y-1">
@@ -240,6 +388,10 @@ export function Progres() {
           Suivi des charges et autorégulation
         </p>
       </div>
+
+      <SessionTimeline completedSessions={state.progress.completedSessions} />
+
+      <PRSection />
 
       <SubTabBar active={activeTab} onChange={setActiveTab} />
 
