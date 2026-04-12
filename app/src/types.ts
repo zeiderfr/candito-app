@@ -8,14 +8,21 @@ export interface Exercise {
   reps?: string
   rpe_target?: string
   note?: string
+  lift?: 'squat' | 'bench' | 'deadlift' // Type de mouvement pour le calcul des charges
+  percentage?: { lo: number; hi: number } // Pourcentages cibles du 1RM
 }
 
 export interface Session {
   id: string
+  day?: string // Jour théorique (Lundi, etc.)
   focus: string
   status: 'done' | 'pending' | 'skip'
   exercises: Exercise[]
 }
+
+export type WorkoutState = 
+  | { type: 'workout'; session: Session } 
+  | { type: 'rest'; action: string; suggestion: string }
 
 export interface Day {
   id: string
