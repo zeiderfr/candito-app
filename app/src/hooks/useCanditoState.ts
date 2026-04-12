@@ -92,11 +92,16 @@ export function useCanditoState() {
     return state.athlete.rm.squat + state.athlete.rm.bench + state.athlete.rm.deadlift
   }, [state.athlete.rm])
 
+  const setCurrentWeek = useCallback((weekId: string) => {
+    setState(prev => ({ ...prev, currentWeekId: weekId }))
+  }, [])
+
   return {
     state,
     updateRM,
     toggleSession,
     getTotal,
+    setCurrentWeek,
     isInitialized: state.initialized
   }
 }

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useCanditoState } from './useCanditoState'
-import { PROGRAM_DATA, SCHEDULE_MAP } from '../data/program'
+import { PROGRAM_DATA, WEEK_SCHEDULE_MAP } from '../data/program'
+import { calcWeight } from '@/lib/weightCalc'
 import { type WorkoutState } from '../types'
 
 /**
@@ -12,7 +13,8 @@ export function useWorkoutSchedule() {
 
   const workoutState = useMemo((): WorkoutState => {
     const today = new Date().getDay()
-    const sessionId = SCHEDULE_MAP[today]
+    const weekSchedule = WEEK_SCHEDULE_MAP[state.currentWeekId] ?? {}
+    const sessionId = weekSchedule[today] ?? null
 
     if (!sessionId) {
       return {
@@ -26,10 +28,13 @@ export function useWorkoutSchedule() {
 
     // Recherche de la session dans la semaine actuelle
     const currentWeek = PROGRAM_DATA[state.currentWeekId]
+    if (!currentWeek) {
+      return { type: 'rest', action: 'Repos', suggestion: 'Semaine non trouvée.' }
+    }
     const session = currentWeek.sessions.find(s => s.id === sessionId)
 
     if (!session) {
-      return { type: 'rest', action: 'Repos', suggestion: 'Session non trouvée.' }
+      return { type: 'rest', action: 'Repos', suggestion: 'Session non trouvée pour cette semaine.' }
     }
 
     return {
@@ -40,13 +45,13 @@ export function useWorkoutSchedule() {
 
   /**
    * Calcul de la charge arrondie à 2.5kg près.
-   * Formule : round(1RM * % / 2.5) * 2.5
+   * Utilise l'utilitaire partagé calcWeight.
    */
   const getCalculatedWeight = (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => {
     if (!lift) return null
     const rm = state.athlete.rm[lift]
     if (!rm) return 0
-    return Math.round((rm * percentage) / 2.5) * 2.5
+    return calcWeight(rm, percentage)
   }
 
   return {
