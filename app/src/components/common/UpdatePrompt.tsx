@@ -6,10 +6,8 @@ const VERSION_URL = '/version.json'
 
 export function UpdatePrompt() {
   const [show, setShow] = useState(false)
-  const [, setCurrentVersion] = useState<string | null>(null)
 
   useEffect(() => {
-    let activeVersion: string | null = null
 
     const fetchVersion = async () => {
       try {
@@ -32,10 +30,9 @@ export function UpdatePrompt() {
       const latestV = await fetchVersion()
       if (!latestV) return
 
-      if (!activeVersion) {
-        activeVersion = latestV
-        setCurrentVersion(latestV)
-      } else if (latestV !== activeVersion) {
+      // __APP_VERSION__ inyected by Vite at build time
+      if (latestV !== __APP_VERSION__) {
+        console.log("✨ Nouvelle version détectée !", latestV, "Actuelle:", __APP_VERSION__)
         setShow(true)
       }
     }
