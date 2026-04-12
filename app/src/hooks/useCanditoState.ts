@@ -7,7 +7,7 @@ const DEFAULT_STATE: CanditoState = {
   version: 1,
   initialized: false,
   athlete: {
-    name: 'Athlète',
+    name: 'Théo',
     rm: { squat: 150, bench: 110, deadlift: 170 }
   },
   progress: {
@@ -32,7 +32,7 @@ export function useCanditoState() {
             version: 2,
             initialized: data.initialized ?? true,
             athlete: {
-              name: 'Athlète',
+              name: 'Théo',
               rm: {
                 squat: Number(data.rm.squat || 0),
                 bench: Number(data.rm.bench || 0),
@@ -71,6 +71,16 @@ export function useCanditoState() {
     }))
   }, [])
 
+  const updateName = useCallback((name: string) => {
+    setState((prev) => ({
+      ...prev,
+      athlete: {
+        ...prev.athlete,
+        name
+      }
+    }))
+  }, [])
+
   const toggleSession = useCallback((sessionId: string) => {
     setState((prev) => {
       const completed = prev.progress.completedSessions.includes(sessionId)
@@ -99,6 +109,7 @@ export function useCanditoState() {
   return {
     state,
     updateRM,
+    updateName,
     toggleSession,
     getTotal,
     setCurrentWeek,
