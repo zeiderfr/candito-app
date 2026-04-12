@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
-import { RefreshCcw, X } from 'lucide-react'
+import { RefreshCcw } from 'lucide-react'
 
 const VERSION_URL = '/version.json'
-const CHECK_INTERVAL = 60000 // 1 minute
 
 export function UpdatePrompt() {
   const [show, setShow] = useState(false)
