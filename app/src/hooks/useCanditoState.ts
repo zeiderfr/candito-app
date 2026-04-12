@@ -46,6 +46,11 @@ export function useCanditoState() {
             currentWeekId: 's1s2'
           }
         }
+
+        // Force Théo name if it was the default "Athlète"
+        if (data.athlete && data.athlete.name === 'Athlète') {
+          data.athlete.name = 'Théo'
+        }
         
         return data
       } catch (e) {
