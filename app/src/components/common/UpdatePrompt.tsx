@@ -19,31 +19,42 @@ export function UpdatePrompt() {
       }
     }
 
-    // 1. Détection immédiate de la version au démarrage
-    const init = async () => {
-      const v = await fetchVersion()
-      if (v) {
-        console.log("🚀 Candito App Version Loaded:", v)
-        setCurrentVersion(v)
-      }
+    // 1. Initialisation de la version courante
+    if (!currentVersion) {
+      fetchVersion().then(v => {
+        if (v) {
+          console.log("🚀 Candito App Version Loaded:", v)
+          setCurrentVersion(v)
+        }
+      })
+      return
     }
-    init()
 
-    // 2. Vérification périodique toutes les 10 secondes
-    const interval = setInterval(async () => {
+    const checkUpdate = async () => {
       const latestV = await fetchVersion()
-      if (latestV && currentVersion && latestV !== currentVersion) {
+      if (latestV && latestV !== currentVersion) {
         console.log("✨ Nouvelle version détectée !", latestV)
         setShow(true)
       }
-    }, 10000)
+    }
 
-    return () => clearInterval(interval)
+    // 2. Vérification périodique et à la reprise de l'app (iOS Background)
+    const interval = setInterval(checkUpdate, 10000)
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') checkUpdate()
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      clearInterval(interval)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [currentVersion])
 
   const handleUpdate = () => {
-    // Clear cache and reload
-    window.location.reload()
+    // Force un rechargement complet de l'index.html pour contourner le cache PWA iOS
+    window.location.href = window.location.pathname + '?update=' + Date.now()
   }
 
   if (!show) return null
@@ -60,7 +71,7 @@ export function UpdatePrompt() {
         <div className="mx-auto size-16 rounded-3xl bg-accent/10 flex items-center justify-center text-accent">
           <RefreshCcw size={32} className="animate-spin-slow" />
         </div>
-        
+
         <div className="space-y-2">
           <h2 className="text-2xl font-display text-white italic">Mise à jour</h2>
           <p className="text-muted text-sm leading-relaxed">
@@ -69,26 +80,25 @@ export function UpdatePrompt() {
         </div>
 
         <div className="flex flex-col gap-3">
-           <button 
-             onClick={handleUpdate}
-             className={cn(
-               "w-full py-5 bg-accent hover:bg-[#77cc7b] active:scale-95 text-background",
-               "text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all",
-               "shadow-lg shadow-accent/20"
-             )}
-           >
-             INSTALLER MAINTENANT
-           </button>
-           
-           <button 
-             onClick={() => setShow(false)}
-             className="text-[10px] text-muted font-bold uppercase tracking-widest hover:text-white transition-colors py-2"
-           >
-             PLUS TARD
-           </button>
+          <button
+            onClick={handleUpdate}
+            className={cn(
+              "w-full py-5 bg-accent hover:bg-[#77cc7b] active:scale-95 text-background",
+              "text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all",
+              "shadow-lg shadow-accent/20"
+            )}
+          >
+            INSTALLER MAINTENANT
+          </button>
+
+          <button
+            onClick={() => setShow(false)}
+            className="text-[10px] text-muted font-bold uppercase tracking-widest hover:text-white transition-colors py-2"
+          >
+            PLUS TARD
+          </button>
         </div>
       </div>
     </div>
   )
 }
-
