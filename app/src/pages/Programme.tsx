@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
-import { PROGRAM_DATA, PROGRAM_METADATA, WEEK_ORDER } from '@/data/program'
+import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
 import { calcWeight } from '@/lib/weightCalc'
 import { CheckCircle2, Circle } from 'lucide-react'
 
