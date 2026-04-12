@@ -459,7 +459,54 @@
     font-size: 0.875rem;
 }
 
+/* ─── OUTILS SUB-NAV (Progrès → Graphiques / Charges / RPE) ── */
+
+.outils-subnav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    padding: 4px;
+    background: var(--surface);
+    border-radius: var(--r-pill, 999px);
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+.outils-subnav-btn {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    border-radius: var(--r-pill, 999px);
+    background: transparent;
+    color: var(--text-3);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+    white-space: nowrap;
+}
+
+.outils-subnav-btn.active {
+    background: var(--card-bg, #fff);
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.outils-panel {
+    display: none;
+}
+
+.outils-panel.active {
+    display: block;
+    animation: outilsFadeIn 0.3s ease both;
+}
+
+@keyframes outilsFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     .week-summary-modal { animation: none; }
+    .outils-panel.active { animation: none; }
 }
