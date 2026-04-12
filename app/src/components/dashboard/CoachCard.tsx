@@ -21,12 +21,15 @@ export function CoachCard({ name, sessionFocus }: CoachCardProps) {
       "glass p-6 rounded-card border-none flex flex-col gap-3",
       "animate-in fade-in slide-in-from-bottom-4 duration-500"
     )}>
-      <div className="flex items-center gap-2">
-        <span className="size-2 bg-accent rounded-full animate-pulse" />
-        <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent/80">
-          Coach Candito AI
-        </span>
-      </div>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <div className="size-2 rounded-full bg-accent animate-pulse" />
+            <span className="text-[10px] font-bold text-accent uppercase tracking-widest">
+              Coach Candito AI
+            </span>
+          </div>
+          <span className="text-[9px] text-muted/40 font-mono italic">v1.2.0-beta</span>
+        </div>
 
       <div className="space-y-1">
         <h2 className="text-2xl font-display text-white">
