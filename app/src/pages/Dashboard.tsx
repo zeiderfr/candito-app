@@ -3,19 +3,15 @@ import { CoachCard } from '@/components/dashboard/CoachCard'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
 import { useCanditoState } from '@/hooks/useCanditoState'
+import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
 export function Dashboard() {
   const { state, getTotal } = useCanditoState()
+  const { workoutState, getCalculatedWeight } = useWorkoutSchedule()
 
-  // Simplified logic for Phase 1 as planned
-  // In Phase 2 this will come from the state machine and data logic
-  const nextSession = {
-    title: 'Lundi — Squat & Deadlift',
-    focus: 'Squat & Deadlift',
-    mainExercise: 'Squat Low Bar',
-    targetWeight: '117.5',
-    setsReps: '4 séries × 6-8 reps'
-  }
+  const sessionFocus = workoutState.type === 'workout' 
+      ? workoutState.session.focus 
+      : 'Récupération'
 
   return (
     <div className={cn(
@@ -23,21 +19,24 @@ export function Dashboard() {
       "animate-in fade-in slide-in-from-bottom-4 duration-500"
     )}>
       {/* Editorial Header */}
-      <h1 className="text-4xl font-display text-white italic tracking-tight">
-        Tableau de bord
-      </h1>
+      <div className="space-y-1">
+        <h1 className="text-4xl font-display text-white italic tracking-tight">
+          Tableau de bord
+        </h1>
+        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
+            {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}
+        </p>
+      </div>
 
       <div className="flex flex-col gap-6">
         <CoachCard
           name={state.athlete.name}
-          sessionFocus={nextSession.focus}
+          sessionFocus={sessionFocus}
         />
 
         <NextSessionHero
-          sessionTitle={nextSession.title}
-          mainExercise={nextSession.mainExercise}
-          targetWeight={nextSession.targetWeight}
-          setsReps={nextSession.setsReps}
+          workoutState={workoutState}
+          getWeight={getCalculatedWeight}
         />
 
         <AthleteStats
@@ -52,8 +51,8 @@ export function Dashboard() {
       </div>
 
       <footer className="pt-8 pb-4 text-center">
-        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40">
-          Candito 6 Semaines • v2.0 React
+        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40 italic">
+          Forge ton corps, forge ton mental • Candito React v2.0
         </p>
       </footer>
     </div>
