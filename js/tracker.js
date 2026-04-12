@@ -338,3 +338,42 @@ export function initTracker(sectionId) {
 function ensureSession(id) {
     if (!State.sessions[id]) State.sessions[id] = { sets: [], loads: [], rpes: [], repsAMRAP: [] };
 }
+
+// ⭐ Mise à jour dynamique du badge de progression de la session
+function updateSessionBadge(card, sessionId) {
+    if (!card) return;
+    const checkboxes = card.querySelectorAll('.tracker-check');
+    const totalSets = checkboxes.length;
+    const doneSets = [...checkboxes].filter(cb => cb.checked).length;
+    const sessionDone = doneSets >= totalSets;
+
+    // Trouver ou créer le badge dans le header
+    const header = card.querySelector('div[style*="justify-content:space-between"]');
+    if (!header) return;
+
+    let badge = header.querySelector('.badge');
+    if (sessionDone) {
+        if (badge) {
+            badge.className = 'badge badge-green';
+            badge.textContent = 'Terminée ✓';
+        } else {
+            badge = document.createElement('span');
+            badge.className = 'badge badge-green';
+            badge.textContent = 'Terminée ✓';
+            header.appendChild(badge);
+        }
+    } else if (doneSets > 0) {
+        if (badge) {
+            badge.className = 'badge badge-orange';
+            badge.textContent = `${doneSets}/${totalSets} séries`;
+        } else {
+            badge = document.createElement('span');
+            badge.className = 'badge badge-orange';
+            badge.textContent = `${doneSets}/${totalSets} séries`;
+            header.appendChild(badge);
+        }
+    } else {
+        // Aucune série complétée → retirer le badge
+        if (badge) badge.remove();
+    }
+}
