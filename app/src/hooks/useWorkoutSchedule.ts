@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useCanditoState } from './useCanditoState'
 import { PROGRAM_DATA, SCHEDULE_MAP } from '../data/program'
-import { type WorkoutState, type Session } from '../types'
+import { type WorkoutState } from '../types'
 
 /**
  * Hook centralisant la résolution du programme en fonction de la date.

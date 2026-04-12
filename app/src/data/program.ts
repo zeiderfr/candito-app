@@ -3,7 +3,7 @@
  * Standardized structure migrated from Vanilla JS data.js.
  * Strictly following the 'Schedule Engine' requirements.
  */
-import { type Day, type Week } from '../types'
+import { type Week } from '../types'
 
 export const PROGRAM_METADATA = {
   s1s2: { title: 'Semaines 1-2', subtitle: 'Accumulation — 5 séances/semaine — 78-82%' },

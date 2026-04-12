@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Zap, ChevronRight, Moon, Coffee, ArrowRight } from 'lucide-react'
+import { Zap, ChevronRight, Moon, Coffee } from 'lucide-react'
 import { type Session } from '@/types'
 
 interface NextSessionHeroProps {
