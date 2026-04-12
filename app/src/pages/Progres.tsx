@@ -372,6 +372,7 @@ function RPEPanel() {
 
 // ── Main Export ──────────────────────────────────────────────────────
 export function Progres() {
+  const { state } = useCanditoState()
   const [activeTab, setActiveTab] = useState<SubTab>('charges')
 
   return (
