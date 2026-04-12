@@ -173,13 +173,30 @@ export function renderProgression(meta) {
             <h2>${meta.title}</h2>
             <div class="subtitle">${meta.subtitle}</div>
         </div>
-        <div class="chart-toggle" role="group" aria-label="Type de données">
-            <button class="chart-toggle-btn active" data-mode="load">Charge (kg)</button>
-            <button class="chart-toggle-btn" data-mode="rpe">RPE</button>
+
+        <!-- Sub-nav pour Progression / Charges / RPE -->
+        <div class="outils-subnav" role="tablist" aria-label="Outils et Progression">
+            <button class="outils-subnav-btn active" data-panel="panel-charts" role="tab" aria-selected="true">📈 Graphiques</button>
+            <button class="outils-subnav-btn" data-panel="panel-charges" role="tab" aria-selected="false">📊 Charges</button>
+            <button class="outils-subnav-btn" data-panel="panel-rpe" role="tab" aria-selected="false">🎯 RPE</button>
         </div>
-        <div class="section-cards-grid" style="grid-template-columns:1fr">
-            ${chartCards}
+
+        <!-- Panel 1: Graphiques de progression -->
+        <div class="outils-panel active" id="panel-charts">
+            <div class="chart-toggle" role="group" aria-label="Type de données">
+                <button class="chart-toggle-btn active" data-mode="load">Charge (kg)</button>
+                <button class="chart-toggle-btn" data-mode="rpe">RPE</button>
+            </div>
+            <div class="section-cards-grid" style="grid-template-columns:1fr">
+                ${chartCards}
+            </div>
         </div>
+
+        <!-- Panel 2: Tableau des charges (calculateur) -->
+        <div class="outils-panel" id="panel-charges"></div>
+
+        <!-- Panel 3: Guide RPE -->
+        <div class="outils-panel" id="panel-rpe"></div>
     `;
 }
 
@@ -207,6 +224,7 @@ export function initProgression() {
 
     renderAllCharts();
 
+    // Chart type toggle (Charge/RPE)
     document.querySelectorAll('#progression .chart-toggle-btn').forEach(btn => {
         btn.addEventListener('click', e => {
             mode = e.target.dataset.mode;
@@ -215,4 +233,157 @@ export function initProgression() {
             renderAllCharts();
         });
     });
+
+    // ── Lazy-render Charges panel ──
+    const chargesPanel = document.getElementById('panel-charges');
+    if (chargesPanel && chargesPanel.innerHTML.trim() === '') {
+        chargesPanel.innerHTML = renderChargesContent();
+    }
+
+    // ── Lazy-render RPE panel ──
+    const rpePanel = document.getElementById('panel-rpe');
+    if (rpePanel && rpePanel.innerHTML.trim() === '') {
+        rpePanel.innerHTML = renderRPEContent();
+    }
+
+    // ── Sub-nav toggle ──
+    document.querySelectorAll('#progression .outils-subnav-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const panelId = e.target.dataset.panel;
+            // Toggle active state on buttons
+            document.querySelectorAll('#progression .outils-subnav-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            e.target.classList.add('active');
+            e.target.setAttribute('aria-selected', 'true');
+
+            // Toggle active state on panels
+            document.querySelectorAll('#progression .outils-panel').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(panelId);
+            if (target) target.classList.add('active');
+
+            // Init Charges listeners on first show
+            if (panelId === 'panel-charges') {
+                initChargesListeners();
+            }
+        });
+    });
+}
+
+// ── Charges content (inline) ────────────────────────────────────────────────
+import { State } from '../state.js';
+import { fmt, calcLoad } from '../utils.js';
+
+const PERCENTAGES = [40, 50, 60, 65, 70, 75, 78, 80, 82, 85, 88, 90, 92, 93, 95, 98, 100, 102];
+const USAGE_MAP = {
+    40:'Échauffement', 50:'Échauffement', 60:'Échauffement',
+    65:'Accessoire', 70:'Accessoire', 75:'Gamme montante',
+    78:'S1-S2 Accumulation', 80:'S1-S2 / Décharge', 82:'S1-S2 Accumulation',
+    85:'S3 Transmutation', 88:'S3 Transmutation',
+    90:'S4 / Opener', 92:'S4 / Opener', 93:'S4 Acclimatation',
+    95:'S5 AMRAP Test', 98:'S6 2ème tentative',
+    100:'PR Tentative', 102:'PR Objectif'
+};
+
+function renderChargesContent() {
+    const sq = State.rm.squat, bp = State.rm.bench, dl = State.rm.deadlift;
+    const rows = PERCENTAGES.map(p => {
+        const usage = USAGE_MAP[p] || '';
+        const style = p >= 95 ? ' style="color:var(--red);font-weight:600"' : '';
+        return `<tr${style}>
+            <td style="font-weight:600">${p}%</td>
+            <td>${fmt(calcLoad(sq, p / 100))} kg</td>
+            <td>${fmt(calcLoad(bp, p / 100))} kg</td>
+            <td>${fmt(calcLoad(dl, p / 100))} kg</td>
+            <td style="color:var(--text-2)">${usage}</td>
+        </tr>`;
+    }).join('');
+
+    return `
+        <div class="card">
+            <h3>Modifier les 1RM</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+                <div><div class="label" style="margin-bottom:6px">Squat (kg)</div><input class="input input-sm" type="number" id="inline-charges-sq" value="${sq}" inputmode="numeric"></div>
+                <div><div class="label" style="margin-bottom:6px">Bench (kg)</div><input class="input input-sm" type="number" id="inline-charges-bp" value="${bp}" inputmode="numeric"></div>
+                <div><div class="label" style="margin-bottom:6px">Deadlift (kg)</div><input class="input input-sm" type="number" id="inline-charges-dl" value="${dl}" inputmode="numeric"></div>
+            </div>
+            <div class="note"><strong>Note :</strong> Ces valeurs ne modifient pas ton profil. Le tableau se recalcule instantanément.</div>
+        </div>
+
+        <div class="card">
+            <div class="table-wrap"><table id="inline-charges-table">
+                <thead><tr><th>% 1RM</th><th>Squat</th><th>Bench</th><th>Deadlift</th><th>Usage</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table></div>
+        </div>
+    `;
+}
+
+let _chargesListenersInit = false;
+function initChargesListeners() {
+    if (_chargesListenersInit) return;
+    _chargesListenersInit = true;
+
+    ['sq', 'bp', 'dl'].forEach(lift => {
+        const input = document.getElementById(`inline-charges-${lift}`);
+        if (!input) return;
+        input.addEventListener('input', () => {
+            const sq = parseFloat(document.getElementById('inline-charges-sq').value) || 0;
+            const bp = parseFloat(document.getElementById('inline-charges-bp').value) || 0;
+            const dl = parseFloat(document.getElementById('inline-charges-dl').value) || 0;
+            const table = document.getElementById('inline-charges-table');
+            if (!table) return;
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach((row, i) => {
+                const p = PERCENTAGES[i] / 100;
+                const cells = row.querySelectorAll('td');
+                cells[1].textContent = `${fmt(calcLoad(sq, p))} kg`;
+                cells[2].textContent = `${fmt(calcLoad(bp, p))} kg`;
+                cells[3].textContent = `${fmt(calcLoad(dl, p))} kg`;
+            });
+        });
+    });
+}
+
+function renderRPEContent() {
+    return `
+        <div class="card">
+            <h3>Échelle RPE – RIR</h3>
+            <div class="table-wrap"><table>
+                <thead><tr><th>RPE</th><th>RIR</th><th>Description</th><th>Sensation</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>10</strong></td><td>0</td><td>Effort maximal</td><td>Aucune rep supplémentaire possible</td></tr>
+                    <tr><td><strong>9.5</strong></td><td>0–1</td><td>Peut-être 1 de plus</td><td>Vitesse très lente, incertain</td></tr>
+                    <tr><td><strong>9</strong></td><td>1</td><td>1 rep en réserve</td><td>Dernière rep lente mais contrôlée</td></tr>
+                    <tr><td><strong>8.5</strong></td><td>1–2</td><td>1-2 reps en réserve</td><td>Start to grind, mais faisable</td></tr>
+                    <tr><td><strong>8</strong></td><td>2</td><td>2 reps en réserve</td><td>Charge lourde, technique solide</td></tr>
+                    <tr><td><strong>7.5</strong></td><td>2–3</td><td>2-3 reps en réserve</td><td>Vitesse correcte</td></tr>
+                    <tr><td><strong>7</strong></td><td>3</td><td>3 reps en réserve</td><td>Charge modérée, rythme fluide</td></tr>
+                    <tr><td><strong>6</strong></td><td>4+</td><td>4+ reps en réserve</td><td>Échauffement / Technique</td></tr>
+                </tbody>
+            </table></div>
+        </div>
+
+        <div class="card">
+            <h3>Règles d'autorégulation</h3>
+            <div class="table-wrap"><table>
+                <thead><tr><th>Situation</th><th>Action</th></tr></thead>
+                <tbody>
+                    <tr><td>RPE réel > RPE cible de +1</td><td>Réduire la charge de 2.5–5 kg pour la série suivante</td></tr>
+                    <tr><td>RPE réel < RPE cible de -1</td><td>Augmenter la charge de 2.5 kg</td></tr>
+                    <tr><td>RPE = cible ± 0.5</td><td>Parfait — conserver la charge</td></tr>
+                    <tr><td>3+ séances avec RPE > 9</td><td>Envisager une mini-décharge (volume -40%)</td></tr>
+                </tbody>
+            </table></div>
+        </div>
+
+        <div class="note-red"><strong>Signaux d'alerte — arrêter la séance si :</strong><br>
+        &bull; Douleur articulaire aiguë (vs. inconfort musculaire normal)<br>
+        &bull; Technique qui se dégrade malgré la réduction de charge<br>
+        &bull; RPE 10 dès la 1ère série de travail<br>
+        &bull; Sensation de vertige ou nausée persistante</div>
+
+        <div class="note"><strong>Bon à savoir :</strong> Les RPE des semaines 1-2 doivent être autour de 7-8. Si tu es régulièrement à 9+, tes 1RM sont probablement surévalués — recalibrer via le Tableau des Charges.</div>
+    `;
 }
