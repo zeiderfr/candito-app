@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
 import { calcWeight } from '@/lib/weightCalc'
-import { CheckCircle2, Circle, Zap } from 'lucide-react'
+import { CheckCircle2, Circle } from 'lucide-react'
 
 type S6Variant = 's6_test' | 's6_dec'
 
@@ -38,28 +38,51 @@ function WeekSelector({
 }: {
   selectedWeekId: string
   s6Variant: S6Variant
+  completedSessions: string[]
   onWeekChange: (weekId: string) => void
   onS6VariantChange: (v: S6Variant) => void
 }) {
   const activePill = getPillForWeekId(selectedWeekId)
+
+  const getDots = (pill: string) => {
+    const weekId = getWeekIdForPill(pill, s6Variant)
+    const week = PROGRAM_DATA[weekId]
+    if (!week) return { total: 0, done: 0 }
+    const total = week.sessions.length
+    const done = week.sessions.filter((s: { id: string }) => completedSessions.includes(s.id)).length
+    return { total, done }
+  }
 
   return (
     <div className="space-y-3">
       <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-1">
         {PILL_WEEKS.map(pill => {
           const isActive = activePill === pill
+          const { total, done } = getDots(pill)
           return (
             <button
               key={pill}
               onClick={() => onWeekChange(getWeekIdForPill(pill, s6Variant))}
               className={cn(
-                "px-5 py-2.5 rounded-pill text-[11px] font-bold uppercase tracking-widest shrink-0 transition-colors duration-200 cursor-pointer",
+                "flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-pill text-[11px] font-bold uppercase tracking-widest shrink-0 transition-colors duration-200 cursor-pointer",
                 isActive
                   ? "bg-accent text-background"
                   : "bg-white/5 text-muted hover:text-white"
               )}
             >
               {pill === 's6' ? 'S6' : WEEK_LABELS[pill]}
+              {total > 0 && (
+                <div className="flex gap-1">
+                  {Array.from({ length: total }).map((_, i) => (
+                    <div key={i} className={cn(
+                      "size-1 rounded-full",
+                      i < done
+                        ? (isActive ? "bg-background/70" : "bg-accent")
+                        : (isActive ? "bg-background/25" : "bg-white/20")
+                    )} />
+                  ))}
+                </div>
+              )}
             </button>
           )
         })}
@@ -69,7 +92,7 @@ function WeekSelector({
       {selectedWeekId.startsWith('s6') && (
         <div className="flex gap-2">
           {([
-            { id: 's6_test' as S6Variant, label: 'Test Maxis' },
+            { id: 's6_test' as S6Variant, label: '⚡ Test Maxis' },
             { id: 's6_dec' as S6Variant, label: 'Décharge' },
           ]).map(v => (
             <button
@@ -80,7 +103,9 @@ function WeekSelector({
               }}
               className={cn(
                 "flex-1 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 cursor-pointer",
-                s6Variant === v.id
+                s6Variant === v.id && v.id === 's6_test'
+                  ? "bg-accent/20 text-accent border border-accent/40"
+                  : s6Variant === v.id
                   ? "bg-white/10 text-white border border-border"
                   : "text-muted hover:text-white"
               )}
@@ -197,6 +222,7 @@ export function Programme() {
       <WeekSelector
         selectedWeekId={selectedWeekId}
         s6Variant={s6Variant}
+        completedSessions={state.progress.completedSessions}
         onWeekChange={setSelectedWeekId}
         onS6VariantChange={setS6Variant}
       />
