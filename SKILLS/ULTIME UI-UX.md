@@ -42,6 +42,8 @@ Compétence tout-en-un qui remplace et fusionne : `baseline-ui`, `ui-ux-pro-max`
 
 ### Anti-patterns design (JAMAIS sauf demande explicite)
 
+*Attitude de l'assistant : Si l'utilisateur demande explicitement un anti-pattern, l'avertir brièvement que cela va à l'encontre des bonnes pratiques UX, mais exécuter la demande s'il insiste.*
+
 - JAMAIS de gradients
 - JAMAIS de gradients violet ou multicolore
 - JAMAIS de glow effects comme affordance principale
@@ -104,6 +106,7 @@ Compétence tout-en-un qui remplace et fusionne : `baseline-ui`, `ui-ux-pro-max`
 ### Système de thème
 
 - Définir les tokens dans des CSS variables : `--color-primary`, `--color-surface`, `--color-text`, `--color-muted`, `--color-border`, `--color-accent`
+- Relier ces variables dans le `tailwind.config.js` pour utiliser des classes sémantiques (`bg-primary`, `text-muted`). Ne JAMAIS hardcoder les variables CSS inline (`style={{ color: 'var(--color-primary)' }}`).
 - Permettre le switch light/dark via une classe ou `prefers-color-scheme`
 
 ---
@@ -340,6 +343,29 @@ Compétence tout-en-un qui remplace et fusionne : `baseline-ui`, `ui-ux-pro-max`
 - État local pour l'UI transitoire (modals, toggles)
 - État global pour les données partagées (user, theme)
 - Dériver l'état du rendu quand possible (pas de `useEffect` inutiles)
+
+### Exemple de Composant Idéal (Few-Shot Reference)
+
+Voici à quoi doit ressembler un composant UI généré par cette compétence :
+
+```tsx
+import { cn } from "@/lib/utils";
+import { Button as BaseButton } from "@base-ui/react";
+
+export function Button({ className, ...props }) {
+  return (
+    <BaseButton
+      className={cn(
+        "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors duration-200",
+        "hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400",
+        "disabled:opacity-50 disabled:pointer-events-none cursor-pointer",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+```
 
 ---
 
