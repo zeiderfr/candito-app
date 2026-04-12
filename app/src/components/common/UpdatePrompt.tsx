@@ -9,9 +9,19 @@ export function UpdatePrompt() {
   const [currentVersion, setCurrentVersion] = useState<string | null>(null)
 
   useEffect(() => {
+    // Variable locale pour éviter les problèmes de closure avec le setInterval
+    let activeVersion: string | null = null
+
     const fetchVersion = async () => {
       try {
-        const res = await fetch(VERSION_URL + '?t=' + Date.now())
+        const res = await fetch(VERSION_URL + '?t=' + Date.now(), {
+          cache: 'no-store', // Force le navigateur à ignorer le cache
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        })
         const data = await res.json()
         return data.version
       } catch (e) {
@@ -19,28 +29,28 @@ export function UpdatePrompt() {
       }
     }
 
-    // 1. Initialisation de la version courante
-    if (!currentVersion) {
-      fetchVersion().then(v => {
-        if (v) {
-          console.log("🚀 Candito App Version Loaded:", v)
-          setCurrentVersion(v)
-        }
-      })
-      return
-    }
 
     const checkUpdate = async () => {
       const latestV = await fetchVersion()
-      if (latestV && latestV !== currentVersion) {
+      if (!latestV) return // Si erreur réseau, on ignore ce cycle
+
+      if (!activeVersion) {
+        console.log("🚀 Candito App Version Loaded:", latestV)
+        activeVersion = latestV
+        setCurrentVersion(latestV)
+      } else if (latestV !== activeVersion) {
         console.log("✨ Nouvelle version détectée !", latestV)
         setShow(true)
       }
     }
 
-    // 2. Vérification périodique et à la reprise de l'app (iOS Background)
+    // 1. Première vérification immédiate
+    checkUpdate()
+
+    // 2. Vérification toutes les 10 secondes (ne meurt jamais)
     const interval = setInterval(checkUpdate, 10000)
 
+    // 3. Vérification à la sortie de veille de l'application
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') checkUpdate()
     }
@@ -50,7 +60,7 @@ export function UpdatePrompt() {
       clearInterval(interval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, [currentVersion])
+  }, []) // Dépendance vide : l'effet se lance une seule fois au montage
 
   const handleUpdate = () => {
     // Force un rechargement complet de l'index.html pour contourner le cache PWA iOS
