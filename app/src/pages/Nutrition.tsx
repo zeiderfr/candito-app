@@ -65,7 +65,7 @@ export function Nutrition() {
   return (
     <div className={cn(
       "flex flex-col gap-6",
-      "animate-in fade-in slide-in-from-bottom-4 duration-500"
+      "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
       {/* Editorial Header */}
       <div className="space-y-1">

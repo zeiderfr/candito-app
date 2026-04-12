@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight } from '@/lib/weightCalc'
-import { AlertTriangle } from 'lucide-react'
+import { PROGRAM_DATA, WEEK_ORDER } from '@/data/program'
+import { AlertTriangle, Plus, Trophy } from 'lucide-react'
 
 type SubTab = 'charges' | 'rpe'
 
