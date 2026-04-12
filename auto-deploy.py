@@ -44,9 +44,13 @@ class DeployHandler(FileSystemEventHandler):
             # 0. Mise à jour de la version pour le cache
             print("  [0/3] Marquage de la nouvelle version...")
             import json
-            v_data = {"version": str(int(time.time()))}
+            build_version = str(int(time.time()))
+            v_data = {"version": build_version}
             with open("app/public/version.json", "w") as f:
                 json.dump(v_data, f)
+            
+            # Injection dans l'environnement pour Vite
+            os.environ["VITE_APP_VERSION"] = build_version
             
             # 1. Build de l'application React
             print("  [1/3] Compilation du code moderne...")

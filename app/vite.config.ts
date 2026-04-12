@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  define: {
+    __APP_VERSION__: JSON.stringify(Date.now().toString()),
+  },
   resolve: {
     alias: {
       '@': '/src',
