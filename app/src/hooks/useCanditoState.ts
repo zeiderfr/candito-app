@@ -14,7 +14,7 @@ const DEFAULT_STATE: CanditoState = {
     completedSessions: [],
     prs: []
   },
-  currentWeekId: 's1s2'
+  currentWeekId: 's1'
 }
 
 export function useCanditoState() {
@@ -43,13 +43,18 @@ export function useCanditoState() {
               completedSessions: [], // Sessions à réinitialiser pour la v2
               prs: Array.isArray(data.prs) ? data.prs : []
             },
-            currentWeekId: 's1s2'
+            currentWeekId: 's1'
           }
         }
 
         // Force Théo name if it was the default "Athlète"
         if (data.athlete && data.athlete.name === 'Athlète') {
           data.athlete.name = 'Théo'
+        }
+
+        // Migration spécifique S1/S2 Split
+        if (data.currentWeekId === 's1s2') {
+          data.currentWeekId = 's2' // Théo entame la S2 demain !
         }
         
         return data

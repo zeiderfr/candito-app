@@ -5,11 +5,12 @@
  */
 import { type Week } from '../types'
 
-export const WEEK_ORDER = ['s1s2', 's3', 's4', 's5', 's6_test', 's6_dec'] as const
+export const WEEK_ORDER = ['s1', 's2', 's3', 's4', 's5', 's6_test', 's6_dec'] as const
 export type WeekId = typeof WEEK_ORDER[number]
 
 export const PROGRAM_METADATA: Record<string, { title: string; subtitle: string }> = {
-  s1s2: { title: 'Semaines 1-2', subtitle: 'Accumulation — 5 séances/semaine — 78-82%' },
+  s1: { title: 'Semaine 1', subtitle: 'Accumulation 1 — Muscular Hypertrophy — 78-82%' },
+  s2: { title: 'Semaine 2', subtitle: 'Accumulation 2 — Muscular Hypertrophy — 78-82%' },
   s3: { title: 'Semaine 3', subtitle: 'Transmutation — 3 séances — 85-88%' },
   s4: { title: 'Semaine 4', subtitle: 'Acclimatation — 3 séances — 90-93%' },
   s5: { title: 'Semaine 5', subtitle: 'Peaking — Tests AMRAP — 95%' },
@@ -20,9 +21,13 @@ export const PROGRAM_METADATA: Record<string, { title: string; subtitle: string 
 // ── COACH MESSAGES ─────────────────────────────────────────────────
 // Message dynamique affiché dans CoachCard selon la semaine active.
 export const COACH_MESSAGES: Record<string, { tone: string; message: string }> = {
-  s1s2: {
+  s1: {
     tone: 'Fondations',
     message: "Construisons les fondations. Volume élevé, RPE contrôlé — la fatigue est normale, c'est le signal que tu progresses.",
+  },
+  s2: {
+    tone: 'Consolidation',
+    message: "Deuxième semaine d'accumulation. Le corps commence à s'adapter au volume — reste rigoureux sur chaque répétition.",
   },
   s3: {
     tone: 'Transition',
@@ -50,7 +55,8 @@ export const COACH_MESSAGES: Record<string, { tone: string; message: string }> =
 // Maps weekId -> { dayOfWeek: sessionId | null }
 // dayOfWeek: 0=Dimanche, 1=Lundi, ..., 6=Samedi
 export const WEEK_SCHEDULE_MAP: Record<string, Record<number, string | null>> = {
-  s1s2:    { 1: 's12_lun', 2: 's12_mar', 3: null, 4: 's12_jeu', 5: 's12_ven', 6: 's12_sam', 0: null },
+  s1:      { 1: 's1_lun', 2: 's1_mar', 3: null, 4: 's1_jeu', 5: 's1_ven', 6: 's1_sam', 0: null },
+  s2:      { 1: 's2_lun', 2: 's2_mar', 3: null, 4: 's2_jeu', 5: 's2_ven', 6: 's2_sam', 0: null },
   s3:      { 1: 's3_lun',  2: 's3_mar',  3: null, 4: null,       5: 's3_ven',  6: null,      0: null },
   s4:      { 1: 's4_lun',  2: 's4_mar',  3: null, 4: null,       5: 's4_ven',  6: null,      0: null },
   s5:      { 1: 's5_lun',  2: 's5_mar',  3: null, 4: null,       5: null,      6: null,      0: null },
@@ -61,13 +67,13 @@ export const WEEK_SCHEDULE_MAP: Record<string, Record<number, string | null>> = 
 // ── PROGRAM DATA ────────────────────────────────────────────────────
 export const PROGRAM_DATA: Record<string, Week> = {
 
-  // ── SEMAINES 1-2 : ACCUMULATION (78-82%) ──────────────────────────
-  s1s2: {
-    id: 's1s2',
-    label: 'Semaines 1-2',
+  // ── SEMAINE 1 : ACCUMULATION (78-82%) ──────────────────────────
+  s1: {
+    id: 's1',
+    label: 'Semaine 1',
     sessions: [
       {
-        id: 's12_lun',
+        id: 's1_lun',
         day: 'Lundi',
         focus: 'Squat & Deadlift',
         status: 'pending',
@@ -80,7 +86,7 @@ export const PROGRAM_DATA: Record<string, Week> = {
         ]
       },
       {
-        id: 's12_mar',
+        id: 's1_mar',
         day: 'Mardi',
         focus: 'Bench & Upper',
         status: 'pending',
@@ -92,7 +98,7 @@ export const PROGRAM_DATA: Record<string, Week> = {
         ]
       },
       {
-        id: 's12_jeu',
+        id: 's1_jeu',
         day: 'Jeudi',
         focus: 'Upper Accessoire',
         status: 'pending',
@@ -104,7 +110,7 @@ export const PROGRAM_DATA: Record<string, Week> = {
         ]
       },
       {
-        id: 's12_ven',
+        id: 's1_ven',
         day: 'Vendredi',
         focus: 'Lower Accessoire',
         status: 'pending',
@@ -116,7 +122,77 @@ export const PROGRAM_DATA: Record<string, Week> = {
         ]
       },
       {
-        id: 's12_sam',
+        id: 's1_sam',
+        day: 'Samedi',
+        focus: 'Bench Volume',
+        status: 'pending',
+        exercises: [
+          { name: 'Développé couché', sets: '3', reps: '6-8', lift: 'bench', percentage: { lo: 0.78, hi: 0.82 } },
+          { name: 'Dév. incliné haltères', sets: '3', reps: '8-12' },
+          { name: 'Élévations latérales', sets: '3', reps: '12-15' },
+          { name: 'Triceps Pushdowns', sets: '3', reps: '10-15' },
+          { name: 'Face Pulls', sets: '3', reps: '15-20' },
+        ]
+      }
+    ]
+  },
+
+  // ── SEMAINE 2 : ACCUMULATION (78-82%) ──────────────────────────
+  s2: {
+    id: 's2',
+    label: 'Semaine 2',
+    sessions: [
+      {
+        id: 's2_lun',
+        day: 'Lundi',
+        focus: 'Squat & Deadlift',
+        status: 'pending',
+        exercises: [
+          { name: 'Squat Low Bar', sets: '4', reps: '6-8', lift: 'squat', percentage: { lo: 0.78, hi: 0.82 } },
+          { name: 'Soulevé de terre', sets: '2', reps: '6', lift: 'deadlift', percentage: { lo: 0.78, hi: 0.82 } },
+          { name: 'Hip Thrust', sets: '3', reps: '8-10' },
+          { name: 'Hack Squat', sets: '3', reps: '8-12' },
+          { name: 'Hanging Leg Raises', sets: '3', reps: '10-15' },
+        ]
+      },
+      {
+        id: 's2_mar',
+        day: 'Mardi',
+        focus: 'Bench & Upper',
+        status: 'pending',
+        exercises: [
+          { name: 'Développé couché', sets: '4', reps: '6-8', lift: 'bench', percentage: { lo: 0.78, hi: 0.82 } },
+          { name: 'Dips', sets: '3', reps: '8-12' },
+          { name: 'Rowing buste penché', sets: '3', reps: '8-12' },
+          { name: 'Face Pulls', sets: '4', reps: '15-20' },
+        ]
+      },
+      {
+        id: 's2_jeu',
+        day: 'Jeudi',
+        focus: 'Upper Accessoire',
+        status: 'pending',
+        exercises: [
+          { name: 'Larsen Press', sets: '4', reps: '8-10', lift: 'bench', percentage: { lo: 0.65, hi: 0.75 } },
+          { name: 'OHP Dév. militaire', sets: '3', reps: '6-8' },
+          { name: 'Tractions', sets: '3', reps: '8-10' },
+          { name: 'Face Pulls', sets: '4', reps: '15-20' },
+        ]
+      },
+      {
+        id: 's2_ven',
+        day: 'Vendredi',
+        focus: 'Lower Accessoire',
+        status: 'pending',
+        exercises: [
+          { name: 'Pause Squat', sets: '3', reps: '8', lift: 'squat', percentage: { lo: 0.68, hi: 0.72 } },
+          { name: 'RDL Romanian DL', sets: '3', reps: '8', lift: 'deadlift', percentage: { lo: 0.65, hi: 0.70 } },
+          { name: 'Nordic Curls', sets: '3', reps: '4-6' },
+          { name: 'Ab Wheel', sets: '3', reps: '10-15' },
+        ]
+      },
+      {
+        id: 's2_sam',
         day: 'Samedi',
         focus: 'Bench Volume',
         status: 'pending',

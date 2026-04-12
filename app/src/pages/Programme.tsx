@@ -9,7 +9,8 @@ type S6Variant = 's6_test' | 's6_dec'
 
 // ── Week display labels for the pill selector ───────────────────────
 const WEEK_LABELS: Record<string, string> = {
-  s1s2: 'S1-2',
+  s1: 'S1',
+  s2: 'S2',
   s3: 'S3',
   s4: 'S4',
   s5: 'S5',
@@ -18,7 +19,7 @@ const WEEK_LABELS: Record<string, string> = {
 }
 
 // Unique pills (S6 is one pill controlling both s6_test and s6_dec)
-const PILL_WEEKS = ['s1s2', 's3', 's4', 's5', 's6'] as const
+const PILL_WEEKS = ['s1', 's2', 's3', 's4', 's5', 's6'] as const
 
 function getWeekIdForPill(pill: string, s6Variant: S6Variant): string {
   return pill === 's6' ? s6Variant : pill
