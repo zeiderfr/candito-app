@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
 import { calcWeight } from '@/lib/weightCalc'
-import { CheckCircle2, Circle } from 'lucide-react'
+import { CheckCircle2, Circle, Zap } from 'lucide-react'
 
 type S6Variant = 's6_test' | 's6_dec'
 
