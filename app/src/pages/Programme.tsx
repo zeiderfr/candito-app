@@ -198,6 +198,24 @@ function SessionCard({
           )
         })}
       </div>
+
+      {/* Bouton démarrer */}
+      {!isCompleted && (
+        <div className="px-5 py-4 border-t border-border">
+          <button
+            onClick={onStart}
+            className={cn(
+              "w-full py-4 rounded-pill text-[11px] font-bold uppercase tracking-widest",
+              "flex items-center justify-center gap-2",
+              "bg-white/5 text-white hover:bg-accent hover:text-background",
+              "transition-colors duration-200 cursor-pointer"
+            )}
+          >
+            <Play size={14} className="fill-current" />
+            Démarrer la séance
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -209,6 +227,7 @@ export function Programme() {
   const [s6Variant, setS6Variant] = useState<S6Variant>(
     state.currentWeekId === 's6_dec' ? 's6_dec' : 's6_test'
   )
+  const [focusSession, setFocusSession] = useState<Session | null>(null)
 
   const weekData = PROGRAM_DATA[selectedWeekId]
   const meta = PROGRAM_METADATA[selectedWeekId]
@@ -257,9 +276,23 @@ export function Programme() {
           session={session}
           isCompleted={state.progress.completedSessions.includes(session.id)}
           onToggle={() => toggleSession(session.id)}
+          onStart={() => setFocusSession(session)}
           rm={state.athlete.rm}
         />
       ))}
+
+      {/* Focus Mode overlay */}
+      {focusSession && (
+        <FocusMode
+          session={focusSession}
+          rm={state.athlete.rm}
+          onClose={() => setFocusSession(null)}
+          onComplete={() => {
+            toggleSession(focusSession.id)
+            setFocusSession(null)
+          }}
+        />
+      )}
 
       {/* Set Current Week Button */}
       <button
