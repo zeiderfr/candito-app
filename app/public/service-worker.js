@@ -35,12 +35,17 @@ self.addEventListener('activate', (event) => {
           // Notifier uniquement si l'utilisateur a accordé la permission
           if (Notification.permission !== 'granted') return;
 
-          return self.registration.showNotification('Candito — Mise à jour', {
-            body: "Nouvelle version installée. Ouvre l'app pour continuer.",
-            icon: '/apple-touch-icon.png',
-            badge: '/apple-touch-icon.png',
-            tag: 'candito-update',   // Déduplique : 1 seule notif visible à la fois
-            renotify: false,
+          return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+            const isVisible = clientList.some(client => client.visibilityState === 'visible');
+            if (isVisible) return; // Ne pas notifier système si l'app est déjà visible
+
+            return self.registration.showNotification('Candito — Mise à jour', {
+              body: "Nouvelle version installée. Ouvre l'app pour continuer.",
+              icon: '/apple-touch-icon.png',
+              badge: '/apple-touch-icon.png',
+              tag: 'candito-update',   // Déduplique : 1 seule notif visible à la fois
+              renotify: false,
+            });
           });
         })
       )

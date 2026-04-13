@@ -8,6 +8,7 @@ export function UpdatePrompt() {
   const [show, setShow] = useState(false)
 
   const triggerNotification = async () => {
+    if (document.visibilityState === 'visible') return
     if (!('Notification' in window)) return
     if (Notification.permission !== 'granted') return
     const reg = await navigator.serviceWorker.getRegistration()
@@ -41,6 +42,8 @@ export function UpdatePrompt() {
       }
     }
 
+    let interval: ReturnType<typeof setInterval>
+
     const checkUpdate = async () => {
       const latestV = await fetchVersion()
       if (!latestV) return
@@ -48,12 +51,13 @@ export function UpdatePrompt() {
       // __APP_VERSION__ injected by Vite at build time
       if (latestV !== __APP_VERSION__) {
         setShow(true)
+        if (interval) clearInterval(interval)
         triggerNotification()
       }
     }
 
     // 1. Initialisation + Polling
-    const interval = setInterval(checkUpdate, 10000)
+    interval = setInterval(checkUpdate, 60000)
     checkUpdate()
 
     // 2. Événements de visibilité (Resumption)
