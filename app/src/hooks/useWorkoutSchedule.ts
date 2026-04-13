@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { useCanditoState } from './useCanditoState'
 import { PROGRAM_DATA, WEEK_SCHEDULE_MAP } from '../data/program'
 import { calcWeight } from '@/lib/weightCalc'
@@ -47,12 +47,12 @@ export function useWorkoutSchedule() {
    * Calcul de la charge arrondie à 2.5kg près.
    * Utilise l'utilitaire partagé calcWeight.
    */
-  const getCalculatedWeight = (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => {
+  const getCalculatedWeight = useCallback((lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => {
     if (!lift) return null
     const rm = state.athlete.rm[lift]
     if (!rm) return 0
     return calcWeight(rm, percentage)
-  }
+  }, [state.athlete.rm])
 
   return {
     workoutState,

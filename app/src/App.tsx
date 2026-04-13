@@ -18,10 +18,19 @@ import { CanditoProvider, useCandito } from '@/context/CanditoContext'
 function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('accueil')
   const { isLoading } = useCandito()
+  const [showSplash, setShowSplash] = useState(true)
 
-  if (isLoading) {
+  // Double check loading state with a minimum duration for UI smoothness
+  useEffect(() => {
+    if (!isLoading) {
+      const timer = setTimeout(() => setShowSplash(false), 600)
+      return () => clearTimeout(timer)
+    }
+  }, [isLoading])
+
+  if (showSplash) {
     return (
-      <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-6 text-center animate-pulse">
+      <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-500">
         <div className="size-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
           <div className="size-8 rounded-full border-2 border-accent border-t-transparent animate-spin" />
         </div>
