@@ -33,6 +33,7 @@ function getPillForWeekId(weekId: string): string {
 function WeekSelector({
   selectedWeekId,
   s6Variant,
+  completedSessions,
   onWeekChange,
   onS6VariantChange,
 }: {
