@@ -168,6 +168,33 @@ function PRSection() {
         </div>
       )}
 
+      {/* Callout estimation 1RM Epley */}
+      {pendingRM && (
+        <div className="px-5 py-4 bg-accent/5 border-b border-accent/20 space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-accent">
+            Estimation 1RM — Formule d'Epley
+          </p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-display text-white italic tabular-nums">{pendingRM.estimated} kg</span>
+            <span className="text-xs text-muted capitalize">{pendingRM.lift}</span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => { updateRM({ [pendingRM.lift]: pendingRM.estimated }); setPendingRM(null) }}
+              className="flex-1 bg-accent hover:bg-[#77cc7b] text-background font-bold uppercase tracking-widest text-[10px] py-2.5 rounded-pill transition-colors duration-200 cursor-pointer"
+            >
+              Mettre à jour → {pendingRM.estimated} kg
+            </button>
+            <button
+              onClick={() => setPendingRM(null)}
+              className="px-4 text-muted hover:text-white text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 cursor-pointer"
+            >
+              Ignorer
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="divide-y divide-border">
         {lastPRs.length === 0 ? (
           <p className="px-5 py-6 text-sm text-muted text-center">Aucun PR enregistré</p>
