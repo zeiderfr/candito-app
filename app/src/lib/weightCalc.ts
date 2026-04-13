@@ -26,7 +26,8 @@ export function suggestNewRM(state: CanditoState): RM {
     let best = state.athlete.rm[lift] // fallback = 1RM actuel
 
     // Parcourir tous les sessionLogs
-    for (const log of state.progress.sessionLogs) {
+    const logs = state.progress?.sessionLogs || []
+    for (const log of logs) {
       for (const ex of log.exercises) {
         // Validation sécurisée prioritairement via paramètre lift
         let isLift = false
@@ -52,7 +53,8 @@ export function suggestNewRM(state: CanditoState): RM {
     }
 
     // Comparer avec les PRs
-    for (const pr of state.progress.prs) {
+    const prs = state.progress?.prs || []
+    for (const pr of prs) {
       if (pr.lift !== lift) continue
       const e1rm = epley(pr.weight, pr.reps)
       if (e1rm > best) best = e1rm
