@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight, epley } from '@/lib/weightCalc'
