@@ -3,7 +3,9 @@ import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight } from '@/lib/weightCalc'
 import { PROGRAM_DATA, WEEK_ORDER } from '@/data/program'
-import { AlertTriangle, Plus, Trophy } from 'lucide-react'
+import { AlertTriangle, Plus, Trophy, Database } from 'lucide-react'
+import { type CanditoState } from '@/types'
+import { useRef } from 'react'
 
 type SubTab = 'charges' | 'rpe'
 
@@ -408,6 +410,178 @@ function RPEPanel() {
   )
 }
 
+// ── RM Chart ─────────────────────────────────────────────────────────
+function RMChart() {
+  const { state } = useCanditoState()
+  const prs = state.progress.prs ?? []
+  if (prs.length === 0) return (
+    <div className="glass rounded-card p-5">
+      <h3 className="text-lg font-display text-white italic">Évolution des 1RM</h3>
+      <p className="text-muted text-sm mt-2">Aucun record enregistré pour tracer l'évolution.</p>
+    </div>
+  )
+
+  const CHART_W = 300, CHART_H = 160
+  const PADDING = { top: 16, right: 16, bottom: 28, left: 32 }
+
+  const LIFTS = [
+    { key: 'squat',    color: 'var(--color-accent)',   label: 'Squat' },
+    { key: 'bench',    color: 'rgba(255,255,255,0.6)', label: 'Bench' },
+    { key: 'deadlift', color: 'rgba(255,255,255,0.3)', label: 'Deadlift' },
+  ] as const
+
+  const dates = [...new Set(prs.map(p => p.date))].sort()
+  const minTime = new Date(dates[0]).getTime()
+  const maxTime = new Date(dates[dates.length - 1]).getTime()
+
+  const weights = prs.map(p => p.weight)
+  const yMin = Math.max(0, Math.floor(Math.min(...weights) / 10) * 10 - 10)
+  const yMax = Math.ceil(Math.max(...weights) / 10) * 10 + 10
+
+  const xScale = (date: string): number => {
+    if (dates.length < 2) return PADDING.left + (CHART_W - PADDING.left - PADDING.right) / 2
+    const ratio = (new Date(date).getTime() - minTime) / (maxTime - minTime)
+    return PADDING.left + ratio * (CHART_W - PADDING.left - PADDING.right)
+  }
+  const yScale = (weight: number): number => {
+    const ratio = (weight - yMin) / (yMax - yMin)
+    return CHART_H - PADDING.bottom - ratio * (CHART_H - PADDING.top - PADDING.bottom)
+  }
+
+  return (
+    <div className="glass rounded-card p-5 space-y-4">
+      <h3 className="text-lg font-display text-white italic">Évolution des 1RM</h3>
+      <svg viewBox={`0 0 ${CHART_W} ${CHART_H}`} preserveAspectRatio="xMidYMid meet" className="w-full">
+        {/* Y Grid */}
+        {[yMin, (yMin + yMax) / 2, yMax].map(y => {
+          const yPos = yScale(y)
+          return (
+            <g key={y}>
+              <line x1={PADDING.left} y1={yPos} x2={CHART_W - PADDING.right} y2={yPos} stroke="rgba(255,255,255,0.06)" />
+              <text x={0} y={yPos + 3} fill="rgba(255,255,255,0.3)" fontSize={9} fontFamily="sans-serif">{y}</text>
+            </g>
+          )
+        })}
+
+        {/* X Labels */}
+        {dates.length > 1 && [dates[0], dates[dates.length - 1]].map(d => (
+          <text key={d} x={xScale(d)} y={CHART_H} fill="rgba(255,255,255,0.3)" fontSize={9} fontFamily="sans-serif" textAnchor="middle">
+            {new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}
+          </text>
+        ))}
+
+        {/* Lignes & Points */}
+        {LIFTS.map(lift => {
+          const data = prs.filter(p => p.lift === lift.key)
+          if (data.length === 0) return null
+          
+          const pointsStr = data.map(p => `${xScale(p.date)},${yScale(p.weight)}`).join(' ')
+          
+          return (
+            <g key={lift.key}>
+              {data.length > 1 && (
+                <polyline 
+                  points={pointsStr}
+                  fill="none"
+                  stroke={lift.color}
+                  strokeWidth={1.5}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              )}
+              {data.map((p, i) => (
+                <circle key={i} cx={xScale(p.date)} cy={yScale(p.weight)} r={3} fill={lift.color} />
+              ))}
+            </g>
+          )
+        })}
+      </svg>
+      {/* Légende */}
+      <div className="flex gap-4 justify-center">
+        {LIFTS.map(l => (
+          <div key={l.key} className="flex items-center gap-1.5">
+            <span className="size-2 rounded-full" style={{ backgroundColor: l.color }} />
+            <span className="text-[10px] text-muted">{l.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Backup Section ────────────────────────────────────────────────────
+function BackupSection() {
+  const { state, importState } = useCanditoState()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [importStatus, setImportStatus] = useState<'success' | string | null>(null)
+
+  const handleExport = () => {
+    const json = JSON.stringify(state, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `candito-${new Date().toISOString().split('T')[0]}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleShare = async () => {
+    if (!navigator.share) { handleExport(); return }
+    const json = JSON.stringify(state, null, 2)
+    const file = new File([json], `candito-${Date.now()}.json`, { type: 'application/json' })
+    try {
+      await navigator.share({ files: [file], title: 'Sauvegarde Candito' })
+    } catch {
+      handleExport()
+    }
+  }
+
+  const handleImport = (file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target?.result as string) as CanditoState
+        if (!data.athlete?.rm || !data.progress?.completedSessions) throw new Error('Structure invalide')
+        data.progress.sessionLogs = data.progress.sessionLogs ?? []
+        importState(data)
+        setImportStatus('success')
+      } catch (err) {
+        setImportStatus(err instanceof Error ? err.message : 'Fichier invalide')
+      }
+    }
+    reader.onerror = () => setImportStatus('Impossible de lire le fichier')
+    reader.readAsText(file)
+  }
+
+  return (
+    <div className="glass rounded-card p-5 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+          <Database size={16} />
+        </div>
+        <h3 className="text-lg font-display text-white italic">Sauvegarde</h3>
+      </div>
+      <div className="flex gap-2">
+        <button onClick={handleShare} className="flex-1 bg-white/5 hover:bg-white/10 text-white text-[11px] font-bold uppercase tracking-widest py-3 rounded-pill transition-colors cursor-pointer">
+          Exporter
+        </button>
+        <button onClick={() => fileInputRef.current?.click()} className="flex-1 bg-white/5 hover:bg-white/10 text-white text-[11px] font-bold uppercase tracking-widest py-3 rounded-pill transition-colors cursor-pointer">
+          Importer une sauvegarde
+        </button>
+      </div>
+      <input type="file" ref={fileInputRef} className="hidden" accept=".json" onChange={e => {
+        if (e.target.files?.[0]) handleImport(e.target.files[0])
+        e.target.value = ''
+      }} />
+      {importStatus === 'success' && <p className="text-xs text-accent text-center mt-2">Sauvegarde restaurée ✓</p>}
+      {importStatus && importStatus !== 'success' && <p className="text-xs text-danger text-center mt-2">{importStatus}</p>}
+    </div>
+  )
+}
+
 // ── Main Export ──────────────────────────────────────────────────────
 export function Progres() {
   const { state } = useCanditoState()
@@ -430,11 +604,14 @@ export function Progres() {
 
       <SessionTimeline completedSessions={state.progress.completedSessions} />
 
+      <RMChart />
       <PRSection />
 
       <SubTabBar active={activeTab} onChange={setActiveTab} />
 
       {activeTab === 'charges' ? <ChargesPanel /> : <RPEPanel />}
+
+      <BackupSection />
     </div>
   )
 }
