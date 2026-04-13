@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { X, CheckCircle2, ChevronRight } from 'lucide-react'
-import { type Session } from '@/types'
+import { type Session, type SessionLog, type SetLog } from '@/types'
 import { calcWeight } from '@/lib/weightCalc'
 
 interface FocusModeProps {
   session: Session
   rm: { squat: number; bench: number; deadlift: number }
   onClose: () => void
-  onComplete: () => void
+  onComplete: (log: SessionLog) => void
 }
 
 export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) {
   const [exIdx, setExIdx] = useState(0)
   const [setsDone, setSetsDone] = useState(0)
+  const [setLogs, setSetLogs] = useState<Record<number, SetLog[]>>({})
+  const [pendingSet, setPendingSet] = useState<{
+    weight: string
+    rpe: number | null
+  } | null>(null)
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
 
   // Screen Wake Lock — empêche l'écran de se verrouiller pendant la séance
@@ -53,19 +58,30 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
   const handleAction = () => {
     if (!allSetsDone) {
-      // Incrémenter le compteur de séries
-      setSetsDone(s => s + 1)
+      setPendingSet({ weight: weight && weight > 0 ? String(weight) : '', rpe: null })
     } else if (!isLastExercise) {
-      // Passer à l'exercice suivant
       setExIdx(i => i + 1)
       setSetsDone(0)
     } else {
-      // Toute la séance est terminée
-      onComplete()
+      const log: SessionLog = {
+        sessionId: session.id,
+        date: new Date().toISOString().split('T')[0],
+        exercises: session.exercises.map((ex, i) => ({
+          exerciseName: ex.name,
+          sets: setLogs[i] ?? []
+        }))
+      }
+      onComplete(log)
     }
   }
 
   const isCompleting = allSetsDone && isLastExercise
+
+  const handleClose = () => {
+    setSetLogs({})
+    setPendingSet(null)
+    onClose()
+  }
 
   return (
     <div data-no-swipe className={cn(
@@ -81,7 +97,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           <p className="text-sm text-white/50 mt-0.5 font-display italic">{session.focus}</p>
         </div>
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="size-10 rounded-full bg-white/5 flex items-center justify-center text-muted hover:text-white transition-colors duration-200 cursor-pointer mt-0.5"
           aria-label="Quitter le mode séance"
         >
@@ -173,6 +189,75 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </button>
         )}
       </div>
+
+      {pendingSet && (
+        <div className="fixed bottom-0 left-0 right-0 z-[60] px-6 pb-10 pt-6 bg-surface/95 backdrop-blur-xl rounded-t-[24px] animate-in slide-in-from-bottom-4 duration-300">
+          <div className="text-center space-y-6">
+            <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
+                <input 
+                  type="number" 
+                  inputMode="decimal"
+                  value={pendingSet.weight}
+                  onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
+                  placeholder="—"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">RPE (optionnel)</label>
+                <div className="flex items-center justify-between gap-1">
+                  {[6, 7, 7.5, 8, 8.5, 9, 10].map(r => (
+                     <button
+                       key={r}
+                       onClick={() => setPendingSet(p => p ? { ...p, rpe: p.rpe === r ? null : r } : null)}
+                       className={cn(
+                         "flex-1 h-10 rounded-full text-[11px] font-bold font-display flex items-center justify-center transition-colors cursor-pointer",
+                         pendingSet.rpe === r ? "bg-accent text-background" : "bg-white/5 text-muted hover:text-white"
+                       )}
+                     >
+                       {r}
+                     </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setSetLogs(prev => ({
+                    ...prev,
+                    [exIdx]: [...(prev[exIdx] ?? []), { weight: null, reps: totalSets, rpe: null }]
+                  }))
+                  setSetsDone(s => s + 1)
+                  setPendingSet(null)
+                }}
+                className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
+              >
+                Passer
+              </button>
+              <button
+                onClick={() => {
+                  setSetLogs(prev => ({
+                    ...prev,
+                    [exIdx]: [...(prev[exIdx] ?? []), { weight: parseFloat(pendingSet.weight) || null, reps: totalSets, rpe: pendingSet.rpe }]
+                  }))
+                  setSetsDone(s => s + 1)
+                  setPendingSet(null)
+                }}
+                className="flex-[2] bg-accent hover:bg-[#77cc7b] py-3 rounded-pill text-background text-xs font-bold uppercase tracking-widest transition-colors shadow-lg shadow-accent/20 cursor-pointer"
+              >
+                OK ✓
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

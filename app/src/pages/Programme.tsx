@@ -222,7 +222,7 @@ function SessionCard({
 
 // ── Main Export ──────────────────────────────────────────────────────
 export function Programme() {
-  const { state, toggleSession, setCurrentWeek } = useCanditoState()
+  const { state, toggleSession, setCurrentWeek, logSession } = useCanditoState()
   const [selectedWeekId, setSelectedWeekId] = useState(state.currentWeekId)
   const [s6Variant, setS6Variant] = useState<S6Variant>(
     state.currentWeekId === 's6_dec' ? 's6_dec' : 's6_test'
@@ -287,7 +287,8 @@ export function Programme() {
           session={focusSession}
           rm={state.athlete.rm}
           onClose={() => setFocusSession(null)}
-          onComplete={() => {
+          onComplete={(log) => {
+            logSession(log)
             toggleSession(focusSession.id)
             setFocusSession(null)
           }}
