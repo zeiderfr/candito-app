@@ -234,7 +234,7 @@ function ChargesPanel() {
           onChange={e => setLocalName(e.target.value)}
           onBlur={() => updateName(localName)}
           placeholder="Ex: Théo"
-          className="bg-white/5 border border-border rounded-input py-3 px-4 text-base font-display text-white w-full focus:border-accent/50 transition-colors"
+          className="bg-white/5 border border-border rounded-input py-3 px-4 text-base font-display text-white w-full focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/60 transition-colors"
         />
       </div>
 
@@ -251,7 +251,7 @@ function ChargesPanel() {
               value={localRM[lift]}
               onChange={e => setLocalRM(prev => ({ ...prev, [lift]: e.target.value }))}
               onBlur={() => handleBlur(lift)}
-              className="bg-white/5 border border-border rounded-input py-3 text-center text-xl font-display text-white w-full tabular-nums focus:border-accent/50 transition-colors"
+              className="bg-white/5 border border-border rounded-input py-3 text-center text-xl font-display text-white w-full tabular-nums focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/60 transition-colors"
             />
             <span className="text-[9px] text-muted text-center">kg</span>
           </div>
