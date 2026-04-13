@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Smartphone, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent)
 const isAndroid = () => /android/i.test(navigator.userAgent)
