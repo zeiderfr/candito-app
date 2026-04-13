@@ -582,10 +582,89 @@ function BackupSection() {
   )
 }
 
+// ── Cycle History Section ─────────────────────────────────────────────
+function CycleHistorySection() {
+  const { state } = useCanditoState()
+  const [expanded, setExpanded] = useState(false)
+  const history = state.cycleHistory ?? []
+
+  if (history.length === 0) return null
+
+  return (
+    <div className="glass rounded-card overflow-hidden">
+      <button
+        onClick={() => setExpanded(v => !v)}
+        className="w-full px-5 py-4 flex items-center justify-between cursor-pointer"
+      >
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded-lg bg-white/5 flex items-center justify-center text-muted">
+            <RefreshCw size={15} />
+          </div>
+          <div className="text-left">
+            <p className="text-sm text-white font-medium">Cycles précédents</p>
+            <p className="text-[10px] text-muted mt-0.5">{history.length} cycle{history.length > 1 ? 's' : ''} archivé{history.length > 1 ? 's' : ''}</p>
+          </div>
+        </div>
+        {expanded ? <ChevronUp size={16} className="text-muted" /> : <ChevronDown size={16} className="text-muted" />}
+      </button>
+
+      {expanded && (
+        <div className="border-t border-border divide-y divide-border">
+          {[...history].reverse().map(cycle => {
+            const total = cycle.rm.squat + cycle.rm.bench + cycle.rm.deadlift
+            const totalSessions = Object.values(PROGRAM_DATA).reduce(
+              (acc, w) => acc + w.sessions.length, 0
+            )
+            const done = cycle.completedSessions.length
+            return (
+              <div key={cycle.id} className="px-5 py-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-white font-semibold">Cycle {cycle.number}</p>
+                    <p className="text-[10px] text-muted mt-0.5">
+                      {cycle.startDate} → {cycle.endDate}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-accent font-bold tabular-nums">{total} kg</p>
+                    <p className="text-[10px] text-muted">total</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {(['squat', 'bench', 'deadlift'] as const).map(lift => (
+                    <div key={lift} className="bg-white/5 rounded-lg px-3 py-2 text-center">
+                      <p className="text-[9px] text-muted uppercase tracking-wider">{lift === 'deadlift' ? 'DL' : lift}</p>
+                      <p className="text-white font-bold tabular-nums text-sm mt-0.5">{cycle.rm[lift]} kg</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-accent/50 rounded-full transition-all"
+                      style={{ width: `${Math.min(100, (done / totalSessions) * 100)}%` }}
+                    />
+                  </div>
+                  <span className="text-[10px] text-muted tabular-nums shrink-0">{done}/{totalSessions}</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Main Export ──────────────────────────────────────────────────────
 export function Progres() {
-  const { state } = useCanditoState()
+  const { state, startNewCycle, suggestNewRM } = useCanditoState()
   const [activeTab, setActiveTab] = useState<SubTab>('charges')
+  const [showNewCycleModal, setShowNewCycleModal] = useState(false)
+
+  const totalSessions = Object.values(PROGRAM_DATA).reduce((acc, w) => acc + w.sessions.length, 0)
+  const doneSessions = state.progress.completedSessions.length
+  const cycleComplete = doneSessions >= totalSessions
 
   return (
     <div className={cn(
@@ -593,13 +672,27 @@ export function Progres() {
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
       {/* Editorial Header */}
-      <div className="space-y-1">
-        <h1 className="text-4xl font-display text-white italic tracking-tight">
-          Progrès
-        </h1>
-        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
-          Suivi des charges et autorégulation
-        </p>
+      <div className="flex items-start justify-between">
+        <div className="space-y-1">
+          <h1 className="text-4xl font-display text-white italic tracking-tight">
+            Progrès
+          </h1>
+          <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
+            Cycle {state.cycleNumber ?? 1} — {doneSessions}/{totalSessions} sessions
+          </p>
+        </div>
+        <button
+          onClick={() => setShowNewCycleModal(true)}
+          className={cn(
+            "flex items-center gap-2 px-3 py-2 rounded-xl border transition-colors duration-200 cursor-pointer",
+            cycleComplete
+              ? "bg-accent/10 border-accent/40 text-accent"
+              : "bg-white/5 border-border text-muted hover:text-white hover:border-white/20"
+          )}
+        >
+          <RefreshCw size={14} />
+          <span className="text-[10px] font-bold uppercase tracking-widest">Nouveau cycle</span>
+        </button>
       </div>
 
       <SessionTimeline completedSessions={state.progress.completedSessions} />
@@ -611,7 +704,17 @@ export function Progres() {
 
       {activeTab === 'charges' ? <ChargesPanel /> : <RPEPanel />}
 
+      <CycleHistorySection />
       <BackupSection />
+
+      <NewCycleModal
+        isOpen={showNewCycleModal}
+        onClose={() => setShowNewCycleModal(false)}
+        cycleNumber={state.cycleNumber ?? 1}
+        suggestedRM={suggestNewRM()}
+        currentRM={state.athlete.rm}
+        onConfirm={startNewCycle}
+      />
     </div>
   )
 }
