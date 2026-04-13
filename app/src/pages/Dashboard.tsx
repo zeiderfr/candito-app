@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils'
 import { CoachCard } from '@/components/dashboard/CoachCard'
 import { NotificationBanner } from '@/components/common/NotificationBanner'
+import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
 import { useCanditoState } from '@/hooks/useCanditoState'
@@ -29,6 +30,7 @@ export function Dashboard() {
         <CoachCard />
 
         <NotificationBanner />
+        <InstallBanner />
 
         <NextSessionHero
           workoutState={workoutState}
