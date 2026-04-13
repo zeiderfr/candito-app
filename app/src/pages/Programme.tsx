@@ -127,11 +127,13 @@ function SessionCard({
   session,
   isCompleted,
   onToggle,
+  onStart,
   rm,
 }: {
-  session: { id: string; day?: string; focus: string; exercises: { name: string; sets: string; reps?: string; lift?: 'squat' | 'bench' | 'deadlift'; percentage?: { lo: number; hi: number } }[] }
+  session: Session
   isCompleted: boolean
   onToggle: () => void
+  onStart: () => void
   rm: { squat: number; bench: number; deadlift: number }
 }) {
   const isPeakSession = session.id.startsWith('s6_test')
