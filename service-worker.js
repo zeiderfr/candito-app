@@ -4,17 +4,29 @@ const VERSION_URL = '/version.json';
 
 // ── INSTALL ───────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
-  self.skipWaiting(); // Force l'activation immédiate du nouveau Service Worker
-
-  // Détecter si c'est une mise à jour (flag dans le cache)
   event.waitUntil(
     caches.open(META_CACHE).then(cache =>
       cache.match('installed').then(existing => {
         if (existing) {
-          // Deuxième install+ → c'est une mise à jour
-          return cache.put('is-update', new Response('true'));
+          // C'est une mise à jour, on ne skipWaiting pas pour laisser le choix à l'utilisateur.
+          // On affiche la notification si l'app n'est pas au premier plan.
+          if (Notification.permission === 'granted') {
+            return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+              const isVisible = clientList.some(client => client.visibilityState === 'visible');
+              if (isVisible) return; // Pop-up in-app se chargera de notifier
+
+              return self.registration.showNotification('Candito — Mise à jour', {
+                body: "Nouvelle version disponible. Ouvre l'app pour l'installer.",
+                icon: '/apple-touch-icon.png',
+                badge: '/apple-touch-icon.png',
+                tag: 'candito-update',
+                renotify: false,
+              });
+            });
+          }
         } else {
           // Toute première installation
+          self.skipWaiting();
           return cache.put('installed', new Response('true'));
         }
       })
@@ -25,26 +37,7 @@ self.addEventListener('install', (event) => {
 // ── ACTIVATE ──────────────────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    clients.claim().then(() =>
-      caches.open(META_CACHE).then(cache =>
-        cache.match('is-update').then(isUpdate => {
-          if (!isUpdate) return; // Première installation → pas de notification
-
-          cache.delete('is-update'); // Nettoyer le flag
-
-          // Notifier uniquement si l'utilisateur a accordé la permission
-          if (Notification.permission !== 'granted') return;
-
-          return self.registration.showNotification('Candito — Mise à jour', {
-            body: "Nouvelle version installée. Ouvre l'app pour continuer.",
-            icon: '/apple-touch-icon.png',
-            badge: '/apple-touch-icon.png',
-            tag: 'candito-update',   // Déduplique : 1 seule notif visible à la fois
-            renotify: false,
-          });
-        })
-      )
-    )
+    clients.claim()
   );
 });
 
