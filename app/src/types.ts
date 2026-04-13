@@ -67,6 +67,17 @@ export interface SessionLog {
   exercises: ExerciseLog[]
 }
 
+export interface CycleSnapshot {
+  id: string             // 'cycle_1', 'cycle_2', ...
+  number: number
+  startDate: string      // ISO YYYY-MM-DD
+  endDate: string        // ISO YYYY-MM-DD
+  rm: RM                 // 1RM utilisés pour ce cycle
+  completedSessions: string[]
+  prs: PR[]
+  sessionLogs: SessionLog[]
+}
+
 export interface CanditoState {
   version: number
   initialized: boolean
@@ -74,6 +85,9 @@ export interface CanditoState {
     name: string
     rm: RM
   }
+  cycleNumber: number          // Numéro du cycle actuel (commence à 1)
+  cycleStartDate: string       // Date de début du cycle actuel (ISO)
+  cycleHistory: CycleSnapshot[] // Cycles archivés
   progress: {
     completedSessions: string[] // IDs des sessions terminées
     prs: PR[]
