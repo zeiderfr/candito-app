@@ -1,21 +1,78 @@
 import { useState, useEffect, useCallback } from 'react'
-import { type CanditoState, type RM, type PR, type SessionLog } from '../types'
+import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog } from '../types'
 
 const STORAGE_KEY = 'candito_tracker_data'
 
+const TODAY = (): string => new Date().toISOString().split('T')[0]
+
 const DEFAULT_STATE: CanditoState = {
-  version: 1,
+  version: 4,
   initialized: false,
   athlete: {
     name: 'Théo',
     rm: { squat: 150, bench: 110, deadlift: 170 }
   },
+  cycleNumber: 1,
+  cycleStartDate: TODAY(),
+  cycleHistory: [],
   progress: {
     completedSessions: [],
     prs: [],
     sessionLogs: []
   },
   currentWeekId: 's1'
+}
+
+// ── EPLEY 1RM SUGGESTION ─────────────────────────────────────────────────────
+// e1RM = weight * (1 + reps/30), arrondi au 2.5kg supérieur
+function epley(weight: number, reps: number): number {
+  if (reps <= 0 || weight <= 0) return 0
+  if (reps === 1) return weight
+  return weight * (1 + reps / 30)
+}
+
+function roundUp2_5(value: number): number {
+  return Math.ceil(value / 2.5) * 2.5
+}
+
+export function suggestNewRM(state: CanditoState): RM {
+  const lifts: Array<'squat' | 'bench' | 'deadlift'> = ['squat', 'bench', 'deadlift']
+  const result: RM = { squat: 0, bench: 0, deadlift: 0 }
+
+  for (const lift of lifts) {
+    let best = state.athlete.rm[lift] // fallback = 1RM actuel
+
+    // Parcourir tous les sessionLogs
+    for (const log of state.progress.sessionLogs) {
+      for (const ex of log.exercises) {
+        // Identifier le mouvement principal par nom (squat, bench, deadlift)
+        const nameLower = ex.exerciseName.toLowerCase()
+        const isLift =
+          (lift === 'squat' && (nameLower.includes('squat') || nameLower.includes('box'))) ||
+          (lift === 'bench' && nameLower.includes('bench')) ||
+          (lift === 'deadlift' && (nameLower.includes('deadlift') || nameLower.includes('soulevé')))
+
+        if (!isLift) continue
+
+        for (const set of ex.sets) {
+          if (!set.weight || set.reps <= 0) continue
+          const e1rm = epley(set.weight, set.reps)
+          if (e1rm > best) best = e1rm
+        }
+      }
+    }
+
+    // Comparer avec les PRs
+    for (const pr of state.progress.prs) {
+      if (pr.lift !== lift) continue
+      const e1rm = epley(pr.weight, pr.reps)
+      if (e1rm > best) best = e1rm
+    }
+
+    result[lift] = roundUp2_5(best)
+  }
+
+  return result
 }
 
 export function useCanditoState() {
@@ -55,12 +112,20 @@ export function useCanditoState() {
 
         // Migration spécifique S1/S2 Split
         if (data.currentWeekId === 's1s2') {
-          data.currentWeekId = 's2' // Théo entame la S2 demain !
+          data.currentWeekId = 's2'
         }
-        
+
         // Migration pour le nouveau champ sessionLogs (v3 implicite)
         data.progress.sessionLogs = data.progress.sessionLogs ?? []
-        
+
+        // ── MIGRATION v4 — Multi-cycles ──────────────────────────────────────
+        if (!data.cycleNumber) {
+          data.cycleNumber = 1
+          data.cycleStartDate = TODAY()
+          data.cycleHistory = []
+          data.version = 4
+        }
+
         return data
       } catch (e) {
         console.error("Failed to parse Candito state", e)
@@ -154,6 +219,31 @@ export function useCanditoState() {
     setState(data)
   }, [])
 
+  const startNewCycle = useCallback((newRM: RM) => {
+    setState(prev => {
+      const snapshot: CycleSnapshot = {
+        id: `cycle_${prev.cycleNumber}`,
+        number: prev.cycleNumber,
+        startDate: prev.cycleStartDate ?? TODAY(),
+        endDate: TODAY(),
+        rm: prev.athlete.rm,
+        completedSessions: prev.progress.completedSessions,
+        prs: prev.progress.prs,
+        sessionLogs: prev.progress.sessionLogs,
+      }
+      return {
+        ...prev,
+        version: 4,
+        athlete: { ...prev.athlete, rm: newRM },
+        cycleNumber: prev.cycleNumber + 1,
+        cycleStartDate: TODAY(),
+        cycleHistory: [...(prev.cycleHistory ?? []), snapshot],
+        currentWeekId: 's1',
+        progress: { completedSessions: [], prs: [], sessionLogs: [] },
+      }
+    })
+  }, [])
+
   return {
     state,
     updateRM,
@@ -164,6 +254,8 @@ export function useCanditoState() {
     addPR,
     logSession,
     importState,
+    startNewCycle,
+    suggestNewRM: () => suggestNewRM(state),
     isInitialized: state.initialized
   }
 }
