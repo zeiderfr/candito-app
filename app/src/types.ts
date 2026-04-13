@@ -58,6 +58,7 @@ export interface SetLog {
 
 export interface ExerciseLog {
   exerciseName: string
+  lift?: 'squat' | 'bench' | 'deadlift'
   sets: SetLog[]
 }
 
