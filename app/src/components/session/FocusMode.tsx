@@ -68,6 +68,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
         date: new Date().toISOString().split('T')[0],
         exercises: session.exercises.map((ex, i) => ({
           exerciseName: ex.name,
+          lift: ex.lift,
           sets: setLogs[i] ?? []
         }))
       }
