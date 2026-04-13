@@ -18,7 +18,7 @@ export function Dashboard() {
       {/* Editorial Header */}
       <div className="space-y-1">
         <h1 className="text-4xl font-display text-white italic tracking-tight">
-          Tableau de bord
+          Tableau de bord...
         </h1>
         <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
             {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}
