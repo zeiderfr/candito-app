@@ -137,6 +137,23 @@ export function useCanditoState() {
     }))
   }, [])
 
+  const logSession = useCallback((log: SessionLog) => {
+    setState(prev => ({
+      ...prev,
+      progress: {
+        ...prev.progress,
+        sessionLogs: [
+          ...prev.progress.sessionLogs.filter(l => l.sessionId !== log.sessionId),
+          log
+        ]
+      }
+    }))
+  }, [])
+
+  const importState = useCallback((data: CanditoState) => {
+    setState(data)
+  }, [])
+
   return {
     state,
     updateRM,
