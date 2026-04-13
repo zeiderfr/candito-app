@@ -6,6 +6,7 @@ const VERSION_URL = '/version.json'
 
 export function UpdatePrompt() {
   const [show, setShow] = useState(false)
+  const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(null)
 
   const triggerNotification = async () => {
     if (document.visibilityState === 'visible') return
@@ -50,9 +51,16 @@ export function UpdatePrompt() {
 
       // __APP_VERSION__ injected by Vite at build time
       if (latestV !== __APP_VERSION__) {
-        setShow(true)
         if (interval) clearInterval(interval)
         triggerNotification()
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.ready.then(reg => {
+            reg.update()
+          })
+        } else {
+          setShow(true)
+        }
       }
     }
 
@@ -67,16 +75,31 @@ export function UpdatePrompt() {
     document.addEventListener('visibilitychange', handleVisible)
 
     // 3. Liaison avec le Service Worker
+    let refreshing = false
     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true
+          window.location.reload()
+        }
+      })
+
       navigator.serviceWorker.getRegistration().then(reg => {
         if (!reg) return
         
+        // S'il y a déjà un SW en attente au chargement
+        if (reg.waiting) {
+          setWaitingWorker(reg.waiting)
+          setShow(true)
+        }
+
         // Détecte si un nouveau SW est en attente
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                setWaitingWorker(newWorker)
                 setShow(true)
               }
             })
@@ -92,8 +115,12 @@ export function UpdatePrompt() {
   }, [])
 
   const handleUpdate = () => {
-    // Force reload with cache bypass
-    window.location.href = window.location.pathname + '?update=' + Date.now()
+    if (waitingWorker) {
+      waitingWorker.postMessage({ type: 'SKIP_WAITING' })
+    } else {
+      // Force reload with cache bypass
+      window.location.href = window.location.pathname + '?update=' + Date.now()
+    }
   }
 
 
