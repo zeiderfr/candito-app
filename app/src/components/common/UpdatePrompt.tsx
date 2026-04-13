@@ -7,6 +7,18 @@ const VERSION_URL = '/version.json'
 export function UpdatePrompt() {
   const [show, setShow] = useState(false)
 
+  const triggerNotification = async () => {
+    if (!('Notification' in window)) return
+    if (Notification.permission !== 'granted') return
+    const reg = await navigator.serviceWorker.getRegistration()
+    if (!reg) return
+    reg.showNotification('Candito — Mise à jour disponible', {
+      body: 'Une nouvelle version du programme est prête.',
+      icon: '/apple-touch-icon.png',
+      tag: 'candito-update',
+    })
+  }
+
   useEffect(() => {
     // En mode développement, pas de vérification de mise à jour
     // (la version injectée par Vite ne correspondra jamais à version.json)
@@ -74,19 +86,6 @@ export function UpdatePrompt() {
       document.removeEventListener('visibilitychange', handleVisible)
     }
   }, [])
-
-  const triggerNotification = async () => {
-    if (!('Notification' in window)) return
-    if (Notification.permission !== 'granted') return
-    const reg = await navigator.serviceWorker.getRegistration()
-    if (!reg) return
-    // tag: 'candito-update' déduplique avec la notif du SW (1 seule visible)
-    reg.showNotification('Candito — Mise à jour disponible', {
-      body: 'Une nouvelle version du programme est prête.',
-      icon: '/apple-touch-icon.png',
-      tag: 'candito-update',
-    })
-  }
 
   const handleUpdate = () => {
     // Force reload with cache bypass
