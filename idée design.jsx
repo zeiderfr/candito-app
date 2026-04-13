@@ -373,8 +373,94 @@ export default function CFAPresentation(){
           </div>
         )}
 
-        {["protocol", "exercises", "warning", "plan", "end"].includes(s.type) && (
-             <div className="text-white/20 italic text-sm text-center py-20">Rendu du module {s.type} optimisé</div>
+        {s.type === "protocol" && (
+          <div>
+            <Tag label={s.tag} IconComp={s.icon} />
+            <div className="flex items-baseline gap-4 mb-2">
+              <h2 className="font-display text-3xl text-white leading-tight">{s.title}</h2>
+              <span className="text-sm text-white/20">{s.period}</span>
+            </div>
+            <div className="space-y-2.5">
+              {s.letters.map((l, i) => (
+                <Card key={i} className="flex gap-4 items-start p-4">
+                  <div className="lb">{l.letter}</div>
+                  <div className="flex-1">
+                    <div className="font-bold text-[15px] text-white/90 mb-0.5">{l.word}</div>
+                    <p className="text-xs leading-relaxed text-white/35 text-pretty">{l.desc}</p>
+                  </div>
+                  <l.Icon size={14} className="text-white/10 shrink-0 mt-1" strokeWidth={1.5} />
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {s.type === "exercises" && (
+          <div>
+            <Tag label={s.tag} IconComp={s.icon} />
+            <div className="flex items-baseline gap-4 mb-5">
+              <h2 className="font-display text-3xl text-white leading-tight">{s.title}</h2>
+              <span className="text-[10px] text-accent font-bold bg-accent/10 px-3 py-1 rounded-full">{s.freq}</span>
+            </div>
+            <div className="space-y-2">
+              {s.exercises.map((ex, i) => (
+                <Card key={i} border="#66bb6a" className="flex items-center gap-4 p-4 border-l-2">
+                  <ChevronRight size={14} className="text-accent shrink-0" strokeWidth={2} />
+                  <div className="flex-1">
+                    <span className="font-bold text-white/90 text-sm">{ex.name}</span>
+                    <span className="text-xs text-white/25 ml-2.5 italic">{ex.note}</span>
+                  </div>
+                  <div className="font-display text-lg text-accent shrink-0 tabular-nums">{ex.sets}</div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {s.type === "warning" && (
+          <div>
+            <Tag label={s.tag} variant="red" IconComp={s.icon} />
+            <h2 className="font-display text-3xl text-white leading-tight mb-6">{s.title}</h2>
+            <div className="space-y-2">
+              {s.items.map((it, i) => (
+                <Card key={i} border="#ef5350" className="flex items-center gap-4 p-4 border-l-2">
+                  <ShieldAlert size={16} className="text-red-400 shrink-0" strokeWidth={1.5} />
+                  <span className="text-[15px] text-red-200/70">{it}</span>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {s.type === "plan" && (
+          <div>
+            <div className="w-10 h-0.5 bg-accent mb-5" />
+            <h2 className="font-display text-3xl text-white leading-tight mb-6">{s.title}</h2>
+            <div className="space-y-2.5">
+              {s.steps.map((st, i) => (
+                <Card key={i} className="flex gap-5 items-start p-6">
+                  <div className="font-display text-3xl text-accent opacity-60 leading-none tabular-nums shrink-0">{st.num}</div>
+                  <div className="flex-1">
+                    <div className="font-bold text-lg text-white mb-1.5 leading-tight">{st.title}</div>
+                    <p className="text-sm leading-relaxed text-white/35 text-pretty">{st.desc}</p>
+                  </div>
+                  <st.Icon size={16} className="text-white/5 shrink-0 mt-1" strokeWidth={1.5} />
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {s.type === "end" && (
+          <div className="text-center py-6">
+            <Trophy size={32} className="text-accent mb-8 opacity-40 mx-auto" strokeWidth={1.2} />
+            <h2 className="font-display text-3xl text-white mb-1 leading-tight">{s.title}</h2>
+            <h2 className="font-display text-3xl italic text-accent mb-8 leading-tight">{s.subtitle}</h2>
+            <p className="text-sm leading-relaxed text-white/40 font-light max-w-[500px] mx-auto mb-10 text-pretty">{s.body}</p>
+            <Card className="text-[11px] leading-relaxed text-white/20 p-5 max-w-[460px] mx-auto">
+              {s.disclaimer}
+            </Card>
+          </div>
         )}
 
       </div>

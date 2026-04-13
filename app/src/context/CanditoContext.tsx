@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import { get, set } from 'idb-keyval'
 import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog } from '../types'
 import { suggestNewRM } from '../lib/weightCalc'
