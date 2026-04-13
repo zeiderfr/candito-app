@@ -65,7 +65,7 @@ export function UpdatePrompt() {
     }
 
     // 1. Initialisation + Polling
-    interval = setInterval(checkUpdate, 60000)
+    interval = setInterval(checkUpdate, 5000)
     checkUpdate()
 
     // 2. Événements de visibilité (Resumption)
