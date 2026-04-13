@@ -36,6 +36,7 @@ export function UpdatePrompt() {
       // __APP_VERSION__ injected by Vite at build time
       if (latestV !== __APP_VERSION__) {
         setShow(true)
+        triggerNotification()
       }
     }
 
@@ -73,6 +74,19 @@ export function UpdatePrompt() {
       document.removeEventListener('visibilitychange', handleVisible)
     }
   }, [])
+
+  const triggerNotification = async () => {
+    if (!('Notification' in window)) return
+    if (Notification.permission !== 'granted') return
+    const reg = await navigator.serviceWorker.getRegistration()
+    if (!reg) return
+    // tag: 'candito-update' déduplique avec la notif du SW (1 seule visible)
+    reg.showNotification('Candito — Mise à jour disponible', {
+      body: 'Une nouvelle version du programme est prête.',
+      icon: '/apple-touch-icon.png',
+      tag: 'candito-update',
+    })
+  }
 
   const handleUpdate = () => {
     // Force reload with cache bypass
