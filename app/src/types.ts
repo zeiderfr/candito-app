@@ -50,6 +50,23 @@ export interface PR {
   date: string
 }
 
+export interface SetLog {
+  weight: number | null   // Poids réel utilisé (kg), null si non renseigné
+  reps: number            // Reps réelles effectuées
+  rpe: number | null      // RPE 6–10, null si non renseigné
+}
+
+export interface ExerciseLog {
+  exerciseName: string
+  sets: SetLog[]
+}
+
+export interface SessionLog {
+  sessionId: string       // Correspond à Session.id
+  date: string            // ISO date YYYY-MM-DD
+  exercises: ExerciseLog[]
+}
+
 export interface CanditoState {
   version: number
   initialized: boolean
@@ -60,6 +77,7 @@ export interface CanditoState {
   progress: {
     completedSessions: string[] // IDs des sessions terminées
     prs: PR[]
+    sessionLogs: SessionLog[]
   }
   currentWeekId: string
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { type CanditoState, type RM, type PR } from '../types'
+import { type CanditoState, type RM, type PR, type SessionLog } from '../types'
 
 const STORAGE_KEY = 'candito_tracker_data'
 
@@ -12,7 +12,8 @@ const DEFAULT_STATE: CanditoState = {
   },
   progress: {
     completedSessions: [],
-    prs: []
+    prs: [],
+    sessionLogs: []
   },
   currentWeekId: 's1'
 }
@@ -56,6 +57,9 @@ export function useCanditoState() {
         if (data.currentWeekId === 's1s2') {
           data.currentWeekId = 's2' // Théo entame la S2 demain !
         }
+        
+        // Migration pour le nouveau champ sessionLogs (v3 implicite)
+        data.progress.sessionLogs = data.progress.sessionLogs ?? []
         
         return data
       } catch (e) {
@@ -141,6 +145,8 @@ export function useCanditoState() {
     getTotal,
     setCurrentWeek,
     addPR,
+    logSession,
+    importState,
     isInitialized: state.initialized
   }
 }
