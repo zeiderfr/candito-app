@@ -44,7 +44,7 @@ export function AppLayout({ children, activeTab, onTabChange }: AppLayoutProps) 
       <main
         className={cn(
           "flex-1 w-full max-w-[680px] mx-auto",
-          "px-6 pt-12 pb-32 overflow-y-auto"
+          "px-6 pt-6 pb-32 overflow-y-auto"
         )}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

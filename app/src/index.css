@@ -30,14 +30,20 @@
   * {
     @apply border-border outline-none;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;  /* Supprime le flash gris iOS au tap */
+    touch-action: manipulation;                 /* Supprime le délai 300ms double-tap zoom */
   }
 
   body {
     @apply bg-background text-white font-sans antialiased;
     min-height: 100dvh;
-    /* safe-area-inset for mobile */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);     /* Pousse sous notch/Dynamic Island en standalone */
+    overscroll-behavior: none;                  /* Empêche le bounce derrière l'app */
+  }
+
+  /* Prevent iOS auto-zoom on input focus — font-size < 16px déclenche un zoom viewport */
+  input, select, textarea {
+    font-size: max(16px, 1em);
   }
 
   h1, h2, h3, h4, h5, h6 {
