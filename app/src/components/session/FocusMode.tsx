@@ -42,7 +42,8 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   }, [])
 
   const exercise = session.exercises[exIdx]
-  const totalSets = Math.max(1, parseInt(exercise.sets) || 1)
+  const parsedSets = /\d+/.exec(exercise.sets)
+  const totalSets = Math.max(1, parsedSets ? parseInt(parsedSets[0], 10) : 1)
   const allSetsDone = setsDone >= totalSets
   const isLastExercise = exIdx === session.exercises.length - 1
 
@@ -67,7 +68,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const isCompleting = allSetsDone && isLastExercise
 
   return (
-    <div className={cn(
+    <div data-no-swipe className={cn(
       "fixed inset-0 z-50 bg-background flex flex-col select-none",
       "animate-in fade-in duration-200"
     )}>
@@ -99,7 +100,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       </div>
 
       {/* ── Exercice actif ────────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col justify-center px-6 gap-8">
+      <div key={exIdx} className="flex-1 flex flex-col justify-center px-6 gap-8 animate-in fade-in slide-in-from-right-4 duration-300">
         <div className="space-y-2">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted tabular-nums">
             Exercice {exIdx + 1} / {session.exercises.length}

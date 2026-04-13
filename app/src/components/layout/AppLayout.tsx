@@ -20,6 +20,9 @@ export function AppLayout({ children, activeTab, onTabChange }: AppLayoutProps) 
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
+    const target = e.target as HTMLElement
+    if (target.closest && target.closest('[data-no-swipe]')) return
+
     const dx = e.changedTouches[0].clientX - touchStartX.current
     const dy = e.changedTouches[0].clientY - touchStartY.current
     // Ignore swipe si trop petit ou si vertical domine (scroll normal)
