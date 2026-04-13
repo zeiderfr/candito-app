@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight } from '@/lib/weightCalc'
 import { PROGRAM_DATA, WEEK_ORDER } from '@/data/program'
-import { AlertTriangle, Plus, Trophy, Database } from 'lucide-react'
+import { AlertTriangle, Plus, Trophy, Database, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react'
 import { type CanditoState } from '@/types'
-import { useRef } from 'react'
+import { NewCycleModal } from '@/components/common/NewCycleModal'
 
 type SubTab = 'charges' | 'rpe'
 
