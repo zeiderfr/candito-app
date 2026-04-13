@@ -298,7 +298,7 @@ function ChargesPanel() {
 
       {/* Charges Table */}
       <div className="glass rounded-card overflow-hidden">
-        <div className="overflow-x-auto">
+        <div data-no-swipe className="overflow-x-auto">
           <table className="w-full text-sm min-w-[420px]">
             <thead>
               <tr className="border-b border-border">
