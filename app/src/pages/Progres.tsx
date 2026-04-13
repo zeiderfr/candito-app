@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
-import { calcWeight } from '@/lib/weightCalc'
+import { calcWeight, epley } from '@/lib/weightCalc'
 import { PROGRAM_DATA, WEEK_ORDER } from '@/data/program'
 import { AlertTriangle, Plus, Trophy, Database, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react'
 import { type CanditoState } from '@/types'
@@ -68,11 +68,6 @@ function SessionTimeline({ completedSessions }: { completedSessions: string[] })
 // ── PR Section ───────────────────────────────────────────────────────
 type PendingRM = { lift: 'squat' | 'bench' | 'deadlift'; estimated: number }
 
-/** Formule d'Epley, arrondi à la plaque 2.5 kg */
-function epley(weight: number, reps: number): number {
-  if (reps === 1) return weight
-  return Math.round(weight * (1 + reps / 30) / 2.5) * 2.5
-}
 
 function PRSection() {
   const { state, addPR, updateRM } = useCanditoState()
@@ -411,7 +406,7 @@ function RPEPanel() {
 }
 
 // ── RM Chart ─────────────────────────────────────────────────────────
-function RMChart() {
+const RMChart = React.memo(() => {
   const { state } = useCanditoState()
   const prs = state.progress.prs ?? []
   if (prs.length === 0) return (
@@ -507,7 +502,7 @@ function RMChart() {
       </div>
     </div>
   )
-}
+})
 
 // ── Backup Section ────────────────────────────────────────────────────
 function BackupSection() {

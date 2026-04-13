@@ -67,7 +67,14 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         if (saved) {
           const data = saved as CanditoState
           
-          // Apply same migrations as before
+          // Ensure structure exists (Migration/Safety)
+          if (!data.progress) {
+            data.progress = { completedSessions: [], prs: [], sessionLogs: [] }
+          }
+          data.progress.completedSessions = data.progress.completedSessions || []
+          data.progress.prs = data.progress.prs || []
+          data.progress.sessionLogs = data.progress.sessionLogs || []
+          
           if (!data.athlete && (data as any).rm) {
              // Basic migration v1 -> v2 logic here if needed
           }
