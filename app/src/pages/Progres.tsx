@@ -64,12 +64,21 @@ function SessionTimeline({ completedSessions }: { completedSessions: string[] })
 }
 
 // ── PR Section ───────────────────────────────────────────────────────
+type PendingRM = { lift: 'squat' | 'bench' | 'deadlift'; estimated: number }
+
+/** Formule d'Epley, arrondi à la plaque 2.5 kg */
+function epley(weight: number, reps: number): number {
+  if (reps === 1) return weight
+  return Math.round(weight * (1 + reps / 30) / 2.5) * 2.5
+}
+
 function PRSection() {
-  const { state, addPR } = useCanditoState()
+  const { state, addPR, updateRM } = useCanditoState()
   const [showForm, setShowForm] = useState(false)
   const [formLift, setFormLift] = useState<'squat' | 'bench' | 'deadlift'>('squat')
   const [formWeight, setFormWeight] = useState('')
   const [formReps, setFormReps] = useState('1')
+  const [pendingRM, setPendingRM] = useState<PendingRM | null>(null)
 
   const prs = state.progress.prs ?? []
 
@@ -83,6 +92,8 @@ function PRSection() {
     const r = Number(formReps)
     if (!w || !r) return
     addPR(formLift, w, r)
+    // Proposer une mise à jour du 1RM si effort multi-reps
+    if (r > 1) setPendingRM({ lift: formLift, estimated: epley(w, r) })
     setFormWeight('')
     setFormReps('1')
     setShowForm(false)
