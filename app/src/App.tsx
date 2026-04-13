@@ -13,8 +13,23 @@ import { NavigationContext } from '@/context/NavigationContext'
  * Main App Component — Candito 6-Week React Migration.
  * Phase 2: All 5 modules fully wired + NavigationContext for cross-tab CTA.
  */
-function App() {
+import { CanditoProvider, useCandito } from '@/context/CanditoContext'
+
+function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('accueil')
+  const { isLoading } = useCandito()
+
+  if (isLoading) {
+    return (
+      <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-6 text-center animate-pulse">
+        <div className="size-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+          <div className="size-8 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+        </div>
+        <h2 className="text-2xl font-display text-white italic">Initialisation...</h2>
+        <p className="text-[10px] text-muted uppercase tracking-[0.2em] mt-2">Récupération de tes records</p>
+      </div>
+    )
+  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -33,6 +48,14 @@ function App() {
         {renderContent()}
       </AppLayout>
     </NavigationContext.Provider>
+  )
+}
+
+function App() {
+  return (
+    <CanditoProvider>
+      <AppContent />
+    </CanditoProvider>
   )
 }
 

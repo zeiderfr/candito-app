@@ -125,33 +125,40 @@ const slides = [
   },
 ];
 
-function parseBold(t){if(!t)return t;const p=t.split(/\*\*(.*?)\*\*/g);return p.map((s,i)=>i%2===1?<strong key={i} style={{color:"#fff",fontWeight:600}}>{s}</strong>:s);}
+import { cn } from '@/lib/utils'
+
+function parseBold(t: string){
+  if(!t)return t;
+  const p=t.split(/\*\*(.*?)\*\*/g);
+  return p.map((s,i)=>i%2===1 ? (
+    <strong key={i} className="text-white font-semibold">{s}</strong>
+  ) : s);
+}
 
 /* ── Card ── solid bg, no backdrop-filter, standard shadow */
-function Card({children,style={},border}){
-  return(
-    <div style={{
-      background:"rgba(255,255,255,0.04)",
-      border:border||"1px solid rgba(255,255,255,0.07)",
-      borderRadius:16,
-      boxShadow:"0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.1)",
-      ...style,
-    }}>{children}</div>
+function Card({ children, className, border }: { children: React.ReactNode, className?: string, border?: string }) {
+  return (
+    <div 
+      className={cn(
+        "bg-white/5 border border-white/10 rounded-2xl shadow-sm overflow-hidden",
+        className
+      )}
+      style={border ? { borderLeft: border } : {}}
+    >
+      {children}
+    </div>
   );
 }
 
 /* ── Tag ── */
-function Tag({label,variant="green",IconComp}){
-  const red=variant==="red";
-  return(
-    <div style={{
-      display:"inline-flex",alignItems:"center",gap:6,
-      padding:"5px 14px",borderRadius:100,marginBottom:16,
-      fontSize:10,fontWeight:700,textTransform:"uppercase",
-      background:red?"rgba(239,83,80,0.1)":"rgba(76,175,80,0.1)",
-      color:red?"#ef9a9a":"#81c784",
-    }}>
-      {IconComp&&<IconComp size={12} strokeWidth={2}/>}
+function Tag({ label, variant = "green", IconComp }: { label: string, variant?: "green" | "red", IconComp?: any }) {
+  const isRed = variant === "red";
+  return (
+    <div className={cn(
+      "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full mb-4 text-[10px] font-bold uppercase tracking-wider",
+      isRed ? "bg-red-500/10 text-red-400" : "bg-accent/10 text-accent"
+    )}>
+      {IconComp && <IconComp size={12} strokeWidth={2} />}
       {label}
     </div>
   );
