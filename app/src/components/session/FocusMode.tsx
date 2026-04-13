@@ -89,7 +89,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       "animate-in fade-in duration-200"
     )}>
       {/* ── Top bar ──────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between px-6 pt-14 pb-6">
+      <div
+        className="flex items-start justify-between px-6 pb-6"
+        style={{ paddingTop: 'max(3.5rem, env(safe-area-inset-top))' }}
+      >
         <div>
           <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-accent">
             Mode Séance
@@ -191,7 +194,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       </div>
 
       {pendingSet && (
-        <div className="fixed bottom-0 left-0 right-0 z-[60] px-6 pb-10 pt-6 bg-surface/95 backdrop-blur-xl rounded-t-[24px] animate-in slide-in-from-bottom-4 duration-300">
+        <div
+          className="fixed bottom-0 left-0 right-0 z-[60] px-6 pt-6 bg-surface/95 backdrop-blur-xl rounded-t-[24px] animate-in slide-in-from-bottom-4 duration-300"
+          style={{ paddingBottom: 'max(2.5rem, env(safe-area-inset-bottom))' }}
+        >
           <div className="text-center space-y-6">
             <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
             
