@@ -58,7 +58,7 @@ function WeekSelector({
 
   return (
     <div className="space-y-3">
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-1">
+      <div data-no-swipe className="flex gap-2 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-1">
         {PILL_WEEKS.map(pill => {
           const isActive = activePill === pill
           const { total, done } = getDots(pill)

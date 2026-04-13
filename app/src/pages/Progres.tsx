@@ -109,7 +109,7 @@ function PRSection() {
           <h3 className="text-lg font-display text-white italic">Records personnels</h3>
         </div>
         <button
-          onClick={() => setShowForm(v => !v)}
+          onClick={() => { setShowForm(v => !v); setPendingRM(null) }}
           className={cn(
             "size-8 rounded-lg flex items-center justify-center transition-colors duration-200 cursor-pointer",
             showForm ? "bg-accent text-background" : "bg-white/5 text-muted hover:text-white"
