@@ -114,9 +114,7 @@ async function showTrainingNotification(sessionFocus: string | null): Promise<vo
     await reg.showNotification('CANDITO — Entraînement aujourd\'hui', {
       body,
       icon: '/apple-touch-icon.png',
-      badge: '/favicon.png',
       tag: 'training-reminder',
-      renotify: false,
     })
   } catch {
     // SW non disponible (ex: premier chargement) → silencieux
