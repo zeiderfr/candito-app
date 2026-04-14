@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShieldCheck, Cloud, Bell, X } from 'lucide-react'
+import { Cloud, Bell, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 
@@ -25,7 +25,18 @@ export function PushNotificationManager() {
 
   useEffect(() => {
     const checkStatus = async () => {
-      // ... (code existant)
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        setStatus('unsupported')
+        return
+      }
+
+      const reg = await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.getSubscription()
+      
+      if (!sub && Notification.permission !== 'denied') {
+        const timer = setTimeout(() => setIsVisible(true), 2000)
+        return () => clearTimeout(timer)
+      }
     }
     checkStatus()
   }, [])
@@ -120,7 +131,7 @@ export function PushNotificationManager() {
 
               <div className="flex gap-3">
                 <button
-                  onClick={subscribeUser}
+                  onClick={() => subscribeUser(weekId)}
                   disabled={status === 'loading'}
                   className={cn(
                     "flex-1 py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all",
