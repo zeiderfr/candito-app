@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Dashboard } from '@/pages/Dashboard'
 import { Warmup } from '@/pages/Warmup'
@@ -8,19 +9,26 @@ import { Progres } from '@/pages/Progres'
 import { UpdatePrompt } from '@/components/common/UpdatePrompt'
 import { type TabId } from '@/components/layout/BottomNav'
 import { NavigationContext } from '@/context/NavigationContext'
-
-/**
- * Main App Component — Candito 6-Week React Migration.
- * Phase 2: All 5 modules fully wired + NavigationContext for cross-tab CTA.
- */
 import { CanditoProvider, useCandito } from '@/context/CanditoContext'
+
+const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres']
+
+const pageVariants = {
+  enter: (d: number) => ({ x: d * 24, opacity: 0 }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+  },
+  exit: { opacity: 0, transition: { duration: 0.12 } },
+}
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('accueil')
+  const [direction, setDirection] = useState(0)
   const { isLoading } = useCandito()
   const [showSplash, setShowSplash] = useState(true)
 
-  // Double check loading state with a minimum duration for UI smoothness
   useEffect(() => {
     if (!isLoading) {
       const timer = setTimeout(() => setShowSplash(false), 600)
@@ -28,14 +36,24 @@ function AppContent() {
     }
   }, [isLoading])
 
+  const handleTabChange = (id: TabId) => {
+    const d = TAB_ORDER.indexOf(id) > TAB_ORDER.indexOf(activeTab) ? 1 : -1
+    setDirection(d)
+    setActiveTab(id)
+  }
+
   if (showSplash) {
     return (
-      <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-500">
-        <div className="size-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-          <div className="size-8 rounded-full border-2 border-accent border-t-transparent animate-spin" />
-        </div>
-        <h2 className="text-2xl font-display text-white italic">Initialisation...</h2>
-        <p className="text-[10px] text-muted uppercase tracking-[0.2em] mt-2">Récupération de tes records</p>
+      <div
+        className="min-h-dvh bg-background flex flex-col p-6 animate-in fade-in duration-500"
+        style={{ paddingTop: 'max(2.5rem, env(safe-area-inset-top))' }}
+      >
+        <div className="animate-shimmer h-11 w-44 rounded-xl mb-2" />
+        <div className="animate-shimmer h-3 w-28 rounded-lg mb-8" />
+        <div className="animate-shimmer h-28 rounded-2xl mb-4" />
+        <div className="animate-shimmer h-20 rounded-2xl mb-4" />
+        <div className="animate-shimmer h-40 rounded-2xl mb-4" />
+        <div className="animate-shimmer h-24 rounded-2xl" />
       </div>
     )
   }
@@ -51,10 +69,21 @@ function AppContent() {
   }
 
   return (
-    <NavigationContext.Provider value={setActiveTab}>
-      <AppLayout activeTab={activeTab} onTabChange={setActiveTab}>
+    <NavigationContext.Provider value={handleTabChange}>
+      <AppLayout activeTab={activeTab} onTabChange={handleTabChange}>
         <UpdatePrompt />
-        {renderContent()}
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={activeTab}
+            custom={direction}
+            variants={pageVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+          >
+            {renderContent()}
+          </motion.div>
+        </AnimatePresence>
       </AppLayout>
     </NavigationContext.Provider>
   )

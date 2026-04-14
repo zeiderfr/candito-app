@@ -65,6 +65,11 @@
   }
 }
 
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
 @layer utilities {
   .glass {
     @apply bg-surface backdrop-blur-md border border-border;
@@ -73,6 +78,17 @@
   .text-gradient {
     /* Only if explicitly asked, otherwise we follow UI-UX rules */
     @apply bg-clip-text text-transparent bg-gradient-to-br from-white to-white/60;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.10) 50%,
+      rgba(255, 255, 255, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
   }
 }
 
