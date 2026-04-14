@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Bell, Cloud, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const VAPID_PUBLIC_KEY = 'BCRr5ltot-k1VgeVDAiQ5cObpFOD3b8mav6HnQoMkDUhCqQOqiEoTt3PUeDq5AILpeqdjDZlJt5QR6BFbyWzMs4'
+const VAPID_PUBLIC_KEY = 'BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
