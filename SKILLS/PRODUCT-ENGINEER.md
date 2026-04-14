@@ -262,7 +262,63 @@ Raison : PWA pure — pas de SSR nécessaire, bundle léger, Cloudflare Pages st
 
 ---
 
-## PARTIE 7 — Process de Conception (avant d'implémenter)
+## PARTIE 7 — Règles Apple HIG (iOS-specific UX)
+
+Patterns obligatoires pour que l'app respecte les attentes des utilisateurs iOS.
+
+### Modality — utiliser avec parcimonie
+
+> "Use modality only when it is critical to get attention, a task must be completed or abandoned, or saving changes is essential."
+
+```
+✅ Modal : confirmation de reset (action destructive irréversible)
+✅ Modal : nouvelle session (flux complet nécessaire)
+❌ Modal : paramètres, navigation, informations consultables
+❌ Bottom sheet bloquante pour de la lecture simple
+```
+
+### Undo First (pas de confirmation préventive)
+
+Préférer les actions réversibles aux dialogs de confirmation.
+
+```tsx
+// ❌ Pattern annoying — dialog avant l'action
+<AlertDialog>
+  <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+  <AlertDialogContent>Êtes-vous sûr ?</AlertDialogContent>
+</AlertDialog>
+
+// ✅ Pattern HIG — action + undo rapide
+<button onClick={deleteSession}>Supprimer la séance</button>
+{/* Toast avec undo dans les 5s */}
+<UndoToast message="Séance supprimée" onUndo={restoreSession} duration={5000} />
+```
+
+### Launch Experience
+
+- JAMAIS de splash screen custom qui bloque l'app > 200ms
+- Restaurer l'état précédent au lancement (last active tab, last scroll position)
+- Afficher un skeleton immédiatement pendant la lecture localStorage
+- Transitions seamless : pas de flash blanc entre les pages
+
+### Onboarding (si nécessaire)
+
+- Maximum **3 écrans** d'onboarding
+- Toujours proposer "Ignorer" (skip)
+- Progressive disclosure : révéler la complexité au fur et à mesure
+- Ne jamais demander des permissions avant que l'utilisateur comprenne la valeur
+
+### Feedback obligatoire sur chaque action
+
+| Durée | Indicateur | Exemple |
+|-------|-----------|---------|
+| < 1s | Changement visuel immédiat | Bouton change d'état au tap |
+| 1–3s | Activity indicator | Spinner discret |
+| > 3s | Progress bar + message | "Sauvegarde en cours..." |
+
+---
+
+## PARTIE 8 — Process de Conception (avant d'implémenter)
 
 Quand la feature est non-triviale ou ambiguë :
 
