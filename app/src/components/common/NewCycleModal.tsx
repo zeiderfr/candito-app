@@ -12,10 +12,10 @@ interface NewCycleModalProps {
   onConfirm: (rm: RM) => void
 }
 
-const LIFTS: Array<{ key: keyof RM; label: string; emoji: string }> = [
-  { key: 'squat',     label: 'Squat',     emoji: '🏋️' },
-  { key: 'bench',     label: 'Bench',     emoji: '💪' },
-  { key: 'deadlift',  label: 'Deadlift',  emoji: '⚡' },
+const LIFTS: Array<{ key: keyof RM; label: string }> = [
+  { key: 'squat',    label: 'Squat'    },
+  { key: 'bench',    label: 'Bench'    },
+  { key: 'deadlift', label: 'Deadlift' },
 ]
 
 export function NewCycleModal({
@@ -31,6 +31,17 @@ export function NewCycleModal({
     bench: suggestedRM.bench || currentRM.bench,
     deadlift: suggestedRM.deadlift || currentRM.deadlift,
   })
+
+  // Réinitialiser les valeurs à chaque ouverture du modal
+  useEffect(() => {
+    if (isOpen) {
+      setRm({
+        squat: suggestedRM.squat || currentRM.squat,
+        bench: suggestedRM.bench || currentRM.bench,
+        deadlift: suggestedRM.deadlift || currentRM.deadlift,
+      })
+    }
+  }, [isOpen, suggestedRM.squat, suggestedRM.bench, suggestedRM.deadlift, currentRM.squat, currentRM.bench, currentRM.deadlift])
 
   const handleChange = useCallback((lift: keyof RM, value: string): void => {
     const num = parseFloat(value)

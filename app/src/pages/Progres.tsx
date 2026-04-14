@@ -577,6 +577,8 @@ function BackupSection() {
   )
 }
 
+const TOTAL_SESSIONS = Object.values(PROGRAM_DATA).reduce((acc, w) => acc + w.sessions.length, 0)
+
 // ── Cycle History Section ─────────────────────────────────────────────
 function CycleHistorySection() {
   const { state } = useCanditoState()
