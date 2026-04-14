@@ -298,19 +298,22 @@ export function Programme() {
         ))}
       </motion.div>
 
-      {/* Focus Mode overlay */}
-      {focusSession && (
-        <FocusMode
-          session={focusSession}
-          rm={state.athlete.rm}
-          onClose={() => setFocusSession(null)}
-          onComplete={(log) => {
-            logSession(log)
-            toggleSession(focusSession.id)
-            setFocusSession(null)
-          }}
-        />
-      )}
+      {/* Focus Mode overlay — AnimatePresence pour cinematic enter/exit */}
+      <AnimatePresence>
+        {focusSession && (
+          <FocusMode
+            key={focusSession.id}
+            session={focusSession}
+            rm={state.athlete.rm}
+            onClose={() => setFocusSession(null)}
+            onComplete={(log) => {
+              logSession(log)
+              toggleSession(focusSession.id)
+              setFocusSession(null)
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Set Current Week Button */}
       <button
