@@ -263,7 +263,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               >
                 Passer
               </button>
-              <button
+              <motion.button
                 onClick={() => {
                   setSetLogs(prev => ({
                     ...prev,
@@ -272,10 +272,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                   setSetsDone(s => s + 1)
                   setPendingSet(null)
                 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                 className="flex-[2] bg-accent hover:bg-[#77cc7b] py-3 rounded-pill text-background text-xs font-bold uppercase tracking-widest transition-colors shadow-lg shadow-accent/20 cursor-pointer"
               >
                 OK ✓
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
