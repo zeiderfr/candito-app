@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Home, Zap, Calendar, Leaf, Activity } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export type TabId = 'accueil' | 'warmup' | 'programme' | 'nutrition' | 'progres'
 
@@ -35,37 +36,43 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
           const Icon = item.icon
 
           return (
-            <button
+            <motion.button
               key={item.id}
               onClick={() => onTabChange(item.id)}
+              whileTap={{ scale: 0.88 }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
               className={cn(
                 "flex flex-col items-center justify-center gap-1.5",
-                "min-w-16 h-full transition-all duration-200 cursor-pointer",
+                "min-w-16 h-full transition-colors duration-200 cursor-pointer",
                 isActive ? "text-accent" : "text-muted hover:text-white"
               )}
               aria-label={item.label}
               aria-current={isActive ? 'page' : undefined}
             >
               <div className="relative flex items-center justify-center size-11">
+                {isActive && (
+                  <motion.div
+                    layoutId="tab-pill"
+                    className="absolute inset-0 rounded-xl bg-accent/10"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
                 <Icon
                   size={24}
                   strokeWidth={isActive ? 2.5 : 2}
                   className={cn(
-                    "transition-transform duration-300",
+                    "relative z-10 transition-all duration-200",
                     isActive ? "scale-110" : "scale-100"
                   )}
                 />
-                {isActive && (
-                    <div className="absolute -bottom-1 size-1 bg-accent rounded-full animate-in fade-in zoom-in duration-300" />
-                )}
               </div>
               <span className={cn(
-                "text-[11px] font-bold uppercase tracking-wider",
+                "text-[11px] font-bold uppercase tracking-wider transition-opacity duration-200",
                 isActive ? "opacity-100" : "opacity-60"
               )}>
                 {item.label}
               </span>
-            </button>
+            </motion.button>
           )
         })}
       </div>
