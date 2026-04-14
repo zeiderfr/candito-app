@@ -625,7 +625,7 @@ const handleInstall = async () => {
 
 ---
 
-## PARTIE 11 — Anti-patterns
+## PARTIE 13 — Anti-patterns
 
 | Anti-pattern | Pourquoi |
 |---|---|
