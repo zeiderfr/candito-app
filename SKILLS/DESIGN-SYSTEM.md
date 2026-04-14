@@ -3,7 +3,7 @@ name: design-system
 description: "Système de design ultime pour PWA dark fitness. Fusionne direction artistique, tokens couleur, typographie, composants, accessibilité, glassmorphism et Tailwind v4. Source de vérité visuelle pour tout travail UI dans le projet."
 category: design
 risk: safe
-source: "Fusion : ULTIME UI-UX + Design expert + UX Pro Max + sickn33/antigravity-awesome-skills (frontend-ui-dark-ts, tailwind-design-system, core-components)"
+source: "Fusion : ULTIME UI-UX + Design expert + UX Pro Max + sickn33/antigravity-awesome-skills (frontend-ui-dark-ts, tailwind-design-system, core-components, tailwind-patterns)"
 date_added: "2026-04-14"
 tags: [ui, ux, design, tailwind, react, accessibility, glassmorphism, dark-mode, components]
 ---
