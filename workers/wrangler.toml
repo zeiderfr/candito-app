@@ -2,6 +2,7 @@
 name = "candito-scheduler"
 main = "training-reminder.ts"
 compatibility_date = "2026-04-14"
+compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"
