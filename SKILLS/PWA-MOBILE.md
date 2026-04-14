@@ -366,7 +366,122 @@ export function NotificationBanner() {
 
 ---
 
-## PARTIE 8 — Offline First (localStorage + SW Cache)
+## PARTIE 8 — Stratégies de Cache Service Worker
+
+### Sélectionner la bonne stratégie selon la ressource
+
+| Ressource | Stratégie | Comportement |
+|-----------|-----------|--------------|
+| JS/CSS/fonts (assets Vite) | **Cache-First** | Rapide, stale accepté (immutable hash dans le nom) |
+| Pages HTML (`index.html`) | **Network-First** | Fraîcheur prioritaire, fallback offline |
+| `version.json` | **Network-Only** | Jamais depuis le cache |
+| Données localStorage | **Pas de SW** | Persistées directement, pas d'interception réseau |
+
+### Cache-First — Assets statiques
+
+```javascript
+// service-worker.js
+const STATIC_CACHE = `static-v${CACHE_VERSION}`
+const STATIC_ASSETS = ['/', '/index.html', '/offline.html']
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(STATIC_CACHE).then(cache => cache.addAll(STATIC_ASSETS))
+  )
+  self.skipWaiting()
+})
+
+self.addEventListener('fetch', event => {
+  const { request } = event
+  const url = new URL(request.url)
+
+  // Assets versionnés (hash dans l'URL) → Cache-First
+  if (url.pathname.startsWith('/assets/')) {
+    event.respondWith(
+      caches.match(request).then(cached => cached ?? fetch(request).then(res => {
+        const clone = res.clone()
+        caches.open(STATIC_CACHE).then(c => c.put(request, clone))
+        return res
+      }))
+    )
+    return
+  }
+
+  // HTML → Network-First avec fallback offline
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match('/offline.html'))
+    )
+  }
+})
+```
+
+### Stale-While-Revalidate — Contenu semi-statique
+
+```javascript
+// Pour les ressources qui peuvent être légèrement obsolètes
+const swrFetch = async (request: Request): Promise<Response> => {
+  const cache = await caches.open(STATIC_CACHE)
+  const cached = await cache.match(request)
+
+  const networkFetch = fetch(request).then(res => {
+    cache.put(request, res.clone())  // Mise à jour en background
+    return res
+  })
+
+  return cached ?? networkFetch  // Retourne le cache immédiatement si disponible
+}
+```
+
+### Cache Versioning (obligatoire à chaque deploy)
+
+```javascript
+const CACHE_VERSION = 'v3'  // ← Incrémenter à chaque déploiement
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => !key.includes(CACHE_VERSION))  // Purger les anciens caches
+          .map(key => caches.delete(key))
+      )
+    ).then(() => clients.claim())
+  )
+})
+```
+
+### offline.html — Fallback obligatoire
+
+```html
+<!-- public/offline.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Programme Candito — Hors-ligne</title>
+  <style>
+    body { background: #0a0a0a; color: white; font-family: Inter, sans-serif;
+           display: flex; align-items: center; justify-content: center;
+           min-height: 100dvh; margin: 0; text-align: center; padding: 2rem; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p  { color: #86868B; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Hors-ligne</h1>
+    <p>Reconnecte-toi pour accéder au programme.</p>
+    <p style="margin-top: 1rem; font-size: 0.75rem;">Tes données sont sauvegardées localement.</p>
+  </div>
+</body>
+</html>
+```
+
+---
+
+## PARTIE 9 — Offline First (localStorage + SW Cache)
 
 ### Stratégie
 
