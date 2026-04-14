@@ -2,6 +2,23 @@ interface Env {
   CANDITO_SUBS: KVNamespace;
 }
 
+export const onRequestOptions: PagesFunction<Env> = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+};
+
+export const onRequestGet: PagesFunction<Env> = async () => {
+  return new Response(JSON.stringify({ status: "API is alive", usage: "POST only" }), {
+    headers: { "Content-Type": "application/json" }
+  });
+};
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
     const data = await context.request.json() as { 
