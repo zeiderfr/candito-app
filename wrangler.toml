@@ -1,0 +1,18 @@
+# Configuration Maitre - Candito App
+name = "programme-candito"
+pages_build_output_dir = "app/dist"
+
+# Configuration des Pages Functions
+[pages_build_config]
+build_command = "npm run build"
+
+[[kv_namespaces]]
+binding = "CANDITO_SUBS"
+id = "CANDITO_SUBS_ID_PLACEHOLDER" # Sera remplacé dynamiquement par le script
+
+[vars]
+VAPID_PUBLIC_KEY = "BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE"
+
+# Configuration du Scheduled Worker (training-reminder)
+[triggers]
+crons = ["0 8 * * *"] # 8h00 UTC chaque jour
