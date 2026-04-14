@@ -221,6 +221,16 @@ function SessionCard({
   )
 }
 
+// ── Stagger variants ────────────────────────────────────────────────
+const sessionContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+}
+const sessionItem = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 280, damping: 22 } },
+}
+
 // ── Main Export ──────────────────────────────────────────────────────
 export function Programme() {
   const { state, toggleSession, setCurrentWeek, logSession } = useCanditoState()
@@ -235,10 +245,7 @@ export function Programme() {
   const isActiveWeek = selectedWeekId === state.currentWeekId
 
   return (
-    <div className={cn(
-      "flex flex-col gap-6",
-      "animate-in fade-in slide-in-from-bottom-2 duration-300"
-    )}>
+    <div className="flex flex-col gap-6">
       {/* Editorial Header */}
       <div className="space-y-1">
         <h1 className="text-4xl font-display text-white italic tracking-tight">
@@ -271,16 +278,25 @@ export function Programme() {
       </div>
 
       {/* Session Cards */}
-      {weekData?.sessions.map(session => (
-        <SessionCard
-          key={session.id}
-          session={session}
-          isCompleted={state.progress.completedSessions.includes(session.id)}
-          onToggle={() => toggleSession(session.id)}
-          onStart={() => setFocusSession(session)}
-          rm={state.athlete.rm}
-        />
-      ))}
+      <motion.div
+        key={selectedWeekId}
+        className="flex flex-col gap-6"
+        variants={sessionContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        {weekData?.sessions.map(session => (
+          <motion.div key={session.id} variants={sessionItem}>
+            <SessionCard
+              session={session}
+              isCompleted={state.progress.completedSessions.includes(session.id)}
+              onToggle={() => toggleSession(session.id)}
+              onStart={() => setFocusSession(session)}
+              rm={state.athlete.rm}
+            />
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Focus Mode overlay */}
       {focusSession && (
