@@ -3,7 +3,7 @@ name: product-engineer
 description: "Compétence ultime d'architecture produit pour PWA fitness React/TypeScript. Fusionne philosophie produit (product-inventor), stack CANDITO (frontend-dev-guidelines), architecture décisionnelle, workflow de développement, et process de conception. Source de vérité pour toute implémentation du projet."
 category: architecture
 risk: safe
-source: "Fusion : CANDITO-POWER-SKILL + Development + Brainstorming + sickn33/antigravity-awesome-skills (frontend-dev-guidelines, fp-react)"
+source: "Fusion : CANDITO-POWER-SKILL + Development + Brainstorming + sickn33/antigravity-awesome-skills (frontend-dev-guidelines, fp-react, hig-patterns)"
 date_added: "2026-04-14"
 tags: [react, typescript, pwa, architecture, product-thinking, workflow, state-management]
 ---
