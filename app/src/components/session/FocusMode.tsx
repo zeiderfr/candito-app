@@ -86,10 +86,14 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   }
 
   return (
-    <div data-no-swipe className={cn(
-      "fixed inset-0 z-50 bg-background flex flex-col select-none",
-      "animate-in fade-in duration-200"
-    )}>
+    <motion.div
+      data-no-swipe
+      className="fixed inset-0 z-50 bg-background flex flex-col select-none"
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+    >
       {/* ── Top bar ──────────────────────────────────────────────── */}
       <div
         className="flex items-start justify-between px-6 pb-6"
@@ -282,6 +286,6 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

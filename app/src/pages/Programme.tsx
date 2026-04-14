@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
