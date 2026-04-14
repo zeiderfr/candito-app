@@ -609,9 +609,6 @@ function CycleHistorySection() {
         <div className="border-t border-border divide-y divide-border">
           {[...history].reverse().map(cycle => {
             const total = cycle.rm.squat + cycle.rm.bench + cycle.rm.deadlift
-            const totalSessions = Object.values(PROGRAM_DATA).reduce(
-              (acc, w) => acc + w.sessions.length, 0
-            )
             const done = cycle.completedSessions.length
             return (
               <div key={cycle.id} className="px-5 py-4 space-y-3">
@@ -639,10 +636,10 @@ function CycleHistorySection() {
                   <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-accent/50 rounded-full transition-all"
-                      style={{ width: `${Math.min(100, (done / totalSessions) * 100)}%` }}
+                      style={{ width: `${Math.min(100, (done / TOTAL_SESSIONS) * 100)}%` }}
                     />
                   </div>
-                  <span className="text-[10px] text-muted tabular-nums shrink-0">{done}/{totalSessions}</span>
+                  <span className="text-[10px] text-muted tabular-nums shrink-0">{done}/{TOTAL_SESSIONS}</span>
                 </div>
               </div>
             )
@@ -659,9 +656,9 @@ export function Progres() {
   const [activeTab, setActiveTab] = useState<SubTab>('charges')
   const [showNewCycleModal, setShowNewCycleModal] = useState(false)
 
-  const totalSessions = Object.values(PROGRAM_DATA).reduce((acc, w) => acc + w.sessions.length, 0)
+  const TOTAL_SESSIONS = Object.values(PROGRAM_DATA).reduce((acc, w) => acc + w.sessions.length, 0)
   const doneSessions = state.progress.completedSessions.length
-  const cycleComplete = doneSessions >= totalSessions
+  const cycleComplete = doneSessions >= TOTAL_SESSIONS
 
   return (
     <div className={cn(
@@ -675,7 +672,7 @@ export function Progres() {
             Progrès
           </h1>
           <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
-            Cycle {state.cycleNumber ?? 1} — {doneSessions}/{totalSessions} sessions
+            Cycle {state.cycleNumber ?? 1} — {doneSessions}/{TOTAL_SESSIONS} sessions
           </p>
         </div>
         <button
