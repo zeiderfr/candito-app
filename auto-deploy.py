@@ -7,6 +7,7 @@ Arrête avec : Ctrl+C
 
 import subprocess
 import time
+import os
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
