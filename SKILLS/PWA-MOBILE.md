@@ -3,7 +3,7 @@ name: pwa-mobile
 description: "Compétence ultime PWA + iOS Safari + Notifications + Offline pour React/Vite. Fusionne : safe areas iPhone, manifest.json, Service Worker lifecycle, Notification API client-side, offline-first localStorage, install UX iOS/Android. Source de vérité pour tout comportement natif de l'app."
 category: pwa
 risk: safe
-source: "Fusion : iPhone PWA Adaptation + PWA Notifications + sickn33/antigravity-awesome-skills (building-native-ui, hig-patterns)"
+source: "Fusion : iPhone PWA Adaptation + PWA Notifications + sickn33/antigravity-awesome-skills (building-native-ui, hig-patterns, progressive-web-app)"
 date_added: "2026-04-14"
 tags: [pwa, ios, safari, service-worker, notifications, offline, safe-area, manifest]
 ---

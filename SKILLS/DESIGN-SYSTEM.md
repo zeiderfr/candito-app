@@ -42,6 +42,53 @@ Système de design complet pour le projet : tokens couleur, typographie, composa
 
 ## PARTIE 2 — Tokens Couleur
 
+### Tailwind v4 — Configuration CSS-first (`@theme`)
+
+Tailwind v4 abandonne `tailwind.config.js` au profit d'une config déclarative dans le CSS.
+
+```css
+/* index.css ou global.css — remplace tailwind.config.js */
+@import "tailwindcss";
+
+@theme {
+  /* Couleurs sémantiques */
+  --color-background: #0a0a0a;
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --color-accent: #FF3B30;
+  --color-accent-success: #34C759;
+  --color-text: #ffffff;
+  --color-muted: #86868B;
+  --color-border: rgba(255, 255, 255, 0.07);
+
+  /* Typographie */
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Spacing custom */
+  --spacing-safe-top: env(safe-area-inset-top);
+  --spacing-safe-bottom: env(safe-area-inset-bottom);
+}
+```
+
+**Architecture des tokens (3 couches) :**
+
+| Couche | Exemple | Usage |
+|--------|---------|-------|
+| Primitive | `--red-500: #FF3B30` | Valeur brute |
+| Sémantique | `--color-accent: var(--red-500)` | Rôle dans l'interface |
+| Composant | `--button-bg: var(--color-accent)` | Spécifique à un composant |
+
+**Container queries (Tailwind v4 natif) :**
+
+```tsx
+// Parent conteneur
+<div className="@container">
+  {/* Enfant réagit à la taille du parent, pas du viewport */}
+  <div className="@sm:flex-row flex-col">
+    {/* ... */}
+  </div>
+</div>
+```
+
 ### CSS Variables (index.css)
 
 ```css
