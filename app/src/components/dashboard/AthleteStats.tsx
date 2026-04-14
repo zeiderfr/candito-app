@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { animate, utils } from 'animejs'
 
 interface AthleteStatsProps {
   squat: number
@@ -10,6 +12,105 @@ interface AthleteStatsProps {
   totalCount: number
 }
 
+// ── PR particle burst ────────────────────────────────────────────────
+function triggerPRExplosion(container: HTMLElement) {
+  const N = 12
+  const particles: HTMLDivElement[] = []
+
+  for (let i = 0; i < N; i++) {
+    const el = document.createElement('div')
+    el.style.cssText = [
+      'position:absolute',
+      'width:5px',
+      'height:5px',
+      'border-radius:50%',
+      'background:#66bb6a',
+      'pointer-events:none',
+      'top:50%',
+      'left:50%',
+      'transform:translate(-50%,-50%)',
+      'z-index:20',
+    ].join(';')
+    container.appendChild(el)
+    particles.push(el)
+  }
+
+  // Container flash
+  animate(container, {
+    scale: [1, 1.04, 1],
+    duration: 420,
+    ease: 'outBack(2)',
+  })
+
+  // Particle burst
+  animate(particles as unknown as HTMLElement, {
+    translateX: () => utils.random(-85, 85),
+    translateY: () => utils.random(-70, 20),
+    opacity: [1, 0],
+    scale: [1.4, 0],
+    duration: 680,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delay: utils.stagger(35) as any,
+    ease: 'outExpo',
+    onComplete: () => particles.forEach(p => p.remove()),
+  })
+}
+
+// ── Animated progress ring ───────────────────────────────────────────
+function ProgressRing({ pct }: { pct: number }) {
+  const R = 32
+  const circ = 2 * Math.PI * R
+  const ringRef = useRef<SVGCircleElement>(null)
+
+  useEffect(() => {
+    if (!ringRef.current) return
+    animate(ringRef.current, {
+      strokeDashoffset: circ * (1 - pct / 100),
+      duration: 1000,
+      delay: 300,
+      ease: 'outExpo',
+    })
+  }, [pct])
+
+  return (
+    <div className="relative size-20 shrink-0">
+      <svg
+        width="80" height="80" viewBox="0 0 80 80"
+        className="-rotate-90 absolute inset-0"
+        aria-hidden="true"
+      >
+        {/* Track */}
+        <circle
+          cx="40" cy="40" r={R}
+          fill="none"
+          stroke="rgba(255,255,255,0.06)"
+          strokeWidth="4"
+        />
+        {/* Progress */}
+        <circle
+          ref={ringRef}
+          cx="40" cy="40" r={R}
+          fill="none"
+          stroke="#66bb6a"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={circ}
+          strokeDashoffset={circ}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-lg font-display text-accent tabular-nums leading-none">
+          {pct}%
+        </span>
+        <span className="text-[8px] text-muted/50 uppercase tracking-wider mt-0.5">
+          done
+        </span>
+      </div>
+    </div>
+  )
+}
+
+// ── Main component ───────────────────────────────────────────────────
 export function AthleteStats({
   squat,
   bench,
@@ -17,33 +118,43 @@ export function AthleteStats({
   total,
   progressPct,
   completedCount,
-  totalCount
+  totalCount,
 }: AthleteStatsProps) {
+  const statsRef = useRef<HTMLDivElement>(null)
+  const prevTotalRef = useRef(total)
+
+  // PR explosion when total increases
+  useEffect(() => {
+    if (total > prevTotalRef.current && statsRef.current) {
+      triggerPRExplosion(statsRef.current)
+    }
+    prevTotalRef.current = total
+  }, [total])
+
   return (
     <div className={cn(
-      "glass p-8 rounded-card border-none flex flex-col gap-8",
-      "animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150"
+      'glass p-8 rounded-card border-none flex flex-col gap-8',
+      'animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150',
     )}>
-      <div className="flex items-center gap-2">
-        <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
-          Dossier Athlète
-        </span>
-      </div>
+      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
+        Dossier Athlète
+      </span>
 
-      <div className="grid grid-cols-4 gap-4">
+      {/* Stat numbers */}
+      <div ref={statsRef} className="relative grid grid-cols-4 gap-4">
         {[
-          { label: 'SQUAT', value: squat },
-          { label: 'BENCH', value: bench },
+          { label: 'SQUAT',    value: squat },
+          { label: 'BENCH',    value: bench },
           { label: 'DEADLIFT', value: deadlift },
-          { label: 'TOTAL', value: total, isAccent: true }
+          { label: 'TOTAL',    value: total, isAccent: true },
         ].map((stat) => (
           <div key={stat.label} className="flex flex-col gap-1 text-center">
             <span className="text-[9px] font-bold text-muted/60 uppercase">
               {stat.label}
             </span>
             <span className={cn(
-              "text-2xl font-display tabular-nums leading-none",
-              stat.isAccent ? "text-accent" : "text-white"
+              'text-2xl font-display tabular-nums leading-none',
+              stat.isAccent ? 'text-accent' : 'text-white',
             )}>
               {stat.value}
             </span>
@@ -52,26 +163,17 @@ export function AthleteStats({
         ))}
       </div>
 
-      <div className="space-y-3">
-        <div className="flex justify-between items-end">
-          <span className="text-[11px] font-bold text-white uppercase tracking-wider">
+      {/* Progress ring + label */}
+      <div className="flex items-center gap-5">
+        <ProgressRing pct={progressPct} />
+        <div className="flex-1 space-y-1.5">
+          <p className="text-[11px] font-bold text-white uppercase tracking-wider">
             Progression du programme
-          </span>
-          <span className="text-[14px] font-display text-accent tabular-nums">
-            {progressPct}%
-          </span>
+          </p>
+          <p className="text-[11px] text-muted font-medium">
+            {completedCount} sur {totalCount} séances complétées
+          </p>
         </div>
-
-        <div className="relative h-2 w-full bg-white/5 rounded-full overflow-hidden">
-          <div
-            className="absolute top-0 left-0 h-full bg-accent transition-all duration-1000 ease-out"
-            style={{ width: `${progressPct}%` }}
-          />
-        </div>
-
-        <p className="text-[11px] text-muted text-center font-medium">
-          {completedCount} sur {totalCount} séances complétées
-        </p>
       </div>
     </div>
   )
