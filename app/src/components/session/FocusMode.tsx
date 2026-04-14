@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { X, CheckCircle2, ChevronRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { type Session, type SessionLog, type SetLog } from '@/types'
 import { calcWeight } from '@/lib/weightCalc'
 
@@ -145,10 +146,22 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
         <div className="space-y-2.5">
           <div className="flex gap-2">
             {Array.from({ length: totalSets }).map((_, i) => (
-              <div key={i} className={cn(
-                "h-1.5 flex-1 rounded-full transition-all duration-300",
-                i < setsDone ? "bg-accent" : i === setsDone && !allSetsDone ? "bg-white/30" : "bg-white/10"
-              )} />
+              <motion.div
+                key={i}
+                className="h-1.5 flex-1 rounded-full"
+                animate={{
+                  backgroundColor: i < setsDone
+                    ? '#66bb6a'
+                    : i === setsDone && !allSetsDone
+                    ? 'rgba(255,255,255,0.3)'
+                    : 'rgba(255,255,255,0.1)',
+                  scaleY: i === setsDone - 1 ? [1.8, 1] : 1,
+                }}
+                transition={{
+                  backgroundColor: { duration: 0.2 },
+                  scaleY: { type: 'spring', stiffness: 400, damping: 15 },
+                }}
+              />
             ))}
           </div>
           <p className="text-[11px] font-bold uppercase tracking-widest text-muted">
@@ -161,12 +174,14 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
       <div className="px-6 space-y-3" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
-        <button
+        <motion.button
           onClick={handleAction}
+          whileTap={{ scale: 0.96 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 25 }}
           className={cn(
             "w-full py-6 rounded-pill font-bold uppercase tracking-widest text-[13px]",
             "flex items-center justify-center gap-3",
-            "transition-all duration-200 active:scale-[0.97] cursor-pointer shadow-lg"
+            "cursor-pointer shadow-lg"
           , isCompleting
               ? "bg-accent text-background shadow-accent/20"
               : allSetsDone
@@ -181,7 +196,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           ) : (
             <>Série faite <CheckCircle2 size={18} /></>
           )}
-        </button>
+        </motion.button>
 
         {/* Annuler la dernière série */}
         {setsDone > 0 && !allSetsDone && (
