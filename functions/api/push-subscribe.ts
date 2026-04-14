@@ -4,7 +4,12 @@ interface Env {
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
-    const subscription = await context.request.json();
+    const data = await context.request.json() as { 
+      subscription: PushSubscription, 
+      weekId?: string, 
+      name?: string 
+    };
+    const { subscription, weekId, name } = data;
 
     if (!subscription || !subscription.endpoint) {
       return new Response("Invalid subscription object", { status: 400 });
@@ -22,8 +27,16 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     const key = `sub:${subscription.endpoint}`;
     
+    // On stocke les infos enrichies
+    const record = {
+      subscription,
+      weekId: weekId || 's1',
+      name: name || '',
+      lastSync: new Date().toISOString()
+    };
+
     // On expire les abonnements après 90 jours d'inactivité pour nettoyer la KV
-    await context.env.CANDITO_SUBS.put(key, JSON.stringify(subscription), {
+    await context.env.CANDITO_SUBS.put(key, JSON.stringify(record), {
       expirationTtl: 60 * 60 * 24 * 90 
     });
 
