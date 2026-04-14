@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Bell, Cloud, ShieldCheck, X } from 'lucide-react'
+import { Bell, Cloud, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const VAPID_PUBLIC_KEY = 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJGvmW2i36TVWB5UMCJDlw5ukU4PdvyZq_oedCgyQNSEKpA6qIShO3c9R4OrkAgul6p2MNmUm3lBHoEVvJbMyzg'

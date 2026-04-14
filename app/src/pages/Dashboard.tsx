@@ -30,6 +30,7 @@ export function Dashboard() {
 
       <div className="flex flex-col gap-6">
         <CoachCard />
+        <PushNotificationManager />
 
         <NotificationBanner />
         <TrainingNotificationBanner />
