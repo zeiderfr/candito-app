@@ -160,7 +160,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       </div>
 
       {/* ── CTA ──────────────────────────────────────────────────── */}
-      <div className="px-6 pb-12 space-y-3">
+      <div className="px-6 space-y-3" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
         <button
           onClick={handleAction}
           className={cn(
