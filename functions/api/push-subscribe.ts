@@ -10,8 +10,16 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       return new Response("Invalid subscription object", { status: 400 });
     }
 
-    // On utilise l'endpoint comme clé unique (hashée ou brute)
-    // Pour simplifier, on stocke l'objet JSON complet
+    if (!context.env.CANDITO_SUBS) {
+      return new Response(JSON.stringify({ 
+        error: "Configuration requise : Le namespace Cloudflare KV 'CANDITO_SUBS' n'est pas lié à votre projet Pages.",
+        help: "Allez dans Dashboard > Pages > Votre Projet > Settings > Functions > KV namespace bindings."
+      }), { 
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
     const key = `sub:${subscription.endpoint}`;
     
     // On expire les abonnements après 90 jours d'inactivité pour nettoyer la KV
