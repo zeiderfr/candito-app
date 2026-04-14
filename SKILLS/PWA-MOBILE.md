@@ -481,7 +481,7 @@ self.addEventListener('activate', event => {
 
 ---
 
-## PARTIE 9 — Offline First (localStorage + SW Cache)
+## PARTIE 10 — Offline First (localStorage + SW Cache)
 
 ### Stratégie
 
@@ -527,7 +527,7 @@ const checkForUpdate = async (currentVersion: string): Promise<boolean> => {
 
 ---
 
-## PARTIE 9 — Install UX iOS/Android
+## PARTIE 11 — Install UX iOS/Android
 
 ### Détection plateforme
 
@@ -583,7 +583,7 @@ const handleInstall = async () => {
 
 ---
 
-## PARTIE 10 — Checklist PWA Complète
+## PARTIE 12 — Checklist PWA Complète
 
 ### HTML
 - [ ] `viewport-fit=cover` dans le meta viewport
