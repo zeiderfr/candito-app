@@ -1,6 +1,7 @@
 # Pages Configuration
 name = "programme-candito"
 pages_build_output_dir = "app/dist"
+compatibility_date = "2026-04-14"
 
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"

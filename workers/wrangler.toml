@@ -1,6 +1,7 @@
 # Worker Configuration
 name = "candito-scheduler"
 main = "training-reminder.ts"
+compatibility_date = "2026-04-14"
 
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"
