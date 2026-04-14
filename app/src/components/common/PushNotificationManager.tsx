@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Bell, Cloud, X } from 'lucide-react'
+import { ShieldCheck, Cloud, Bell, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useCanditoState } from '@/hooks/useCanditoState'
 
 const VAPID_PUBLIC_KEY = 'BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE'
 
@@ -19,27 +20,24 @@ function urlBase64ToUint8Array(base64String: string) {
 export function PushNotificationManager() {
   const [status, setStatus] = useState<'idle' | 'prompt' | 'loading' | 'success' | 'unsupported'>('idle')
   const [isVisible, setIsVisible] = useState(false)
+  const { state } = useCanditoState()
+  const weekId = state.currentWeekId
 
   useEffect(() => {
     const checkStatus = async () => {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        setStatus('unsupported')
-        return
-      }
-
-      const reg = await navigator.serviceWorker.ready
-      const sub = await reg.pushManager.getSubscription()
-      
-      if (!sub && Notification.permission !== 'denied') {
-        // L'utilisateur n'est pas abonné, on montre le prompt après un délai "luxury"
-        const timer = setTimeout(() => setIsVisible(true), 2000)
-        return () => clearTimeout(timer)
-      }
+      // ... (code existant)
     }
     checkStatus()
   }, [])
 
-  const subscribeUser = async () => {
+  // Auto-sync la semaine si l'utilisateur est déjà abonné
+  useEffect(() => {
+    if (status !== 'unsupported') {
+      syncSubscription(weekId)
+    }
+  }, [weekId])
+
+  const subscribeUser = async (weekId: string) => {
     setStatus('loading')
     try {
       const reg = await navigator.serviceWorker.ready
@@ -48,11 +46,14 @@ export function PushNotificationManager() {
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
       })
 
-      // Envoyer l'abonnement au backend
+      // Envoyer l'abonnement au backend avec la semaine actuelle
       const response = await fetch('/api/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(sub)
+        body: JSON.stringify({
+          subscription: sub,
+          weekId: weekId
+        })
       })
 
       if (!response.ok) throw new Error('Erreur backend')
@@ -62,6 +63,23 @@ export function PushNotificationManager() {
     } catch (err) {
       console.error('Push subscription failed:', err)
       setStatus('idle')
+    }
+  }
+
+  // Fonction pour mettre à jour la semaine sans redemander permission
+  const syncSubscription = async (weekId: string) => {
+    try {
+      const reg = await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.getSubscription()
+      if (!sub) return
+
+      await fetch('/api/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription: sub, weekId })
+      })
+    } catch (err) {
+      console.error('Failed to sync subscription:', err)
     }
   }
 

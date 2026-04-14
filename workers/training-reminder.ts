@@ -1,0 +1,69 @@
+import webpush from 'web-push';
+
+export interface Env {
+  CANDITO_SUBS: KVNamespace;
+  VAPID_PUBLIC_KEY: string;
+  VAPID_PRIVATE_KEY: string;
+}
+
+// Data simplifiée du programme pour le worker
+const WEEK_SCHEDULE_MAP: Record<string, Record<number, string | null>> = {
+  s1:      { 1: 's1_lun', 2: 's1_mar', 4: 's1_jeu', 5: 's1_ven', 6: 's1_sam' },
+  s2:      { 1: 's2_lun', 2: 's2_mar', 4: 's2_jeu', 5: 's2_ven', 6: 's2_sam' },
+  s3:      { 1: 's3_lun', 3: 's3_mer', 5: 's3_ven' },
+  s4:      { 1: 's4_lun', 2: 's4_mar', 4: 's4_jeu', 5: 's4_ven' },
+  s5:      { 1: 's5_j1',  2: 's5_j2',  3: 's5_j3' },
+  s6_test: { 1: 's6_test_lun', 3: 's6_test_mer', 5: 's6_test_ven' },
+  s6_dec:  { 1: 's6_dec_lun',  3: 's6_dec_mer',  5: 's6_dec_ven' },
+};
+
+const FOCUS_MAP: Record<string, string> = {
+  s1_lun: 'Bas (Lourd)', s1_mar: 'Haut (Lourd)', s1_jeu: 'Haut (Volume)', s1_ven: 'Bas (Volume)', s1_sam: 'Haut (Hyper)',
+  s2_lun: 'Bas (Lourd)', s2_mar: 'Haut (Lourd)', s2_jeu: 'Haut (Volume)', s2_ven: 'Bas (Volume)', s2_sam: 'Haut (Hyper)',
+  s3_lun: 'Bas (Puissance)', s3_mer: 'Haut (Puissance)', s3_ven: 'Full Body',
+  s4_lun: 'Bas (>90%)', s4_mar: 'Haut (>90%)', s4_jeu: 'Bas (Explo)', s4_ven: 'Haut (Maintien)',
+  s5_j1: 'Test Squat', s5_j2: 'Test Bench', s5_j3: 'Test Deadlift',
+  s6_test_lun: 'PR Squat/DL', s6_test_mer: 'PR Bench', s6_test_ven: 'PR Deadlift',
+  s6_dec_lun: 'Bas (Décharge)', s6_dec_mer: 'Haut (Décharge)', s6_dec_ven: 'Bas (Mobilité)',
+};
+
+export default {
+  async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
+    const vapidDetails = {
+      subject: 'mailto:admin@programme-candito.pages.dev',
+      publicKey: env.VAPID_PUBLIC_KEY,
+      privateKey: env.VAPID_PRIVATE_KEY,
+    };
+
+    // 1. Lister tous les abonnés
+    const list = await env.CANDITO_SUBS.list({ prefix: 'sub:' });
+    const dayOfWeek = new Date().getDay();
+
+    for (const key of list.keys) {
+      const data = await env.CANDITO_SUBS.get(key.name);
+      if (!data) continue;
+
+      const { subscription, weekId } = JSON.parse(data) as any;
+      const weekSchedule = WEEK_SCHEDULE_MAP[weekId] || {};
+      const sessionId = weekSchedule[dayOfWeek];
+
+      if (sessionId) {
+        const focus = FOCUS_MAP[sessionId] || 'Séance aujourd\'hui';
+        const payload = JSON.stringify({
+          title: 'CANDITO — Rappel Séance',
+          body: `Aujourd'hui : ${focus}. Bonne chance !`,
+          url: '/programme'
+        });
+
+        try {
+          await webpush.sendNotification(subscription, payload, vapidDetails);
+        } catch (err) {
+          if (err.statusCode === 410 || err.statusCode === 404) {
+            // L'abonnement a expiré ou a été révoqué par l'utilisateur
+            await env.CANDITO_SUBS.delete(key.name);
+          }
+        }
+      }
+    }
+  },
+};
