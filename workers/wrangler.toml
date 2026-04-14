@@ -4,7 +4,7 @@ main = "training-reminder.ts"
 
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"
-id = "CANDITO_SUBS_ID_PLACEHOLDER" # Sera remplacé par auto-deploy.py
+id = "15eeb67e39fa4b55b1e7105ebda9f11f" # Injecté par Antigravity
 
 [vars]
 VAPID_PUBLIC_KEY = "BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE"
