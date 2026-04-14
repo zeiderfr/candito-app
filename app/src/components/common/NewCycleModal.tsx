@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { RefreshCw, X, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type RM } from '@/types'

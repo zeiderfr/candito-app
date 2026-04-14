@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight, epley } from '@/lib/weightCalc'
@@ -406,7 +406,7 @@ function RPEPanel() {
 }
 
 // ── RM Chart ─────────────────────────────────────────────────────────
-const RMChart = React.memo(() => {
+const RMChart = (() => {
   const { state } = useCanditoState()
   const prs = state.progress.prs ?? []
   if (prs.length === 0) return (
