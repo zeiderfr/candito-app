@@ -7,6 +7,7 @@ import { PushNotificationManager } from '@/components/common/PushNotificationMan
 import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
+import { CycleProgressRings } from '@/components/dashboard/CycleProgressRings'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
@@ -41,6 +42,12 @@ export function Dashboard() {
         <NextSessionHero
           workoutState={workoutState}
           getWeight={getCalculatedWeight}
+        />
+
+        <CycleProgressRings
+          squat={state.athlete.rm.squat}
+          bench={state.athlete.rm.bench}
+          deadlift={state.athlete.rm.deadlift}
         />
 
         <AthleteStats

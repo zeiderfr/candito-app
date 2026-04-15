@@ -1,13 +1,26 @@
 const CACHE_NAME = 'candito-cache-v1';
 const META_CACHE = 'candito-meta';
 const VERSION_URL = '/version.json';
+const OFFLINE_URL = '/offline.html';
+const ASSETS_TO_CACHE = [
+  '/',
+  '/index.html',
+  OFFLINE_URL,
+  '/manifest.webmanifest',
+  '/apple-touch-icon.png'
+];
 
 // ── INSTALL ───────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
   event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('📦 Pre-caching critical assets');
+      return cache.addAll(ASSETS_TO_CACHE);
+    }),
     caches.open(META_CACHE).then(cache =>
       cache.match('installed').then(existing => {
         if (existing) {
+// ... existing skip waiting logic
           // C'est une mise à jour, on ne skipWaiting pas pour laisser le choix à l'utilisateur.
           // On affiche la notification si l'app n'est pas au premier plan.
           if (Notification.permission === 'granted') {
@@ -109,8 +122,15 @@ self.addEventListener('fetch', (event) => {
   // Pour tout le reste : réseau en priorité, cache en fallback
   event.respondWith(
     fetch(event.request)
-      .then((response) => response)
-      .catch(() => caches.match(event.request))
+      .catch(() => {
+        return caches.match(event.request).then(response => {
+          if (response) return response;
+          // Si c'est une navigation et qu'on n'a rien, on montre la page offline
+          if (event.request.mode === 'navigate') {
+            return caches.match(OFFLINE_URL);
+          }
+        });
+      })
   );
 });
 

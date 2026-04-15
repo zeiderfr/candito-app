@@ -53,16 +53,16 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                 {isActive && (
                   <motion.div
                     layoutId="tab-pill"
-                    className="absolute inset-0 rounded-xl bg-accent/10"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 rounded-xl bg-accent/15"
+                    transition={{ type: "spring", stiffness: 420, damping: 28 }}
                   />
                 )}
                 <Icon
                   size={24}
                   strokeWidth={isActive ? 2.5 : 2}
                   className={cn(
-                    "relative z-10 transition-all duration-200",
-                    isActive ? "scale-110" : "scale-100"
+                    "relative z-10 transition-all duration-300",
+                    isActive ? "scale-125 -translate-y-0.5" : "scale-100"
                   )}
                 />
               </div>
