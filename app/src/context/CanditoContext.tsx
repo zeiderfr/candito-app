@@ -99,6 +99,7 @@ export interface CanditoContextType {
   setCurrentWeek: (weekId: string) => void
   addPR: (lift: 'squat' | 'bench' | 'deadlift', weight: number, reps: number) => void
   logSession: (log: SessionLog) => void
+  removePR: (prId: string) => void
   importState: (data: CanditoState) => void
   startNewCycle: (newRM: RM) => void
   suggestNewRM: () => RM
@@ -218,6 +219,17 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     }))
   }, [isDemoMode])
 
+  const removePR = useCallback((prId: string) => {
+    if (isDemoMode) return
+    setRealState(prev => ({
+      ...prev,
+      progress: {
+        ...prev.progress,
+        prs: prev.progress.prs.filter(p => p.id !== prId),
+      },
+    }))
+  }, [isDemoMode])
+
   const logSession = useCallback((log: SessionLog) => {
     if (isDemoMode) return
     setRealState(prev => ({
@@ -277,6 +289,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     setCurrentWeek,
     addPR,
     logSession,
+    removePR,
     importState,
     startNewCycle,
     suggestNewRM: () => suggestNewRM(state),

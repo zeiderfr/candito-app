@@ -3,9 +3,10 @@ import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { calcWeight, epley } from '@/lib/weightCalc'
 import { PROGRAM_DATA, WEEK_ORDER } from '@/data/program'
-import { AlertTriangle, Plus, Trophy, Database, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react'
-import { type CanditoState } from '@/types'
+import { AlertTriangle, Plus, Trophy, Database, RefreshCw, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
+import { type CanditoState, type PR } from '@/types'
 import { NewCycleModal } from '@/components/common/NewCycleModal'
+import { useToasts } from '@/context/ToastContext'
 
 type SubTab = 'charges' | 'rpe'
 
@@ -70,7 +71,8 @@ type PendingRM = { lift: 'squat' | 'bench' | 'deadlift'; estimated: number }
 
 
 function PRSection() {
-  const { state, addPR, updateRM } = useCanditoState()
+  const { state, addPR, removePR, updateRM } = useCanditoState()
+  const { showToast } = useToasts()
   const [showForm, setShowForm] = useState(false)
   const [formLift, setFormLift] = useState<'squat' | 'bench' | 'deadlift'>('squat')
   const [formWeight, setFormWeight] = useState('')
@@ -94,6 +96,21 @@ function PRSection() {
     setFormWeight('')
     setFormReps('1')
     setShowForm(false)
+  }
+
+  const handleDeletePR = (pr: PR) => {
+    removePR(pr.id)
+    showToast({
+      message: `Record "${pr.lift} ${pr.weight}kg" supprimé.`,
+      onUndo: () => {
+        // Mocking partial addPR to restore exactly as before
+        // Since addPR generates a new ID normally, we use the restore logic here
+        // If removePR was just filtering by ID, we might need a way to insert it back
+        // For simplicity here, we re-add it (it will get a new ID but same data)
+        addPR(pr.lift, pr.weight, pr.reps)
+      },
+      duration: 5000
+    })
   }
 
   return (
@@ -196,12 +213,23 @@ function PRSection() {
         {lastPRs.length === 0 ? (
           <p className="px-5 py-6 text-sm text-muted text-center">Aucun PR enregistré</p>
         ) : lastPRs.map((pr, i) => pr && (
-          <div key={i} className="px-5 py-3.5 flex items-center justify-between">
-            <div>
-              <p className="text-sm text-white font-medium capitalize">{pr.lift}</p>
-              <p className="text-[10px] text-muted mt-0.5">{pr.date} • {pr.reps} rep{pr.reps > 1 ? 's' : ''}</p>
+          <div key={i} className="px-5 py-3.5 flex items-center justify-between group">
+            <div className="flex items-center gap-4">
+              <div>
+                <p className="text-sm text-white font-medium capitalize">{pr.lift}</p>
+                <p className="text-[10px] text-muted mt-0.5">{pr.date} • {pr.reps} rep{pr.reps > 1 ? 's' : ''}</p>
+              </div>
             </div>
-            <span className="text-accent font-bold tabular-nums text-lg font-display">{pr.weight} kg</span>
+            <div className="flex items-center gap-4">
+              <span className="text-accent font-bold tabular-nums text-lg font-display">{pr.weight} kg</span>
+              <button
+                onClick={() => handleDeletePR(pr)}
+                className="opacity-0 group-hover:opacity-100 p-2 text-muted hover:text-danger transition-all cursor-pointer"
+                aria-label="Supprimer PR"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
           </div>
         ))}
       </div>

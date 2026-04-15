@@ -159,11 +159,13 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                     : i === setsDone && !allSetsDone
                     ? 'rgba(255,255,255,0.3)'
                     : 'rgba(255,255,255,0.1)',
-                  scaleY: i === setsDone - 1 ? [1.8, 1] : 1,
+                  scaleY: i === setsDone - 1 ? [1, 2.5, 1] : 1,
+                  scaleX: i === setsDone - 1 ? [1, 1.1, 1] : 1,
                 }}
                 transition={{
                   backgroundColor: { duration: 0.2 },
-                  scaleY: { type: 'spring', stiffness: 400, damping: 15 },
+                  scaleY: { type: 'spring', stiffness: 500, damping: 15 },
+                  scaleX: { type: 'spring', stiffness: 500, damping: 20 },
                 }}
               />
             ))}
