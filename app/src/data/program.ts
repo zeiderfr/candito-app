@@ -20,35 +20,243 @@ export const PROGRAM_METADATA: Record<string, { title: string; subtitle: string 
 }
 
 // ── COACH MESSAGES ─────────────────────────────────────────────────
-// Message dynamique affiché dans CoachCard selon la semaine active.
-export const COACH_MESSAGES: Record<string, { tone: string; message: string }> = {
+// Messages dynamiques par semaine × créneau horaire × jour de la semaine.
+// Sélection : messages[dayOfWeek % messages.length] — déterministe, pas aléatoire.
+// Créneaux : matin (<13h) | midi (13–14h) | aprem (14–18h) | soir (≥18h)
+
+export type CoachTimeSlot = 'matin' | 'midi' | 'aprem' | 'soir'
+
+export interface WeekCoachData {
+  tone: string
+  matin: string[]
+  midi: string[]
+  aprem: string[]
+  soir: string[]
+}
+
+export const COACH_MESSAGES: Record<string, WeekCoachData> = {
   s1: {
     tone: 'Fondations',
-    message: "Construisons les fondations. Volume élevé, fatigue normale. L'objectif est l'hypertrophie. Suis les méthodes d'échauffement.",
+    matin: [
+      "S1, premier matin. 80% et volume élevé — la régularité prime sur l'intensité.",
+      "Les fondations se posent dans l'ombre. Technique propre, chaque répétition compte.",
+      "Journée de travail. Échauffement complet avant la séance, l'aine a besoin d'espace.",
+      "Le corps s'adapte au volume progressivement. Sois patient, sois régulier.",
+      "Tu construis ce qui te permettra de tenir en S4. Chaque séance est un investissement.",
+    ],
+    midi: [
+      "Mi-journée de S1. Mange bien, la synthèse protéique tourne à plein régime.",
+      "Si la séance est ce soir, hydrate-toi depuis maintenant.",
+      "L'accumulation ne se voit pas encore — elle se ressent dans deux semaines.",
+      "Pause méridienne. Mobilité des hanches en douceur si tu peux.",
+      "Le volume de S1 se digère avec de la nourriture et du repos. Prends soin de toi.",
+    ],
+    aprem: [
+      "80% cet après-midi. Pas d'ego, juste du mouvement propre et contrôlé.",
+      "La séance de l'après-midi est souvent la meilleure — corps chaud, mental frais.",
+      "L'hypertrophie se construit répétition par répétition. Concentre-toi sur le chemin.",
+      "Volume élevé, récupération active. Un peu de mobilité ne fait jamais de mal.",
+      "Si c'est un jour de repos, recharge activement. Marche, mobilité, sommeil.",
+    ],
+    soir: [
+      "Bonsoir. S1 avance bien. Le sommeil construit ce que la séance a initié.",
+      "Mange, dors, répète. L'hypertrophie est une question de régularité.",
+      "Ce que tu construis en S1 est invisible pour l'instant — mais il est bien réel.",
+      "Récupération ce soir. Corps et tissus se consolident pendant la nuit.",
+      "8h de sommeil si possible. C'est ta meilleure séance du jour.",
+    ],
   },
+
   s2: {
     tone: 'Consolidation',
-    message: "La continuité de la semaine 1. Va chercher cette surcompensation tout en épongeant la fatigue. Ne force pas sur l'aine.",
+    matin: [
+      "S2 commence. La surcompensation de S1 est en cours — exploite-la.",
+      "Le corps commence à s'adapter. Les charges deviennent plus familières.",
+      "Même programme, corps différent. Tu es plus fort qu'il y a sept jours.",
+      "La régularité de cette semaine décide de la qualité de S3.",
+      "S2, matin de travail. L'aine, les hanches — ne jamais négliger l'échauffement.",
+    ],
+    midi: [
+      "Mi-S2. L'accumulation de la semaine dernière commence à porter ses fruits.",
+      "Le corps absorbe mieux qu'en S1. Récupération active, nutrition solide.",
+      "Ne force pas sur l'aine — laisse l'hypertrophie faire son travail.",
+      "La régularité est ton meilleur indicateur de forme cette semaine.",
+      "La séance approche. Prépare-toi mentalement autant que physiquement.",
+    ],
+    aprem: [
+      "S2 est la confirmation de S1 — tout s'accumule, rien ne se perd.",
+      "80% encore aujourd'hui. Tu as déjà fait ça la semaine passée, et tu étais là.",
+      "Chaque séance de S2 est une brique sur les fondations de S1.",
+      "La technique forgée en S1 s'automatise en S2. Profite de chaque répétition.",
+      "Après-midi de consolidation. Volume constant, intention maximale.",
+    ],
+    soir: [
+      "Bonsoir. S2 avance. Récupère bien — S3 monte en charge la semaine prochaine.",
+      "Le bain froid de ce week-end va accélérer la récupération. Prévoie-le.",
+      "Le travail d'hypertrophie se voit rarement dans le miroir, mais se ressent à la barre.",
+      "Mobilité, hydratation, sommeil. Les trois piliers de la récupération.",
+      "S3 approche avec une montée d'intensité. Profite encore du volume de S2.",
+    ],
   },
+
   s3: {
     tone: 'Transmutation',
-    message: "On quitte le volume pour la force pure. Les repos augmentent. Pense au bain froid ce week-end !",
+    matin: [
+      "S3, transmutation. Le volume baisse, l'intensité monte. Le corps change de registre.",
+      "85-87% aujourd'hui. Temps de repos plus long, concentration maximale à la barre.",
+      "Moins de reps, plus de qualité, plus d'effort. Bienvenue dans la force pure.",
+      "3 séances seulement cette semaine. Chacune doit être irréprochable.",
+      "Le travail de S1-S2 se transmute en force aujourd'hui. Fais-lui honneur.",
+    ],
+    midi: [
+      "Mi-S3. Le système nerveux est sollicité différemment — récupère en conséquence.",
+      "Les charges lourdes demandent plus à table. Apports en glucides solides avant la séance.",
+      "Le corps passe du volume à la puissance. Ce changement se ressent, c'est normal.",
+      "Mi-semaine de transmutation. Une sieste courte avant la séance peut changer la donne.",
+      "La force demande plus de carburant que l'hypertrophie. Mange en conséquence.",
+    ],
+    aprem: [
+      "Séance de transmutation. Temps de repos longs, technique irréprochable.",
+      "85-87% cet après-midi. Concentre-toi sur chaque lift, pas sur la prochaine série.",
+      "La puissance se forge dans la concentration. Mets le téléphone de côté.",
+      "Moins de séances, plus d'impact — rends chacune mémorable.",
+      "Précision et intention. C'est tout ce que S3 demande.",
+    ],
+    soir: [
+      "Bonsoir. Le bain froid ce week-end va accélérer la récupération du SNC.",
+      "Le système nerveux central récupère vite avec le sommeil. 8h ce soir.",
+      "La transmutation est invisible à court terme — mais S4 te montrera tout.",
+      "Récupère activement, les charges de demain le demanderont.",
+      "Bain froid, mobilité, sommeil long. Tu en as besoin après ces intensités.",
+    ],
   },
+
   s4: {
     tone: 'Acclimatation',
-    message: "Semaine la plus lourde avant ton test final. Préparation du SNC. Concentre-toi sur l'ouverture de hanches et ton gainage.",
+    matin: [
+      "S4. Semaine la plus lourde du cycle. Le SNC est en alerte — sois prêt.",
+      "90% ce matin. L'acclimatation aux charges max se fait ici, pas en S6.",
+      "Dernière semaine de charges lourdes avant le peaking. Chaque répétition est sacrée.",
+      "Gainage maximal, ouverture de hanches, SNC activé. Rien au hasard.",
+      "Tu as fait S1, S2, S3 — tu es prêt pour S4. Le corps l'est aussi.",
+    ],
+    midi: [
+      "Mi-S4. Gère ta fatigue intelligemment — ne compense pas avec la caféine seule.",
+      "Nutrition solide au déjeuner, indispensable pour les charges de S4.",
+      "Le corps est sous pression cette semaine — récupère activement entre les séances.",
+      "Le sommeil de cette semaine est aussi important que les séances.",
+      "L'ouverture de hanches au quotidien aidera à tenir sous la barre.",
+    ],
+    aprem: [
+      "90% cet après-midi. Échauffement long, pense à ton gainage, ton souffle, ta posture.",
+      "La charge est maximale — l'échauffement aussi doit l'être.",
+      "L'après-midi de S4 demande toute ta concentration. Sois ici, maintenant.",
+      "Prépare ton mental autant que ta ceinture. Les deux comptent à 90%.",
+      "Chaque lift de S4 est une répétition de S6. Intègre ça.",
+    ],
+    soir: [
+      "Bonsoir. Le sommeil de cette semaine est critique pour le SNC.",
+      "Corps et tendons récupèrent la nuit — 8h minimum cette semaine.",
+      "S4 est difficile par design. Si tu souffres, c'est que ça fonctionne.",
+      "La semaine la plus dure est aussi celle qui forge le plus. Récupère bien.",
+      "Moins d'une semaine avant le peaking. Recharge complètement ce soir.",
+    ],
   },
+
   s5: {
     tone: 'Peaking',
-    message: "Semaine de Réalisation ! Exprime toute la force emmagasinée. 1 seul test AMRAP par jour. Donne tout au box squat !",
+    matin: [
+      "Semaine de réalisation. Exprime ce que tu as construit en 4 semaines.",
+      "1 test AMRAP par jour — donne tout, sans te disperser. Qualité sur quantité.",
+      "Le corps est affiné pour la performance aujourd'hui. Fais-lui confiance.",
+      "97.5% ce matin. C'est le moment pour lequel tu t'es entraîné.",
+      "La fatigue accumulée se transforme en force d'expression. Lance-toi.",
+    ],
+    midi: [
+      "Mi-journée de peaking. Si tu as un AMRAP ce soir, prépare-toi mentalement maintenant.",
+      "L'alimentation et l'hydratation décident en partie de la qualité du test.",
+      "Visualise ta technique pendant la pause méridienne. Le mental prépare le physique.",
+      "Un seul AMRAP par jour, pas de volume inutile. Préserve l'énergie.",
+      "L'énergie est une ressource ce soir — utilise-la au bon moment.",
+    ],
+    aprem: [
+      "C'est l'heure du test. Mobilise tout ce que tu as construit ces 4 dernières semaines.",
+      "AMRAP cet après-midi. Technique d'abord, puissance ensuite. Protège l'aine.",
+      "Le box squat est ton allié contre le CFA — fais-lui confiance aujourd'hui.",
+      "97.5%, donne tout à la barre. Un rep de qualité vaut dix reps précipitées.",
+      "L'heure de vérité. Ce qui compte : la qualité de chaque répétition.",
+    ],
+    soir: [
+      "Bonsoir. Le test d'aujourd'hui est dans les logs. La récupération commence maintenant.",
+      "Le corps a donné. Maintenant le sommeil consolide les gains.",
+      "Tu touches le sommet de ce cycle. Récupère comme un athlète de haut niveau.",
+      "Mange, dors, recharge. S6 est là dans quelques jours.",
+      "Ce que tu viens de faire, peu de gens s'y tiennent. Récupère bien ce soir.",
+    ],
   },
+
   s6_test: {
     tone: 'Jour J',
-    message: "Test des maxis. Option déconseillée au vu du CFA, privilégie toujours de battre tes records sans aller sur un vrai 1RM complet.",
+    matin: [
+      "Jour J. Teste intelligemment — un record solide vaut mieux qu'un 1RM risqué avec le CFA.",
+      "S6 test. Échauffement extra-long, particulièrement sur les hanches.",
+      "Pas de pression sur le 1RM complet au vu du CFA. Bats ton record sans dépasser tes limites.",
+      "Le test d'aujourd'hui est une information, pas une épreuve. Lis ton corps.",
+      "Prudence sur le squat complet, box squat en priorité. Tu le sais, applique-le.",
+    ],
+    midi: [
+      "Repas léger, digestion rapide avant le passage à la barre.",
+      "La préparation mentale du test commence maintenant. Visualise chaque mouvement.",
+      "Hydratation optimale avant le test. Le corps performant est un corps hydraté.",
+      "Prépare tes tentatives sur papier — pas d'improvisation sous la barre.",
+      "Revois ta technique dans ta tête. Revois-la une fois de plus.",
+    ],
+    aprem: [
+      "Test en approche. Une tentative à 90%, une à 95%, ensuite décide selon le ressenti.",
+      "Échauffement progressif, tentatives conservatrices, protège l'aine.",
+      "La prudence sur les charges maximales est de la sagesse, pas de la faiblesse.",
+      "Chaque lift dans le respect du CFA. Box squat, toujours.",
+      "Ce qui compte : un record propre, sans blessure. Rien d'autre.",
+    ],
+    soir: [
+      "Les tests sont dans les livres. Qu'est-ce que ça donne pour le prochain cycle ?",
+      "Récupère bien — l'analyse des résultats peut attendre demain.",
+      "Un record, même partiel, est une victoire. Recharge pour le prochain cycle.",
+      "Les chiffres sont là — maintenant le corps a besoin de repos.",
+      "Bonsoir. Ce cycle s'est bien passé. Le suivant sera encore meilleur.",
+    ],
   },
+
   s6_dec: {
     tone: 'Récupération',
-    message: "Semaine de décharge indispensable. Purge la fatigue, soigne tes tissus. Le prochain cycle approche.",
+    matin: [
+      "Semaine de décharge. Le corps a donné tout ce qu'il avait — maintenant, récupère.",
+      "50-60% aujourd'hui. Légèreté, technique, mobilité. Pas d'effort intense.",
+      "La décharge est une séance comme les autres. Elle te prépare pour le prochain cycle.",
+      "Les tissus se réparent, les articulations soufflent, le mental se vide. Profite.",
+      "Dernière semaine du cycle. La légèreté des charges te permet de peaufiner ta technique.",
+    ],
+    midi: [
+      "Le corps absorbe les semaines de travail — laisse-le faire sans t'imposer.",
+      "Mobilité douce, hydratation, sommeil de qualité. Simple et efficace.",
+      "La récupération de la décharge se vit aussi à table. Mange bien, sans excès.",
+      "Le prochain cycle approche — profite de cette pause pour planifier ta progression.",
+      "C'est le moment d'écouter son corps sans contrainte. Qu'est-ce qu'il te dit ?",
+    ],
+    aprem: [
+      "La séance légère d'aujourd'hui est aussi importante que les séances lourdes.",
+      "50-60% cet après-midi. Mouvement fluide, aucune douleur. Si ça tire, recule.",
+      "Prends soin de l'aine, des tendons, des tissus profonds. Ils le méritent.",
+      "La décharge purifie la fatigue accumulée. Sois doux avec ton corps.",
+      "Mobilité des hanches, gainage doux. Rien de plus aujourd'hui.",
+    ],
+    soir: [
+      "La décharge touche à sa fin. Le prochain cycle sera plus fort que celui-ci.",
+      "Un cycle entier dans les jambes. Repos bien mérité ce soir.",
+      "Ce cycle est une réussite. Le suivant sera encore meilleur.",
+      "Récupère, planifie le prochain cycle, et prépare-toi à aller plus loin.",
+      "Bonsoir. Tout ce travail t'appartient. Le prochain cycle peut commencer.",
+    ],
   },
 }
 
