@@ -4,15 +4,16 @@ import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLo
 import { suggestNewRM } from '../lib/weightCalc'
 
 const STORAGE_KEY = 'candito_tracker_data'
+const CURRENT_VERSION = 5
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
 const DEFAULT_STATE: CanditoState = {
-  version: 4,
+  version: CURRENT_VERSION,
   initialized: false,
   athlete: {
     name: 'Théo',
-    rm: { squat: 150, bench: 110, deadlift: 170 }
+    rm: { squat: 140, bench: 100, deadlift: 160 }
   },
   cycleNumber: 1,
   cycleStartDate: TODAY(),
@@ -23,6 +24,40 @@ const DEFAULT_STATE: CanditoState = {
     sessionLogs: []
   },
   currentWeekId: 's1'
+}
+
+/**
+ * migrate — Permet de faire évoluer le schéma du localStorage sans casser les données.
+ * Chaque version implémente les changements nécessaires.
+ */
+function migrate(data: any): CanditoState {
+  let migrated = { ...data }
+
+  // Initialisation si données corrompues ou vides
+  if (!migrated.version) migrated.version = 0
+
+  // Exemple de migration : Passage à v4 (Cycle management)
+  if (migrated.version < 4) {
+    migrated.cycleNumber = migrated.cycleNumber || 1
+    migrated.cycleStartDate = migrated.cycleStartDate || TODAY()
+    migrated.cycleHistory = migrated.cycleHistory || []
+  }
+
+  // Passage à v5 (Normalisation des structures de progrès)
+  if (migrated.version < 5) {
+    migrated.progress = migrated.progress || {}
+    migrated.progress.completedSessions = migrated.progress.completedSessions || []
+    migrated.progress.prs = migrated.progress.prs || []
+    migrated.progress.sessionLogs = migrated.progress.sessionLogs || []
+    
+    // Nettoyage des anciens noms
+    if (migrated.athlete?.name === 'Athlète') {
+      migrated.athlete.name = 'Théo'
+    }
+  }
+
+  migrated.version = CURRENT_VERSION
+  return migrated as CanditoState
 }
 
 interface CanditoContextType {
@@ -53,47 +88,25 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
       try {
         let saved = await get(STORAGE_KEY)
         
-        // LocalStorage Fallback (Migration)
+        // Fallback LocalStorage pour migration depuis les très vieilles versions
         if (!saved) {
           const lsData = localStorage.getItem(STORAGE_KEY)
           if (lsData) {
-            saved = JSON.parse(lsData)
-            // Save to IDB for next time
-            await set(STORAGE_KEY, saved)
-            // Cleanup LS optionally, but keep for safety during transition
+            try {
+              saved = JSON.parse(lsData)
+              await set(STORAGE_KEY, saved)
+            } catch (e) {
+              console.warn("Échec du parsing LS fallback", e)
+            }
           }
         }
 
         if (saved) {
-          const data = saved as CanditoState
-          
-          // Ensure structure exists (Migration/Safety)
-          if (!data.progress) {
-            data.progress = { completedSessions: [], prs: [], sessionLogs: [] }
-          }
-          data.progress.completedSessions = data.progress.completedSessions || []
-          data.progress.prs = data.progress.prs || []
-          data.progress.sessionLogs = data.progress.sessionLogs || []
-          
-          if (!data.athlete && (data as any).rm) {
-             // Basic migration v1 -> v2 logic here if needed
-          }
-          
-          if (data.athlete?.name === 'Athlète') {
-            data.athlete.name = 'Théo'
-          }
-
-          if (!data.cycleNumber) {
-            data.cycleNumber = 1
-            data.cycleStartDate = TODAY()
-            data.cycleHistory = []
-            data.version = 4
-          }
-          
-          setState(data)
+          const migrated = migrate(saved)
+          setState(migrated)
         }
       } catch (e) {
-        console.error("Critical: Failed to load Candito store from IDB", e)
+        console.error("Critical: Failed to load Candito store", e)
       } finally {
         setIsLoading(false)
       }
