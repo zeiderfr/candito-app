@@ -452,7 +452,7 @@ const RMChart = (() => {
           const yPos = yScale(y)
           return (
             <g key={y}>
-              <line x1={PADDING.left} y1={yPos} x2={CHART_W - PADDING.right} y2={yPos} stroke="rgba(255,255,255,0.06)" />
+              <line x1={PADDING.left} y1={yPos} x2={CHART_W - PADDING.right} y2={yPos} stroke="var(--color-border)" />
               <text x={0} y={yPos + 3} fill="rgba(255,255,255,0.3)" fontSize={9} fontFamily="sans-serif">{y}</text>
             </g>
           )

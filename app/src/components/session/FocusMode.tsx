@@ -155,7 +155,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                 className="h-1.5 flex-1 rounded-full"
                 animate={{
                   backgroundColor: i < setsDone
-                    ? '#66bb6a'
+                    ? 'var(--color-accent)'
                     : i === setsDone && !allSetsDone
                     ? 'rgba(255,255,255,0.3)'
                     : 'rgba(255,255,255,0.1)',
@@ -278,7 +278,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                className="flex-[2] bg-accent hover:bg-[#77cc7b] py-3 rounded-pill text-background text-xs font-bold uppercase tracking-widest transition-colors shadow-lg shadow-accent/20 cursor-pointer"
+                className="flex-[2] bg-accent hover:bg-accent-hover py-3 rounded-pill text-background text-xs font-bold uppercase tracking-widest transition-colors shadow-lg shadow-accent/20 cursor-pointer"
               >
                 OK ✓
               </motion.button>

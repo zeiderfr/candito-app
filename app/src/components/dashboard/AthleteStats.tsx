@@ -24,7 +24,7 @@ function triggerPRExplosion(container: HTMLElement) {
       'width:5px',
       'height:5px',
       'border-radius:50%',
-      'background:#66bb6a',
+      'background:var(--color-accent)',
       'pointer-events:none',
       'top:50%',
       'left:50%',
@@ -91,7 +91,7 @@ function ProgressRing({ pct }: { pct: number }) {
           ref={ringRef}
           cx="40" cy="40" r={R}
           fill="none"
-          stroke="#66bb6a"
+          stroke="var(--color-accent)"
           strokeWidth="4"
           strokeLinecap="round"
           strokeDasharray={circ}
