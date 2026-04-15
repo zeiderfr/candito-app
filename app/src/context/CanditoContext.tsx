@@ -86,6 +86,11 @@ function migrate(data: any): CanditoState {
     migrated.isDemoMode = migrated.isDemoMode || false
   }
 
+  // v5 -> v6 (Program Overrides)
+  if (migrated.version < 6) {
+    migrated.programOverrides = migrated.programOverrides ?? {}
+  }
+
   migrated.version = CURRENT_VERSION
   return migrated as CanditoState
 }
@@ -106,6 +111,10 @@ export interface CanditoContextType {
   suggestNewRM: () => RM
   toggleDemoMode: () => void
   isInitialized: boolean
+  setExerciseOverride: (weekId: string, sessionId: string, exerciseIndex: number, override: Partial<ExerciseOverride>) => void
+  setSessionFocus: (weekId: string, sessionId: string, focus: string) => void
+  resetSessionOverride: (weekId: string, sessionId: string) => void
+  resetWeekOverrides: (weekId: string) => void
 }
 
 const CanditoContext = createContext<CanditoContextType | undefined>(undefined)
@@ -280,6 +289,72 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     setIsDemoMode(prev => !prev)
   }, [])
 
+  const setExerciseOverride = useCallback((
+    weekId: string,
+    sessionId: string,
+    exerciseIndex: number,
+    override: Partial<ExerciseOverride>
+  ): void => {
+    if (isDemoMode) return
+    setRealState(prev => ({
+      ...prev,
+      programOverrides: {
+        ...prev.programOverrides,
+        [weekId]: {
+          ...prev.programOverrides[weekId],
+          [sessionId]: {
+            ...prev.programOverrides[weekId]?.[sessionId],
+            exercises: {
+              ...prev.programOverrides[weekId]?.[sessionId]?.exercises,
+              [exerciseIndex]: {
+                ...prev.programOverrides[weekId]?.[sessionId]?.exercises?.[exerciseIndex],
+                ...override,
+              },
+            },
+          },
+        },
+      },
+    }))
+  }, [isDemoMode])
+
+  const setSessionFocus = useCallback((weekId: string, sessionId: string, focus: string): void => {
+    if (isDemoMode) return
+    setRealState(prev => ({
+      ...prev,
+      programOverrides: {
+        ...prev.programOverrides,
+        [weekId]: {
+          ...prev.programOverrides[weekId],
+          [sessionId]: {
+            ...prev.programOverrides[weekId]?.[sessionId],
+            focus,
+          },
+        },
+      },
+    }))
+  }, [isDemoMode])
+
+  const resetSessionOverride = useCallback((weekId: string, sessionId: string): void => {
+    if (isDemoMode) return
+    setRealState(prev => {
+      const weekOv = { ...prev.programOverrides[weekId] }
+      delete weekOv[sessionId]
+      return {
+        ...prev,
+        programOverrides: { ...prev.programOverrides, [weekId]: weekOv },
+      }
+    })
+  }, [isDemoMode])
+
+  const resetWeekOverrides = useCallback((weekId: string): void => {
+    if (isDemoMode) return
+    setRealState(prev => {
+      const overrides = { ...prev.programOverrides }
+      delete overrides[weekId]
+      return { ...prev, programOverrides: overrides }
+    })
+  }, [isDemoMode])
+
   const value = {
     state,
     isLoading,
@@ -295,7 +370,11 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     startNewCycle,
     suggestNewRM: () => suggestNewRM(state),
     toggleDemoMode,
-    isInitialized: state.initialized
+    isInitialized: state.initialized,
+    setExerciseOverride,
+    setSessionFocus,
+    resetSessionOverride,
+    resetWeekOverrides,
   }
 
   return (
