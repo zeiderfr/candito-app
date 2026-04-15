@@ -8,7 +8,10 @@ import { type WorkoutState } from '../types'
  * Hook centralisant la résolution du programme en fonction de la date.
  * Gère le calcul des charges dynamiques et l'état de repos.
  */
-export function useWorkoutSchedule() {
+export function useWorkoutSchedule(): {
+  workoutState: WorkoutState
+  getCalculatedWeight: (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => number | null
+} {
   const { state } = useCanditoState()
 
   const workoutState = useMemo((): WorkoutState => {

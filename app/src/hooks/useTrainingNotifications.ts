@@ -9,14 +9,25 @@
  */
 import { useState, useEffect, useCallback } from 'react'
 import { WEEK_SCHEDULE_MAP, PROGRAM_DATA } from '@/data/program'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
 
-const NOTIF_DATE_KEY = 'last_training_notif'
-const DISMISSED_KEY = 'training_notif_dismissed'
+const NOTIF_DATE_KEY = STORAGE_KEYS.LAST_TRAINING_NOTIF
+const DISMISSED_KEY = STORAGE_KEYS.TRAINING_NOTIF_DISMISSED
+
+interface TrainingNotificationsResult {
+  permission: NotificationPermission | null
+  isDismissed: boolean
+  isTodayTrainingDay: boolean
+  sessionFocusToday: string | null
+  requestPermission: () => Promise<void>
+  dismiss: () => void
+  isSupported: boolean
+}
 
 const isPWANotifSupported = (): boolean =>
   'Notification' in window && 'serviceWorker' in navigator
 
-export function useTrainingNotifications(currentWeekId: string) {
+export function useTrainingNotifications(currentWeekId: string): TrainingNotificationsResult {
   const [permission, setPermission] = useState<NotificationPermission | null>(null)
   const [isDismissed, setIsDismissed] = useState(false)
   const [isTodayTrainingDay, setIsTodayTrainingDay] = useState(false)
