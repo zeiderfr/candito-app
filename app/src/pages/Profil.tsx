@@ -8,7 +8,7 @@ import { resolveSession, hasSessionOverride, hasWeekOverrides } from '@/lib/prog
 import { epley } from '@/lib/weightCalc'
 import { LiftProgressGraph } from '@/components/dashboard/LiftProgressGraph'
 import { NewCycleModal } from '@/components/common/NewCycleModal'
-import { PushNotificationManager } from '@/components/common/PushNotificationManager'
+import { NotificationSettings } from '@/components/common/NotificationSettings'
 import { type PR, type CycleSnapshot } from '@/types'
 import {
   ChevronLeft, ChevronRight, ChevronDown, RotateCcw,
@@ -591,7 +591,7 @@ function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }) {
         expanded={openSection === 'notif'}
       >
         <div className="pt-2">
-          <PushNotificationManager />
+          <NotificationSettings />
         </div>
       </SettingsRow>
 
