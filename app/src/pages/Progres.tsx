@@ -7,6 +7,7 @@ import { AlertTriangle, Plus, Trophy, Database, RefreshCw, ChevronDown, ChevronU
 import { type CanditoState, type PR } from '@/types'
 import { NewCycleModal } from '@/components/common/NewCycleModal'
 import { useToasts } from '@/context/ToastContext'
+import { LiftProgressGraph } from '@/components/dashboard/LiftProgressGraph'
 
 type SubTab = 'charges' | 'rpe'
 
@@ -719,7 +720,7 @@ export function Progres() {
 
       <SessionTimeline completedSessions={state.progress.completedSessions} />
 
-      <RMChart />
+      <LiftProgressGraph prs={state.progress.prs} />
       <PRSection />
 
       <SubTabBar active={activeTab} onChange={setActiveTab} />
