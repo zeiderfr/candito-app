@@ -2,7 +2,7 @@ import { type ReactNode, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { BottomNav, type TabId } from './BottomNav'
 
-const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres', 'profil']
+const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'profil']
 
 interface AppLayoutProps {
   children: ReactNode

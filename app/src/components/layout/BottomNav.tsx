@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
-import { Home, Zap, Calendar, Leaf, Activity, User } from 'lucide-react'
+import { Home, Zap, Calendar, Leaf, User } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-export type TabId = 'accueil' | 'warmup' | 'programme' | 'nutrition' | 'progres' | 'profil'
+export type TabId = 'accueil' | 'warmup' | 'programme' | 'nutrition' | 'profil'
 
 interface NavItem {
   id: TabId
@@ -15,7 +15,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'warmup', label: 'Warm up', icon: Zap },
   { id: 'programme', label: 'Programme', icon: Calendar },
   { id: 'nutrition', label: 'Nutrition', icon: Leaf },
-  { id: 'progres', label: 'Progrès', icon: Activity },
   { id: 'profil', label: 'Profil', icon: User },
 ]
 
