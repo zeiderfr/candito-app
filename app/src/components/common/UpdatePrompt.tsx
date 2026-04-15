@@ -150,7 +150,7 @@ export function UpdatePrompt() {
           <button
             onClick={handleUpdate}
             className={cn(
-              "w-full py-5 bg-accent hover:bg-[#77cc7b] active:scale-95 text-background",
+              "w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-background",
               "text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all",
               "shadow-lg shadow-accent/20"
             )}

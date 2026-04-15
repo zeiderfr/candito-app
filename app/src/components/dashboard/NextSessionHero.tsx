@@ -150,7 +150,7 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
       <button
         onClick={() => navigate('programme')}
         className={cn(
-          'w-full bg-accent hover:bg-[#77cc7b] active:scale-[0.98] transition-all duration-200',
+          'w-full bg-accent hover:bg-accent-hover active:scale-[0.98] transition-all duration-200',
           'text-background font-bold uppercase tracking-widest text-[12px] py-6 px-4 rounded-pill',
           'flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer',
         )}>

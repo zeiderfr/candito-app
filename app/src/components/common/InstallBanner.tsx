@@ -22,7 +22,7 @@ export function InstallBanner() {
   const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
-    if (localStorage.getItem('install_dismissed')) {
+    if (localStorage.getItem(STORAGE_KEYS.INSTALL_DISMISSED)) {
       setDismissed(true)
     }
 
@@ -40,14 +40,14 @@ export function InstallBanner() {
     await deferredPrompt.prompt()
     const { outcome } = await deferredPrompt.userChoice
     if (outcome === 'accepted') {
-      localStorage.setItem('install_dismissed', 'true')
+      localStorage.setItem(STORAGE_KEYS.INSTALL_DISMISSED, 'true')
       setDismissed(true)
     }
     setDeferredPrompt(null)
   }
 
   const handleDismiss = () => {
-    localStorage.setItem('install_dismissed', 'true')
+    localStorage.setItem(STORAGE_KEYS.INSTALL_DISMISSED, 'true')
     setDismissed(true)
   }
 

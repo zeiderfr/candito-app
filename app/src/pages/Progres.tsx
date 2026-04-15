@@ -158,7 +158,7 @@ function PRSection() {
           </div>
           <button
             onClick={handleSubmit}
-            className="w-full bg-accent hover:bg-[#77cc7b] text-background font-bold uppercase tracking-widest text-[11px] py-3 rounded-pill transition-colors duration-200 cursor-pointer"
+            className="w-full bg-accent hover:bg-accent-hover text-background font-bold uppercase tracking-widest text-[11px] py-3 rounded-pill transition-colors duration-200 cursor-pointer"
           >
             Enregistrer le PR
           </button>
@@ -178,7 +178,7 @@ function PRSection() {
           <div className="flex gap-2">
             <button
               onClick={() => { updateRM({ [pendingRM.lift]: pendingRM.estimated }); setPendingRM(null) }}
-              className="flex-1 bg-accent hover:bg-[#77cc7b] text-background font-bold uppercase tracking-widest text-[10px] py-2.5 rounded-pill transition-colors duration-200 cursor-pointer"
+              className="flex-1 bg-accent hover:bg-accent-hover text-background font-bold uppercase tracking-widest text-[10px] py-2.5 rounded-pill transition-colors duration-200 cursor-pointer"
             >
               Mettre à jour → {pendingRM.estimated} kg
             </button>

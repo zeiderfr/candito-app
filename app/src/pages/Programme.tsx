@@ -323,7 +323,7 @@ export function Programme() {
           "w-full py-4 rounded-pill text-[12px] font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer",
           isActiveWeek
             ? "bg-white/5 text-muted opacity-40 cursor-not-allowed"
-            : "bg-accent text-background hover:bg-[#77cc7b] active:scale-[0.98] shadow-lg shadow-accent/20"
+            : "bg-accent text-background hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20"
         )}
       >
         {isActiveWeek ? 'SEMAINE ACTIVE' : 'ACTIVER CETTE SEMAINE'}
