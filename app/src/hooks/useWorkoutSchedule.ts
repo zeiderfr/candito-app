@@ -1,6 +1,7 @@
 import { useMemo, useCallback } from 'react'
 import { useCanditoState } from './useCanditoState'
-import { PROGRAM_DATA, WEEK_SCHEDULE_MAP } from '../data/program'
+import { WEEK_SCHEDULE_MAP } from '../data/program'
+import { resolveSession } from '@/lib/programResolver'
 import { calcWeight } from '@/lib/weightCalc'
 import { type WorkoutState } from '../types'
 
@@ -29,12 +30,7 @@ export function useWorkoutSchedule(): {
       }
     }
 
-    // Recherche de la session dans la semaine actuelle
-    const currentWeek = PROGRAM_DATA[state.currentWeekId]
-    if (!currentWeek) {
-      return { type: 'rest', action: 'Repos', suggestion: 'Semaine non trouvée.' }
-    }
-    const session = currentWeek.sessions.find(s => s.id === sessionId)
+    const session = resolveSession(state.currentWeekId, sessionId, state.programOverrides)
 
     if (!session) {
       return { type: 'rest', action: 'Repos', suggestion: 'Session non trouvée pour cette semaine.' }
@@ -44,7 +40,7 @@ export function useWorkoutSchedule(): {
       type: 'workout',
       session: session
     }
-  }, [state.currentWeekId])
+  }, [state.currentWeekId, state.programOverrides])
 
   /**
    * Calcul de la charge arrondie à 2.5kg près.

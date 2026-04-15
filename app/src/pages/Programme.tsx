@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
+import { resolveSession } from '@/lib/programResolver'
 import { calcWeight } from '@/lib/weightCalc'
 import { CheckCircle2, Circle, Play } from 'lucide-react'
 import { FocusMode } from '@/components/session/FocusMode'
@@ -300,17 +301,20 @@ export function Programme() {
         initial="hidden"
         animate="visible"
       >
-        {weekData?.sessions.map(session => (
-          <motion.div key={session.id} variants={sessionItem}>
-            <SessionCard
-              session={session}
-              isCompleted={state.progress.completedSessions.includes(session.id)}
-              onToggle={() => handleToggle(session.id, session)}
-              onStart={() => setFocusSession(session)}
-              rm={state.athlete.rm}
-            />
-          </motion.div>
-        ))}
+        {weekData?.sessions.map(rawSession => {
+          const session = resolveSession(selectedWeekId, rawSession.id, state.programOverrides) ?? rawSession
+          return (
+            <motion.div key={session.id} variants={sessionItem}>
+              <SessionCard
+                session={session}
+                isCompleted={state.progress.completedSessions.includes(session.id)}
+                onToggle={() => handleToggle(session.id, session)}
+                onStart={() => setFocusSession(session)}
+                rm={state.athlete.rm}
+              />
+            </motion.div>
+          )
+        })}
       </motion.div>
 
       {/* Focus Mode overlay — AnimatePresence pour cinematic enter/exit */}
