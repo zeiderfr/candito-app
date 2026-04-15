@@ -134,7 +134,7 @@ export function AthleteStats({
       'animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150',
     )}>
       <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
-        Dossier Athlète
+        Dossier Athlète {/* Mise à jour déployée */}
       </span>
 
       {/* Stat numbers - Editorial Grid */}
