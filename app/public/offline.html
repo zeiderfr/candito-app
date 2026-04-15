@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Candito — Hors Ligne</title>
+  <style>
+    :root {
+      --color-background: #0a0e13;
+      --color-accent: #FF3B30;
+      --color-muted: rgba(255, 255, 255, 0.45);
+      --font-display: "Instrument Serif", serif;
+      --font-sans: "Inter", system-ui, sans-serif;
+    }
+    @font-face {
+      font-family: "Instrument Serif";
+      src: url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-background);
+      color: white;
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+      background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 2rem;
+      margin: 0;
+      line-height: 1.2;
+    }
+    p {
+      color: var(--color-muted);
+      font-size: 0.9rem;
+      max-width: 280px;
+      line-height: 1.6;
+      margin: 1rem 0 2.5rem;
+    }
+    .btn {
+      background: var(--color-accent);
+      color: #0a0e13;
+      padding: 1rem 2.5rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(255, 59, 48, 0.2);
+      transition: transform 0.2s;
+    }
+    .btn:active {
+      transform: scale(0.96);
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 4rem;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: #ef5350;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ef5350;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">Candito</div>
+  <h1>Ta force ne dépend pas d'un signal.</h1>
+  <p>L'application est stockée sur ton appareil, mais cette page nécessite une connexion pour être rafraîchie.</p>
+  <button class="btn" onclick="window.location.reload()">Réessayer</button>
+  
+  <div class="status">
+    <div class="dot"></div>
+    Connexion perdue
+  </div>
+</body>
+</html>
