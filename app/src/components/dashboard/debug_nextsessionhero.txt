@@ -1,0 +1,21 @@
+        <div className="flex gap-3 pt-2">
+          <button
+            onClick={() => navigate('nutrition')}
+            className={cn(
+              'flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200',
+              'text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl',
+              'flex items-center justify-center gap-2 cursor-pointer',
+            )}>
+            <Coffee size={14} />
+            CONSEILS NUTRITION
+          </button>
+          <button
+            onClick={() => navigate('warmup')}
+            className={cn(
+              'flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200',
+              'text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl',
+              'flex items-center justify-center gap-2 cursor-pointer',
+            )}>
+            MOBILITÉ ACTIVE
+          </button>
+        </div>

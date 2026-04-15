@@ -3,12 +3,16 @@
  *
  * Deux types de rappels :
  * 1. Rappels locaux (Notification API) — quand l'app est ouverte le jour d'entraînement
+ *    → soft-disable via localStorage (la permission navigateur ne peut pas être révoquée)
  * 2. Push persistants (Web Push / Service Worker) — même app fermée, via Cloudflare CRON
+ *    → désabonnement réel via pushManager.unsubscribe()
  */
 import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Check, Bell, BellOff, CloudLightning, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
 
 const VAPID_PUBLIC_KEY = 'BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE'
 
@@ -22,22 +26,28 @@ function urlBase64ToUint8Array(base64: string) {
 }
 
 type RowStatus = 'checking' | 'off' | 'on' | 'loading' | 'denied' | 'unsupported'
+type ConfirmTarget = 'local' | 'push'
 
 export function NotificationSettings() {
   const { state } = useCanditoState()
   const [localStatus, setLocalStatus] = useState<RowStatus>('checking')
   const [pushStatus, setPushStatus]   = useState<RowStatus>('checking')
+  const [confirm, setConfirm]         = useState<ConfirmTarget | null>(null)
 
   // ── Vérification initiale des statuts ─────────────────────────────
   useEffect(() => {
-    // Statut local
+    // Statut local — soft-disable via flag localStorage
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
       setLocalStatus('unsupported')
+    } else if (Notification.permission === 'denied') {
+      setLocalStatus('denied')
+    } else if (
+      Notification.permission === 'granted' &&
+      !localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)
+    ) {
+      setLocalStatus('on')
     } else {
-      setLocalStatus(
-        Notification.permission === 'granted' ? 'on' :
-        Notification.permission === 'denied'  ? 'denied' : 'off'
-      )
+      setLocalStatus('off')
     }
 
     // Statut push
@@ -55,8 +65,15 @@ export function NotificationSettings() {
   // ── Activer rappels locaux ─────────────────────────────────────────
   const enableLocal = async () => {
     setLocalStatus('loading')
+    localStorage.removeItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)
     const result = await Notification.requestPermission()
     setLocalStatus(result === 'granted' ? 'on' : result === 'denied' ? 'denied' : 'off')
+  }
+
+  // ── Désactiver rappels locaux (soft-disable) ───────────────────────
+  const disableLocal = () => {
+    localStorage.setItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED, '1')
+    setLocalStatus('off')
   }
 
   // ── Activer push persistants ───────────────────────────────────────
@@ -79,14 +96,42 @@ export function NotificationSettings() {
     }
   }
 
+  // ── Désactiver push persistants ────────────────────────────────────
+  const disablePush = async () => {
+    setPushStatus('loading')
+    try {
+      const reg = await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.getSubscription()
+      if (sub) {
+        await sub.unsubscribe()
+        await fetch('/api/push-unsubscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint: sub.endpoint }),
+        }).catch(() => {/* silencieux si l'endpoint n'existe pas côté serveur */})
+      }
+      setPushStatus('off')
+    } catch {
+      setPushStatus('off')
+    }
+  }
+
+  // ── Confirmation handler ───────────────────────────────────────────
+  const handleConfirm = () => {
+    if (confirm === 'local') disableLocal()
+    if (confirm === 'push') void disablePush()
+    setConfirm(null)
+  }
+
   return (
     <div className="space-y-3">
       <NotifRow
         icon={<Bell size={18} />}
-        title="Rappels locaux"
+        title="Rappels d'entraînement"
         description="Notification quand l'app est ouverte le jour J"
         status={localStatus}
         onActivate={enableLocal}
+        onDeactivate={() => setConfirm('local')}
       />
       <NotifRow
         icon={<CloudLightning size={18} />}
@@ -94,27 +139,111 @@ export function NotificationSettings() {
         description="Push à 8h même application fermée (requiert PWA)"
         status={pushStatus}
         onActivate={enablePush}
+        onDeactivate={() => setConfirm('push')}
         isIOS={/iPhone|iPad|iPod/.test(navigator.userAgent)}
       />
+
+      {/* Dialog de confirmation désactivation */}
+      <AnimatePresence>
+        {confirm !== null && (
+          <ConfirmDialog
+            type={confirm}
+            onConfirm={handleConfirm}
+            onCancel={() => setConfirm(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
+  )
+}
+
+// ── Dialog de confirmation ─────────────────────────────────────────────
+function ConfirmDialog({
+  type, onConfirm, onCancel
+}: {
+  type: ConfirmTarget
+  onConfirm: () => void
+  onCancel: () => void
+}) {
+  const label = type === 'local' ? "les rappels d'entraînement" : 'les rappels persistants'
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-end justify-center"
+      style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
+    >
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onCancel}
+      />
+
+      {/* Sheet */}
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 40, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 380, damping: 36 }}
+        className="relative z-10 w-full max-w-sm mx-4 glass rounded-3xl border border-border p-6 space-y-5"
+      >
+        {/* Icône */}
+        <div className="flex justify-center">
+          <div className="size-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger">
+            <BellOff size={20} />
+          </div>
+        </div>
+
+        {/* Texte */}
+        <div className="text-center space-y-1.5">
+          <p className="text-base font-bold text-white">Désactiver les rappels ?</p>
+          <p className="text-[12px] text-muted leading-relaxed">
+            Tu es sur le point de désactiver {label}.
+            Tu pourras les réactiver à tout moment.
+          </p>
+        </div>
+
+        {/* Boutons */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={onCancel}
+            className="py-3 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
+          >
+            Annuler
+          </button>
+          <button
+            onClick={onConfirm}
+            className="py-3 rounded-2xl bg-danger/20 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/30 transition-colors cursor-pointer"
+          >
+            Désactiver
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   )
 }
 
 // ── Ligne de statut ───────────────────────────────────────────────────
 function NotifRow({
-  icon, title, description, status, onActivate, isIOS = false,
+  icon, title, description, status, onActivate, onDeactivate, isIOS = false,
 }: {
   icon: React.ReactNode
   title: string
   description: string
   status: RowStatus
   onActivate: () => void
+  onDeactivate: () => void
   isIOS?: boolean
 }) {
-  const isOn      = status === 'on'
-  const isDenied  = status === 'denied'
-  const isLoading = status === 'loading'
-  const isChecking = status === 'checking'
+  const isOn          = status === 'on'
+  const isDenied      = status === 'denied'
+  const isLoading     = status === 'loading'
+  const isChecking    = status === 'checking'
   const isUnsupported = status === 'unsupported'
 
   return (
@@ -136,17 +265,12 @@ function NotifRow({
 
       {/* Texte */}
       <div className="flex-1 min-w-0">
-        <p className={cn(
-          'text-sm font-bold',
-          isOn ? 'text-white' : isDenied ? 'text-danger' : 'text-white'
-        )}>
-          {title}
-        </p>
+        <p className="text-sm font-bold text-white">{title}</p>
         <p className="text-[10px] text-muted leading-snug mt-0.5">
           {isDenied
             ? 'Bloqué — Autorise dans les réglages du navigateur'
             : isIOS && !isOn
-            ? description + ' · App sur l\'écran d\'accueil requise'
+            ? description + " · App sur l'écran d'accueil requise"
             : description}
         </p>
       </div>
@@ -158,10 +282,17 @@ function NotifRow({
             {isUnsupported ? 'N/A' : '…'}
           </span>
         ) : isOn ? (
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/15 text-accent">
-            <Check size={12} strokeWidth={3} />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Activé</span>
-          </div>
+          <button
+            onClick={onDeactivate}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/15 text-accent hover:bg-danger/15 hover:text-danger transition-all duration-200 cursor-pointer group"
+          >
+            <Check size={12} strokeWidth={3} className="group-hover:hidden" />
+            <BellOff size={12} className="hidden group-hover:block" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">
+              <span className="group-hover:hidden">Activé</span>
+              <span className="hidden group-hover:inline">Désactiver</span>
+            </span>
+          </button>
         ) : isDenied ? (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-danger/10 text-danger">
             <AlertTriangle size={12} />
