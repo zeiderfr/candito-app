@@ -120,6 +120,5 @@ export interface CanditoState {
     sessionLogs: SessionLog[]
   }
   currentWeekId: string
-  isDemoMode: boolean
   programOverrides: ProgramOverrides  // Surcharges programme utilisateur
 }
