@@ -83,7 +83,7 @@ export function NotificationSettings() {
     <div className="space-y-3">
       <NotifRow
         icon={<Bell size={18} />}
-        title="Rappels d'entraînement"
+        title="Rappels locaux"
         description="Notification quand l'app est ouverte le jour J"
         status={localStatus}
         onActivate={enableLocal}
