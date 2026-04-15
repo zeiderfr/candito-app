@@ -8,6 +8,7 @@ import { type CanditoState, type PR } from '@/types'
 import { NewCycleModal } from '@/components/common/NewCycleModal'
 import { useToasts } from '@/context/ToastContext'
 import { LiftProgressGraph } from '@/components/dashboard/LiftProgressGraph'
+import { DemoModeToggle } from '@/components/common/DemoModeToggle'
 
 type SubTab = 'charges' | 'rpe'
 
@@ -633,6 +634,15 @@ export function Progres() {
 
       <CycleHistorySection />
       <BackupSection />
+
+      {/* Dev/Demo Tools Section */}
+      <div className="glass rounded-card p-5 space-y-4 border-accent/10">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-white/40 italic">Expérimentation</h3>
+          <p className="text-[10px] text-muted">Active le mode démonstration pour explorer les fonctionnalités avec des données fictives sans modifier tes logs réels.</p>
+        </div>
+        <DemoModeToggle />
+      </div>
 
       <NewCycleModal
         isOpen={showNewCycleModal}
