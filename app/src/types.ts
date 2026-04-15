@@ -95,4 +95,5 @@ export interface CanditoState {
     sessionLogs: SessionLog[]
   }
   currentWeekId: string
+  isDemoMode: boolean
 }

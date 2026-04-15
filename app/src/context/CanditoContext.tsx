@@ -5,15 +5,16 @@ import { suggestNewRM } from '../lib/weightCalc'
 import { STORAGE_KEYS } from '../lib/storageKeys'
 
 const STORAGE_KEY = STORAGE_KEYS.CANDITO_STATE
+const CURRENT_VERSION = 5
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
 const DEFAULT_STATE: CanditoState = {
-  version: 4,
+  version: CURRENT_VERSION,
   initialized: false,
   athlete: {
     name: 'Théo',
-    rm: { squat: 150, bench: 110, deadlift: 170 }
+    rm: { squat: 140, bench: 100, deadlift: 160 }
   },
   cycleNumber: 1,
   cycleStartDate: TODAY(),
@@ -24,6 +25,47 @@ const DEFAULT_STATE: CanditoState = {
     sessionLogs: []
   },
   currentWeekId: 's1'
+}
+
+/**
+ * migrate — Permet de faire évoluer le schéma du localStorage de manière incrémentale.
+ * Respecte les travaux précédents (Claude) et prépare les futures évolutions.
+ */
+function migrate(data: any): CanditoState {
+  let migrated = { ...data }
+
+  if (!migrated.version) migrated.version = 0
+
+  // v1 -> v4 (Héritage)
+  if (migrated.version < 4) {
+    migrated.cycleNumber = migrated.cycleNumber || 1
+    migrated.cycleStartDate = migrated.cycleStartDate || TODAY()
+    migrated.cycleHistory = migrated.cycleHistory || []
+  }
+
+  // v4 -> v5 (Normalisation & Safety)
+  if (migrated.version < 5) {
+    if (!migrated.progress) {
+      migrated.progress = { completedSessions: [], prs: [], sessionLogs: [] }
+    }
+    migrated.progress.completedSessions = migrated.progress.completedSessions || []
+    migrated.progress.prs = migrated.progress.prs || []
+    migrated.progress.sessionLogs = migrated.progress.sessionLogs || []
+
+    // Type guard / migration Claude
+    const legacyData = migrated as unknown as Record<string, unknown>
+    if (!migrated.athlete && legacyData.rm && typeof legacyData.rm === 'object') {
+       // Support pour d'anciennes versions sans objet athlete
+       migrated.athlete = { name: 'Théo', rm: legacyData.rm }
+    }
+    
+    if (migrated.athlete?.name === 'Athlète') {
+      migrated.athlete.name = 'Théo'
+    }
+  }
+
+  migrated.version = CURRENT_VERSION
+  return migrated as CanditoState
 }
 
 export interface CanditoContextType {
@@ -66,33 +108,8 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         }
 
         if (saved) {
-          const data = saved as CanditoState
-          
-          // Ensure structure exists (Migration/Safety)
-          if (!data.progress) {
-            data.progress = { completedSessions: [], prs: [], sessionLogs: [] }
-          }
-          data.progress.completedSessions = data.progress.completedSessions || []
-          data.progress.prs = data.progress.prs || []
-          data.progress.sessionLogs = data.progress.sessionLogs || []
-          
-          const legacyData = data as unknown as Record<string, unknown>
-          if (!data.athlete && legacyData.rm && typeof legacyData.rm === 'object') {
-            // Basic migration v1 -> v2 logic here if needed
-          }
-          
-          if (data.athlete?.name === 'Athlète') {
-            data.athlete.name = 'Théo'
-          }
-
-          if (!data.cycleNumber) {
-            data.cycleNumber = 1
-            data.cycleStartDate = TODAY()
-            data.cycleHistory = []
-            data.version = 4
-          }
-          
-          setState(data)
+          const migrated = migrate(saved)
+          setState(migrated)
         }
       } catch (e) {
         console.error("Critical: Failed to load Candito store from IDB", e)
