@@ -9,6 +9,21 @@ const CURRENT_VERSION = 5
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
+const DEFAULT_STATE: CanditoState = {
+  version: CURRENT_VERSION,
+  initialized: false,
+  athlete: {
+    name: 'Théo',
+    rm: { squat: 140, bench: 100, deadlift: 160 }
+  },
+  cycleNumber: 1,
+  cycleStartDate: TODAY(),
+  cycleHistory: [],
+  progress: {
+    completedSessions: [],
+    prs: [],
+    sessionLogs: []
+  },
   currentWeekId: 's1',
   isDemoMode: false
 }
@@ -93,8 +108,14 @@ export interface CanditoContextType {
 const CanditoContext = createContext<CanditoContextType | undefined>(undefined)
 
 export function CanditoProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<CanditoState>(DEFAULT_STATE)
+  const [realState, setRealState] = useState<CanditoState>(DEFAULT_STATE)
   const [isLoading, setIsLoading] = useState(true)
+
+  // Demo mode state is transient (not persisted)
+  const [isDemoMode, setIsDemoMode] = useState(false)
+
+  // Effectively the state used by the app
+  const state = isDemoMode ? DEMO_STATE : realState
 
   // ── Load from IndexedDB (with LocalStorage fallback) ──────────────────
   useEffect(() => {
@@ -115,7 +136,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
 
         if (saved) {
           const migrated = migrate(saved)
-          setState(migrated)
+          setRealState(migrated)
         }
       } catch (e) {
         console.error("Critical: Failed to load Candito store from IDB", e)
@@ -128,13 +149,14 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
 
   // ── Persistence effect (Asynchronous) ──────────────────────────────────
   useEffect(() => {
-    if (!isLoading) {
-      set(STORAGE_KEY, state).catch(e => console.error("Failed to persist state", e))
+    if (!isLoading && !isDemoMode) {
+      set(STORAGE_KEY, realState).catch(e => console.error("Failed to persist state", e))
     }
-  }, [state, isLoading])
+  }, [realState, isLoading, isDemoMode])
 
   const updateRM = useCallback((newRM: Partial<RM>) => {
-    setState((prev) => ({
+    if (isDemoMode) return
+    setRealState((prev) => ({
       ...prev,
       athlete: {
         ...prev.athlete,
@@ -142,7 +164,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
       },
       initialized: true
     }))
-  }, [])
+  }, [isDemoMode])
 
   const updateName = useCallback((name: string) => {
     setState((prev) => ({
