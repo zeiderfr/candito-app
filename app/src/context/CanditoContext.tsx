@@ -25,31 +25,11 @@ const DEFAULT_STATE: CanditoState = {
     sessionLogs: []
   },
   currentWeekId: 's1',
-  isDemoMode: false,
   programOverrides: {},
-}
-
-const DEMO_STATE: CanditoState = {
-  ...DEFAULT_STATE,
-  isDemoMode: true,
-  athlete: {
-    name: 'Théo (Démo)',
-    rm: { squat: 180, bench: 125, deadlift: 210 }
-  },
-  progress: {
-    completedSessions: ['s1_d1', 's1_d2', 's1_d4', 's1_d5', 's2_d1'],
-    prs: [
-      { id: '1', lift: 'squat', weight: 185, reps: 1, date: '2026-04-10' },
-      { id: '2', lift: 'bench', weight: 127.5, reps: 1, date: '2026-04-12' }
-    ],
-    sessionLogs: []
-  },
-  currentWeekId: 's2'
 }
 
 /**
  * migrate — Permet de faire évoluer le schéma du localStorage de manière incrémentale.
- * Respecte les travaux précédents (Claude) et prépare les futures évolutions.
  */
 function migrate(data: any): CanditoState {
   let migrated = { ...data }
@@ -72,24 +52,23 @@ function migrate(data: any): CanditoState {
     migrated.progress.prs = migrated.progress.prs || []
     migrated.progress.sessionLogs = migrated.progress.sessionLogs || []
 
-    // Type guard / migration Claude
     const legacyData = migrated as unknown as Record<string, unknown>
     if (!migrated.athlete && legacyData.rm && typeof legacyData.rm === 'object') {
-       // Support pour d'anciennes versions sans objet athlete
-       migrated.athlete = { name: 'Théo', rm: legacyData.rm }
+      migrated.athlete = { name: 'Théo', rm: legacyData.rm }
     }
-    
+
     if (migrated.athlete?.name === 'Athlète') {
       migrated.athlete.name = 'Théo'
     }
-    
-    migrated.isDemoMode = migrated.isDemoMode || false
   }
 
   // v5 -> v6 (Program Overrides)
   if (migrated.version < 6) {
     migrated.programOverrides = migrated.programOverrides ?? {}
   }
+
+  // Nettoyage : retirer le champ isDemoMode s'il existe encore en base
+  delete migrated.isDemoMode
 
   migrated.version = CURRENT_VERSION
   return migrated as CanditoState
@@ -109,7 +88,6 @@ export interface CanditoContextType {
   importState: (data: CanditoState) => void
   startNewCycle: (newRM: RM) => void
   suggestNewRM: () => RM
-  toggleDemoMode: () => void
   isInitialized: boolean
   setExerciseOverride: (weekId: string, sessionId: string, exerciseIndex: number, override: Partial<ExerciseOverride>) => void
   setSessionFocus: (weekId: string, sessionId: string, focus: string) => void
@@ -120,35 +98,26 @@ export interface CanditoContextType {
 const CanditoContext = createContext<CanditoContextType | undefined>(undefined)
 
 export function CanditoProvider({ children }: { children: ReactNode }) {
-  const [realState, setRealState] = useState<CanditoState>(DEFAULT_STATE)
+  const [state, setState] = useState<CanditoState>(DEFAULT_STATE)
   const [isLoading, setIsLoading] = useState(true)
-
-  // Demo mode state is transient (not persisted)
-  const [isDemoMode, setIsDemoMode] = useState(false)
-
-  // Effectively the state used by the app
-  const state = isDemoMode ? DEMO_STATE : realState
 
   // ── Load from IndexedDB (with LocalStorage fallback) ──────────────────
   useEffect(() => {
     async function initStore() {
       try {
         let saved = await get(STORAGE_KEY)
-        
+
         // LocalStorage Fallback (Migration)
         if (!saved) {
           const lsData = localStorage.getItem(STORAGE_KEY)
           if (lsData) {
             saved = JSON.parse(lsData)
-            // Save to IDB for next time
             await set(STORAGE_KEY, saved)
-            // Cleanup LS optionally, but keep for safety during transition
           }
         }
 
         if (saved) {
-          const migrated = migrate(saved)
-          setRealState(migrated)
+          setState(migrate(saved))
         }
       } catch (e) {
         console.error("Critical: Failed to load Candito store from IDB", e)
@@ -159,109 +128,82 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     initStore()
   }, [])
 
-  // ── Persistence effect (Asynchronous) ──────────────────────────────────
+  // ── Persistence effect ────────────────────────────────────────────────
   useEffect(() => {
-    if (!isLoading && !isDemoMode) {
-      set(STORAGE_KEY, realState).catch(e => console.error("Failed to persist state", e))
+    if (!isLoading) {
+      set(STORAGE_KEY, state).catch(e => console.error("Failed to persist state", e))
     }
-  }, [realState, isLoading, isDemoMode])
+  }, [state, isLoading])
 
   const updateRM = useCallback((newRM: Partial<RM>) => {
-    if (isDemoMode) return
-    setRealState((prev) => ({
+    setState((prev) => ({
       ...prev,
-      athlete: {
-        ...prev.athlete,
-        rm: { ...prev.athlete.rm, ...newRM }
-      },
-      initialized: true
+      athlete: { ...prev.athlete, rm: { ...prev.athlete.rm, ...newRM } },
+      initialized: true,
     }))
-  }, [isDemoMode])
+  }, [])
 
   const updateName = useCallback((name: string) => {
-    if (isDemoMode) return
-    setRealState((prev) => ({
-      ...prev,
-      athlete: { ...prev.athlete, name }
-    }))
-  }, [isDemoMode])
+    setState((prev) => ({ ...prev, athlete: { ...prev.athlete, name } }))
+  }, [])
 
   const toggleSession = useCallback((sessionId: string) => {
-    if (isDemoMode) return
-    setRealState((prev) => {
+    setState((prev) => {
       const completed = prev.progress.completedSessions.includes(sessionId)
-      const newList = completed
-          ? prev.progress.completedSessions.filter(id => id !== sessionId)
-          : [...prev.progress.completedSessions, sessionId]
-
       return {
-          ...prev,
-          progress: {
-              ...prev.progress,
-              completedSessions: newList
-          }
+        ...prev,
+        progress: {
+          ...prev.progress,
+          completedSessions: completed
+            ? prev.progress.completedSessions.filter(id => id !== sessionId)
+            : [...prev.progress.completedSessions, sessionId],
+        },
       }
     })
-  }, [isDemoMode])
+  }, [])
 
   const getTotal = useCallback(() => {
     return state.athlete.rm.squat + state.athlete.rm.bench + state.athlete.rm.deadlift
   }, [state.athlete.rm])
 
   const setCurrentWeek = useCallback((weekId: string) => {
-    if (isDemoMode) return
-    setRealState(prev => ({ ...prev, currentWeekId: weekId }))
-  }, [isDemoMode])
+    setState(prev => ({ ...prev, currentWeekId: weekId }))
+  }, [])
 
   const addPR = useCallback((lift: 'squat' | 'bench' | 'deadlift', weight: number, reps: number) => {
-    if (isDemoMode) return
-    const newPR: PR = {
-      id: `${lift}_${Date.now()}`,
-      lift, weight, reps,
-      date: TODAY(),
-    }
-    setRealState(prev => ({
+    const newPR: PR = { id: `${lift}_${Date.now()}`, lift, weight, reps, date: TODAY() }
+    setState(prev => ({
       ...prev,
-      progress: {
-        ...prev.progress,
-        prs: [...prev.progress.prs, newPR],
-      },
+      progress: { ...prev.progress, prs: [...prev.progress.prs, newPR] },
     }))
-  }, [isDemoMode])
+  }, [])
 
   const removePR = useCallback((prId: string) => {
-    if (isDemoMode) return
-    setRealState(prev => ({
+    setState(prev => ({
       ...prev,
-      progress: {
-        ...prev.progress,
-        prs: prev.progress.prs.filter(p => p.id !== prId),
-      },
+      progress: { ...prev.progress, prs: prev.progress.prs.filter(p => p.id !== prId) },
     }))
-  }, [isDemoMode])
+  }, [])
 
   const logSession = useCallback((log: SessionLog) => {
-    if (isDemoMode) return
-    setRealState(prev => ({
+    setState(prev => ({
       ...prev,
       progress: {
         ...prev.progress,
         sessionLogs: [
           ...prev.progress.sessionLogs.filter(l => l.sessionId !== log.sessionId),
-          log
-        ]
-      }
+          log,
+        ],
+      },
     }))
-  }, [isDemoMode])
+  }, [])
 
   const importState = useCallback((data: CanditoState) => {
-    if (isDemoMode) return
-    setRealState(data)
-  }, [isDemoMode])
+    setState(data)
+  }, [])
 
   const startNewCycle = useCallback((newRM: RM) => {
-    if (isDemoMode) return
-    setRealState(prev => {
+    setState(prev => {
       const snapshot: CycleSnapshot = {
         id: `cycle_${prev.cycleNumber}`,
         number: prev.cycleNumber,
@@ -283,10 +225,6 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         progress: { completedSessions: [], prs: [], sessionLogs: [] },
       }
     })
-  }, [isDemoMode])
-
-  const toggleDemoMode = useCallback(() => {
-    setIsDemoMode(prev => !prev)
   }, [])
 
   const setExerciseOverride = useCallback((
@@ -295,8 +233,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     exerciseIndex: number,
     override: Partial<ExerciseOverride>
   ): void => {
-    if (isDemoMode) return
-    setRealState(prev => ({
+    setState(prev => ({
       ...prev,
       programOverrides: {
         ...prev.programOverrides,
@@ -315,47 +252,38 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         },
       },
     }))
-  }, [isDemoMode])
+  }, [])
 
   const setSessionFocus = useCallback((weekId: string, sessionId: string, focus: string): void => {
-    if (isDemoMode) return
-    setRealState(prev => ({
+    setState(prev => ({
       ...prev,
       programOverrides: {
         ...prev.programOverrides,
         [weekId]: {
           ...prev.programOverrides[weekId],
-          [sessionId]: {
-            ...prev.programOverrides[weekId]?.[sessionId],
-            focus,
-          },
+          [sessionId]: { ...prev.programOverrides[weekId]?.[sessionId], focus },
         },
       },
     }))
-  }, [isDemoMode])
+  }, [])
 
   const resetSessionOverride = useCallback((weekId: string, sessionId: string): void => {
-    if (isDemoMode) return
-    setRealState(prev => {
+    setState(prev => {
       const weekOv = { ...prev.programOverrides[weekId] }
       delete weekOv[sessionId]
-      return {
-        ...prev,
-        programOverrides: { ...prev.programOverrides, [weekId]: weekOv },
-      }
+      return { ...prev, programOverrides: { ...prev.programOverrides, [weekId]: weekOv } }
     })
-  }, [isDemoMode])
+  }, [])
 
   const resetWeekOverrides = useCallback((weekId: string): void => {
-    if (isDemoMode) return
-    setRealState(prev => {
+    setState(prev => {
       const overrides = { ...prev.programOverrides }
       delete overrides[weekId]
       return { ...prev, programOverrides: overrides }
     })
-  }, [isDemoMode])
+  }, [])
 
-  const value = {
+  const value: CanditoContextType = {
     state,
     isLoading,
     updateRM,
@@ -369,7 +297,6 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     importState,
     startNewCycle,
     suggestNewRM: () => suggestNewRM(state),
-    toggleDemoMode,
     isInitialized: state.initialized,
     setExerciseOverride,
     setSessionFocus,

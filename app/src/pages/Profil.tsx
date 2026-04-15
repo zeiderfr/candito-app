@@ -8,13 +8,12 @@ import { resolveSession, hasSessionOverride, hasWeekOverrides } from '@/lib/prog
 import { epley } from '@/lib/weightCalc'
 import { LiftProgressGraph } from '@/components/dashboard/LiftProgressGraph'
 import { NewCycleModal } from '@/components/common/NewCycleModal'
-import { DemoModeToggle } from '@/components/common/DemoModeToggle'
 import { PushNotificationManager } from '@/components/common/PushNotificationManager'
 import { type PR, type CycleSnapshot } from '@/types'
 import {
   ChevronLeft, ChevronRight, ChevronDown, RotateCcw,
   Settings2, Dumbbell, Activity, Trophy,
-  Database, Plus, Trash2, Bell, Shield,
+  Database, Plus, Trash2, Bell,
 } from 'lucide-react'
 
 // ── Navigation stack ─────────────────────────────────────────────────
@@ -618,19 +617,6 @@ function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }) {
         </div>
       </SettingsRow>
 
-      {/* Mode démo */}
-      <div className="glass rounded-2xl px-5 py-4 border border-border flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="size-10 rounded-xl bg-white/5 flex items-center justify-center text-muted shrink-0">
-            <Shield size={18} />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-white">Mode démo</p>
-            <p className="text-[10px] text-muted">Données fictives pour explorer l'app</p>
-          </div>
-        </div>
-        <DemoModeToggle />
-      </div>
     </section>
   )
 }
