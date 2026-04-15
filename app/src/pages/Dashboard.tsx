@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { DemoModeToggle } from '@/components/common/DemoModeToggle'
 import { CoachCard } from '@/components/dashboard/CoachCard'
 import { NotificationBanner } from '@/components/common/NotificationBanner'
 import { TrainingNotificationBanner } from '@/components/common/TrainingNotificationBanner'
@@ -29,6 +30,7 @@ export function Dashboard() {
       </div>
 
       <div className="flex flex-col gap-6">
+        <DemoModeToggle />
         <CoachCard />
         <PushNotificationManager />
 

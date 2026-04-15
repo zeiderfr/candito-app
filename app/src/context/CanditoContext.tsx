@@ -102,6 +102,7 @@ export interface CanditoContextType {
   importState: (data: CanditoState) => void
   startNewCycle: (newRM: RM) => void
   suggestNewRM: () => RM
+  toggleDemoMode: () => void
   isInitialized: boolean
 }
 
@@ -167,14 +168,16 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
   }, [isDemoMode])
 
   const updateName = useCallback((name: string) => {
-    setState((prev) => ({
+    if (isDemoMode) return
+    setRealState((prev) => ({
       ...prev,
       athlete: { ...prev.athlete, name }
     }))
-  }, [])
+  }, [isDemoMode])
 
   const toggleSession = useCallback((sessionId: string) => {
-    setState((prev) => {
+    if (isDemoMode) return
+    setRealState((prev) => {
       const completed = prev.progress.completedSessions.includes(sessionId)
       const newList = completed
           ? prev.progress.completedSessions.filter(id => id !== sessionId)
@@ -188,33 +191,36 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
           }
       }
     })
-  }, [])
+  }, [isDemoMode])
 
   const getTotal = useCallback(() => {
     return state.athlete.rm.squat + state.athlete.rm.bench + state.athlete.rm.deadlift
   }, [state.athlete.rm])
 
   const setCurrentWeek = useCallback((weekId: string) => {
-    setState(prev => ({ ...prev, currentWeekId: weekId }))
-  }, [])
+    if (isDemoMode) return
+    setRealState(prev => ({ ...prev, currentWeekId: weekId }))
+  }, [isDemoMode])
 
   const addPR = useCallback((lift: 'squat' | 'bench' | 'deadlift', weight: number, reps: number) => {
+    if (isDemoMode) return
     const newPR: PR = {
       id: `${lift}_${Date.now()}`,
       lift, weight, reps,
       date: TODAY(),
     }
-    setState(prev => ({
+    setRealState(prev => ({
       ...prev,
       progress: {
         ...prev.progress,
         prs: [...prev.progress.prs, newPR],
       },
     }))
-  }, [])
+  }, [isDemoMode])
 
   const logSession = useCallback((log: SessionLog) => {
-    setState(prev => ({
+    if (isDemoMode) return
+    setRealState(prev => ({
       ...prev,
       progress: {
         ...prev.progress,
@@ -224,14 +230,16 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         ]
       }
     }))
-  }, [])
+  }, [isDemoMode])
 
   const importState = useCallback((data: CanditoState) => {
-    setState(data)
-  }, [])
+    if (isDemoMode) return
+    setRealState(data)
+  }, [isDemoMode])
 
   const startNewCycle = useCallback((newRM: RM) => {
-    setState(prev => {
+    if (isDemoMode) return
+    setRealState(prev => {
       const snapshot: CycleSnapshot = {
         id: `cycle_${prev.cycleNumber}`,
         number: prev.cycleNumber,
@@ -244,7 +252,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
       }
       return {
         ...prev,
-        version: 4,
+        version: CURRENT_VERSION,
         athlete: { ...prev.athlete, rm: newRM },
         cycleNumber: prev.cycleNumber + 1,
         cycleStartDate: TODAY(),
@@ -253,6 +261,10 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
         progress: { completedSessions: [], prs: [], sessionLogs: [] },
       }
     })
+  }, [isDemoMode])
+
+  const toggleDemoMode = useCallback(() => {
+    setIsDemoMode(prev => !prev)
   }, [])
 
   const value = {
