@@ -62,25 +62,28 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
           </p>
         </div>
 
-        <div className="flex gap-3 pt-2">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           <button
             onClick={() => navigate('nutrition')}
             className={cn(
-              'flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200',
-              'text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl',
-              'flex items-center justify-center gap-2 cursor-pointer',
+              'glass border border-white/5 hover:bg-white/10 active:scale-[0.98] transition-all duration-300',
+              'py-6 px-3 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer group',
             )}>
-            <Coffee size={14} />
-            CONSEILS NUTRITION
+            <Coffee size={18} className="text-accent/60 group-hover:text-accent transition-colors duration-300" />
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-[0.15em] text-center">
+              Conseils Nutrition
+            </span>
           </button>
           <button
             onClick={() => navigate('warmup')}
             className={cn(
-              'flex-1 bg-white/5 hover:bg-white/10 transition-colors duration-200',
-              'text-white/60 font-bold uppercase tracking-wider text-[10px] py-4 rounded-xl',
-              'flex items-center justify-center gap-2 cursor-pointer',
+              'glass border border-white/5 hover:bg-white/10 active:scale-[0.98] transition-all duration-300',
+              'py-6 px-3 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer group',
             )}>
-            MOBILITÉ ACTIVE
+            <Zap size={18} className="text-white/30 group-hover:text-white transition-colors duration-300" />
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-[0.15em] text-center">
+              Mobilité Active
+            </span>
           </button>
         </div>
       </div>
