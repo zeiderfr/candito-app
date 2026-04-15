@@ -10,6 +10,7 @@ import { UpdatePrompt } from '@/components/common/UpdatePrompt'
 import { type TabId } from '@/components/layout/BottomNav'
 import { NavigationContext } from '@/context/NavigationContext'
 import { CanditoProvider, useCandito } from '@/context/CanditoContext'
+import { ToastProvider } from '@/context/ToastContext'
 
 const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres']
 
@@ -92,7 +93,9 @@ function AppContent() {
 function App() {
   return (
     <CanditoProvider>
-      <AppContent />
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </CanditoProvider>
   )
 }

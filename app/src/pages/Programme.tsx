@@ -7,6 +7,7 @@ import { calcWeight } from '@/lib/weightCalc'
 import { CheckCircle2, Circle, Play } from 'lucide-react'
 import { FocusMode } from '@/components/session/FocusMode'
 import { type Session } from '@/types'
+import { useToasts } from '@/context/ToastContext'
 
 type S6Variant = 's6_test' | 's6_dec'
 
@@ -234,11 +235,25 @@ const sessionItem = {
 // ── Main Export ──────────────────────────────────────────────────────
 export function Programme() {
   const { state, toggleSession, setCurrentWeek, logSession } = useCanditoState()
+  const { showToast } = useToasts()
   const [selectedWeekId, setSelectedWeekId] = useState(state.currentWeekId)
   const [s6Variant, setS6Variant] = useState<S6Variant>(
     state.currentWeekId === 's6_dec' ? 's6_dec' : 's6_test'
   )
   const [focusSession, setFocusSession] = useState<Session | null>(null)
+
+  const handleToggle = (sessionId: string, currentSession: Session) => {
+    const isCurrentlyCompleted = state.progress.completedSessions.includes(sessionId)
+    toggleSession(sessionId)
+
+    showToast({
+      message: isCurrentlyCompleted 
+        ? `Séance "${currentSession.day}" marquée comme non faite.` 
+        : `Séance "${currentSession.day}" terminée !`,
+      onUndo: () => toggleSession(sessionId),
+      duration: 5000
+    })
+  }
 
   const weekData = PROGRAM_DATA[selectedWeekId]
   const meta = PROGRAM_METADATA[selectedWeekId]
@@ -290,7 +305,7 @@ export function Programme() {
             <SessionCard
               session={session}
               isCompleted={state.progress.completedSessions.includes(session.id)}
-              onToggle={() => toggleSession(session.id)}
+              onToggle={() => handleToggle(session.id, session)}
               onStart={() => setFocusSession(session)}
               rm={state.athlete.rm}
             />
