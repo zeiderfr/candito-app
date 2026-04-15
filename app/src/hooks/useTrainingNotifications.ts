@@ -69,6 +69,7 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
   useEffect(() => {
     if (!isPWANotifSupported()) return
     if (Notification.permission !== 'granted') return
+    if (localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)) return
     if (!isTodayTrainingDay) return
 
     const today = new Date().toISOString().split('T')[0]
