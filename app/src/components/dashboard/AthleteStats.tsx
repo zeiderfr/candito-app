@@ -44,13 +44,13 @@ function triggerPRExplosion(container: HTMLElement) {
 
   // Particle burst
   animate(particles as unknown as HTMLElement, {
-    translateX: () => utils.random(-85, 85),
-    translateY: () => utils.random(-70, 20),
+    translateX: () => utils.random(-120, 120),
+    translateY: () => utils.random(-90, 40),
     opacity: [1, 0],
-    scale: [1.4, 0],
-    duration: 680,
+    scale: [1.8, 0],
+    duration: 800,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    delay: utils.stagger(35) as any,
+    delay: utils.stagger(25) as any,
     ease: 'outExpo',
     onComplete: () => particles.forEach(p => p.remove()),
   })
