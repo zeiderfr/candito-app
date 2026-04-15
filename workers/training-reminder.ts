@@ -6,8 +6,17 @@ export interface Env {
   VAPID_PRIVATE_KEY: string;
 }
 
+type WeekId = 's1' | 's2' | 's3' | 's4' | 's5' | 's6_test' | 's6_dec'
+
+interface SubscriptionRecord {
+  subscription: webpush.PushSubscription
+  weekId: string
+  name?: string
+  lastSync?: string
+}
+
 // Data simplifiée du programme pour le worker
-const WEEK_SCHEDULE_MAP: Record<string, Record<number, string | null>> = {
+const WEEK_SCHEDULE_MAP: Record<WeekId, Partial<Record<number, string>>> = {
   s1:      { 1: 's1_lun', 2: 's1_mar', 4: 's1_jeu', 5: 's1_ven', 6: 's1_sam' },
   s2:      { 1: 's2_lun', 2: 's2_mar', 4: 's2_jeu', 5: 's2_ven', 6: 's2_sam' },
   s3:      { 1: 's3_lun', 3: 's3_mer', 5: 's3_ven' },
@@ -39,31 +48,35 @@ export default {
     const list = await env.CANDITO_SUBS.list({ prefix: 'sub:' });
     const dayOfWeek = new Date().getDay();
 
-    for (const key of list.keys) {
-      const data = await env.CANDITO_SUBS.get(key.name);
-      if (!data) continue;
+    // 2. Traiter tous les abonnés en parallèle (O(1) vs O(n) séquentiel)
+    await Promise.allSettled(
+      list.keys.map(async (key) => {
+        const data = await env.CANDITO_SUBS.get(key.name);
+        if (!data) return;
 
-      const { subscription, weekId } = JSON.parse(data) as any;
-      const weekSchedule = WEEK_SCHEDULE_MAP[weekId] || {};
-      const sessionId = weekSchedule[dayOfWeek];
+        const { subscription, weekId } = JSON.parse(data) as SubscriptionRecord;
+        const weekSchedule = WEEK_SCHEDULE_MAP[weekId as WeekId] ?? {};
+        const sessionId = weekSchedule[dayOfWeek];
 
-      if (sessionId) {
-        const focus = FOCUS_MAP[sessionId] || 'Séance aujourd\'hui';
-        const payload = JSON.stringify({
-          title: 'CANDITO — Rappel Séance',
-          body: `Aujourd'hui : ${focus}. Bonne chance !`,
-          url: '/programme'
-        });
+        if (sessionId) {
+          const focus = FOCUS_MAP[sessionId] ?? "Séance aujourd'hui";
+          const payload = JSON.stringify({
+            title: 'CANDITO — Rappel Séance',
+            body: `Aujourd'hui : ${focus}. Bonne chance !`,
+            url: '/programme'
+          });
 
-        try {
-          await webpush.sendNotification(subscription, payload, vapidDetails);
-        } catch (err) {
-          if (err.statusCode === 410 || err.statusCode === 404) {
-            // L'abonnement a expiré ou a été révoqué par l'utilisateur
-            await env.CANDITO_SUBS.delete(key.name);
+          try {
+            await webpush.sendNotification(subscription, payload, vapidDetails);
+          } catch (err) {
+            const e = err as { statusCode?: number };
+            if (e.statusCode === 410 || e.statusCode === 404) {
+              // L'abonnement a expiré ou a été révoqué par l'utilisateur
+              await env.CANDITO_SUBS.delete(key.name);
+            }
           }
         }
-      }
-    }
+      })
+    );
   },
 };

@@ -83,7 +83,7 @@ function ProgressRing({ pct }: { pct: number }) {
         <circle
           cx="40" cy="40" r={R}
           fill="none"
-          stroke="rgba(255,255,255,0.06)"
+          stroke="var(--color-border)"
           strokeWidth="4"
         />
         {/* Progress */}
