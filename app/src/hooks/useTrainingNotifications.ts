@@ -85,7 +85,7 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
     const result = await Notification.requestPermission()
     setPermission(result)
 
-    if (result === 'granted' && isTodayTrainingDay) {
+    if (result === 'granted' && isTodayTrainingDay && !localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)) {
       const today = new Date().toISOString().split('T')[0]
       if (localStorage.getItem(NOTIF_DATE_KEY) !== today) {
         void showTrainingNotification(sessionFocusToday)
