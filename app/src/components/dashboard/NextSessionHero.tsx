@@ -15,7 +15,7 @@ interface NextSessionHeroProps {
 export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProps) {
   const navigate = useNavigation()
 
-  // Pre-compute pour les hooks (doivent être avant tout return conditionnel)
+  // Pre-compute pour les hooks
   const primaryEx = workoutState.type === 'workout' ? workoutState.session.exercises[0] : null
   const targetWeight = primaryEx?.percentage
     ? getWeight(primaryEx.lift, primaryEx.percentage.hi)
@@ -23,7 +23,6 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
 
   const weightRef = useRef<HTMLSpanElement>(null)
 
-  // Weight slam counter — anime de 0 à targetWeight à chaque changement
   useEffect(() => {
     if (!weightRef.current || targetWeight === null) return
     const controls = animate(0, targetWeight, {
@@ -43,7 +42,7 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
   if (workoutState.type === 'rest') {
     return (
       <div className={cn(
-        'glass p-8 rounded-card border-none flex flex-col gap-6 bg-surface/40',
+        'glass p-6 rounded-card border-none flex flex-col gap-6 bg-surface/40',
         'animate-in fade-in slide-in-from-bottom-4 duration-300',
       )}>
         <div className="flex items-center gap-2">
@@ -57,7 +56,7 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
           <h3 className="text-3xl font-display text-white">
             {workoutState.action}
           </h3>
-          <p className="text-muted text-sm leading-relaxed max-w-[90%]">
+          <p className="text-muted text-xs leading-relaxed max-w-[95%]">
             {workoutState.suggestion} Le progrès se construit aussi dans le calme.
           </p>
         </div>
@@ -67,22 +66,27 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
             onClick={() => navigate('nutrition')}
             className={cn(
               'glass border border-white/5 hover:bg-white/10 active:scale-[0.98] transition-all duration-300',
-              'py-6 px-3 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer group',
+              'p-2.5 rounded-2xl flex items-center gap-3 cursor-pointer group text-left',
             )}>
-            <Coffee size={18} className="text-accent/60 group-hover:text-accent transition-colors duration-300" />
-            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-[0.15em] text-center">
-              Conseils Nutrition
+            <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-accent/60 group-hover:text-accent group-hover:bg-accent/10 transition-all shrink-0">
+              <Coffee size={16} />
+            </div>
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
+              Conseils<br />Nutrition
             </span>
           </button>
+          
           <button
             onClick={() => navigate('warmup')}
             className={cn(
               'glass border border-white/5 hover:bg-white/10 active:scale-[0.98] transition-all duration-300',
-              'py-6 px-3 rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer group',
+              'p-2.5 rounded-2xl flex items-center gap-3 cursor-pointer group text-left',
             )}>
-            <Zap size={18} className="text-white/30 group-hover:text-white transition-colors duration-300" />
-            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-[0.15em] text-center">
-              Mobilité Active
+            <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-white group-hover:bg-white/10 transition-all shrink-0">
+              <Zap size={16} />
+            </div>
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
+              Mobilité<br />Active
             </span>
           </button>
         </div>
