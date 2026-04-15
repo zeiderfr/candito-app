@@ -76,7 +76,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
           data.progress.prs = data.progress.prs || []
           data.progress.sessionLogs = data.progress.sessionLogs || []
           
-          const legacyData = data as Record<string, unknown>
+          const legacyData = data as unknown as Record<string, unknown>
           if (!data.athlete && legacyData.rm && typeof legacyData.rm === 'object') {
             // Basic migration v1 -> v2 logic here if needed
           }
@@ -233,7 +233,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export function useCandito() {
+export function useCandito(): CanditoContextType {
   const context = useContext(CanditoContext)
   if (context === undefined) {
     throw new Error('useCandito must be used within a CanditoProvider')

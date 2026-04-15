@@ -56,6 +56,8 @@ export function useWorkoutSchedule() {
 
   return {
     workoutState,
-    getCalculatedWeight
+    getCalculatedWeight,
   }
 }
+
+export type UseWorkoutScheduleReturn = ReturnType<typeof useWorkoutSchedule>
