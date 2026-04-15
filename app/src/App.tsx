@@ -6,13 +6,14 @@ import { Warmup } from '@/pages/Warmup'
 import { Programme } from '@/pages/Programme'
 import { Nutrition } from '@/pages/Nutrition'
 import { Progres } from '@/pages/Progres'
+import { Profil } from '@/pages/Profil'
 import { UpdatePrompt } from '@/components/common/UpdatePrompt'
 import { type TabId } from '@/components/layout/BottomNav'
 import { NavigationContext } from '@/context/NavigationContext'
 import { CanditoProvider, useCandito } from '@/context/CanditoContext'
 import { ToastProvider } from '@/context/ToastContext'
 
-const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres']
+const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres', 'profil']
 
 const pageVariants = {
   enter: (d: number) => ({ x: d * 24, opacity: 0 }),
@@ -66,6 +67,7 @@ function AppContent() {
       case 'programme':  return <Programme />
       case 'nutrition':  return <Nutrition />
       case 'progres':    return <Progres />
+      case 'profil':     return <Profil />
     }
   }
 
