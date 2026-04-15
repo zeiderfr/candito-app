@@ -8,8 +8,13 @@ export interface Env {
 
 type WeekId = 's1' | 's2' | 's3' | 's4' | 's5' | 's6_test' | 's6_dec'
 
+interface PushSubscriptionData {
+  endpoint: string
+  keys: { p256dh: string; auth: string }
+}
+
 interface SubscriptionRecord {
-  subscription: webpush.PushSubscription
+  subscription: PushSubscriptionData
   weekId: string
   name?: string
   lastSync?: string
@@ -37,7 +42,7 @@ const FOCUS_MAP: Record<string, string> = {
 };
 
 export default {
-  async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
     const vapidDetails = {
       subject: 'mailto:admin@programme-candito.pages.dev',
       publicKey: env.VAPID_PUBLIC_KEY,
