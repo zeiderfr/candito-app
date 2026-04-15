@@ -181,7 +181,7 @@ function ConfirmDialog({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
         onClick={onCancel}
       />
 
@@ -191,7 +191,7 @@ function ConfirmDialog({
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 380, damping: 36 }}
-        className="relative z-10 w-full max-w-sm mx-4 glass rounded-3xl border border-border p-6 space-y-5 shadow-2xl"
+        className="relative z-10 w-full max-w-sm mx-4 bg-surface/95 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 space-y-5 shadow-2xl"
       >
         {/* Icône */}
         <div className="flex justify-center">
