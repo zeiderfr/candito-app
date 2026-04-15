@@ -1,0 +1,29 @@
+{
+  "routes": [
+    {
+      "routePath": "/api/push-subscribe",
+      "mountPath": "/api",
+      "method": "GET",
+      "module": [
+        "api/push-subscribe.ts:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/api/push-subscribe",
+      "mountPath": "/api",
+      "method": "OPTIONS",
+      "module": [
+        "api/push-subscribe.ts:onRequestOptions"
+      ]
+    },
+    {
+      "routePath": "/api/push-subscribe",
+      "mountPath": "/api",
+      "method": "POST",
+      "module": [
+        "api/push-subscribe.ts:onRequestPost"
+      ]
+    }
+  ],
+  "baseURL": "/"
+}
