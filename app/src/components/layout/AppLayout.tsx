@@ -1,6 +1,9 @@
 import { type ReactNode, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { BottomNav, type TabId } from './BottomNav'
+import { ProfileProvider } from '@/context/ProfileContext'
+import { ProfileButton } from '@/components/common/ProfileButton'
+import { ProfileSheet } from '@/components/common/ProfileSheet'
 
 const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'progres']
 
@@ -40,19 +43,31 @@ export function AppLayout({ children, activeTab, onTabChange }: AppLayoutProps) 
   }
 
   return (
-    <div className="relative min-h-dvh flex flex-col bg-background font-sans">
-      <main
-        className={cn(
-          "flex-1 w-full max-w-[680px] mx-auto",
-          "px-6 pt-6 pb-32 overflow-y-auto"
-        )}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        {children}
-      </main>
+    <ProfileProvider>
+      <div className="relative min-h-dvh flex flex-col bg-background font-sans">
+        {/* Profile button — fixed top-right, respects iOS safe area */}
+        <div
+          className="fixed z-30 right-5"
+          style={{ top: 'max(1.25rem, calc(env(safe-area-inset-top) + 0.75rem))' }}
+        >
+          <ProfileButton />
+        </div>
 
-      <BottomNav activeTab={activeTab} onTabChange={onTabChange} />
-    </div>
+        <main
+          className={cn(
+            "flex-1 w-full max-w-[680px] mx-auto",
+            "px-6 pt-16 pb-32 overflow-y-auto"
+          )}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {children}
+        </main>
+
+        <BottomNav activeTab={activeTab} onTabChange={onTabChange} />
+
+        <ProfileSheet />
+      </div>
+    </ProfileProvider>
   )
 }
