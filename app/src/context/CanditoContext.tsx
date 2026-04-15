@@ -9,22 +9,26 @@ const CURRENT_VERSION = 5
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
-const DEFAULT_STATE: CanditoState = {
-  version: CURRENT_VERSION,
-  initialized: false,
+  currentWeekId: 's1',
+  isDemoMode: false
+}
+
+const DEMO_STATE: CanditoState = {
+  ...DEFAULT_STATE,
+  isDemoMode: true,
   athlete: {
-    name: 'Théo',
-    rm: { squat: 140, bench: 100, deadlift: 160 }
+    name: 'Théo (Démo)',
+    rm: { squat: 180, bench: 125, deadlift: 210 }
   },
-  cycleNumber: 1,
-  cycleStartDate: TODAY(),
-  cycleHistory: [],
   progress: {
-    completedSessions: [],
-    prs: [],
+    completedSessions: ['s1_d1', 's1_d2', 's1_d4', 's1_d5', 's2_d1'],
+    prs: [
+      { id: '1', lift: 'squat', weight: 185, reps: 1, date: '2026-04-10' },
+      { id: '2', lift: 'bench', weight: 127.5, reps: 1, date: '2026-04-12' }
+    ],
     sessionLogs: []
   },
-  currentWeekId: 's1'
+  currentWeekId: 's2'
 }
 
 /**
@@ -62,6 +66,8 @@ function migrate(data: any): CanditoState {
     if (migrated.athlete?.name === 'Athlète') {
       migrated.athlete.name = 'Théo'
     }
+    
+    migrated.isDemoMode = migrated.isDemoMode || false
   }
 
   migrated.version = CURRENT_VERSION
@@ -240,6 +246,7 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     importState,
     startNewCycle,
     suggestNewRM: () => suggestNewRM(state),
+    toggleDemoMode,
     isInitialized: state.initialized
   }
 
