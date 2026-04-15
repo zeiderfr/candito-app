@@ -1,5 +1,12 @@
 import webpush from 'web-push';
 
+// Minimal Cloudflare Workers type stubs (provided by runtime, not installed as a dev-dep)
+interface KVNamespace {
+  list(options: { prefix: string }): Promise<{ keys: Array<{ name: string }> }>
+  get(key: string): Promise<string | null>
+  delete(key: string): Promise<void>
+}
+
 export interface Env {
   CANDITO_SUBS: KVNamespace;
   VAPID_PUBLIC_KEY: string;
@@ -42,7 +49,7 @@ const FOCUS_MAP: Record<string, string> = {
 };
 
 export default {
-  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
+  async scheduled(_event: unknown, env: Env, _ctx: unknown): Promise<void> {
     const vapidDetails = {
       subject: 'mailto:admin@programme-candito.pages.dev',
       publicKey: env.VAPID_PUBLIC_KEY,
