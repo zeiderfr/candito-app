@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Bell, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
 
-const DISMISSED_KEY = 'notif_dismissed'
+const DISMISSED_KEY = STORAGE_KEYS.NOTIF_DISMISSED
 
 export function NotificationBanner() {
   const [permission, setPermission] = useState<NotificationPermission | null>(null)

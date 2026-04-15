@@ -108,8 +108,9 @@ export function PushNotificationManager() {
           {/* Background decoration */}
           <div className="absolute -top-10 -right-10 size-32 bg-accent/5 blur-3xl rounded-full" />
           
-          <button 
+          <button
             onClick={() => setIsVisible(false)}
+            aria-label="Fermer"
             className="absolute top-4 right-4 text-muted hover:text-white transition-colors"
           >
             <X size={18} />

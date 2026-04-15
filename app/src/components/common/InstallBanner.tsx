@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Smartphone, X } from 'lucide-react'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
 
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent)
 const isAndroid = () => /android/i.test(navigator.userAgent)
