@@ -1,20 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
-import { COACH_MESSAGES } from '@/data/program'
+import { COACH_MESSAGES, type CoachTimeSlot } from '@/data/program'
+
+function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {
+  const hour = new Date().getHours()
+  if (hour < 13) return { slot: 'matin',  greeting: 'Bonjour' }
+  if (hour < 14) return { slot: 'midi',   greeting: 'Bonjour' }
+  if (hour < 18) return { slot: 'aprem',  greeting: 'Bon après-midi' }
+  return             { slot: 'soir',   greeting: 'Bonsoir' }
+}
 
 export function CoachCard() {
   const { state } = useCanditoState()
-  const [greeting, setGreeting] = useState('')
 
-  useEffect(() => {
-    const hour = new Date().getHours()
-    if (hour < 13) setGreeting('Bonjour')
-    else if (hour < 18) setGreeting('Bon après-midi')
-    else setGreeting('Bonsoir')
-  }, [])
+  const { greeting, message, tone } = useMemo(() => {
+    const { slot, greeting } = getTimeContext()
+    const dayOfWeek = new Date().getDay()
 
-  const coaching = COACH_MESSAGES[state.currentWeekId] ?? COACH_MESSAGES['s1s2']
+    const weekData = COACH_MESSAGES[state.currentWeekId] ?? COACH_MESSAGES['s1']
+    const pool = weekData[slot]
+    const message = pool[dayOfWeek % pool.length]
+
+    return { greeting, message, tone: weekData.tone }
+  }, [state.currentWeekId])
 
   return (
     <div className={cn(
@@ -29,7 +38,7 @@ export function CoachCard() {
           </span>
         </div>
         <span className="text-[9px] text-dim/60 uppercase tracking-widest font-bold italic">
-          {coaching.tone}
+          {tone}
         </span>
       </div>
 
@@ -42,7 +51,7 @@ export function CoachCard() {
       <div className="h-[1px] w-8 bg-accent/20 my-1" />
 
       <p className="text-muted text-sm leading-relaxed max-w-[90%]">
-        {coaching.message}
+        {message}
       </p>
     </div>
   )
