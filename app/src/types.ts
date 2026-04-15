@@ -79,6 +79,31 @@ export interface CycleSnapshot {
   sessionLogs: SessionLog[]
 }
 
+// ── Program Overrides ─────────────────────────────────────────────────
+
+/** Surcharge d'un exercice individuel (tous les champs sont optionnels) */
+export interface ExerciseOverride {
+  name?: string
+  sets?: string
+  reps?: string
+  percentage?: { lo: number; hi: number }
+  note?: string
+  lift?: 'squat' | 'bench' | 'deadlift'
+}
+
+/** Surcharge d'une session complète */
+export interface SessionOverride {
+  focus?: string
+  exercises?: Record<number, ExerciseOverride>
+  skipped?: boolean
+}
+
+/** Map sessionId → SessionOverride pour une semaine */
+export type WeekOverrides = Record<string, SessionOverride>
+
+/** Racine des overrides stockée dans CanditoState — clé : weekId */
+export type ProgramOverrides = Record<string, WeekOverrides>
+
 export interface CanditoState {
   version: number
   initialized: boolean
@@ -96,4 +121,5 @@ export interface CanditoState {
   }
   currentWeekId: string
   isDemoMode: boolean
+  programOverrides: ProgramOverrides  // Surcharges programme utilisateur
 }

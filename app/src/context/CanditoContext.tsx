@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import { get, set } from 'idb-keyval'
-import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog } from '../types'
+import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog, type ExerciseOverride } from '../types'
 import { suggestNewRM } from '../lib/weightCalc'
 import { STORAGE_KEYS } from '../lib/storageKeys'
 
 const STORAGE_KEY = STORAGE_KEYS.CANDITO_STATE
-const CURRENT_VERSION = 5
+const CURRENT_VERSION = 6
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
@@ -25,7 +25,8 @@ const DEFAULT_STATE: CanditoState = {
     sessionLogs: []
   },
   currentWeekId: 's1',
-  isDemoMode: false
+  isDemoMode: false,
+  programOverrides: {},
 }
 
 const DEMO_STATE: CanditoState = {
