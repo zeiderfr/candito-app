@@ -127,7 +127,7 @@ export function NotificationSettings() {
     <div className="space-y-3">
       <NotifRow
         icon={<Bell size={18} />}
-        title="Rappels d'entraînement"
+        title="Rappels locaux"
         description="Notification quand l'app est ouverte le jour J"
         status={localStatus}
         onActivate={enableLocal}
@@ -158,6 +158,7 @@ export function NotificationSettings() {
 }
 
 // ── Dialog de confirmation ─────────────────────────────────────────────
+// Note: Utilise un z-index très élevé et une position fixe pour passer au-dessus de la BottomNav
 function ConfirmDialog({
   type, onConfirm, onCancel
 }: {
@@ -165,15 +166,15 @@ function ConfirmDialog({
   onConfirm: () => void
   onCancel: () => void
 }) {
-  const label = type === 'local' ? "les rappels d'entraînement" : 'les rappels persistants'
+  const label = type === 'local' ? "les rappels locaux" : 'les rappels persistants'
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-end justify-center"
-      style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
+      className="fixed inset-0 z-[100] flex items-end justify-center"
+      style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 100px)' }}
     >
       {/* Backdrop */}
       <motion.div
@@ -190,7 +191,7 @@ function ConfirmDialog({
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 380, damping: 36 }}
-        className="relative z-10 w-full max-w-sm mx-4 glass rounded-3xl border border-border p-6 space-y-5"
+        className="relative z-10 w-full max-w-sm mx-4 glass rounded-3xl border border-border p-6 space-y-5 shadow-2xl"
       >
         {/* Icône */}
         <div className="flex justify-center">
@@ -201,10 +202,9 @@ function ConfirmDialog({
 
         {/* Texte */}
         <div className="text-center space-y-1.5">
-          <p className="text-base font-bold text-white">Désactiver les rappels ?</p>
+          <p className="text-base font-bold text-white">Désactiver ?</p>
           <p className="text-[12px] text-muted leading-relaxed">
             Tu es sur le point de désactiver {label}.
-            Tu pourras les réactiver à tout moment.
           </p>
         </div>
 
@@ -212,13 +212,13 @@ function ConfirmDialog({
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={onCancel}
-            className="py-3 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
+            className="py-3.5 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
           >
             Annuler
           </button>
           <button
             onClick={onConfirm}
-            className="py-3 rounded-2xl bg-danger/20 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/30 transition-colors cursor-pointer"
+            className="py-3.5 rounded-2xl bg-danger/20 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/30 transition-colors cursor-pointer"
           >
             Désactiver
           </button>
