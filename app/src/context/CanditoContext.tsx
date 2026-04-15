@@ -2,8 +2,9 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import { get, set } from 'idb-keyval'
 import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog } from '../types'
 import { suggestNewRM } from '../lib/weightCalc'
+import { STORAGE_KEYS } from '../lib/storageKeys'
 
-const STORAGE_KEY = 'candito_tracker_data'
+const STORAGE_KEY = STORAGE_KEYS.CANDITO_STATE
 
 const TODAY = (): string => new Date().toISOString().split('T')[0]
 
@@ -25,7 +26,7 @@ const DEFAULT_STATE: CanditoState = {
   currentWeekId: 's1'
 }
 
-interface CanditoContextType {
+export interface CanditoContextType {
   state: CanditoState
   isLoading: boolean
   updateRM: (newRM: Partial<RM>) => void
@@ -75,8 +76,9 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
           data.progress.prs = data.progress.prs || []
           data.progress.sessionLogs = data.progress.sessionLogs || []
           
-          if (!data.athlete && (data as any).rm) {
-             // Basic migration v1 -> v2 logic here if needed
+          const legacyData = data as Record<string, unknown>
+          if (!data.athlete && legacyData.rm && typeof legacyData.rm === 'object') {
+            // Basic migration v1 -> v2 logic here if needed
           }
           
           if (data.athlete?.name === 'Athlète') {
