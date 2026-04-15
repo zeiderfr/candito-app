@@ -68,7 +68,7 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
               'glass border border-white/5 hover:bg-white/10 active:scale-[0.98] transition-all duration-300',
               'p-2.5 rounded-2xl flex items-center gap-3 cursor-pointer group text-left',
             )}>
-            <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-accent/60 group-hover:text-accent group-hover:bg-accent/10 transition-all shrink-0">
+            <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/30 group-hover:text-accent group-hover:bg-accent/10 transition-all shrink-0">
               <Coffee size={16} />
             </div>
             <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
