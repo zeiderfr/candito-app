@@ -582,10 +582,10 @@ function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }) {
         chevron
       />
 
-      {/* Rappels d'entraînement */}
+      {/* Rappels locaux */}
       <SettingsRow
         icon={<Bell size={18} />}
-        label="Rappels d'entraînement"
+        label="Rappels locaux"
         description="Notifications push les jours de séance"
         onClick={() => toggle('notif')}
         expanded={openSection === 'notif'}
