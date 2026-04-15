@@ -9,7 +9,7 @@ export function CoachCard() {
 
   useEffect(() => {
     const hour = new Date().getHours()
-    if (hour < 12) setGreeting('Bonjour')
+    if (hour < 13) setGreeting('Bonjour')
     else if (hour < 18) setGreeting('Bon après-midi')
     else setGreeting('Bonsoir')
   }, [])
