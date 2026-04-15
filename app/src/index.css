@@ -6,6 +6,7 @@
   --color-surface: rgba(255, 255, 255, 0.04);
   --color-border: rgba(255, 255, 255, 0.07);
   --color-accent: #66bb6a;
+  --color-accent-hover: #77cc7b;
   --color-accent-muted: rgba(76, 175, 80, 0.1);
   --color-muted: rgba(255, 255, 255, 0.45);
   --color-dim: rgba(255, 255, 255, 0.25);
