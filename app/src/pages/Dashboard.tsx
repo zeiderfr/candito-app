@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
 import { CoachCard } from '@/components/dashboard/CoachCard'
 import { NotificationBanner } from '@/components/common/NotificationBanner'
-import { TrainingNotificationBanner } from '@/components/common/TrainingNotificationBanner'
 import { PushNotificationManager } from '@/components/common/PushNotificationManager'
 import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
@@ -33,7 +32,6 @@ export function Dashboard() {
         <PushNotificationManager />
 
         <NotificationBanner />
-        <TrainingNotificationBanner />
         <InstallBanner />
 
         <NextSessionHero
