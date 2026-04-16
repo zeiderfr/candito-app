@@ -4,5 +4,5 @@ export const STORAGE_KEYS = {
   INSTALL_DISMISSED:         'install_dismissed',
   LAST_TRAINING_NOTIF:       'last_training_notif',
   TRAINING_NOTIF_DISMISSED:  'training_notif_dismissed',
-  LOCAL_NOTIF_DISABLED:      'candito_local_notif_disabled',
+  NOTIFS_ENABLED:            'candito_notifs_enabled',
 } as const
