@@ -100,14 +100,14 @@ export function PushNotificationManager() {
   return createPortal(
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="fixed bottom-40 left-4 right-4 z-[100]"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 30 }}
+        className="fixed inset-x-0 bottom-[220px] flex items-center justify-center z-[9999] px-6"
       >
-        <div className="glass p-5 rounded-3xl border border-white/10 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden">
+        <div className="w-full max-w-sm glass p-5 rounded-[28px] border border-white/15 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.9)] relative overflow-hidden">
           {/* Background decoration */}
-          <div className="absolute -top-10 -right-10 size-32 bg-accent/5 blur-3xl rounded-full" />
+          <div className="absolute -top-10 -right-10 size-32 bg-accent/10 blur-3xl rounded-full" />
           
           <button
             onClick={() => setIsVisible(false)}
@@ -118,17 +118,17 @@ export function PushNotificationManager() {
           </button>
 
           <div className="flex items-start gap-4">
-            <div className="size-12 rounded-2xl bg-accent/10 flex items-center justify-center shrink-0">
+            <div className="size-12 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0">
               <Bell className="text-accent animate-pulse" size={24} />
             </div>
             
             <div className="flex-1 pr-6">
-              <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-1">
-                Notifications Persistantes
+              <h3 className="text-white font-display italic text-lg tracking-tight mb-1">
+                Notifications
               </h3>
-              <p className="text-muted text-[11px] leading-relaxed mb-4">
+              <p className="text-dim text-[11px] leading-relaxed mb-4">
                 Recevez vos rappels d'entraînement même lorsque l'application est fermée. 
-                <span className="text-accent/80 block mt-1 font-medium italic">Logiciel optimisé.</span>
+                <span className="text-accent block mt-1 font-bold italic">Vérification iPhone 15 Pro v3.</span>
               </p>
 
               <div className="flex gap-3">
@@ -136,10 +136,10 @@ export function PushNotificationManager() {
                   onClick={() => subscribeUser(weekId)}
                   disabled={status === 'loading'}
                   className={cn(
-                    "flex-1 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
+                    "flex-1 py-3.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
                     status === 'success' 
                       ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                      : "bg-white text-black hover:bg-accent hover:text-white"
+                      : "bg-white text-black hover:bg-accent hover:text-white shadow-lg"
                   )}
                 >
                   {status === 'loading' ? 'Activation...' : status === 'success' ? 'Activé ✔' : 'Activer maintenant'}
@@ -150,7 +150,7 @@ export function PushNotificationManager() {
           
           {/* iOS Info Tip */}
           {/iPhone|iPad|iPod/.test(navigator.userAgent) && (
-            <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] text-muted">
+            <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] text-dim">
               <Cloud size={12} className="text-accent/60" />
               <span>Note : Requiert l'app sur l'écran d'accueil</span>
             </div>
