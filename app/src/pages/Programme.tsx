@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
@@ -126,7 +126,7 @@ function WeekSelector({
 }
 
 // ── Session Card ────────────────────────────────────────────────────
-function SessionCard({
+const SessionCard = memo(function SessionCard({
   session,
   isCompleted,
   onToggle,
@@ -221,7 +221,13 @@ function SessionCard({
       )}
     </div>
   )
-}
+}, (prev, next) =>
+  prev.session.id === next.session.id &&
+  prev.isCompleted === next.isCompleted &&
+  prev.rm.squat === next.rm.squat &&
+  prev.rm.bench === next.rm.bench &&
+  prev.rm.deadlift === next.rm.deadlift
+)
 
 // ── Stagger variants ────────────────────────────────────────────────
 const sessionContainer = {
