@@ -1,18 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AppLayout } from '@/components/layout/AppLayout'
-import { Dashboard } from '@/pages/Dashboard'
-import { Warmup } from '@/pages/Warmup'
-import { Programme } from '@/pages/Programme'
-import { Nutrition } from '@/pages/Nutrition'
-import { Profil } from '@/pages/Profil'
 import { UpdatePrompt } from '@/components/common/UpdatePrompt'
+
+const Dashboard  = lazy(() => import('@/pages/Dashboard').then(m => ({ default: m.Dashboard })))
+const Warmup     = lazy(() => import('@/pages/Warmup').then(m => ({ default: m.Warmup })))
+const Programme  = lazy(() => import('@/pages/Programme').then(m => ({ default: m.Programme })))
+const Nutrition  = lazy(() => import('@/pages/Nutrition').then(m => ({ default: m.Nutrition })))
+const Profil     = lazy(() => import('@/pages/Profil').then(m => ({ default: m.Profil })))
 import { type TabId } from '@/components/layout/BottomNav'
 import { NavigationContext } from '@/context/NavigationContext'
 import { CanditoProvider, useCandito } from '@/context/CanditoContext'
 import { ToastProvider } from '@/context/ToastContext'
 
 const TAB_ORDER: TabId[] = ['accueil', 'warmup', 'programme', 'nutrition', 'profil']
+
+const PageFallback = () => (
+  <div className="flex flex-col gap-4 p-6 pt-8">
+    {[80, 56, 160, 96].map((h, i) => (
+      <div key={i} className="animate-shimmer rounded-2xl" style={{ height: h }} />
+    ))}
+  </div>
+)
 
 const pageVariants = {
   enter: (d: number) => ({ x: d * 24, opacity: 0 }),
@@ -73,18 +82,20 @@ case 'profil':     return <Profil />
     <NavigationContext.Provider value={handleTabChange}>
       <AppLayout activeTab={activeTab} onTabChange={handleTabChange}>
         <UpdatePrompt />
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={activeTab}
-            custom={direction}
-            variants={pageVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-          >
-            {renderContent()}
-          </motion.div>
-        </AnimatePresence>
+        <Suspense fallback={<PageFallback />}>
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={activeTab}
+              custom={direction}
+              variants={pageVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
+        </Suspense>
       </AppLayout>
     </NavigationContext.Provider>
   )

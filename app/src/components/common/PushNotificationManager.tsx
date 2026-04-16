@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Cloud, Bell, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
 
 const VAPID_PUBLIC_KEY = 'BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE'
 
@@ -70,6 +71,7 @@ export function PushNotificationManager() {
 
       if (!response.ok) throw new Error('Erreur backend')
 
+      localStorage.setItem(STORAGE_KEYS.NOTIFS_ENABLED, 'true')
       setStatus('success')
       setTimeout(() => setIsVisible(false), 2500)
     } catch (err) {
@@ -124,7 +126,7 @@ export function PushNotificationManager() {
             
             <div className="flex-1 pr-6">
               <h3 className="text-white font-bold text-[13px] uppercase tracking-wider mb-1">
-                Rappels Persistants
+                Rappels d'entraînement
               </h3>
               <p className="text-muted text-[11px] leading-relaxed mb-4">
                 Débloque les notifications pour ne jamais manquer une séance, même application fermée.
@@ -148,7 +150,7 @@ export function PushNotificationManager() {
           </div>
           
           {/* iOS Tiny Footer */}
-          {/iPhone|iPad|iPod/.test(navigator.userAgent) && !isOn && (
+          {/iPhone|iPad|iPod/.test(navigator.userAgent) && status !== 'success' && (
             <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2 text-[9px] text-muted italic">
               <Cloud size={10} className="text-accent/40" />
               <span>Optimum avec l'app sur l'écran d'accueil</span>
