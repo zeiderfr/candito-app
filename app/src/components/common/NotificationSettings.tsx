@@ -169,55 +169,53 @@ function ConfirmDialog({
   const label = type === 'local' ? "les rappels locaux" : 'les rappels persistants'
 
   // On utilise un Portal pour détacher le modal du flux DOM local
-  // Cela évite qu'il soit "prisonnier" d'un parent avec overflow-hidden ou transform
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-end justify-center">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-6">
+      {/* Backdrop — Plus sombre pour bien isoler le modal */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+        className="absolute inset-0 bg-black/90 backdrop-blur-md"
         onClick={onCancel}
       />
 
-      {/* Sheet */}
+      {/* Card — Fond solide pour éviter la transparence confuse */}
       <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 100, opacity: 0 }}
-        style={{ marginBottom: 'calc(env(safe-area-inset-bottom) + 120px)' }}
-        transition={{ type: 'spring', stiffness: 400, damping: 40 }}
-        className="relative z-10 w-full max-w-sm mx-4 bg-surface/95 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 space-y-5 shadow-2xl"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        className="relative z-10 w-full max-w-sm bg-[#111111] rounded-[32px] border border-white/10 p-8 space-y-6 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)]"
       >
         {/* Icône */}
         <div className="flex justify-center">
-          <div className="size-12 rounded-2xl bg-danger/10 flex items-center justify-center text-danger">
-            <BellOff size={20} />
+          <div className="size-14 rounded-2xl bg-danger/10 flex items-center justify-center text-danger">
+            <BellOff size={24} />
           </div>
         </div>
 
         {/* Texte */}
-        <div className="text-center space-y-1.5">
-          <p className="text-lg font-display text-white italic">Désactiver ?</p>
-          <p className="text-[12px] text-muted leading-relaxed">
-            Tu es sur le point de désactiver {label}.
+        <div className="text-center space-y-2">
+          <p className="text-xl font-display text-white italic">Désactiver ?</p>
+          <p className="text-sm text-dim leading-relaxed px-4">
+            Tu es sur le point de désactiver {label}. Le progrès demande de la régularité.
           </p>
         </div>
 
         {/* Boutons */}
-        <div className="grid grid-cols-2 gap-3 pt-2">
-          <button
-            onClick={onCancel}
-            className="py-4 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
-          >
-            Annuler
-          </button>
+        <div className="grid grid-cols-1 gap-3 pt-4">
           <button
             onClick={onConfirm}
-            className="py-4 rounded-2xl bg-danger/15 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/25 transition-colors cursor-pointer"
+            className="w-full py-4 rounded-2xl bg-danger text-white text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-danger/80 transition-colors cursor-pointer"
           >
-            Désactiver
+            Confirmer la désactivation
+          </button>
+          <button
+            onClick={onCancel}
+            className="w-full py-4 rounded-2xl bg-white/5 text-white/60 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition-colors cursor-pointer"
+          >
+            Garder les rappels
           </button>
         </div>
       </motion.div>
