@@ -10,7 +10,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, Bell, BellOff, CloudLightning, AlertTriangle } from 'lucide-react'
+import { Check, BellOff, CloudLightning, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCanditoState } from '@/hooks/useCanditoState'
 import { STORAGE_KEYS } from '@/lib/storageKeys'
@@ -27,7 +27,6 @@ function urlBase64ToUint8Array(base64: string) {
 }
 
 type RowStatus = 'checking' | 'off' | 'on' | 'loading' | 'denied' | 'unsupported'
-type ConfirmTarget = 'local' | 'push'
 
 export function NotificationSettings() {
   const { state } = useCanditoState()
