@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Cloud, Bell, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -96,22 +97,22 @@ export function PushNotificationManager() {
 
   if (status === 'unsupported' || !isVisible) return null
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="fixed bottom-40 left-4 right-4 z-40"
+        className="fixed bottom-40 left-4 right-4 z-[100]"
       >
-        <div className="glass p-5 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+        <div className="glass p-5 rounded-3xl border border-white/10 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden">
           {/* Background decoration */}
           <div className="absolute -top-10 -right-10 size-32 bg-accent/5 blur-3xl rounded-full" />
           
           <button
             onClick={() => setIsVisible(false)}
             aria-label="Fermer"
-            className="absolute top-4 right-4 text-muted hover:text-white transition-colors"
+            className="absolute top-4 right-4 text-muted hover:text-white transition-colors p-2"
           >
             <X size={18} />
           </button>
@@ -125,9 +126,9 @@ export function PushNotificationManager() {
               <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-1">
                 Notifications Persistantes
               </h3>
-              <p className="text-muted text-xs leading-relaxed mb-4">
+              <p className="text-muted text-[11px] leading-relaxed mb-4">
                 Recevez vos rappels d'entraînement même lorsque l'application est fermée. 
-                <span className="text-accent/80 block mt-1 font-medium">Style "Elite" activé.</span>
+                <span className="text-accent/80 block mt-1 font-medium italic">Logiciel optimisé.</span>
               </p>
 
               <div className="flex gap-3">
@@ -135,7 +136,7 @@ export function PushNotificationManager() {
                   onClick={() => subscribeUser(weekId)}
                   disabled={status === 'loading'}
                   className={cn(
-                    "flex-1 py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-widest transition-all",
+                    "flex-1 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
                     status === 'success' 
                       ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
                       : "bg-white text-black hover:bg-accent hover:text-white"
@@ -149,13 +150,14 @@ export function PushNotificationManager() {
           
           {/* iOS Info Tip */}
           {/iPhone|iPad|iPod/.test(navigator.userAgent) && (
-            <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-[10px] text-muted">
+            <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] text-muted">
               <Cloud size={12} className="text-accent/60" />
               <span>Note : Requiert l'app sur l'écran d'accueil</span>
             </div>
           )}
         </div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
