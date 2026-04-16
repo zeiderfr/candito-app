@@ -105,15 +105,6 @@ const WEEK_SCHEDULE_MAP: Record<WeekId, Partial<Record<number, string>>> = {
   s6_dec:  { 1: 's6_dec_lun',  3: 's6_dec_mer',  5: 's6_dec_ven' },
 };
 
-const FOCUS_MAP: Record<string, string> = {
-  s1_lun: 'Bas (Lourd)', s1_mar: 'Haut (Lourd)', s1_jeu: 'Haut (Volume)', s1_ven: 'Bas (Volume)', s1_sam: 'Haut (Hyper)',
-  s2_lun: 'Bas (Lourd)', s2_mar: 'Haut (Lourd)', s2_jeu: 'Haut (Volume)', s2_ven: 'Bas (Volume)', s2_sam: 'Haut (Hyper)',
-  s3_lun: 'Bas (Puissance)', s3_mer: 'Haut (Puissance)', s3_ven: 'Full Body',
-  s4_lun: 'Bas (>90%)', s4_mar: 'Haut (>90%)', s4_jeu: 'Bas (Explo)', s4_ven: 'Haut (Maintien)',
-  s5_j1: 'Test Squat', s5_j2: 'Test Bench', s5_j3: 'Test Deadlift',
-  s6_test_lun: 'PR Squat/DL', s6_test_mer: 'PR Bench', s6_test_ven: 'PR Deadlift',
-  s6_dec_lun: 'Bas (Décharge)', s6_dec_mer: 'Haut (Décharge)', s6_dec_ven: 'Bas (Mobilité)',
-};
 
 export default {
   async scheduled(_event: unknown, env: Env, _ctx: unknown): Promise<void> {
@@ -138,11 +129,14 @@ export default {
         const sessionId = weekSchedule[dayOfWeek];
 
         if (sessionId) {
-          const focus = FOCUS_MAP[sessionId] ?? "Séance aujourd'hui";
+          const title = FOCUS_DISPLAY[sessionId] ?? "⚡ Séance aujourd'hui"
+          const pool = PUSH_MESSAGES[weekId as WeekId] ?? PUSH_MESSAGES.s1
+          const body = pool[dayOfWeek % pool.length]
           const payload = JSON.stringify({
-            title: 'CANDITO — Rappel Séance',
-            body: `Aujourd'hui : ${focus}. Bonne chance !`,
-            url: '/programme'
+            title,
+            body,
+            url: '/programme',
+            tag: 'training-reminder',
           });
 
           try {
