@@ -31,75 +31,68 @@ type ConfirmTarget = 'local' | 'push'
 
 export function NotificationSettings() {
   const { state } = useCanditoState()
-  const [localStatus, setLocalStatus] = useState<RowStatus>('checking')
-  const [pushStatus, setPushStatus]   = useState<RowStatus>('checking')
-  const [confirm, setConfirm]         = useState<ConfirmTarget | null>(null)
+  const [status, setStatus]   = useState<RowStatus>('checking')
+  const [showConfirm, setShowConfirm] = useState(false)
 
-  // ── Vérification initiale des statuts ─────────────────────────────
   useEffect(() => {
-    // Statut local — soft-disable via flag localStorage
     if (!('Notification' in window) || !('serviceWorker' in navigator)) {
-      setLocalStatus('unsupported')
-    } else if (Notification.permission === 'denied') {
-      setLocalStatus('denied')
-    } else if (
-      Notification.permission === 'granted' &&
-      !localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)
-    ) {
-      setLocalStatus('on')
-    } else {
-      setLocalStatus('off')
-    }
-
-    // Statut push
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      setPushStatus('unsupported')
+      setStatus('unsupported')
       return
     }
-    navigator.serviceWorker.ready.then(reg =>
-      reg.pushManager.getSubscription()
-    ).then(sub => {
-      setPushStatus(sub ? 'on' : Notification.permission === 'denied' ? 'denied' : 'off')
-    }).catch(() => setPushStatus('unsupported'))
+
+    const checkStatus = async () => {
+      const reg = await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.getSubscription()
+      
+      if (Notification.permission === 'denied') {
+        setStatus('denied')
+      } else if (sub && localStorage.getItem(STORAGE_KEYS.NOTIFS_ENABLED) === 'true') {
+        setStatus('on')
+      } else {
+        setStatus('off')
+      }
+    }
+
+    checkStatus()
   }, [])
 
-  // ── Activer rappels locaux ─────────────────────────────────────────
-  const enableLocal = async () => {
-    setLocalStatus('loading')
-    localStorage.removeItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)
-    const result = await Notification.requestPermission()
-    setLocalStatus(result === 'granted' ? 'on' : result === 'denied' ? 'denied' : 'off')
-  }
-
-  // ── Désactiver rappels locaux (soft-disable) ───────────────────────
-  const disableLocal = () => {
-    localStorage.setItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED, '1')
-    setLocalStatus('off')
-  }
-
-  // ── Activer push persistants ───────────────────────────────────────
-  const enablePush = async () => {
-    setPushStatus('loading')
+  // ── Activer les rappels (Unifié) ───────────────────────────────────
+  const enableNotifications = async () => {
+    setStatus('loading')
     try {
+      // 1. Demander permission
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') {
+        setStatus('denied')
+        return
+      }
+
+      // 2. Inscription Push
       const reg = await navigator.serviceWorker.ready
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       })
+
+      // 3. Sync Serveur
       await fetch('/api/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subscription: sub, weekId: state.currentWeekId }),
       })
-      setPushStatus('on')
-    } catch {
-      setPushStatus('off')
+
+      // 4. Source de vérité locale
+      localStorage.setItem(STORAGE_KEYS.NOTIFS_ENABLED, 'true')
+      setStatus('on')
+    } catch (err) {
+      console.error('Failed to enable notifications:', err)
+      setStatus('off')
     }
   }
 
-  // ── Désactiver push persistants ────────────────────────────────────
-  const disablePush = async () => {
-    setPushStatus('loading')
+  // ── Désactiver les rappels (Unifié) ─────────────────────────────────
+  const disableNotifications = async () => {
+    setStatus('loading')
     try {
       const reg = await navigator.serviceWorker.ready
       const sub = await reg.pushManager.getSubscription()
@@ -109,48 +102,35 @@ export function NotificationSettings() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ endpoint: sub.endpoint }),
-        }).catch(() => {/* silencieux si l'endpoint n'existe pas côté serveur */})
+        }).catch(() => {})
       }
-      setPushStatus('off')
-    } catch {
-      setPushStatus('off')
+      localStorage.setItem(STORAGE_KEYS.NOTIFS_ENABLED, 'false')
+      setStatus('off')
+    } catch (err) {
+      console.error('Failed to disable notifications:', err)
+      setStatus('off')
     }
-  }
-
-  // ── Confirmation handler ───────────────────────────────────────────
-  const handleConfirm = () => {
-    if (confirm === 'local') disableLocal()
-    if (confirm === 'push') void disablePush()
-    setConfirm(null)
+    setShowConfirm(false)
   }
 
   return (
     <div className="space-y-3">
       <NotifRow
-        icon={<Bell size={18} />}
-        title="Rappels locaux"
-        description="Notification quand l'app est ouverte le jour J"
-        status={localStatus}
-        onActivate={enableLocal}
-        onDeactivate={() => setConfirm('local')}
-      />
-      <NotifRow
         icon={<CloudLightning size={18} />}
-        title="Rappels persistants"
-        description="Push à 8h même application fermée (requiert PWA)"
-        status={pushStatus}
-        onActivate={enablePush}
-        onDeactivate={() => setConfirm('push')}
+        title="Rappels d'entraînement"
+        description="Push à 8h même app fermée + alertes intelligentes"
+        status={status}
+        onActivate={enableNotifications}
+        onDeactivate={() => setShowConfirm(true)}
         isIOS={/iPhone|iPad|iPod/.test(navigator.userAgent)}
       />
 
       {/* Dialog de confirmation désactivation */}
       <AnimatePresence>
-        {confirm !== null && (
+        {showConfirm && (
           <ConfirmDialog
-            type={confirm}
-            onConfirm={handleConfirm}
-            onCancel={() => setConfirm(null)}
+            onConfirm={disableNotifications}
+            onCancel={() => setShowConfirm(false)}
           />
         )}
       </AnimatePresence>
@@ -160,13 +140,12 @@ export function NotificationSettings() {
 
 // ── Dialog de confirmation ─────────────────────────────────────────────
 function ConfirmDialog({
-  type, onConfirm, onCancel
+  onConfirm, onCancel
 }: {
-  type: ConfirmTarget
   onConfirm: () => void
   onCancel: () => void
 }) {
-  const label = type === 'local' ? "les rappels locaux" : 'les rappels persistants'
+  const label = "les rappels d'entraînement"
 
   // On utilise un Portal pour détacher le modal du flux DOM local
   return createPortal(
