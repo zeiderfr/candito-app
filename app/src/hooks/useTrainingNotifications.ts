@@ -8,7 +8,7 @@
  * Geste user obligatoire pour requestPermission() (déclenché depuis onClick)
  */
 import { useState, useEffect, useCallback } from 'react'
-import { WEEK_SCHEDULE_MAP, PROGRAM_DATA } from '@/data/program'
+import { WEEK_SCHEDULE_MAP, PROGRAM_DATA, COACH_MESSAGES } from '@/data/program'
 import { STORAGE_KEYS } from '@/lib/storageKeys'
 
 const NOTIF_DATE_KEY = STORAGE_KEYS.LAST_TRAINING_NOTIF
@@ -75,9 +75,10 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
     const today = new Date().toISOString().split('T')[0]
     if (localStorage.getItem(NOTIF_DATE_KEY) === today) return // déjà notifié
 
-    void showTrainingNotification(sessionFocusToday)
+    const dayOfWeek = new Date().getDay()
+    void showTrainingNotification(sessionFocusToday, currentWeekId, dayOfWeek)
     localStorage.setItem(NOTIF_DATE_KEY, today)
-  }, [isTodayTrainingDay, sessionFocusToday])
+  }, [isTodayTrainingDay, sessionFocusToday, currentWeekId])
 
   // ── Demande de permission (doit être appelé dans un onClick) ───────
   const requestPermission = useCallback(async (): Promise<void> => {
@@ -88,7 +89,8 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
     if (result === 'granted' && isTodayTrainingDay && !localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)) {
       const today = new Date().toISOString().split('T')[0]
       if (localStorage.getItem(NOTIF_DATE_KEY) !== today) {
-        void showTrainingNotification(sessionFocusToday)
+        const dayOfWeek = new Date().getDay()
+        void showTrainingNotification(sessionFocusToday, currentWeekId, dayOfWeek)
         localStorage.setItem(NOTIF_DATE_KEY, today)
       }
     }
