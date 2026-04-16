@@ -113,7 +113,11 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
 }
 
 // ── Affichage de la notification via Service Worker ──────────────────
-async function showTrainingNotification(sessionFocus: string | null): Promise<void> {
+async function showTrainingNotification(
+  sessionFocus: string | null,
+  weekId: string,
+  dayOfWeek: number,
+): Promise<void> {
   if (!isPWANotifSupported()) return
   if (Notification.permission !== 'granted') return
 
@@ -121,11 +125,17 @@ async function showTrainingNotification(sessionFocus: string | null): Promise<vo
     const reg = await navigator.serviceWorker.getRegistration()
     if (!reg) return
 
-    const body = sessionFocus
-      ? `${sessionFocus} — Bonne séance !`
+    // Titre : focus de la séance avec emoji contextuel
+    const title = sessionFocus ? `⚡ ${sessionFocus}` : "⚡ Entraînement aujourd'hui"
+
+    // Body : message motivant depuis le bank hebdomadaire (slot matin)
+    const weekData = COACH_MESSAGES[weekId]
+    const pool = weekData?.matin ?? []
+    const body = pool.length > 0
+      ? pool[dayOfWeek % pool.length]
       : "C'est le jour J. En salle !"
 
-    await reg.showNotification('CANDITO — Entraînement aujourd\'hui', {
+    await reg.showNotification(title, {
       body,
       icon: '/apple-touch-icon.png',
       tag: 'training-reminder',
