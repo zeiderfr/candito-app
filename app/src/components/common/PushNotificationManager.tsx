@@ -102,7 +102,7 @@ export function PushNotificationManager() {
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-        className="fixed bottom-24 left-4 right-4 z-40"
+        className="fixed bottom-36 left-4 right-4 z-40"
       >
         <div className="glass p-5 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
           {/* Background decoration */}
