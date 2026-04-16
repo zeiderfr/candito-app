@@ -97,49 +97,48 @@ export function PushNotificationManager() {
 
   if (status === 'unsupported' || !isVisible) return null
 
-  return createPortal(
+  return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 30 }}
-        className="fixed inset-x-0 bottom-[220px] flex items-center justify-center z-[9999] px-6"
+        initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+        animate={{ opacity: 1, height: 'auto', marginBottom: 24 }}
+        exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+        className="overflow-hidden"
       >
-        <div className="w-full max-w-sm glass p-5 rounded-[28px] border border-white/15 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.9)] relative overflow-hidden">
-          {/* Background decoration */}
-          <div className="absolute -top-10 -right-10 size-32 bg-accent/10 blur-3xl rounded-full" />
+        <div className="glass p-5 rounded-3xl border border-white/5 relative overflow-hidden bg-accent/5">
+          {/* Subtle Background decoration */}
+          <div className="absolute -top-10 -right-10 size-24 bg-accent/10 blur-2xl rounded-full" />
           
           <button
             onClick={() => setIsVisible(false)}
             aria-label="Fermer"
-            className="absolute top-4 right-4 text-muted hover:text-white transition-colors p-2"
+            className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors p-1"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
 
           <div className="flex items-start gap-4">
-            <div className="size-12 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0">
-              <Bell className="text-accent animate-pulse" size={24} />
+            <div className="size-10 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
+              <Bell className="text-accent" size={20} />
             </div>
             
             <div className="flex-1 pr-6">
-              <h3 className="text-white font-display italic text-lg tracking-tight mb-1">
-                Notifications
+              <h3 className="text-white font-bold text-[13px] uppercase tracking-wider mb-1">
+                Rappels Persistants
               </h3>
-              <p className="text-dim text-[11px] leading-relaxed mb-4">
-                Recevez vos rappels d'entraînement même lorsque l'application est fermée. 
-                <span className="text-accent block mt-1 font-bold italic">Vérification iPhone 15 Pro v3.</span>
+              <p className="text-muted text-[11px] leading-relaxed mb-4">
+                Débloque les notifications pour ne jamais manquer une séance, même application fermée.
               </p>
 
-              <div className="flex gap-3">
+              <div className="flex">
                 <button
                   onClick={() => subscribeUser(weekId)}
                   disabled={status === 'loading'}
                   className={cn(
-                    "flex-1 py-3.5 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
+                    "flex-1 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
                     status === 'success' 
-                      ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                      : "bg-white text-black hover:bg-accent hover:text-white shadow-lg"
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                      : "bg-white text-black hover:bg-accent hover:text-white"
                   )}
                 >
                   {status === 'loading' ? 'Activation...' : status === 'success' ? 'Activé ✔' : 'Activer maintenant'}
@@ -148,16 +147,15 @@ export function PushNotificationManager() {
             </div>
           </div>
           
-          {/* iOS Info Tip */}
-          {/iPhone|iPad|iPod/.test(navigator.userAgent) && (
-            <div className="mt-4 pt-4 border-t border-white/5 flex items-center gap-2 text-[9px] text-dim">
-              <Cloud size={12} className="text-accent/60" />
-              <span>Note : Requiert l'app sur l'écran d'accueil</span>
+          {/* iOS Tiny Footer */}
+          {/iPhone|iPad|iPod/.test(navigator.userAgent) && !isOn && (
+            <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2 text-[9px] text-muted italic">
+              <Cloud size={10} className="text-accent/40" />
+              <span>Optimum avec l'app sur l'écran d'accueil</span>
             </div>
           )}
         </div>
       </motion.div>
-    </AnimatePresence>,
-    document.body
+    </AnimatePresence>
   )
 }
