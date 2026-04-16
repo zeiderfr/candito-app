@@ -15,6 +15,73 @@ export interface Env {
 
 type WeekId = 's1' | 's2' | 's3' | 's4' | 's5' | 's6_test' | 's6_dec'
 
+// Traduction lisible des sessions pour le titre de la notification
+const FOCUS_DISPLAY: Record<string, string> = {
+  s1_lun: '🏋️ Squat & Deadlift',   s1_mar: '💪 Bench & Back',
+  s1_jeu: '📦 Volume Haut',          s1_ven: '📦 Volume Bas',       s1_sam: '🔥 Hypertrophie Haut',
+  s2_lun: '🏋️ Squat & Deadlift',   s2_mar: '💪 Bench & Back',
+  s2_jeu: '📦 Volume Haut',          s2_ven: '📦 Volume Bas',       s2_sam: '🔥 Hypertrophie Haut',
+  s3_lun: '⚡ Puissance Bas',        s3_mer: '⚡ Puissance Haut',   s3_ven: '🔥 Full Body',
+  s4_lun: '🔴 Lourd — Squat & DL',  s4_mar: '🔴 Lourd — Bench',
+  s4_jeu: '⚡ Explosivité Bas',      s4_ven: '💪 Maintien Haut',
+  s5_j1:  '🏆 TEST SQUAT',           s5_j2:  '🏆 TEST BENCH',       s5_j3: '🏆 TEST DEADLIFT',
+  s6_test_lun: '🏆 PR Squat & DL',  s6_test_mer: '🏆 PR Bench',    s6_test_ven: '🏆 PR Deadlift',
+  s6_dec_lun:  '🌿 Décharge Bas',   s6_dec_mer:  '🌿 Décharge Haut', s6_dec_ven: '🌿 Mobilité & Récup',
+}
+
+// Messages motivants par semaine (5 par pool, sélection déterministe par jour)
+const PUSH_MESSAGES: Record<WeekId, string[]> = {
+  s1: [
+    "Volume S1. Chaque série d'aujourd'hui est une fondation.",
+    "80% et régularité — c'est ici que le cycle se construit.",
+    "S1 démarre. Sois propre, sois constant.",
+    "Le moteur se règle en S1. Aujourd'hui tu poses les bases.",
+    "Première brique du cycle. En salle.",
+  ],
+  s2: [
+    "S2 — Les habitudes se gravent. Tiens le cap.",
+    "Volume maintenu. La régularité bat l'intensité.",
+    "Deuxième semaine — consolide ce que S1 a commencé.",
+    "80% encore. La technique prime sur l'ego.",
+    "S2 — C'est la constance qui construit un athlète.",
+  ],
+  s3: [
+    "S3 — L'intensité monte, le volume recule. C'est voulu.",
+    "Moins de séries, plus de poids. Reste concentré.",
+    "85-87% aujourd'hui — échauffement long obligatoire.",
+    "Transmutation S3. Tu passes en mode puissance.",
+    "S3 — Approche différemment. La charge parle maintenant.",
+  ],
+  s4: [
+    "S4 — Semaine la plus lourde du cycle. Sois prêt.",
+    "90%. C'est ici que le cycle se gagne ou se perd.",
+    "Acclimatation S4 — échauffement long, mouvement parfait.",
+    "Le plus dur de ton cycle est aujourd'hui. Mobilise tout.",
+    "S4 — Lourd et propre. Concentre-toi sur chaque rep.",
+  ],
+  s5: [
+    "S5 — Exprime ce que 4 semaines ont construit.",
+    "Test aujourd'hui. Vise 2 à 4 reps parfaites. Stop.",
+    "Peaking. Tout ce que tu as fait mène à aujourd'hui.",
+    "Visualise, respire, exécute. Tu es prêt.",
+    "AMRAP de vérité. Pas d'ego — laisse le travail parler.",
+  ],
+  s6_test: [
+    "Jour J. Les maxes arrivent. Technique avant tout.",
+    "6 semaines pour ce moment. Concentre-toi.",
+    "PR — échauffement progressif, rien de forcé.",
+    "Ce n'est pas une épreuve, c'est une démonstration.",
+    "Confiance. Tu as fait le travail. Maintenant montre-le.",
+  ],
+  s6_dec: [
+    "Décharge S6 — le corps récupère et se renforce.",
+    "50-60% aujourd'hui. Mouvement fluide, aucune douleur.",
+    "Le plus dur est derrière toi. Laisse le corps absorber.",
+    "Décharge active — protège le travail accompli.",
+    "Dernière semaine. Le prochain cycle sera plus fort.",
+  ],
+}
+
 interface PushSubscriptionData {
   endpoint: string
   keys: { p256dh: string; auth: string }
