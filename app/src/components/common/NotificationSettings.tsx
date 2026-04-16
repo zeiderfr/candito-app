@@ -8,6 +8,7 @@
  *    → désabonnement réel via pushManager.unsubscribe()
  */
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, Bell, BellOff, CloudLightning, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -158,7 +159,6 @@ export function NotificationSettings() {
 }
 
 // ── Dialog de confirmation ─────────────────────────────────────────────
-// Note: Utilise un z-index très élevé et une position fixe pour passer au-dessus de la BottomNav
 function ConfirmDialog({
   type, onConfirm, onCancel
 }: {
@@ -168,14 +168,10 @@ function ConfirmDialog({
 }) {
   const label = type === 'local' ? "les rappels locaux" : 'les rappels persistants'
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-end justify-center"
-      style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 100px)' }}
-    >
+  // On utilise un Portal pour détacher le modal du flux DOM local
+  // Cela évite qu'il soit "prisonnier" d'un parent avec overflow-hidden ou transform
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-end justify-center">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -187,10 +183,11 @@ function ConfirmDialog({
 
       {/* Sheet */}
       <motion.div
-        initial={{ y: 40, opacity: 0 }}
+        initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 40, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 380, damping: 36 }}
+        exit={{ y: 100, opacity: 0 }}
+        style={{ marginBottom: 'calc(env(safe-area-inset-bottom) + 120px)' }}
+        transition={{ type: 'spring', stiffness: 400, damping: 40 }}
         className="relative z-10 w-full max-w-sm mx-4 bg-surface/95 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 space-y-5 shadow-2xl"
       >
         {/* Icône */}
@@ -202,29 +199,30 @@ function ConfirmDialog({
 
         {/* Texte */}
         <div className="text-center space-y-1.5">
-          <p className="text-base font-bold text-white">Désactiver ?</p>
+          <p className="text-lg font-display text-white italic">Désactiver ?</p>
           <p className="text-[12px] text-muted leading-relaxed">
             Tu es sur le point de désactiver {label}.
           </p>
         </div>
 
         {/* Boutons */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 pt-2">
           <button
             onClick={onCancel}
-            className="py-3.5 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
+            className="py-4 rounded-2xl bg-white/5 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
           >
             Annuler
           </button>
           <button
             onClick={onConfirm}
-            className="py-3.5 rounded-2xl bg-danger/20 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/30 transition-colors cursor-pointer"
+            className="py-4 rounded-2xl bg-danger/15 text-danger text-[11px] font-bold uppercase tracking-widest hover:bg-danger/25 transition-colors cursor-pointer"
           >
             Désactiver
           </button>
         </div>
       </motion.div>
-    </motion.div>
+    </div>,
+    document.body
   )
 }
 
