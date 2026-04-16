@@ -69,7 +69,7 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
   useEffect(() => {
     if (!isPWANotifSupported()) return
     if (Notification.permission !== 'granted') return
-    if (localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)) return
+    if (localStorage.getItem(STORAGE_KEYS.NOTIFS_ENABLED) !== 'true') return
     if (!isTodayTrainingDay) return
 
     const today = new Date().toISOString().split('T')[0]
@@ -86,7 +86,7 @@ export function useTrainingNotifications(currentWeekId: string): TrainingNotific
     const result = await Notification.requestPermission()
     setPermission(result)
 
-    if (result === 'granted' && isTodayTrainingDay && !localStorage.getItem(STORAGE_KEYS.LOCAL_NOTIF_DISABLED)) {
+    if (result === 'granted' && isTodayTrainingDay && localStorage.getItem(STORAGE_KEYS.NOTIFS_ENABLED) === 'true') {
       const today = new Date().toISOString().split('T')[0]
       if (localStorage.getItem(NOTIF_DATE_KEY) !== today) {
         const dayOfWeek = new Date().getDay()
