@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { animate } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Zap, ChevronRight, Moon, Coffee } from 'lucide-react'
@@ -12,7 +12,7 @@ interface NextSessionHeroProps {
   getWeight: (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => number | null
 }
 
-export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProps) {
+export const NextSessionHero = memo(function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProps) {
   const navigate = useNavigation()
 
   // Pre-compute pour les hooks
@@ -169,4 +169,4 @@ export function NextSessionHero({ workoutState, getWeight }: NextSessionHeroProp
       <div className="absolute top-0 right-0 -mr-12 -mt-12 size-56 bg-accent/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
     </div>
   )
-}
+})
