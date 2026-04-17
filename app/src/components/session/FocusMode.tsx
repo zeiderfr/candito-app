@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-import { X, CheckCircle2, ChevronRight, Maximize2, Minimize2 } from 'lucide-react'
+import { X, CheckCircle2, ChevronRight, Maximize2, Minimize2, TrendingUp } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { type Session, type SessionLog, type SetLog } from '@/types'
-import { calcWeight } from '@/lib/weightCalc'
+import { calcWeight, epley } from '@/lib/weightCalc'
+import { useCandito } from '@/context/CanditoContext'
 
 interface FocusModeProps {
   session: Session
@@ -66,6 +67,7 @@ function TimerRing({
 
 // ── FocusMode ─────────────────────────────────────────────────────────
 export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) {
+  const { updateRM } = useCandito()
   const [exIdx, setExIdx] = useState(0)
   const [setsDone, setSetsDone] = useState(0)
   const [setLogs, setSetLogs] = useState<Record<number, SetLog[]>>({})
@@ -73,7 +75,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     weight: string
     rpe: number | null
   } | null>(null)
+  const [pendingRM, setPendingRM] = useState<{
+    lift: 'squat' | 'bench' | 'deadlift'
+    value: number
+  } | null>(null)
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
+  const startedAtRef = useRef(new Date().toISOString())
 
   // ── Rest Timer ──────────────────────────────────────────────────────
   const [restDuration, setRestDuration] = useState(90)
@@ -193,6 +200,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     stopTimer()
     setSetLogs({})
     setPendingSet(null)
+    setPendingRM(null)
     onClose()
   }
 

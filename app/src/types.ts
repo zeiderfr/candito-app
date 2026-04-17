@@ -64,7 +64,9 @@ export interface ExerciseLog {
 
 export interface SessionLog {
   sessionId: string       // Correspond à Session.id
+  sessionFocus?: string   // Nom de la séance (ex : "Bas lourd")
   date: string            // ISO date YYYY-MM-DD
+  startedAt?: string      // ISO datetime — timestamp précis de début de séance
   exercises: ExerciseLog[]
 }
 
