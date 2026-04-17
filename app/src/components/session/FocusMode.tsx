@@ -73,8 +73,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const [setLogs, setSetLogs] = useState<Record<number, SetLog[]>>({})
   const [pendingSet, setPendingSet] = useState<{
     weight: string
+    reps: string
     rpe: number | null
   } | null>(null)
+  const [lastModifiedWeight, setLastModifiedWeight] = useState<string | null>(null)
   const [pendingRM, setPendingRM] = useState<{
     lift: 'squat' | 'bench' | 'deadlift'
     value: number
@@ -176,11 +178,16 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const handleAction = () => {
     if (restActive) return
     if (!allSetsDone) {
-      setPendingSet({ weight: weight && weight > 0 ? String(weight) : '', rpe: null })
+      setPendingSet({ 
+        weight: lastModifiedWeight ?? (weight && weight > 0 ? String(weight) : ''), 
+        reps: getDefaultReps(exercise.reps),
+        rpe: null 
+      })
     } else if (!isLastExercise) {
       stopTimer()
       setExIdx(i => i + 1)
       setSetsDone(0)
+      setLastModifiedWeight(null) // Reset pour le nouvel exercice
     } else {
       stopTimer()
       const log: SessionLog = {
@@ -207,7 +214,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   }
 
   const handleSkip = () => {
-    logSet({ weight: null, reps: totalSets, rpe: null })
+    logSet({ weight: null, reps: parseInt(getDefaultReps(exercise.reps), 10), rpe: null })
     const next = setsDone + 1
     setSetsDone(next)
     setPendingSet(null)
@@ -299,7 +306,11 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             setCompanionMode(false)
             // Si pas allSetsDone, on revient au mode normal et la modal s'ouvrira normalement
             if (!allSetsDone) {
-              setPendingSet({ weight: weight && weight > 0 ? String(weight) : '', rpe: null })
+              setPendingSet({ 
+                weight: lastModifiedWeight ?? (weight && weight > 0 ? String(weight) : ''), 
+                reps: getDefaultReps(exercise.reps),
+                rpe: null 
+              })
             }
           }}
           whileTap={{ scale: 0.97 }}
@@ -571,16 +582,29 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
 
             <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  value={pendingSet.weight}
-                  onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
-                  placeholder="—"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
-                />
+               <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    value={pendingSet.weight}
+                    onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
+                    placeholder="—"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Reps</label>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    value={pendingSet.reps}
+                    onChange={e => setPendingSet(p => p ? { ...p, reps: e.target.value } : null)}
+                    placeholder="0"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
