@@ -23,7 +23,7 @@ function urlBase64ToUint8Array(base64String: string) {
 
 function isIOS(): boolean {
   return /iPhone|iPad|iPod/.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent))
 }
 
 function isStandalone(): boolean {
