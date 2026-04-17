@@ -597,30 +597,17 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
 
             <div className="space-y-4">
-               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    value={pendingSet.weight}
-                    onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
-                    placeholder="—"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Reps</label>
-                  <input
-                    type="number"
-                    inputMode="numeric"
-                    value={pendingSet.reps}
-                    onChange={e => setPendingSet(p => p ? { ...p, reps: e.target.value } : null)}
-                    placeholder="0"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-2xl font-display text-white tabular-nums focus:outline-none focus:border-accent/50 transition-colors"
-                  />
-                </div>
-              </div>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg) — Ajustable</label>
+              <input
+                type="number"
+                inputMode="decimal"
+                value={pendingSet.weight}
+                onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
+                placeholder="—"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 text-center text-4xl font-display text-white tabular-nums focus:outline-none focus:border-accent transition-colors shadow-inner"
+              />
+            </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-muted font-bold">RPE (optionnel)</label>
