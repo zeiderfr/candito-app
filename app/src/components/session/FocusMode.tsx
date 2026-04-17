@@ -185,6 +185,8 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       stopTimer()
       const log: SessionLog = {
         sessionId: session.id,
+        sessionFocus: session.focus,
+        startedAt: startedAtRef.current,
         date: new Date().toISOString().split('T')[0],
         exercises: session.exercises.map((ex, i) => ({
           exerciseName: ex.name,
@@ -214,15 +216,26 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
   const handleConfirm = () => {
     if (!pendingSet) return
-    logSet({
-      weight: parseFloat(pendingSet.weight) || null,
-      reps: totalSets,
-      rpe: pendingSet.rpe,
-    })
+    const w = parseFloat(pendingSet.weight) || null
+    const rpe = pendingSet.rpe
+    logSet({ weight: w, reps: totalSets, rpe })
     const next = setsDone + 1
     setSetsDone(next)
     setPendingSet(null)
     maybeStartRest(next)
+
+    // ── Suggestion 1RM si RPE ≥ 8 ──────────────────────────────────
+    if (w && w > 0 && rpe && rpe >= 8 && exercise.lift) {
+      const repsMatch = /\d+/.exec(exercise.reps ?? '')
+      const reps = repsMatch ? parseInt(repsMatch[0]) : 0
+      if (reps > 0) {
+        const rir = Math.max(0, 10 - rpe)
+        const estimated = Math.round(epley(w, reps + rir) / 2.5) * 2.5
+        if (estimated > rm[exercise.lift]) {
+          setPendingRM({ lift: exercise.lift, value: estimated })
+        }
+      }
+    }
   }
 
   const showTimer = restActive || restJustDone
@@ -500,6 +513,53 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </button>
         )}
       </div>
+
+      {/* ── Suggestion 1RM ───────────────────────────────────────── */}
+      <AnimatePresence>
+        {pendingRM && !pendingSet && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            className="fixed bottom-0 left-0 right-0 z-[60] px-6 pt-5 pb-safe bg-surface/95 backdrop-blur-xl rounded-t-[24px] border-t border-accent/20"
+            style={{ paddingBottom: 'max(2.5rem, env(safe-area-inset-bottom))' }}
+          >
+            <div className="flex items-start gap-4">
+              <div className="size-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0 mt-0.5">
+                <TrendingUp size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-white">
+                  Nouveau 1RM estimé — {pendingRM.lift.toUpperCase()}
+                </p>
+                <p className="text-[11px] text-muted mt-0.5">
+                  Ton set suggère{' '}
+                  <span className="text-accent font-bold tabular-nums">{pendingRM.value} kg</span>
+                  {' '}(ton actuel : <span className="tabular-nums">{rm[pendingRM.lift]} kg</span>)
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3 mt-4">
+              <button
+                onClick={() => setPendingRM(null)}
+                className="flex-1 py-3 text-[11px] font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
+              >
+                Ignorer
+              </button>
+              <button
+                onClick={() => {
+                  updateRM({ [pendingRM.lift]: pendingRM.value })
+                  setPendingRM(null)
+                }}
+                className="flex-[2] bg-accent text-background py-3 rounded-pill text-[11px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20 cursor-pointer hover:bg-accent-hover transition-colors"
+              >
+                Mettre à jour ✓
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Modal poids + RPE ─────────────────────────────────────── */}
       {pendingSet && (
