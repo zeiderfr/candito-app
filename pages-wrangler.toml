@@ -1,10 +1,10 @@
 # Configuration Maitre - Candito App
 name = "programme-candito"
-pages_build_output_dir = "app/dist"
+pages_build_output_dir = "."
 
 # Configuration des Pages Functions
 [pages_build_config]
-build_command = "npm run build"
+build_command = ""
 
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"
