@@ -6,45 +6,44 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   OFFLINE_URL,
-  '/manifest.webmanifest',
+  '/manifest.json',
   '/apple-touch-icon.png'
 ];
 
 // ── INSTALL ───────────────────────────────────────────────────────────
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('📦 Pre-caching critical assets');
-      return cache.addAll(ASSETS_TO_CACHE);
-    }),
-    caches.open(META_CACHE).then(cache =>
-      cache.match('installed').then(existing => {
-        if (existing) {
-// ... existing skip waiting logic
-          // C'est une mise à jour, on ne skipWaiting pas pour laisser le choix à l'utilisateur.
-          // On affiche la notification si l'app n'est pas au premier plan.
-          if (Notification.permission === 'granted') {
-            return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
-              const isVisible = clientList.some(client => client.visibilityState === 'visible');
-              if (isVisible) return; // Pop-up in-app se chargera de notifier
+  const cacheAssets = caches.open(CACHE_NAME).then(cache => {
+    console.log('📦 Pre-caching critical assets');
+    return cache.addAll(ASSETS_TO_CACHE);
+  });
 
-              return self.registration.showNotification('Candito — Mise à jour', {
-                body: "Nouvelle version disponible. Ouvre l'app pour l'installer.",
-                icon: '/apple-touch-icon.png',
-                badge: '/apple-touch-icon.png',
-                tag: 'candito-update',
-                renotify: false,
-              });
+  const trackInstall = caches.open(META_CACHE).then(cache =>
+    cache.match('installed').then(existing => {
+      if (existing) {
+        // Mise à jour — ne pas skipWaiting, laisser UpdatePrompt gérer.
+        // Notifier si l'app est en arrière-plan.
+        if (Notification.permission === 'granted') {
+          return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+            const isVisible = clientList.some(c => c.visibilityState === 'visible');
+            if (isVisible) return;
+            return self.registration.showNotification('Candito — Mise à jour', {
+              body: "Nouvelle version disponible. Ouvre l'app pour l'installer.",
+              icon: '/apple-touch-icon.png',
+              badge: '/apple-touch-icon.png',
+              tag: 'candito-update',
+              renotify: false,
             });
-          }
-        } else {
-          // Toute première installation
-          self.skipWaiting();
-          return cache.put('installed', new Response('true'));
+          });
         }
-      })
-    )
+      } else {
+        // Première installation — activer immédiatement.
+        self.skipWaiting();
+        return cache.put('installed', new Response('true'));
+      }
+    })
   );
+
+  event.waitUntil(Promise.all([cacheAssets, trackInstall]));
 });
 
 // ── ACTIVATE ──────────────────────────────────────────────────────────
