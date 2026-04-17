@@ -7,10 +7,10 @@ import type { SessionLog } from '@/types'
 
 function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {
   const hour = new Date().getHours()
-  if (hour < 13) return { slot: 'matin',  greeting: 'Bonjour' }
-  if (hour < 14) return { slot: 'midi',   greeting: 'Bonjour' }
-  if (hour < 18) return { slot: 'aprem',  greeting: 'Bon après-midi' }
-  return             { slot: 'soir',   greeting: 'Bonsoir' }
+  if (hour < 13) return { slot: 'matin', greeting: 'Bonjour' }
+  if (hour < 14) return { slot: 'midi', greeting: 'Bonjour' }
+  if (hour < 18) return { slot: 'aprem', greeting: 'Bon après-midi' }
+  return { slot: 'soir', greeting: 'Bonsoir' }
 }
 
 function daysSinceLog(log: SessionLog): number {
@@ -58,14 +58,14 @@ export function CoachCard() {
     // Dernière séance (la plus récente)
     const last = logs.length
       ? [...logs].sort(
-          (a, b) =>
-            new Date(b.startedAt ?? b.date).getTime() -
-            new Date(a.startedAt ?? a.date).getTime()
-        )[0]
+        (a, b) =>
+          new Date(b.startedAt ?? b.date).getTime() -
+          new Date(a.startedAt ?? a.date).getTime()
+      )[0]
       : null
 
     const daysSince = last != null ? daysSinceLog(last) : null
-    const avgRPE    = last != null ? avgRPEFromLog(last) : null
+    const avgRPE = last != null ? avgRPEFromLog(last) : null
 
     // Lift principal de la prochaine séance (si applicable)
     const nextLift =
@@ -91,7 +91,7 @@ export function CoachCard() {
 
     // Fallback → messages prédéfinis du programme
     const weekData = COACH_MESSAGES[state.currentWeekId] ?? COACH_MESSAGES['s1']
-    const pool     = weekData[slot]
+    const pool = weekData[slot]
     const fallback = pool[new Date().getDay() % pool.length]
 
     return { greeting, message: contextualMessage ?? fallback, tone: weekData.tone }
