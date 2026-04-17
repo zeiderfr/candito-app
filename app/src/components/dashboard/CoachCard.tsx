@@ -80,10 +80,15 @@ export function CoachCard() {
     } else if (last != null && daysSince === 1 && avgRPE != null && avgRPE >= 8.5) {
       contextualMessage = `Ta séance d'hier était exigeante (RPE ${avgRPE}). Profite de cette journée de récupération.`
     } else if (daysSince != null && daysSince >= 4 && last != null) {
-      const focus = last.sessionFocus ?? last.sessionId
+      // FIX: Utiliser le prochain focus si disponible, sinon fallback sur la dernière séance
+      const nextFocus = workoutState.type === 'workout' 
+        ? workoutState.session.focus 
+        : null
+      const focus = nextFocus ?? last.sessionFocus ?? last.sessionId
       contextualMessage = `${daysSince} jours sans entraînement. La prochaine séance : ${focus}. Lance-toi.`
-    } else if (last != null && nextLift != null) {
-      const prev = topWeightForLift(last, nextLift)
+    } else if (nextLift != null) {
+      // PERFORMANCE REMINDER: Toujours tenter de montrer le top set précédent pour le lift à venir
+      const prev = last ? topWeightForLift(last, nextLift) : null
       if (prev) {
         contextualMessage = `La dernière fois en ${LIFT_LABEL[nextLift]} : ${prev.weight} kg × ${prev.reps} reps. Vise un poil plus haut.`
       }

@@ -6,10 +6,18 @@ import type { SessionLog, SetLog } from '@/types'
 // ── Helpers ───────────────────────────────────────────────────────────
 
 function relativeDate(iso: string): string {
-  const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000)
-  if (d === 0) return "aujourd'hui"
-  if (d === 1) return 'hier'
-  return `il y a ${d}j`
+  const now = new Date()
+  const then = new Date(iso)
+  
+  // Comparaison par début de journée pour éviter les bugs à minuit
+  const startOfNow = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
+  const startOfThen = new Date(then.getFullYear(), then.getMonth(), then.getDate()).getTime()
+  
+  const diffDays = Math.round((startOfNow - startOfThen) / 86_400_000)
+  
+  if (diffDays === 0) return "aujourd'hui"
+  if (diffDays === 1) return 'hier'
+  return `il y a ${diffDays}j`
 }
 
 function formatDate(iso: string): string {
