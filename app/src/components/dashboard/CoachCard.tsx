@@ -14,9 +14,13 @@ function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {
 }
 
 function daysSinceLog(log: SessionLog): number {
-  return Math.floor(
-    (Date.now() - new Date(log.startedAt ?? log.date).getTime()) / 86_400_000
-  )
+  const now = new Date()
+  const then = new Date(log.startedAt ?? log.date)
+  
+  if (now.toLocaleDateString() === then.toLocaleDateString()) return 0
+  
+  const diffTime = now.getTime() - then.getTime()
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
 }
 
 function avgRPEFromLog(log: SessionLog): number | null {
@@ -57,11 +61,11 @@ export function CoachCard() {
 
     // Dernière séance (la plus récente)
     const last = logs.length
-      ? [...logs].sort(
-        (a, b) =>
-          new Date(b.startedAt ?? b.date).getTime() -
-          new Date(a.startedAt ?? a.date).getTime()
-      )[0]
+      ? [...logs].sort((a, b) => {
+          const timeA = new Date(a.startedAt ?? a.date).getTime()
+          const timeB = new Date(b.startedAt ?? b.date).getTime()
+          return timeB - timeA
+        })[0]
       : null
 
     const daysSince = last != null ? daysSinceLog(last) : null
@@ -75,8 +79,12 @@ export function CoachCard() {
 
     let contextualMessage: string | null = null
 
-    if (last != null && daysSince === 0 && avgRPE != null) {
-      contextualMessage = `Séance du jour bouclée — RPE moyen ${avgRPE}. Récupère bien ce soir.`
+    if (last != null && daysSince === 0) {
+      if (avgRPE != null) {
+        contextualMessage = `Séance du jour bouclée — RPE moyen ${avgRPE}. Récupère bien ce soir.`
+      } else {
+        contextualMessage = `Séance terminée ! Le dossier "Dernière séance" est à jour. Récupère bien.`
+      }
     } else if (last != null && daysSince === 1 && avgRPE != null && avgRPE >= 8.5) {
       contextualMessage = `Ta séance d'hier était exigeante (RPE ${avgRPE}). Profite de cette journée de récupération.`
     } else if (daysSince != null && daysSince >= 4 && last != null) {
