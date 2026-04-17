@@ -1,5 +1,5 @@
-const CACHE_NAME = 'candito-cache-v1';
-const META_CACHE = 'candito-meta';
+const CACHE_NAME = 'programme-candito-cache-v1';
+const META_CACHE = 'programme-candito-meta';
 const VERSION_URL = '/version.json';
 const OFFLINE_URL = '/offline.html';
 const ASSETS_TO_CACHE = [
@@ -26,11 +26,11 @@ self.addEventListener('install', (event) => {
           return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
             const isVisible = clientList.some(c => c.visibilityState === 'visible');
             if (isVisible) return;
-            return self.registration.showNotification('Candito — Mise à jour', {
+            return self.registration.showNotification('Programme Candito — Mise à jour', {
               body: "Nouvelle version disponible. Ouvre l'app pour l'installer.",
               icon: '/apple-touch-icon.png',
               badge: '/apple-touch-icon.png',
-              tag: 'candito-update',
+              tag: 'programme-candito-update',
               renotify: false,
             });
           });
@@ -62,21 +62,21 @@ self.addEventListener('push', (event) => {
     const { title, body, icon, url, tag } = data;
 
     const options = {
-      body: body || 'Nouveau message de Candito',
+      body: body || 'Nouveau message de Programme Candito',
       icon: icon || '/apple-touch-icon.png',
       badge: '/apple-touch-icon.png',
-      tag: tag || 'candito-notification',
+      tag: tag || 'programme-candito-notification',
       renotify: true,
       data: { url: url || '/' }
     };
 
     event.waitUntil(
-      self.registration.showNotification(title || 'Candito', options)
+      self.registration.showNotification(title || 'Programme Candito', options)
     );
   } catch (err) {
     // Fallback si le push n'est pas du JSON
     event.waitUntil(
-      self.registration.showNotification('Candito', {
+      self.registration.showNotification('Programme Candito', {
         body: event.data.text(),
         icon: '/apple-touch-icon.png'
       })
