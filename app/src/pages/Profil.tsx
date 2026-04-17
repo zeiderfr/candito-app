@@ -10,6 +10,7 @@ import { AthleteHeroSection, AthleteRMField } from '@/components/profil/AthleteH
 import { SessionTimeline } from '@/components/profil/SessionTimeline'
 import { PRSection } from '@/components/profil/PRSection'
 import { CycleHistorySection } from '@/components/profil/CycleHistorySection'
+import { SessionHistorySection } from '@/components/profil/SessionHistorySection'
 import { SettingsSection } from '@/components/profil/SettingsSection'
 import { ProgramMainView } from '@/components/profil/ProgramMainView'
 import { SessionMainView } from '@/components/profil/SessionMainView'
@@ -181,6 +182,8 @@ function ProfileMainView({ onGoToProgram }: { onGoToProgram: () => void }) {
           <LiftProgressGraph prs={state.progress.prs} />
         </section>
       )}
+
+      <SessionHistorySection />
 
       {state.cycleHistory && state.cycleHistory.length > 0 && (
         <CycleHistorySection history={state.cycleHistory} />
