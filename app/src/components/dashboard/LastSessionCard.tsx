@@ -9,15 +9,18 @@ function relativeDate(iso: string): string {
   const now = new Date()
   const then = new Date(iso)
   
-  // Comparaison par début de journée pour éviter les bugs à minuit
-  const startOfNow = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime()
-  const startOfThen = new Date(then.getFullYear(), then.getMonth(), then.getDate()).getTime()
+  // Date Comparison
+  const isToday = now.toLocaleDateString() === then.toLocaleDateString()
+  if (isToday) return "aujourd'hui"
   
-  const diffDays = Math.round((startOfNow - startOfThen) / 86_400_000)
+  const yesterday = new Date(now)
+  yesterday.setDate(now.getDate() - 1)
+  const isYesterday = yesterday.toLocaleDateString() === then.toLocaleDateString()
+  if (isYesterday) return 'hier'
   
-  if (diffDays === 0) return "aujourd'hui"
-  if (diffDays === 1) return 'hier'
-  return `il y a ${diffDays}j`
+  const diffTime = now.getTime() - then.getTime()
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays > 0 ? `il y a ${diffDays}j` : "aujourd'hui"
 }
 
 function formatDate(iso: string): string {
@@ -97,11 +100,11 @@ export function LastSessionCard() {
     const logs = state.progress.sessionLogs
     if (!logs.length) return null
 
-    const last = [...logs].sort(
-      (a, b) =>
-        new Date(b.startedAt ?? b.date).getTime() -
-        new Date(a.startedAt ?? a.date).getTime()
-    )[0]
+    const last = [...logs].sort((a, b) => {
+      const timeA = new Date(a.startedAt ?? a.date).getTime()
+      const timeB = new Date(b.startedAt ?? b.date).getTime()
+      return timeB - timeA
+    })[0]
 
     const isoDate = last.startedAt ?? last.date
     const squat    = topSetForLift(last, 'squat')
