@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react'
-import { useCanditoState } from './useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { WEEK_SCHEDULE_MAP } from '../data/program'
 import { resolveSession } from '@/lib/programResolver'
 import { calcWeight } from '@/lib/weightCalc'

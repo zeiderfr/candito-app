@@ -1,7 +1,7 @@
 import { useState, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { PROGRAM_DATA, PROGRAM_METADATA } from '@/data/program'
 import { resolveSession } from '@/lib/programResolver'
 import { calcWeight } from '@/lib/weightCalc'

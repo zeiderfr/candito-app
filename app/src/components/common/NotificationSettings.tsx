@@ -12,7 +12,7 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Check, BellOff, CloudLightning, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { STORAGE_KEYS } from '@/lib/storageKeys'
 
 const VAPID_PUBLIC_KEY = 'BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE'

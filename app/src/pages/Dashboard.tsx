@@ -5,7 +5,7 @@ import { PushNotificationManager } from '@/components/common/PushNotificationMan
 import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
 export function Dashboard() {

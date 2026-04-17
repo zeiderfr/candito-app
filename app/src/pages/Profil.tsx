@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { useToasts } from '@/context/ToastContext'
 import { PROGRAM_DATA, WEEK_ORDER, PROGRAM_METADATA } from '@/data/program'
 import { resolveSession, hasSessionOverride, hasWeekOverrides } from '@/lib/programResolver'

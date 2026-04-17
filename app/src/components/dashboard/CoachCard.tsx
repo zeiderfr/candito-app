@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { COACH_MESSAGES, type CoachTimeSlot } from '@/data/program'
 
 function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {

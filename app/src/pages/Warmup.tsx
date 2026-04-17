@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { useCanditoState } from '@/hooks/useCanditoState'
+import { useCandito } from '@/context/CanditoContext'
 import { calcWeight } from '@/lib/weightCalc'
 import { Flame } from 'lucide-react'
 
