@@ -5,6 +5,7 @@ import { PushNotificationManager } from '@/components/common/PushNotificationMan
 import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
+import { LastSessionCard } from '@/components/dashboard/LastSessionCard'
 import { useCandito } from '@/context/CanditoContext'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
@@ -38,6 +39,8 @@ export function Dashboard() {
           workoutState={workoutState}
           getWeight={getCalculatedWeight}
         />
+
+        <LastSessionCard />
 
         <AthleteStats
           squat={state.athlete.rm.squat}
