@@ -111,7 +111,7 @@ export function CoachCard() {
         <div className="flex items-center gap-2">
           <div className="size-2 rounded-full bg-accent animate-pulse" />
           <span className="text-[10px] font-bold text-accent uppercase tracking-widest">
-            Coach Candito AI
+            Coach Programme Candito
           </span>
         </div>
         <span className="text-[9px] text-dim/60 uppercase tracking-widest font-bold italic">

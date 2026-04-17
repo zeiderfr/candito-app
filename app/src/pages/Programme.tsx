@@ -274,7 +274,7 @@ export function Programme() {
           Programme
         </h1>
         <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
-          {meta?.subtitle ?? 'Candito 6-Week Strength Program'}
+          {meta?.subtitle ?? 'Programme Candito — Force'}
         </p>
       </div>
 
@@ -356,7 +356,7 @@ export function Programme() {
 
       <footer className="pt-4 pb-4 text-center">
         <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40 italic">
-          Forge ton corps, forge ton mental • Candito 6-Week
+          Forge ton corps, forge ton mental • Programme Candito
         </p>
       </footer>
     </div>

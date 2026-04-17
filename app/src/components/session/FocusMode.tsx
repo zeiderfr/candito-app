@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { X, CheckCircle2, ChevronRight, Maximize2, Minimize2, TrendingUp } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -21,12 +21,11 @@ function NexusPulse({
 }) {
   const pct = Math.max(0, remaining) / total
   const isDanger = remaining <= 15 && remaining > 0
-  
-  // Color interpolation logic
+
   const getColor = () => {
     if (remaining === 0) return "#34C759"
     if (remaining <= 15) return "#FF3B30"
-    if (remaining <= 30) return "#FF9500" // Orange logic
+    if (remaining <= 30) return "#FF9500"
     return "#FF3B30"
   }
 
@@ -36,7 +35,6 @@ function NexusPulse({
 
   return (
     <div className="relative flex items-center justify-center select-none" style={{ width: size, height: size }}>
-      {/* Dynamic Ripples (Ondes de choc) */}
       <AnimatePresence>
         {remaining > 0 && [0, 1, 2].map((i) => (
           <motion.div
@@ -47,18 +45,12 @@ function NexusPulse({
             )}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1.5, opacity: [0, 0.15, 0] }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 1,
-              ease: "easeOut"
-            }}
+            transition={{ duration: 3, repeat: Infinity, delay: i * 1, ease: "easeOut" }}
           />
         ))}
       </AnimatePresence>
 
       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full -rotate-90">
-        {/* Glow Track (Flouté pour l'effet de halo) */}
         <motion.circle
           cx="50" cy="50" r={radius}
           fill="none"
@@ -70,16 +62,12 @@ function NexusPulse({
           className="blur-md opacity-30"
           transition={{ duration: 1, ease: "linear" }}
         />
-        
-        {/* Main Fluid Track */}
         <circle
           cx="50" cy="50" r={radius}
           fill="none"
           stroke="rgba(255,255,255,0.05)"
           strokeWidth="4"
         />
-        
-        {/* Main Progress Ring */}
         <motion.circle
           cx="50" cy="50" r={radius}
           fill="none"
@@ -92,8 +80,7 @@ function NexusPulse({
         />
       </svg>
 
-      {/* Glassmorphic Center Container */}
-      <motion.div 
+      <motion.div
         className="relative z-10 w-[70%] h-[70%] rounded-full flex flex-col items-center justify-center bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)]"
         animate={isDanger ? { boxShadow: ["0 0 0px rgba(255,59,48,0)", "0 0 20px rgba(255,59,48,0.2)", "0 0 0px rgba(255,59,48,0)"] } : {}}
         transition={{ duration: 2, repeat: Infinity }}
@@ -119,7 +106,7 @@ function NexusPulse({
 
 // ── FocusMode ─────────────────────────────────────────────────────────
 export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) {
-  const { updateRM } = useCandito()
+  const { updateRM, state } = useCandito()
   const [exIdx, setExIdx] = useState(0)
   const [setsDone, setSetsDone] = useState(0)
   const [setLogs, setSetLogs] = useState<Record<number, SetLog[]>>({})
@@ -133,21 +120,32 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     lift: 'squat' | 'bench' | 'deadlift'
     value: number
   } | null>(null)
+
+  // ── S6: Nouveaux state ──────────────────────────────────────────────
+  const [elapsed, setElapsed] = useState(0)
+  const [progressionHint, setProgressionHint] = useState<string | null>(null)
+
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
   const startedAtRef = useRef(new Date().toISOString())
 
   // ── Rest Timer ──────────────────────────────────────────────────────
-  const [restDuration, setRestDuration] = useState(120) // Default 2min
+  const [restDuration, setRestDuration] = useState(120)
   const [restRemaining, setRestRemaining] = useState(0)
   const [restActive, setRestActive] = useState(false)
   const [restJustDone, setRestJustDone] = useState(false)
   const restIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const justDoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // ── S6: Nouveaux refs ───────────────────────────────────────────────
+  const elapsedIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const progressionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // ── Companion Mode ──────────────────────────────────────────────────
+  const [companionMode, setCompanionMode] = useState(false)
+
   // ── Persistence ─────────────────────────────────────────────────────
   const PERSIST_KEY = `candito_session_${session.id}`
-  
-  // Initial load
+
   useEffect(() => {
     const saved = localStorage.getItem(PERSIST_KEY)
     if (saved) {
@@ -163,14 +161,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     }
   }, [PERSIST_KEY])
 
-  // Periodic save
   useEffect(() => {
     const data = { exIdx, setsDone, setLogs, startedAt: startedAtRef.current }
     localStorage.setItem(PERSIST_KEY, JSON.stringify(data))
   }, [PERSIST_KEY, exIdx, setsDone, setLogs])
-
-  // ── Companion Mode ──────────────────────────────────────────────────
-  const [companionMode, setCompanionMode] = useState(false)
 
   // ── Screen Wake Lock ────────────────────────────────────────────────
   useEffect(() => {
@@ -210,11 +204,59 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     }
   }, [restActive])
 
+  // ── S6: Chrono de séance ────────────────────────────────────────────
+  useEffect(() => {
+    const start = new Date(startedAtRef.current).getTime()
+    elapsedIntervalRef.current = setInterval(() => {
+      setElapsed(Math.floor((Date.now() - start) / 1000))
+    }, 1000)
+    return () => {
+      if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current)
+    }
+  }, [])
+
   // Cleanup on unmount
   useEffect(() => () => {
-    if (restIntervalRef.current) clearInterval(restIntervalRef.current)
-    if (justDoneTimerRef.current) clearTimeout(justDoneTimerRef.current)
+    if (restIntervalRef.current)    clearInterval(restIntervalRef.current)
+    if (justDoneTimerRef.current)   clearTimeout(justDoneTimerRef.current)
+    if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current)
+    if (progressionTimerRef.current) clearTimeout(progressionTimerRef.current)
   }, [])
+
+  // ── S6: Performance de la session précédente ────────────────────────
+  const lastSessionData = useMemo(() => {
+    const name = session.exercises[exIdx]?.name
+    if (!name || !state?.progress.sessionLogs.length) return null
+
+    const match = [...state.progress.sessionLogs]
+      .sort((a, b) =>
+        new Date(b.startedAt ?? b.date).getTime() -
+        new Date(a.startedAt ?? a.date).getTime()
+      )
+      .flatMap(log => log.exercises.filter(ex => ex.exerciseName === name))
+      .find(ex => ex.sets.some(s => s.weight != null && s.weight > 0))
+
+    if (!match) return null
+
+    const best = match.sets
+      .filter(s => s.weight != null)
+      .reduce((b, s) => (s.weight! > b.weight! ? s : b))
+
+    return { weight: best.weight!, reps: best.reps, rpe: best.rpe }
+  }, [exIdx, session.exercises, state?.progress.sessionLogs])
+
+  // ── S6: Helpers ─────────────────────────────────────────────────────
+  const formatElapsed = (s: number) =>
+    `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`
+
+  const adjustWeight = (delta: number) => {
+    setPendingSet(prev => {
+      if (!prev) return prev
+      const current = parseFloat(String(prev.weight)) || 0
+      const next = Math.max(0, Math.round((current + delta) * 10) / 10)
+      return { ...prev, weight: String(next) }
+    })
+  }
 
   // ── Derived values ──────────────────────────────────────────────────
   const exercise = session.exercises[exIdx]
@@ -228,11 +270,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     ? calcWeight(rm[exercise.lift], exercise.percentage.hi)
     : null
 
-  // Helper pour extraire une valeur par défaut cohérente (ex: "6-8" -> "8", "10" -> "10")
   const getDefaultReps = (s: string | undefined): string => {
     if (!s) return '0'
     const matches = s.match(/\d+/g)
-    if (matches && matches.length > 0) return matches[matches.length - 1] // Prend la borne haute
+    if (matches && matches.length > 0) return matches[matches.length - 1]
     return '0'
   }
 
@@ -246,9 +287,8 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
   const changeRestDuration = (newDuration: number) => {
     if (restActive) {
-      // Recalculate remaining based on the progress percentage
-      const elapsed = restDuration - restRemaining
-      const newRemaining = Math.max(0, newDuration - elapsed)
+      const elapsedRest = restDuration - restRemaining
+      const newRemaining = Math.max(0, newDuration - elapsedRest)
       setRestRemaining(newRemaining)
     }
     setRestDuration(newDuration)
@@ -269,22 +309,33 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     }))
   }
 
+  // ── S6: Pre-fill poids (priorité : même session → session précédente → programme) ──
+  const getDefaultWeight = (): string => {
+    if (setsDone > 0 && lastModifiedWeight) return lastModifiedWeight
+    return lastModifiedWeight
+      ?? lastSessionData?.weight?.toString()
+      ?? (weight && weight > 0 ? String(weight) : '')
+  }
+
   // ── Actions ─────────────────────────────────────────────────────────
   const handleAction = () => {
     if (restActive) return
     if (!allSetsDone) {
-      setPendingSet({ 
-        weight: lastModifiedWeight ?? (weight && weight > 0 ? String(weight) : ''), 
+      setPendingSet({
+        weight: getDefaultWeight(),
         reps: getDefaultReps(exercise.reps),
-        rpe: null 
+        rpe: null,
       })
     } else if (!isLastExercise) {
       stopTimer()
       setExIdx(i => i + 1)
       setSetsDone(0)
-      setLastModifiedWeight(null) // Reset pour le nouvel exercice
+      setLastModifiedWeight(null)
+      setProgressionHint(null)
     } else {
       stopTimer()
+      if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current)
+      if (progressionTimerRef.current) clearTimeout(progressionTimerRef.current)
       const log: SessionLog = {
         sessionId: session.id,
         sessionFocus: session.focus,
@@ -303,9 +354,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
   const handleClose = () => {
     stopTimer()
+    if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current)
+    if (progressionTimerRef.current) clearTimeout(progressionTimerRef.current)
     setSetLogs({})
     setPendingSet(null)
     setPendingRM(null)
+    setProgressionHint(null)
     onClose()
   }
 
@@ -322,14 +376,30 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     const w = parseFloat(pendingSet.weight) || null
     const r = parseInt(pendingSet.reps, 10) || 0
     const rpe = pendingSet.rpe
-    
-    logSet({ weight: w, reps: r, rpe })
-    if (w) setLastModifiedWeight(String(w)) // Persiste pour la série suivante
+    const loggedEntry: SetLog = { weight: w, reps: r, rpe }
+
+    logSet(loggedEntry)
+    if (w) setLastModifiedWeight(String(w))
 
     const next = setsDone + 1
     setSetsDone(next)
     setPendingSet(null)
     maybeStartRest(next)
+
+    // ── S6: Hint de progression après la dernière série de l'exercice ─
+    if (next >= totalSets) {
+      const allSets = [...(setLogs[exIdx] ?? []), loggedEntry]
+      const rpeValues = allSets.map(s => s.rpe).filter((rv): rv is number => rv != null)
+      if (rpeValues.length > 0) {
+        const avg = rpeValues.reduce((a, b) => a + b, 0) / rpeValues.length
+        const hint =
+          avg < 7   ? 'Séries légères — envisage +2.5 kg la prochaine fois' :
+          avg > 8.5 ? 'Effort intense — maintiens ce poids la prochaine fois' :
+                      'Charge optimale ✓'
+        setProgressionHint(hint)
+        progressionTimerRef.current = setTimeout(() => setProgressionHint(null), 3500)
+      }
+    }
 
     // ── Suggestion 1RM si RPE ≥ 8 ──────────────────────────────────
     if (w && w > 0 && rpe && rpe >= 8 && exercise.lift) {
@@ -376,6 +446,15 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           <h2 className="text-6xl font-display text-white italic tracking-tight leading-[1.05]">
             {exercise.name}
           </h2>
+
+          {/* S6: Perf précédente en companion */}
+          {lastSessionData && (
+            <p className="text-[11px] text-muted/50 tabular-nums">
+              Dernière fois : {lastSessionData.weight} kg × {lastSessionData.reps}
+              {lastSessionData.rpe != null && <> @{lastSessionData.rpe}</>}
+            </p>
+          )}
+
           {weight !== null && weight > 0 && (
             <div className="inline-flex items-baseline gap-2 tabular-nums">
               <span className="text-7xl font-display text-accent tracking-tighter">{weight}</span>
@@ -399,7 +478,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </div>
         )}
 
-        {/* CTA (Masqué pendant le repos pour laisser place au chrono) */}
+        {/* CTA */}
         <AnimatePresence mode="wait">
           {!restActive && (
             <motion.button
@@ -407,10 +486,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               onClick={() => {
                 setCompanionMode(false)
                 if (!allSetsDone) {
-                  setPendingSet({ 
-                    weight: lastModifiedWeight ?? (weight && weight > 0 ? String(weight) : ''), 
+                  setPendingSet({
+                    weight: getDefaultWeight(),
                     reps: getDefaultReps(exercise.reps),
-                    rpe: null 
+                    rpe: null,
                   })
                 }
               }}
@@ -463,7 +542,11 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </span>
           <p className="text-sm text-white/50 mt-0.5 font-display italic">{session.focus}</p>
         </div>
+        {/* S6: Chrono + boutons */}
         <div className="flex items-center gap-2 mt-0.5">
+          <span className="text-[11px] font-bold tabular-nums text-muted mr-1">
+            {formatElapsed(elapsed)}
+          </span>
           <button
             onClick={() => setCompanionMode(true)}
             className="size-10 rounded-full bg-white/5 flex items-center justify-center text-muted hover:text-white transition-colors cursor-pointer"
@@ -500,12 +583,19 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           <h2 className="text-5xl font-display text-white italic tracking-tight leading-[1.1]">
             {exercise.name}
           </h2>
+          {/* S6: Performance précédente */}
+          {lastSessionData && (
+            <p className="text-[10px] text-muted/60 tabular-nums">
+              Dernière fois : {lastSessionData.weight} kg × {lastSessionData.reps}
+              {lastSessionData.rpe != null && <> @{lastSessionData.rpe}</>}
+            </p>
+          )}
           <p className="text-xl text-white/40 font-display tabular-nums">
             {exercise.sets} séries × {exercise.reps} reps
           </p>
         </div>
 
-        {/* Affichage du poids (Priorité au poids modifié par l'utilisateur) */}
+        {/* Affichage du poids */}
         {(lastModifiedWeight || (weight && weight > 0)) && (
           <div className="inline-flex items-baseline gap-2 tabular-nums px-6 py-4 rounded-2xl bg-white/5 border border-white/5 self-start">
             <span className="text-6xl font-display text-white tracking-tighter">
@@ -544,6 +634,21 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </p>
         </div>
 
+        {/* S6: Hint de progression post-exercice */}
+        <AnimatePresence>
+          {progressionHint && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+              className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-center"
+            >
+              <p className="text-[11px] text-muted font-bold">{progressionHint}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* ── Rest Timer ───────────────────────────────────────────── */}
         <AnimatePresence>
           {showTimer && (
@@ -556,8 +661,6 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               {restActive ? (
                 <>
                   <NexusPulse remaining={restRemaining} total={restDuration} size={180} />
-                  
-                  {/* Pills durée (Heavy optimized) */}
                   <div className="flex gap-2">
                     {[90, 120, 180, 300].map(d => (
                       <button
@@ -690,17 +793,32 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
 
             <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg) — Ajustable</label>
-              <input
-                type="number"
-                inputMode="decimal"
-                value={pendingSet.weight}
-                onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
-                placeholder="—"
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 text-center text-4xl font-display text-white tabular-nums focus:outline-none focus:border-accent transition-colors shadow-inner"
-              />
-            </div>
+              {/* S6: Steppers ±2.5 + input poids */}
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => adjustWeight(-2.5)}
+                    className="size-12 rounded-xl bg-white/5 text-muted hover:text-white hover:bg-white/10 text-sm font-bold transition-colors cursor-pointer shrink-0 flex items-center justify-center"
+                  >
+                    −2.5
+                  </button>
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    value={pendingSet.weight}
+                    onChange={e => setPendingSet(p => p ? { ...p, weight: e.target.value } : null)}
+                    placeholder="—"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-2xl py-5 text-center text-4xl font-display text-white tabular-nums focus:outline-none focus:border-accent transition-colors shadow-inner"
+                  />
+                  <button
+                    onClick={() => adjustWeight(2.5)}
+                    className="size-12 rounded-xl bg-white/5 text-muted hover:text-white hover:bg-white/10 text-sm font-bold transition-colors cursor-pointer shrink-0 flex items-center justify-center"
+                  >
+                    +2.5
+                  </button>
+                </div>
+              </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-muted font-bold">RPE (optionnel)</label>

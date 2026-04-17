@@ -62,7 +62,7 @@ export function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }
     const data = JSON.stringify(state, null, 2)
     const blob = new Blob([data], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
-    const filename = `candito-backup-${new Date().toISOString().split('T')[0]}.json`
+    const filename = `programme-candito-backup-${new Date().toISOString().split('T')[0]}.json`
 
     const triggerDownload = () => {
       const a = document.createElement('a')
@@ -73,7 +73,7 @@ export function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }
     }
 
     if (navigator.share) {
-      navigator.share({ title: 'Candito Backup', files: [new File([blob], filename)] })
+      navigator.share({ title: 'Programme Candito Backup', files: [new File([blob], filename)] })
         .catch(triggerDownload)
     } else {
       triggerDownload()
