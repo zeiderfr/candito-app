@@ -151,6 +151,14 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     ? calcWeight(rm[exercise.lift], exercise.percentage.hi)
     : null
 
+  // Helper pour extraire une valeur par défaut cohérente (ex: "6-8" -> "8", "10" -> "10")
+  const getDefaultReps = (s: string | undefined): string => {
+    if (!s) return '0'
+    const matches = s.match(/\d+/g)
+    if (matches && matches.length > 0) return matches[matches.length - 1] // Prend la borne haute
+    return '0'
+  }
+
   // ── Helpers ─────────────────────────────────────────────────────────
   const stopTimer = () => {
     if (restIntervalRef.current) clearInterval(restIntervalRef.current)
@@ -224,8 +232,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const handleConfirm = () => {
     if (!pendingSet) return
     const w = parseFloat(pendingSet.weight) || null
+    const r = parseInt(pendingSet.reps, 10) || 0
     const rpe = pendingSet.rpe
-    logSet({ weight: w, reps: totalSets, rpe })
+    
+    logSet({ weight: w, reps: r, rpe })
+    if (w) setLastModifiedWeight(String(w)) // Persiste pour la série suivante
+
     const next = setsDone + 1
     setSetsDone(next)
     setPendingSet(null)
@@ -401,9 +413,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </p>
         </div>
 
-        {weight !== null && weight > 0 && (
+        {/* Affichage du poids (Priorité au poids modifié par l'utilisateur) */}
+        {(lastModifiedWeight || (weight && weight > 0)) && (
           <div className="inline-flex items-baseline gap-2 tabular-nums px-6 py-4 rounded-2xl bg-white/5 border border-white/5 self-start">
-            <span className="text-6xl font-display text-white tracking-tighter">{weight}</span>
+            <span className="text-6xl font-display text-white tracking-tighter">
+              {lastModifiedWeight ?? weight}
+            </span>
             <span className="text-2xl font-display text-accent pt-1">kg</span>
           </div>
         )}
