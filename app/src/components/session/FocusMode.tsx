@@ -13,84 +13,106 @@ interface FocusModeProps {
   onComplete: (log: SessionLog) => void
 }
 
-// ── Atmosphere Timer (Innovative Design) ──────────────────────────────
-function AtmosphereTimer({
-  remaining, total, size = 160,
+// ── Nexus Pulse Timer (Fluid & Modern) ────────────────────────────────
+function NexusPulse({
+  remaining, total, size = 180,
 }: {
   remaining: number; total: number; size?: number
 }) {
-  const segments = 60
-  const anglePerSegment = 360 / segments
-  const activeSegments = Math.ceil((remaining / total) * segments)
+  const pct = Math.max(0, remaining) / total
   const isDanger = remaining <= 15 && remaining > 0
+  
+  // Color interpolation logic
+  const getColor = () => {
+    if (remaining === 0) return "#34C759"
+    if (remaining <= 15) return "#FF3B30"
+    if (remaining <= 30) return "#FF9500" // Orange logic
+    return "#FF3B30"
+  }
+
+  const radius = 42
+  const circ = 2 * Math.PI * radius
+  const offset = circ * (1 - pct)
 
   return (
     <div className="relative flex items-center justify-center select-none" style={{ width: size, height: size }}>
-      {/* Breath Pulse Effect */}
-      <motion.div
-        className={cn(
-          "absolute inset-0 rounded-full blur-2xl opacity-20",
-          isDanger ? "bg-accent" : "bg-accent-success"
-        )}
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.1, 0.25, 0.1],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
+      {/* Dynamic Ripples (Ondes de choc) */}
+      <AnimatePresence>
+        {remaining > 0 && [0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            className={cn(
+              "absolute inset-0 rounded-full border border-white/10",
+              isDanger ? "bg-accent/5" : "bg-accent-success/5"
+            )}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1.5, opacity: [0, 0.15, 0] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: i * 1,
+              ease: "easeOut"
+            }}
+          />
+        ))}
+      </AnimatePresence>
 
       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full -rotate-90">
-        {Array.from({ length: segments }).map((_, i) => {
-          const isActive = i < activeSegments
-          const angle = i * anglePerSegment
-          const rad = (angle * Math.PI) / 180
-          const x1 = 50 + 38 * Math.cos(rad)
-          const y1 = 50 + 38 * Math.sin(rad)
-          const x2 = 50 + 44 * Math.cos(rad)
-          const y2 = 50 + 44 * Math.sin(rad)
-
-          return (
-            <motion.line
-              key={i}
-              x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke={isActive 
-                ? (isDanger ? "#FF3B30" : "#34C759") 
-                : "rgba(255,255,255,0.08)"
-              }
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              initial={false}
-              animate={{
-                opacity: isActive ? 1 : 0.3,
-                strokeWidth: isActive ? 2 : 1,
-              }}
-              transition={{ duration: 0.3 }}
-            />
-          )
-        })}
+        {/* Glow Track (Flouté pour l'effet de halo) */}
+        <motion.circle
+          cx="50" cy="50" r={radius}
+          fill="none"
+          stroke={getColor()}
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={circ}
+          animate={{ strokeDashoffset: offset }}
+          className="blur-md opacity-30"
+          transition={{ duration: 1, ease: "linear" }}
+        />
+        
+        {/* Main Fluid Track */}
+        <circle
+          cx="50" cy="50" r={radius}
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          strokeWidth="4"
+        />
+        
+        {/* Main Progress Ring */}
+        <motion.circle
+          cx="50" cy="50" r={radius}
+          fill="none"
+          stroke={getColor()}
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={circ}
+          animate={{ strokeDashoffset: offset }}
+          transition={{ duration: 1, ease: "linear" }}
+        />
       </svg>
 
-      <div className="flex flex-col items-center justify-center z-10">
+      {/* Glassmorphic Center Container */}
+      <motion.div 
+        className="relative z-10 w-[70%] h-[70%] rounded-full flex flex-col items-center justify-center bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)]"
+        animate={isDanger ? { boxShadow: ["0 0 0px rgba(255,59,48,0)", "0 0 20px rgba(255,59,48,0.2)", "0 0 0px rgba(255,59,48,0)"] } : {}}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
         <motion.span
           key={remaining}
-          initial={{ opacity: 0.5, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ y: 5, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           className={cn(
-            'font-display tabular-nums leading-none tracking-tighter',
-            isDanger ? 'text-accent' : 'text-white',
-            size >= 180 ? 'text-7xl' : 'text-5xl',
+            'font-display tabular-nums leading-none tracking-tighter text-white',
+            size >= 180 ? 'text-6xl' : 'text-4xl',
           )}
         >
           {Math.max(0, remaining)}
         </motion.span>
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted mt-2">
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40 mt-1">
           {remaining > 0 ? 'Recovery' : 'Ready'}
         </p>
-      </div>
+      </motion.div>
     </div>
   )
 }
@@ -365,10 +387,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           </p>
         </div>
 
-        {/* Timer Atmosphere (grand) */}
+        {/* Timer Nexus Pulse (grand) */}
         {showTimer && (
           <div className="flex flex-col items-center gap-3">
-            <AtmosphereTimer remaining={restRemaining} total={restDuration} size={220} />
+            <NexusPulse remaining={restRemaining} total={restDuration} size={240} />
             {restJustDone && (
               <p className="text-sm font-bold text-accent-success uppercase tracking-widest animate-pulse">
                 Récupération terminée ✓
@@ -533,7 +555,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             >
               {restActive ? (
                 <>
-                  <AtmosphereTimer remaining={restRemaining} total={restDuration} size={160} />
+                  <NexusPulse remaining={restRemaining} total={restDuration} size={180} />
                   
                   {/* Pills durée (Heavy optimized) */}
                   <div className="flex gap-2">
