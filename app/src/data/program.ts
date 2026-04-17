@@ -268,7 +268,7 @@ export const WEEK_SCHEDULE_MAP: Record<string, Record<number, string | null>> = 
   s2:      { 1: 's2_lun', 2: 's2_mar', 3: null, 4: 's2_jeu', 5: 's2_ven', 6: 's2_sam', 0: null },
   s3:      { 1: 's3_lun',  2: null,  3: 's3_mer', 4: null,       5: 's3_ven',  6: null,      0: null },
   s4:      { 1: 's4_lun',  2: 's4_mar',  3: null, 4: 's4_jeu',   5: 's4_ven',  6: null,      0: null },
-  s5:      { 1: 's5_j1',  2: 's5_j2',  3: 's5_j3', 4: null,       5: null,      6: null,      0: null },
+  s5:      { 1: 's5_j1',  2: 's5_j2',  3: null,    4: 's5_j3',   5: null,      6: null,      0: null },
   s6_test: { 1: 's6_test_lun', 2: null, 3: 's6_test_mer', 4: null, 5: 's6_test_ven', 6: null, 0: null },
   s6_dec:  { 1: 's6_dec_lun',  2: null, 3: 's6_dec_mer',  4: null, 5: 's6_dec_ven', 6: null, 0: null },
 }
@@ -350,13 +350,13 @@ export const PROGRAM_DATA: Record<string, Week> = {
       {
         id: 's2_lun',
         day: 'Lundi',
-        focus: 'Bas (Lourd)',
+        focus: 'Bas (Saturation MRV)',
         status: 'pending',
         exercises: [
-          { name: 'Box Squat (>30°)', sets: '4', reps: '6-8', lift: 'squat', percentage: { lo: 0.80, hi: 0.816 }, note: 'Échauffement Wenning 4x25 avant! Stance large, boîte au-dessus pincement.' },
-          { name: 'Soulevé de terre', sets: '2', reps: '6', lift: 'deadlift', percentage: { lo: 0.794, hi: 0.808 } },
-          { name: 'Machine Adducteurs', sets: '3', reps: '8-12', note: 'RPE 8. Remplace le Hack Squat pour la hanche.' },
-          { name: 'Abdos (Gainage/Crunch)', sets: '3', reps: '10-20' }
+          { name: 'Box Squat (>30°)', sets: '5', reps: '8', lift: 'squat', percentage: { lo: 0.80, hi: 0.80 }, note: 'Saturation MRV. 5x8 reps. Reste concentré sur la hanche.' },
+          { name: 'Soulevé de terre', sets: '3', reps: '6', lift: 'deadlift', percentage: { lo: 0.794, hi: 0.808 } },
+          { name: 'Machine Adducteurs', sets: '4', reps: '10-12', note: 'Plus de volume pour la stabilité.' },
+          { name: 'Abdos (Gainage/Crunch)', sets: '3', reps: '15-20' }
         ]
       },
       {
@@ -374,23 +374,23 @@ export const PROGRAM_DATA: Record<string, Week> = {
       {
         id: 's2_jeu',
         day: 'Jeudi',
-        focus: 'Haut (Volume & Tech)',
+        focus: 'Haut (Volume S2)',
         status: 'pending',
         exercises: [
-          { name: 'Larsen Press', sets: '4', reps: '8-10', lift: 'bench', percentage: { lo: 0.659, hi: 0.75 } },
-          { name: 'Tractions/Tirage Vert', sets: '3', reps: '8-10', note: 'RPE 8' },
+          { name: 'Larsen Press', sets: '5', reps: '8-10', lift: 'bench', percentage: { lo: 0.659, hi: 0.75 } },
+          { name: 'Tractions/Tirage Vert', sets: '4', reps: '8-10', note: 'Volume ↑ pour l\'accumulation.' },
           { name: 'Oiseau/Face Pulls', sets: '3', reps: '15-20' },
         ]
       },
       {
         id: 's2_ven',
         day: 'Vendredi',
-        focus: 'Bas (Volume & Tech)',
+        focus: 'Bas (Finish Accumul.)',
         status: 'pending',
         exercises: [
-          { name: 'Box Squat Pause', sets: '3', reps: '8', lift: 'squat', percentage: { lo: 0.70, hi: 0.70 }, note: 'Mobilité Limber 11. Arrêt mort 2-3s.' },
-          { name: 'RDL', sets: '3', reps: '8', lift: 'deadlift', percentage: { lo: 0.647, hi: 0.676 } },
-          { name: 'Leg Curls', sets: '3', reps: '12-15', note: 'RPE 8-9' },
+          { name: 'Box Squat Pause', sets: '3', reps: '8+1', lift: 'squat', percentage: { lo: 0.70, hi: 0.70 }, note: 'Vise 25 reps au total sur les 3 séries pour atteindre les 65 hebdo.' },
+          { name: 'RDL', sets: '3', reps: '8-10', lift: 'deadlift', percentage: { lo: 0.647, hi: 0.676 } },
+          { name: 'Leg Curls', sets: '3', reps: '12-15' },
           { name: 'Abdos', sets: '3', reps: '15' }
         ]
       },
@@ -506,30 +506,32 @@ export const PROGRAM_DATA: Record<string, Week> = {
     sessions: [
       {
         id: 's5_j1',
-        day: 'Jour 1',
+        day: 'Lundi',
         focus: 'Test Squat',
         status: 'pending',
         exercises: [
-          { name: 'AMRAP Box Squat', sets: '1', reps: 'AMRAP', lift: 'squat', percentage: { lo: 0.966, hi: 0.983 }, note: 'Vise 2 à 4 formidables répétitions. Stop.' }
+          { name: 'AMRAP Box Squat', sets: '1', reps: 'AMRAP', lift: 'squat', percentage: { lo: 0.966, hi: 0.983 }, note: 'Vise 2 à 4 formidables répétitions. Stop.' },
+          { name: 'Machine Adducteurs', sets: '3', reps: '15', note: 'Léger. Stabilité hanche post-effort.' }
         ]
       },
       {
         id: 's5_j2',
-        day: 'Jour 2',
+        day: 'Mardi',
         focus: 'Test Bench',
         status: 'pending',
         exercises: [
           { name: 'AMRAP Développé couché', sets: '1', reps: 'AMRAP', lift: 'bench', percentage: { lo: 0.977, hi: 0.977 }, note: '2 à 4 répétitions cibles.' },
-          { name: 'Tirage/Face Pulls', sets: '3', reps: '15', note: 'Léger décompression épaules.' }
+          { name: 'Tirage/Face Pulls', sets: '3', reps: '15', note: 'Légère décompression épaules.' }
         ]
       },
       {
         id: 's5_j3',
-        day: 'Jour 3',
+        day: 'Jeudi',
         focus: 'Test Deadlift',
         status: 'pending',
         exercises: [
-          { name: 'AMRAP Soulevé de terre', sets: '1', reps: 'AMRAP', lift: 'deadlift', percentage: { lo: 0.97, hi: 0.985 }, note: '2 à 4 répétitions cibles. Dernier effort du cycle.' }
+          { name: 'AMRAP Soulevé de terre', sets: '1', reps: 'AMRAP', lift: 'deadlift', percentage: { lo: 0.97, hi: 0.985 }, note: '2 à 4 répétitions cibles. Dernier effort du cycle.' },
+          { name: 'Machine Adducteurs', sets: '2', reps: '15', note: 'Vider le sang, favoriser la récup locale.' }
         ]
       }
     ]
