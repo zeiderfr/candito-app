@@ -29,7 +29,7 @@ function urlBase64ToUint8Array(base64: string) {
 type RowStatus = 'checking' | 'off' | 'on' | 'loading' | 'denied' | 'unsupported'
 
 export function NotificationSettings() {
-  const { state } = useCanditoState()
+  const { state } = useCandito()
   const [status, setStatus]   = useState<RowStatus>('checking')
   const [showConfirm, setShowConfirm] = useState(false)
 

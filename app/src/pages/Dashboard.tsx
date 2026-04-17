@@ -9,7 +9,7 @@ import { useCandito } from '@/context/CanditoContext'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
 export function Dashboard() {
-  const { state, getTotal } = useCanditoState()
+  const { state, getTotal } = useCandito()
   const { workoutState, getCalculatedWeight } = useWorkoutSchedule()
 
   return (

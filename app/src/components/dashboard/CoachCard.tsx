@@ -12,7 +12,7 @@ function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {
 }
 
 export function CoachCard() {
-  const { state } = useCanditoState()
+  const { state } = useCandito()
 
   const { greeting, message, tone } = useMemo(() => {
     const { slot, greeting } = getTimeContext()

@@ -13,7 +13,7 @@ export function useWorkoutSchedule(): {
   workoutState: WorkoutState
   getCalculatedWeight: (lift: 'squat' | 'bench' | 'deadlift' | undefined, percentage: number) => number | null
 } {
-  const { state } = useCanditoState()
+  const { state } = useCandito()
 
   const workoutState = useMemo((): WorkoutState => {
     const today = new Date().getDay()

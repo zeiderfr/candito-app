@@ -112,7 +112,7 @@ function WarmupCard({ title, exercises, rm }: {
 
 // ── Main Export ──────────────────────────────────────────────────────
 export function Warmup() {
-  const { state } = useCanditoState()
+  const { state } = useCandito()
   const rm = { squat: state.athlete.rm.squat, bench: state.athlete.rm.bench }
 
   return (

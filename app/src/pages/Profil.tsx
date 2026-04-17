@@ -31,7 +31,7 @@ const VIEW_TITLES: Record<ProfileViewId, string> = {
 
 // ── Page Profil ──────────────────────────────────────────────────────
 export function Profil() {
-  const { state } = useCanditoState()
+  const { state } = useCandito()
   const [stack, setStack] = useState<ProfileView[]>([{ id: 'profile' }])
   const current = stack[stack.length - 1]
 
@@ -95,7 +95,7 @@ export function Profil() {
 
 // ── Vue 1 : Page riche Profil ────────────────────────────────────────
 function ProfileMainView({ onGoToProgram }: { onGoToProgram: () => void }) {
-  const { state, updateName, updateRM, addPR, removePR, startNewCycle, suggestNewRM } = useCanditoState()
+  const { state, updateName, updateRM, addPR, removePR, startNewCycle, suggestNewRM } = useCandito()
   const { showToast } = useToasts()
   const [showNewCycleModal, setShowNewCycleModal] = useState(false)
   const [nameDraft, setNameDraft] = useState(state.athlete.name)
@@ -521,7 +521,7 @@ function CycleHistorySection({ history }: { history: CycleSnapshot[] }) {
 
 // ── Paramètres ────────────────────────────────────────────────────────
 function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }) {
-  const { state, importState } = useCanditoState()
+  const { state, importState } = useCandito()
   const { showToast } = useToasts()
   const [openSection, setOpenSection] = useState<string | null>(null)
   const toggle = (id: string) => setOpenSection(v => v === id ? null : id)
@@ -674,7 +674,7 @@ function ProgramMainView({
   initialWeekId: string
   onSelectSession: (sessionId: string, weekId: string) => void
 }) {
-  const { state, resetWeekOverrides } = useCanditoState()
+  const { state, resetWeekOverrides } = useCandito()
   const { showToast } = useToasts()
   const [selectedWeek, setSelectedWeek] = useState(initialWeekId)
   const weekData = PROGRAM_DATA[selectedWeek]
@@ -771,7 +771,7 @@ function SessionMainView({
 }: {
   weekId: string; sessionId: string; onBack: () => void
 }) {
-  const { state, setExerciseOverride, setSessionFocus, resetSessionOverride } = useCanditoState()
+  const { state, setExerciseOverride, setSessionFocus, resetSessionOverride } = useCandito()
   const { showToast } = useToasts()
   const overrides = state.programOverrides
   const resolved = resolveSession(weekId, sessionId, overrides)

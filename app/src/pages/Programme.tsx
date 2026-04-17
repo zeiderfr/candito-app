@@ -241,7 +241,7 @@ const sessionItem = {
 
 // ── Main Export ──────────────────────────────────────────────────────
 export function Programme() {
-  const { state, toggleSession, setCurrentWeek, logSession } = useCanditoState()
+  const { state, toggleSession, setCurrentWeek, logSession } = useCandito()
   const { showToast } = useToasts()
   const [selectedWeekId, setSelectedWeekId] = useState(state.currentWeekId)
   const [s6Variant, setS6Variant] = useState<S6Variant>(

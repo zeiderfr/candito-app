@@ -21,7 +21,7 @@ function urlBase64ToUint8Array(base64String: string) {
 export function PushNotificationManager() {
   const [status, setStatus] = useState<'idle' | 'prompt' | 'loading' | 'success' | 'unsupported'>('idle')
   const [isVisible, setIsVisible] = useState(false)
-  const { state } = useCanditoState()
+  const { state } = useCandito()
   const weekId = state.currentWeekId
 
   useEffect(() => {
