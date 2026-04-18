@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programme Candito — Aperçu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #FF3B30;
+    --bg: #0a0e13;
+    --surface: #12171e;
+    --border: rgba(255,255,255,0.06);
+    --muted: #6b7280;
+    --dim: #4b5563;
+    --green: #34C759;
+    --orange: #FF9500;
+    --purple: #5856D6;
+    --pink: #FF2D55;
+    --blue: #007AFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(180deg, var(--bg) 0%, #0d1117 100%);
+    color: #fff;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── Hero ──────────────────────────── */
+  .hero { padding: 60px 24px 0; max-width:1100px; margin:0 auto; }
+  .hero-badge { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .hero-logo {
+    width:44px; height:44px; border-radius:14px;
+    background: linear-gradient(135deg, var(--accent), #FF6B5B);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:900; color:#fff;
+  }
+  .tag {
+    font-size:9px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.15em; color:var(--accent);
+    background: rgba(255,59,48,0.1); padding:4px 12px; border-radius:20px;
+  }
+  .hero h1 {
+    font-size: clamp(36px,5vw,56px); font-weight:900; font-style:italic;
+    letter-spacing:-0.03em; line-height:1.1; margin:16px 0 12px;
+    background: linear-gradient(135deg, #fff 60%, var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero p { font-size:18px; color:var(--muted); max-width:600px; line-height:1.6; }
+
+  /* ── Tabs ──────────────────────────── */
+  .tabs { display:flex; gap:6px; margin-top:32px; overflow-x:auto; padding-bottom:4px; }
+  .tab-btn {
+    padding:10px 20px; border-radius:30px; font-size:12px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.1em; border:none; cursor:pointer;
+    flex-shrink:0; transition:all 0.2s; color:var(--muted);
+    background:rgba(255,255,255,0.05);
+  }
+  .tab-btn.active { background:var(--accent); color:var(--bg); }
+  .tab-btn:hover:not(.active) { color:#fff; }
+
+  /* ── Cards ─────────────────────────── */
+  .glass {
+    background:var(--surface); border-radius:16px;
+    border:1px solid var(--border); overflow:hidden;
+  }
+  .glass-lg { border-radius:24px; padding:32px; }
+  .glass-accent { border-left:3px solid var(--accent); }
+
+  /* ── Section ───────────────────────── */
+  .section { padding:40px 0; }
+  .section-title {
+    font-size:24px; font-weight:800; font-style:italic;
+    margin-bottom:24px;
+  }
+
+  /* ── Grid ──────────────────────────── */
+  .grid-3 { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:12px; }
+  .grid-2 { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:16px; }
+  .grid-stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; }
+  .grid-detail { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px; }
+
+  /* ── Labels ────────────────────────── */
+  .label {
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--muted);
+  }
+  .label-accent { color:var(--accent); }
+  .value { font-size:24px; font-weight:800; color:#fff; }
+  .value-xl { font-size:36px; }
+  .value-accent { color:var(--accent); }
+  .sub { font-size:11px; color:var(--dim); }
+
+  /* ── Phone ─────────────────────────── */
+  .phones-row {
+    display:flex; gap:48px; align-items:flex-start;
+    flex-wrap:wrap; justify-content:center; margin-top:16px;
+  }
+  .phone {
+    width:320px; min-height:640px; background:var(--bg);
+    border-radius:40px; border:3px solid rgba(255,255,255,0.1);
+    overflow:hidden; display:flex; flex-direction:column;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+    flex-shrink:0;
+  }
+  .phone-sm { min-height:500px; }
+  .notch {
+    display:flex; justify-content:center; padding-top:10px;
+  }
+  .notch-bar { width:120px; height:28px; background:#000; border-radius:20px; }
+  .phone-content { flex:1; padding:20px 20px 0; overflow-y:auto; }
+  .phone-nav {
+    display:flex; justify-content:space-between; padding:12px 16px 20px;
+    border-top:1px solid var(--border);
+    background: rgba(10,14,19,0.8); backdrop-filter:blur(20px);
+  }
+  .nav-btn {
+    background:none; border:none; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:4px 8px; border-radius:12px; transition:all 0.2s;
+  }
+  .nav-icon {
+    font-size:18px; width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px; transition:all 0.2s;
+  }
+  .nav-btn.active .nav-icon { background:rgba(255,59,48,0.13); }
+  .nav-label {
+    font-size:9px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.1em; color:var(--muted); transition:color 0.2s;
+  }
+  .nav-btn.active .nav-label { color:var(--accent); }
+
+  /* ── Phone inner cards ─────────────── */
+  .p-card {
+    background:var(--surface); border-radius:14px;
+    border:1px solid var(--border); overflow:hidden; margin-bottom:12px;
+  }
+  .p-card-accent { border-left:3px solid var(--accent); }
+  .p-card-header {
+    padding:14px 16px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:8px;
+  }
+  .p-card-body { padding:14px 16px; }
+  .p-row {
+    padding:10px 16px; display:flex; justify-content:space-between;
+    align-items:center; border-bottom:1px solid var(--border);
+  }
+  .p-title {
+    font-size:28px; font-weight:800; color:#fff; font-style:italic;
+    letter-spacing:-0.02em; margin-bottom:4px;
+  }
+  .p-subtitle {
+    font-size:9px; color:var(--dim); text-transform:uppercase;
+    letter-spacing:0.3em; font-weight:700;
+  }
+  .p-tag {
+    font-size:9px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.12em; color:var(--accent);
+    background:rgba(255,59,48,0.1); padding:3px 10px; border-radius:20px;
+  }
+  .p-btn {
+    margin-top:12px; background:rgba(255,255,255,0.04);
+    padding:10px 0; border-radius:30px; text-align:center;
+    font-size:10px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.15em; color:#fff;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .p-cta {
+    width:100%; padding:18px 0; border-radius:50px;
+    background:var(--accent); color:var(--bg);
+    font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:0.15em; border:none; cursor:pointer;
+    box-shadow: 0 8px 30px rgba(255,59,48,0.2);
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+
+  /* ── Pill selector ─────────────────── */
+  .pills { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
+  .pill {
+    padding:8px 16px; border-radius:30px; font-size:10px;
+    font-weight:700; text-transform:uppercase; letter-spacing:0.15em;
+    flex-shrink:0; text-align:center; color:var(--muted);
+    background:rgba(255,255,255,0.05);
+  }
+  .pill.active { background:var(--accent); color:var(--bg); }
+
+  /* ── Feature cards ─────────────────── */
+  .feat-card {
+    background:var(--surface); border-radius:20px;
+    border:1px solid var(--border); padding:24px;
+  }
+  .feat-icon {
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px;
+  }
+  .feat-title { font-size:16px; font-weight:700; }
+
+  /* ── Detail box ────────────────────── */
+  .detail-box {
+    margin-top:40px; border-radius:24px; padding:32px;
+    background: linear-gradient(135deg, rgba(255,59,48,0.03), rgba(255,59,48,0.01));
+    border:1px solid rgba(255,59,48,0.12);
+  }
+
+  /* ── Arch ───────────────────────────── */
+  .arch-table { overflow:hidden; }
+  .arch-row {
+    padding:14px 24px; display:flex; justify-content:space-between;
+    align-items:center; border-bottom:1px solid var(--border);
+  }
+  .arch-row:last-child { border-bottom:none; }
+  .arch-name { font-size:13px; font-weight:600; color:#fff; }
+  .arch-role { font-size:11px; color:var(--muted); }
+  pre.tree {
+    font-size:11px; color:var(--muted); line-height:1.8;
+    overflow-x:auto; font-family:'JetBrains Mono','SF Mono',monospace;
+    white-space:pre;
+  }
+
+  /* ── Footer ────────────────────────── */
+  .footer {
+    text-align:center; padding:40px 24px 60px;
+    border-top:1px solid var(--border);
+  }
+
+  /* ── Sections visibility ───────────── */
+  .section-content { display:none; }
+  .section-content.active { display:block; }
+
+  /* ── Phone screens visibility ──────── */
+  .phone-screen { display:none; }
+  .phone-screen.active { display:block; }
+
+  /* ── Pulse animation ───────────────── */
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .pulse { animation: pulse 2s infinite; }
+
+  /* ── Stat chip color variants ──────── */
+  .chip-red { background:rgba(255,59,48,0.06); border:1px solid rgba(255,59,48,0.1); }
+  .chip-orange { background:rgba(255,149,0,0.06); border:1px solid rgba(255,149,0,0.1); }
+  .chip-green { background:rgba(52,199,89,0.06); border:1px solid rgba(52,199,89,0.1); }
+
+  /* ── Responsive ────────────────────── */
+  @media (max-width:700px) {
+    .phones-row { flex-direction:column; align-items:center; }
+    .grid-3, .grid-2, .grid-stats, .grid-detail { grid-template-columns:1fr; }
+  }
+
+  /* Smooth transitions */
+  .section-content { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Timer circle */
+  .timer-ring {
+    width:100px; height:100px; border-radius:50%;
+    border:3px solid rgba(255,59,48,0.2);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.02);
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<div class="hero">
+  <div class="hero-badge">
+    <div class="hero-logo">C</div>
+    <span class="tag">PWA • React • TypeScript</span>
+  </div>
+  <h1>Programme Candito</h1>
+  <p>Application PWA de suivi d'entraînement powerlifting. Programme Candito 6 semaines avec coach contextuel, mode séance immersif et calcul automatique des charges.</p>
+  <div class="tabs" id="mainTabs">
+    <button class="tab-btn active" onclick="switchSection('overview')">Vue d'ensemble</button>
+    <button class="tab-btn" onclick="switchSection('screens')">Écrans</button>
+    <button class="tab-btn" onclick="switchSection('features')">Fonctionnalités</button>
+    <button class="tab-btn" onclick="switchSection('architecture')">Architecture</button>
+  </div>
+</div>
+
+<div class="container" style="padding-bottom:80px">
+
+<!-- ══════════════════ OVERVIEW ══════════════════ -->
+<div class="section-content active" id="sec-overview">
+  <div class="section">
+    <!-- Athlete card -->
+    <div class="glass glass-lg" style="margin-bottom:40px">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(255,59,48,0.25),rgba(255,59,48,0.06));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;border:2px solid rgba(255,59,48,0.2)">T</div>
+        <div>
+          <h3 style="font-size:22px;font-weight:800;font-style:italic">Théo</h3>
+          <p style="font-size:12px;color:var(--muted);margin-top:2px">20 ans • 66 kg • 1m70</p>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <span style="font-size:36px;font-weight:800;color:var(--accent)">400</span>
+          <span style="font-size:14px;color:var(--muted);margin-left:4px">kg total</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+        <div class="chip-red" style="border-radius:16px;padding:16px 20px">
+          <p class="label label-accent" style="margin-bottom:4px">Squat</p>
+          <p class="value">140 kg</p>
+        </div>
+        <div class="chip-orange" style="border-radius:16px;padding:16px 20px">
+          <p class="label" style="color:var(--orange);margin-bottom:4px">Bench Press</p>
+          <p class="value">100 kg</p>
+        </div>
+        <div class="chip-green" style="border-radius:16px;padding:16px 20px">
+          <p class="label" style="color:var(--green);margin-bottom:4px">Deadlift</p>
+          <p class="value">160 kg</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Program Structure -->
+    <h2 class="section-title">Structure du programme</h2>
+    <div class="grid-3" style="margin-bottom:40px">
+      <div class="glass" style="padding:20px" id="week-s1">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S1</span>
+            <span style="font-size:14px;font-weight:700">Accumulation 1</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">78-82%</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">5 séances • Volume + Hypertrophie</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S2</span>
+            <span style="font-size:14px;font-weight:700">Accumulation 2</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">78-82%</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">5 séances • Volume + Consolidation</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S3</span>
+            <span style="font-size:14px;font-weight:700">Transmutation</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">85-88%</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">3 séances • Intensification</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S4</span>
+            <span style="font-size:14px;font-weight:700">Acclimatation</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">90-93%</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">3 séances • Charges lourdes</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S5</span>
+            <span style="font-size:14px;font-weight:700">Peaking</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">95%+</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">2 séances • Tests AMRAP</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="p-tag">S6</span>
+            <span style="font-size:14px;font-weight:700">Test / Décharge</span>
+          </div>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">100-102%</span>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">2 séances • Maxis ou Récup</p>
+      </div>
+    </div>
+
+    <!-- Quick stats -->
+    <div class="grid-stats">
+      <div class="glass" style="padding:20px">
+        <p class="label" style="margin-bottom:6px">Durée totale</p>
+        <p style="font-size:20px;font-weight:800">6 semaines</p>
+        <p class="sub">17 séances programmées</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <p class="label" style="margin-bottom:6px">Objectif final</p>
+        <p style="font-size:20px;font-weight:800">PR ou Décharge</p>
+        <p class="sub">Test maxis @100-102%</p>
+      </div>
+      <div class="glass" style="padding:20px">
+        <p class="label" style="margin-bottom:6px">Méthode</p>
+        <p style="font-size:20px;font-weight:800">Périodisation bloc</p>
+        <p class="sub">Accumulation → Peaking</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SCREENS ══════════════════ -->
+<div class="section-content" id="sec-screens">
+  <div class="section">
+    <h2 class="section-title">Navigation de l'application</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:32px;max-width:600px">
+      5 onglets principaux avec navigation fluide et transitions animées. Clique sur les onglets du téléphone pour naviguer.
+    </p>
+
+    <div class="phones-row">
+      <!-- PHONE 1: Main App -->
+      <div class="phone" id="mainPhone">
+        <div class="notch"><div class="notch-bar"></div></div>
+        <div class="phone-content">
+          <!-- Dashboard -->
+          <div class="phone-screen active" id="screen-accueil">
+            <div class="p-title">Tableau de bord...</div>
+            <div class="p-subtitle" style="margin-bottom:16px">samedi 18 avril</div>
+            <!-- Coach -->
+            <div class="p-card">
+              <div class="p-card-body">
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+                  <div style="width:6px;height:6px;border-radius:50%;background:var(--accent)" class="pulse"></div>
+                  <span style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em">Coach Programme Candito</span>
+                </div>
+                <p style="font-size:18px;font-weight:800;font-style:italic;margin-bottom:4px">Bonjour, Théo.</p>
+                <div style="width:32px;height:1px;background:rgba(255,59,48,0.2);margin:8px 0"></div>
+                <p style="font-size:12px;color:var(--muted);line-height:1.6">S1, premier matin. 80% et volume élevé — la régularité prime sur l'intensité.</p>
+              </div>
+            </div>
+            <!-- Next session -->
+            <div class="p-card p-card-accent">
+              <div class="p-card-body">
+                <p class="label" style="margin-bottom:6px">Prochaine séance</p>
+                <p style="font-size:16px;font-weight:800;font-style:italic;margin-bottom:4px">Bas du corps — Lourd</p>
+                <p style="font-size:11px;color:var(--muted)">Squat 4×6-8 • DL 2×6 • Hip Thrust 3×8-10</p>
+                <div class="p-btn">▶ Démarrer la séance</div>
+              </div>
+            </div>
+            <!-- Stats -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Squat</p><p style="font-size:22px;font-weight:800">140</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
+              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Bench</p><p style="font-size:22px;font-weight:800">100</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
+              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Deadlift</p><p style="font-size:22px;font-weight:800">160</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
+            </div>
+            <div class="p-card"><div style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center"><span class="label">Total</span><span style="font-size:26px;font-weight:800;color:var(--accent)">400 kg</span></div></div>
+          </div>
+
+          <!-- Warmup -->
+          <div class="phone-screen" id="screen-warmup">
+            <div class="p-title">Échauffement</div>
+            <div class="p-subtitle" style="margin-bottom:16px">Mobilité & Gamme montante</div>
+            <div class="p-card">
+              <div class="p-card-header"><span style="font-size:14px">🔥</span><span style="font-size:14px;font-weight:800;font-style:italic">Bas du corps</span></div>
+              <div class="p-row"><span style="font-size:12px">Foam Rolling</span><span style="font-size:11px;color:var(--muted)">60-90s/zone</span></div>
+              <div class="p-row"><span style="font-size:12px">Cat-Camel</span><span style="font-size:11px;color:var(--muted)">2×10</span></div>
+              <div class="p-row"><span style="font-size:12px">Hip Thrust activation</span><span style="font-size:11px;color:var(--muted)">3×10 BW</span></div>
+              <div class="p-row"><span style="font-size:12px">Cossack Squat</span><span style="font-size:11px;color:var(--muted)">2×8/côté</span></div>
+              <div class="p-row"><span style="font-size:12px">Dead Bugs</span><span style="font-size:11px;color:var(--muted)">2×8/côté</span></div>
+              <div style="padding:8px 16px;display:flex;align-items:center;gap:8px;background:rgba(255,59,48,0.02)"><div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:8px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.15em">Gamme montante Squat</span><div style="flex:1;height:1px;background:var(--border)"></div></div>
+              <div class="p-row"><span style="font-size:12px">@40%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×8</span><span class="p-tag">56 kg</span></div></div>
+              <div class="p-row"><span style="font-size:12px">@60%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×5</span><span class="p-tag">84 kg</span></div></div>
+              <div class="p-row"><span style="font-size:12px">@75%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×3</span><span class="p-tag">105 kg</span></div></div>
+              <div class="p-row" style="border-bottom:none"><span style="font-size:12px">@85%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×1</span><span class="p-tag">119 kg</span></div></div>
+            </div>
+          </div>
+
+          <!-- Programme -->
+          <div class="phone-screen" id="screen-programme">
+            <div class="p-title">Programme</div>
+            <div class="p-subtitle" style="margin-bottom:16px">Accumulation 1 — 80%</div>
+            <div class="pills" style="margin-bottom:16px">
+              <div class="pill active">S1</div><div class="pill">S2</div><div class="pill">S3</div><div class="pill">S4</div><div class="pill">S5</div><div class="pill">S6</div>
+            </div>
+            <p style="font-size:16px;font-weight:800;font-style:italic;margin-bottom:14px">Semaine 1</p>
+            <div class="p-card">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Lundi</p><p style="font-size:14px;font-weight:800;font-style:italic">Bas du corps — Lourd</p></div>
+              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Squat 4×6-8 @78-82%</span><span class="p-tag">109-115 kg</span></div>
+              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
+            </div>
+            <div class="p-card">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Mardi</p><p style="font-size:14px;font-weight:800;font-style:italic">Haut du corps — Lourd</p></div>
+              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Bench 4×6-8 @78-82%</span><span class="p-tag">78-82 kg</span></div>
+              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
+            </div>
+            <div class="p-card">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Jeudi</p><p style="font-size:14px;font-weight:800;font-style:italic">Haut — Léger</p></div>
+              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Larsen 4×8-10 @65-75%</span><span class="p-tag">65-75 kg</span></div>
+              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
+            </div>
+          </div>
+
+          <!-- Nutrition -->
+          <div class="phone-screen" id="screen-nutrition">
+            <div class="p-title">Nutrition</div>
+            <div class="p-subtitle" style="margin-bottom:16px">Macros & Timing</div>
+            <div class="p-card">
+              <div class="p-card-header"><span>🥩</span><span style="font-size:14px;font-weight:800;font-style:italic">Macros journaliers</span></div>
+              <div style="padding:16px;display:flex;gap:8px">
+                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--accent)">180g</p><p class="label" style="margin-top:2px">Protéines</p><p style="font-size:9px;color:var(--dim);margin-top:2px">2.7g/kg</p></div>
+                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--orange)">330g</p><p class="label" style="margin-top:2px">Glucides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">5g/kg</p></div>
+                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--green)">75g</p><p class="label" style="margin-top:2px">Lipides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">1.1g/kg</p></div>
+              </div>
+            </div>
+            <div class="p-card">
+              <div class="p-card-header"><span>⏰</span><span style="font-size:14px;font-weight:800;font-style:italic">Timing repas</span></div>
+              <div class="p-row"><span style="font-size:11px;font-weight:600">Pré-training (2h)</span><span style="font-size:11px;color:var(--muted)">Glucides + Protéines</span></div>
+              <div class="p-row"><span style="font-size:11px;font-weight:600">Post-training (30min)</span><span style="font-size:11px;color:var(--muted)">Whey 30g + Banane</span></div>
+              <div class="p-row" style="border-bottom:none"><span style="font-size:11px;font-weight:600">Dîner</span><span style="font-size:11px;color:var(--muted)">Protéines + Riz</span></div>
+            </div>
+          </div>
+
+          <!-- Profil -->
+          <div class="phone-screen" id="screen-profil">
+            <div class="p-title">Profil</div>
+            <div class="p-subtitle" style="margin-bottom:16px">Athlète & Paramètres</div>
+            <div style="text-align:center;padding:8px 0;margin-bottom:12px">
+              <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,59,48,0.25),rgba(255,59,48,0.06));margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;border:2px solid rgba(255,59,48,0.2)">T</div>
+              <p style="font-size:20px;font-weight:800;font-style:italic">Théo</p>
+              <p style="font-size:10px;color:var(--muted);margin-top:4px;font-weight:600">Cycle 1 • Semaine 1</p>
+              <p style="font-size:28px;font-weight:800;color:var(--accent);margin-top:8px">400 kg</p>
+              <p style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.15em;font-weight:700">Total</p>
+            </div>
+            <div class="p-card">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><span class="label">Max. Actuels (1RM)</span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
+                <div style="padding:14px 12px;text-align:center;border-right:1px solid var(--border)"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">SQ</p><p style="font-size:20px;font-weight:800">140</p></div>
+                <div style="padding:14px 12px;text-align:center;border-right:1px solid var(--border)"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">BP</p><p style="font-size:20px;font-weight:800">100</p></div>
+                <div style="padding:14px 12px;text-align:center"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">DL</p><p style="font-size:20px;font-weight:800">160</p></div>
+              </div>
+            </div>
+            <div class="p-card">
+              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><span class="label">Progression du cycle</span></div>
+              <div style="padding:12px 16px;display:flex;gap:3px;align-items:center">
+                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+              </div>
+              <div style="padding:0 16px 12px"><span style="font-size:10px;color:var(--muted)">2 / 17 séances</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="phone-nav">
+          <button class="nav-btn active" onclick="switchScreen('accueil')" id="nav-accueil"><div class="nav-icon">🏠</div><span class="nav-label">Accueil</span></button>
+          <button class="nav-btn" onclick="switchScreen('warmup')" id="nav-warmup"><div class="nav-icon">⚡</div><span class="nav-label">Warm up</span></button>
+          <button class="nav-btn" onclick="switchScreen('programme')" id="nav-programme"><div class="nav-icon">📅</div><span class="nav-label">Programme</span></button>
+          <button class="nav-btn" onclick="switchScreen('nutrition')" id="nav-nutrition"><div class="nav-icon">🥗</div><span class="nav-label">Nutrition</span></button>
+          <button class="nav-btn" onclick="switchScreen('profil')" id="nav-profil"><div class="nav-icon">👤</div><span class="nav-label">Profil</span></button>
+        </div>
+      </div>
+
+      <!-- PHONE 2: Focus Mode -->
+      <div class="phone phone-sm">
+        <div class="notch"><div class="notch-bar"></div></div>
+        <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <p style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.3em">Mode Séance</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px;font-style:italic">Bas du corps — Lourd</p>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:var(--muted)">12:34</span>
+        </div>
+        <!-- Progress -->
+        <div style="display:flex;gap:3px;padding:16px 20px 0">
+          <div style="flex:1;height:3px;border-radius:4px;background:var(--accent)"></div>
+          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.4)"></div>
+          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
+          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
+          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
+        </div>
+        <!-- Exercise -->
+        <div style="flex:1;padding:32px 20px;display:flex;flex-direction:column;justify-content:center;gap:14px">
+          <p class="label" style="font-size:9px">Exercice 2 / 5</p>
+          <h2 style="font-size:34px;font-weight:800;font-style:italic;letter-spacing:-0.02em;line-height:1.1">Squat Low Bar</h2>
+          <p style="font-size:15px;color:rgba(255,255,255,0.4);font-style:italic">4 séries × 6-8 reps</p>
+          <!-- Weight -->
+          <div style="display:inline-flex;align-items:baseline;gap:6px;padding:12px 20px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);align-self:flex-start">
+            <span style="font-size:40px;font-weight:800">115</span>
+            <span style="font-size:18px;font-weight:800;color:var(--accent)">kg</span>
+          </div>
+          <!-- Sets -->
+          <div style="display:flex;gap:6px;align-items:center">
+            <div style="flex:1;height:5px;border-radius:4px;background:var(--accent)"></div>
+            <div style="flex:1;height:5px;border-radius:4px;background:var(--accent)"></div>
+            <div style="flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,0.3)"></div>
+            <div style="flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+          </div>
+          <p class="label" style="font-size:10px">Série 3 / 4</p>
+          <!-- Timer -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div class="timer-ring">
+              <span style="font-size:32px;font-weight:800">87</span>
+              <span style="font-size:7px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.2em">Recovery</span>
+            </div>
+          </div>
+        </div>
+        <!-- CTA -->
+        <div style="padding:0 20px 28px">
+          <button class="p-cta">✓ Série faite</button>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center;font-size:11px;color:var(--dim);margin-top:24px;font-style:italic">
+      Gauche : Navigation principale • Droite : Mode Séance (Focus Mode)
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════ FEATURES ══════════════════ -->
+<div class="section-content" id="sec-features">
+  <div class="section">
+    <h2 class="section-title">Fonctionnalités clés</h2>
+    <div class="grid-2">
+      <div class="feat-card" style="border-left:3px solid var(--accent)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(255,59,48,0.1)">🧠</div>
+          <h3 class="feat-title">Coach IA contextuel</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Messages personnalisés par semaine, heure du jour et performance récente. Le coach adapte ses conseils à ton RPE moyen et tes jours de repos.</p>
+      </div>
+      <div class="feat-card" style="border-left:3px solid var(--green)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(52,199,89,0.1)">🎯</div>
+          <h3 class="feat-title">Mode Séance immersif</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Interface plein écran : timer Nexus Pulse, saisie poids/reps/RPE, suggestions de progression, et estimation 1RM automatique.</p>
+      </div>
+      <div class="feat-card" style="border-left:3px solid var(--orange)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(255,149,0,0.1)">📊</div>
+          <h3 class="feat-title">Calcul auto des charges</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Toutes les charges de 40% à 102% auto-calculées à partir de tes 1RM. Arrondi au 2.5 kg. Modifie un 1RM → tout se met à jour.</p>
+      </div>
+      <div class="feat-card" style="border-left:3px solid var(--purple)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(88,86,214,0.1)">🔄</div>
+          <h3 class="feat-title">Gestion de cycles</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Archive automatique de chaque cycle (1RM, séances, PRs). Nouveau cycle avec suggestion de 1RM basée sur tes performances.</p>
+      </div>
+      <div class="feat-card" style="border-left:3px solid var(--pink)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(255,45,85,0.1)">✏️</div>
+          <h3 class="feat-title">Programme personnalisable</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Override d'exercices, séries/reps et pourcentages directement dans l'app. Ton programme s'adapte à toi.</p>
+      </div>
+      <div class="feat-card" style="border-left:3px solid var(--blue)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="feat-icon" style="background:rgba(0,122,255,0.1)">📱</div>
+          <h3 class="feat-title">PWA installable</h3>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.7">Hors-ligne, installable sur l'écran d'accueil. Service Worker, Wake Lock pour garder l'écran allumé en séance.</p>
+      </div>
+    </div>
+
+    <!-- Detail box -->
+    <div class="detail-box">
+      <h3 style="font-size:20px;font-weight:800;font-style:italic;margin-bottom:16px">Mode Séance — Détails</h3>
+      <div class="grid-detail">
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Nexus Pulse Timer</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Timer circulaire animé avec vibration. Durées ajustables (1:30, 2:00, 3:00, 5:00).</p></div>
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Saisie rapide</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Poids pré-rempli + boutons ±2.5 kg. Sélection RPE visuelle (6 à 10).</p></div>
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Estimation 1RM auto</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Si RPE ≥ 8 et poids > 1RM actuel → suggestion via formule d'Epley.</p></div>
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Mode Companion</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Vue simplifiée plein écran. Idéal pour les lunettes embuées.</p></div>
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Wake Lock</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Écran allumé pendant toute la séance. Réactivation automatique.</p></div>
+        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Persistance séance</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Séries faites et poids sauvegardés. Recharge sans perte.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ ARCHITECTURE ══════════════════ -->
+<div class="section-content" id="sec-architecture">
+  <div class="section">
+    <h2 class="section-title">Architecture technique</h2>
+
+    <!-- Tech stack -->
+    <div class="glass arch-table" style="margin-bottom:32px">
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border)"><h3 style="font-size:14px;font-weight:700">Stack technique</h3></div>
+      <div class="arch-row"><span class="arch-name">React + TypeScript</span><span class="arch-role">Framework UI</span></div>
+      <div class="arch-row"><span class="arch-name">Vite</span><span class="arch-role">Build & Dev Server</span></div>
+      <div class="arch-row"><span class="arch-name">Tailwind CSS</span><span class="arch-role">Styling (design system custom)</span></div>
+      <div class="arch-row"><span class="arch-name">Framer Motion</span><span class="arch-role">Animations & Transitions</span></div>
+      <div class="arch-row"><span class="arch-name">IndexedDB (idb-keyval)</span><span class="arch-role">Persistance locale</span></div>
+      <div class="arch-row"><span class="arch-name">Cloudflare Pages</span><span class="arch-role">Hébergement & Workers</span></div>
+      <div class="arch-row"><span class="arch-name">Service Worker</span><span class="arch-role">Mode hors-ligne & Cache</span></div>
+      <div class="arch-row"><span class="arch-name">Web Push API</span><span class="arch-role">Notifications d'entraînement</span></div>
+      <div class="arch-row"><span class="arch-name">Lucide React</span><span class="arch-role">Icônes</span></div>
+    </div>
+
+    <!-- Component tree -->
+    <div class="glass" style="padding:32px;margin-bottom:32px">
+      <h3 style="font-size:14px;font-weight:700;margin-bottom:20px">Structure des composants</h3>
+      <pre class="tree">App
+├── CanditoProvider          ← State global (IndexedDB + migrations)
+│   ├── ToastProvider        ← Système de notifications toast
+│   └── AppContent
+│       ├── AppLayout        ← Layout + BottomNav (5 onglets)
+│       ├── Dashboard        ← Accueil
+│       │   ├── CoachCard    ← Messages contextuels IA
+│       │   ├── NextSessionHero
+│       │   ├── LastSessionCard
+│       │   └── AthleteStats
+│       ├── Warmup           ← Échauffement (bas/haut du corps)
+│       ├── Programme        ← Sélecteur semaine + SessionCards
+│       │   ├── WeekSelector ← Pills S1-S6
+│       │   ├── SessionCard  ← Résumé exercices + charges
+│       │   └── FocusMode    ← Séance immersive plein écran
+│       │       ├── NexusPulse Timer
+│       │       ├── Set Logger (poids/RPE)
+│       │       ├── 1RM Suggestion
+│       │       └── Companion Mode
+│       ├── Nutrition        ← Macros + Timing
+│       └── Profil           ← Navigation stack interne
+│           ├── AthleteHero  ← Nom, 1RM, total
+│           ├── SessionTimeline
+│           ├── PRSection    ← Records personnels
+│           ├── LiftProgressGraph
+│           ├── CycleHistory
+│           ├── SessionHistory
+│           ├── Settings     ← Export/Import/Personnalisation
+│           ├── ProgramMainView  ← Vue édition programme
+│           └── SessionMainView  ← Vue édition session</pre>
+    </div>
+
+    <!-- Data flow -->
+    <div class="grid-stats">
+      <div class="glass" style="padding:20px">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">État global (CanditoContext)</h4>
+        <ul style="padding-left:16px">
+          <li style="font-size:12px;color:var(--muted);line-height:2">1RM athlète (Squat / Bench / Deadlift)</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Sessions complétées + Logs détaillés</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Records personnels (PRs)</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Historique des cycles</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Overrides programme</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Migration auto du schéma (v1→v6)</li>
+        </ul>
+      </div>
+      <div class="glass" style="padding:20px">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">Persistance</h4>
+        <ul style="padding-left:16px">
+          <li style="font-size:12px;color:var(--muted);line-height:2">IndexedDB via idb-keyval (principal)</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">localStorage fallback + migration auto</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Session en cours persistée séparément</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Export/Import JSON complet</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">100% local — pas de backend</li>
+        </ul>
+      </div>
+      <div class="glass" style="padding:20px">
+        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">PWA & Offline</h4>
+        <ul style="padding-left:16px">
+          <li style="font-size:12px;color:var(--muted);line-height:2">Service Worker avec cache-first</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Manifest.json (standalone, portrait)</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Banner d'installation iOS/Android</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Mise à jour avec prompt utilisateur</li>
+          <li style="font-size:12px;color:var(--muted);line-height:2">Web Push notifications</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<div class="footer">
+  <p style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.2em;font-weight:700;font-style:italic">
+    Forge ton corps, forge ton mental • Programme Candito
+  </p>
+  <p style="font-size:11px;color:var(--dim);margin-top:8px">
+    Développé avec Antigravity — Par Théo
+  </p>
+</div>
+
+<script>
+// ── Section switching ────────────────────────
+function switchSection(id) {
+  document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ── Phone screen switching ───────────────────
+function switchScreen(id) {
+  document.querySelectorAll('.phone-screen').forEach(el => el.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('nav-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
