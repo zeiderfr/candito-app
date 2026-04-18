@@ -49,7 +49,16 @@ self.addEventListener('install', (event) => {
 // ── ACTIVATE ──────────────────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    clients.claim()
+    Promise.all([
+      clients.claim(),
+      caches.keys().then(names =>
+        Promise.all(
+          names
+            .filter(n => n !== CACHE_NAME && n !== META_CACHE)
+            .map(n => caches.delete(n))
+        )
+      )
+    ])
   );
 });
 
