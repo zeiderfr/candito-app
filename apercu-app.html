@@ -3,803 +3,616 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Programme Candito — Aperçu</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<title>Programme Candito — Aperçu Fidèle</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --accent: #FF3B30;
-    --bg: #0a0e13;
-    --surface: #12171e;
-    --border: rgba(255,255,255,0.06);
-    --muted: #6b7280;
-    --dim: #4b5563;
-    --green: #34C759;
-    --orange: #FF9500;
-    --purple: #5856D6;
-    --pink: #FF2D55;
-    --blue: #007AFF;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(180deg, var(--bg) 0%, #0d1117 100%);
-    color: #fff;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+:root {
+  --bg: #0a0e13;
+  --surface: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.07);
+  --accent: #FF3B30;
+  --accent-hover: #FF453A;
+  --accent-muted: rgba(255,59,48,0.1);
+  --muted: rgba(255,255,255,0.45);
+  --dim: rgba(255,255,255,0.25);
+  --green: #34C759;
+  --orange: #FF9500;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+}
+*{margin:0;padding:0;box-sizing:border-box;border-color:var(--border)}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:#fff;min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,h5,h6{font-family:'Instrument Serif',serif;text-wrap:balance}
 
-  /* ── Hero ──────────────────────────── */
-  .hero { padding: 60px 24px 0; max-width:1100px; margin:0 auto; }
-  .hero-badge { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
-  .hero-logo {
-    width:44px; height:44px; border-radius:14px;
-    background: linear-gradient(135deg, var(--accent), #FF6B5B);
-    display:flex; align-items:center; justify-content:center;
-    font-size:22px; font-weight:900; color:#fff;
-  }
-  .tag {
-    font-size:9px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.15em; color:var(--accent);
-    background: rgba(255,59,48,0.1); padding:4px 12px; border-radius:20px;
-  }
-  .hero h1 {
-    font-size: clamp(36px,5vw,56px); font-weight:900; font-style:italic;
-    letter-spacing:-0.03em; line-height:1.1; margin:16px 0 12px;
-    background: linear-gradient(135deg, #fff 60%, var(--accent));
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  }
-  .hero p { font-size:18px; color:var(--muted); max-width:600px; line-height:1.6; }
+/* ── Phone Frame ─────────────────── */
+.phone{width:375px;height:812px;background:var(--bg);border-radius:48px;border:3px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 100px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.04);flex-shrink:0;position:relative}
+.phone-notch{display:flex;justify-content:center;padding:8px 0 0;position:absolute;top:0;left:0;right:0;z-index:5}
+.phone-notch-bar{width:126px;height:34px;background:#000;border-radius:20px}
+.phone-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:60px 24px 100px;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none}
+.phone-scroll::-webkit-scrollbar{display:none}
 
-  /* ── Tabs ──────────────────────────── */
-  .tabs { display:flex; gap:6px; margin-top:32px; overflow-x:auto; padding-bottom:4px; }
-  .tab-btn {
-    padding:10px 20px; border-radius:30px; font-size:12px; font-weight:700;
-    text-transform:uppercase; letter-spacing:0.1em; border:none; cursor:pointer;
-    flex-shrink:0; transition:all 0.2s; color:var(--muted);
-    background:rgba(255,255,255,0.05);
-  }
-  .tab-btn.active { background:var(--accent); color:var(--bg); }
-  .tab-btn:hover:not(.active) { color:#fff; }
+/* ── Bottom Nav ──────────────────── */
+.phone-nav{position:absolute;bottom:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;height:80px;padding:0 16px;border-top:1px solid var(--border);background:rgba(10,14,19,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:64px;height:100%;color:var(--muted);transition:color 0.2s}
+.nav-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;transition:all 0.2s;position:relative}
+.nav-btn.active .nav-icon{background:rgba(255,59,48,0.15)}
+.nav-btn.active .nav-icon svg{color:var(--accent);transform:scale(1.15);stroke-width:2.5}
+.nav-btn svg{color:var(--muted);width:24px;height:24px;transition:all 0.3s}
+.nav-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;transition:all 0.2s}
+.nav-btn.active .nav-label{color:var(--accent);opacity:1}
+.nav-btn:not(.active) .nav-label{opacity:0.6}
 
-  /* ── Cards ─────────────────────────── */
-  .glass {
-    background:var(--surface); border-radius:16px;
-    border:1px solid var(--border); overflow:hidden;
-  }
-  .glass-lg { border-radius:24px; padding:32px; }
-  .glass-accent { border-left:3px solid var(--accent); }
+/* ── Glass Card ──────────────────── */
+.glass{background:var(--surface);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden}
 
-  /* ── Section ───────────────────────── */
-  .section { padding:40px 0; }
-  .section-title {
-    font-size:24px; font-weight:800; font-style:italic;
-    margin-bottom:24px;
-  }
+/* ── Screen pages ────────────────── */
+.screen{display:none;animation:fadeSlide 0.3s ease}
+.screen.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── Grid ──────────────────────────── */
-  .grid-3 { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:12px; }
-  .grid-2 { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:16px; }
-  .grid-stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; }
-  .grid-detail { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px; }
+/* ── Utilities ───────────────────── */
+.accent{color:var(--accent)}
+.muted{color:var(--muted)}
+.dim{color:var(--dim)}
+.label{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.2em;color:var(--muted)}
+.label-accent{color:var(--accent)}
+.page-title{font-size:32px;font-style:italic;letter-spacing:-0.02em;line-height:1.1;color:#fff}
+.page-subtitle{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.3em;color:var(--dim);margin-top:4px}
+.pill{padding:8px 20px;border-radius:var(--radius-pill);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;flex-shrink:0;text-align:center;cursor:pointer;border:none;transition:all 0.2s}
+.pill-active{background:var(--accent);color:var(--bg)}
+.pill-inactive{background:rgba(255,255,255,0.05);color:var(--muted)}
+.tag{font-family:'Inter',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);background:var(--accent-muted);padding:3px 10px;border-radius:20px;display:inline-block}
+.cta-btn{width:100%;padding:20px 0;border-radius:var(--radius-pill);background:var(--accent);color:var(--bg);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;border:none;cursor:pointer;box-shadow:0 8px 30px rgba(255,59,48,0.2);display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
+.cta-btn:hover{background:var(--accent-hover)}
+.cta-ghost{background:rgba(255,255,255,0.05);color:#fff;box-shadow:none}
+.divider{height:1px;background:var(--border);margin:4px 0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.pulse{animation:pulse 2s infinite}
 
-  /* ── Labels ────────────────────────── */
-  .label {
-    font-size:10px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.12em; color:var(--muted);
-  }
-  .label-accent { color:var(--accent); }
-  .value { font-size:24px; font-weight:800; color:#fff; }
-  .value-xl { font-size:36px; }
-  .value-accent { color:var(--accent); }
-  .sub { font-size:11px; color:var(--dim); }
+/* ── Outer wrapper ───────────────── */
+.overview{max-width:1100px;margin:0 auto;padding:0 24px}
+.hero{padding:48px 24px 0;max-width:1100px;margin:0 auto}
+.section-tabs{display:flex;gap:6px;margin-top:32px;overflow-x:auto;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none}
+.section-tabs::-webkit-scrollbar{display:none}
+.stab{padding:10px 20px;border-radius:30px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;border:none;cursor:pointer;flex-shrink:0;transition:all 0.2s}
+.stab-active{background:var(--accent);color:var(--bg)}
+.stab-inactive{background:rgba(255,255,255,0.05);color:var(--muted)}
+.stab-inactive:hover{color:#fff}
+.outer-section{display:none;animation:fadeSlide 0.3s ease}
+.outer-section.active{display:block}
+.grid-features{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.grid-arch{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+pre.tree{font-size:11px;color:var(--muted);line-height:1.8;overflow-x:auto;font-family:'JetBrains Mono','SF Mono','Fira Code',monospace;white-space:pre}
+.footer{text-align:center;padding:48px 24px 64px;border-top:1px solid var(--border);margin-top:60px}
 
-  /* ── Phone ─────────────────────────── */
-  .phones-row {
-    display:flex; gap:48px; align-items:flex-start;
-    flex-wrap:wrap; justify-content:center; margin-top:16px;
-  }
-  .phone {
-    width:320px; min-height:640px; background:var(--bg);
-    border-radius:40px; border:3px solid rgba(255,255,255,0.1);
-    overflow:hidden; display:flex; flex-direction:column;
-    box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
-    flex-shrink:0;
-  }
-  .phone-sm { min-height:500px; }
-  .notch {
-    display:flex; justify-content:center; padding-top:10px;
-  }
-  .notch-bar { width:120px; height:28px; background:#000; border-radius:20px; }
-  .phone-content { flex:1; padding:20px 20px 0; overflow-y:auto; }
-  .phone-nav {
-    display:flex; justify-content:space-between; padding:12px 16px 20px;
-    border-top:1px solid var(--border);
-    background: rgba(10,14,19,0.8); backdrop-filter:blur(20px);
-  }
-  .nav-btn {
-    background:none; border:none; cursor:pointer;
-    display:flex; flex-direction:column; align-items:center; gap:4px;
-    padding:4px 8px; border-radius:12px; transition:all 0.2s;
-  }
-  .nav-icon {
-    font-size:18px; width:36px; height:36px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:10px; transition:all 0.2s;
-  }
-  .nav-btn.active .nav-icon { background:rgba(255,59,48,0.13); }
-  .nav-label {
-    font-size:9px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.1em; color:var(--muted); transition:color 0.2s;
-  }
-  .nav-btn.active .nav-label { color:var(--accent); }
+/* ── Phone row ───────────────────── */
+.phones-row{display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;justify-content:center;margin-top:24px}
 
-  /* ── Phone inner cards ─────────────── */
-  .p-card {
-    background:var(--surface); border-radius:14px;
-    border:1px solid var(--border); overflow:hidden; margin-bottom:12px;
-  }
-  .p-card-accent { border-left:3px solid var(--accent); }
-  .p-card-header {
-    padding:14px 16px; border-bottom:1px solid var(--border);
-    display:flex; align-items:center; gap:8px;
-  }
-  .p-card-body { padding:14px 16px; }
-  .p-row {
-    padding:10px 16px; display:flex; justify-content:space-between;
-    align-items:center; border-bottom:1px solid var(--border);
-  }
-  .p-title {
-    font-size:28px; font-weight:800; color:#fff; font-style:italic;
-    letter-spacing:-0.02em; margin-bottom:4px;
-  }
-  .p-subtitle {
-    font-size:9px; color:var(--dim); text-transform:uppercase;
-    letter-spacing:0.3em; font-weight:700;
-  }
-  .p-tag {
-    font-size:9px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.12em; color:var(--accent);
-    background:rgba(255,59,48,0.1); padding:3px 10px; border-radius:20px;
-  }
-  .p-btn {
-    margin-top:12px; background:rgba(255,255,255,0.04);
-    padding:10px 0; border-radius:30px; text-align:center;
-    font-size:10px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.15em; color:#fff;
-    display:flex; align-items:center; justify-content:center; gap:6px;
-  }
-  .p-cta {
-    width:100%; padding:18px 0; border-radius:50px;
-    background:var(--accent); color:var(--bg);
-    font-size:12px; font-weight:700; text-transform:uppercase;
-    letter-spacing:0.15em; border:none; cursor:pointer;
-    box-shadow: 0 8px 30px rgba(255,59,48,0.2);
-    display:flex; align-items:center; justify-content:center; gap:8px;
-  }
-
-  /* ── Pill selector ─────────────────── */
-  .pills { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; }
-  .pill {
-    padding:8px 16px; border-radius:30px; font-size:10px;
-    font-weight:700; text-transform:uppercase; letter-spacing:0.15em;
-    flex-shrink:0; text-align:center; color:var(--muted);
-    background:rgba(255,255,255,0.05);
-  }
-  .pill.active { background:var(--accent); color:var(--bg); }
-
-  /* ── Feature cards ─────────────────── */
-  .feat-card {
-    background:var(--surface); border-radius:20px;
-    border:1px solid var(--border); padding:24px;
-  }
-  .feat-icon {
-    width:40px; height:40px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    font-size:20px;
-  }
-  .feat-title { font-size:16px; font-weight:700; }
-
-  /* ── Detail box ────────────────────── */
-  .detail-box {
-    margin-top:40px; border-radius:24px; padding:32px;
-    background: linear-gradient(135deg, rgba(255,59,48,0.03), rgba(255,59,48,0.01));
-    border:1px solid rgba(255,59,48,0.12);
-  }
-
-  /* ── Arch ───────────────────────────── */
-  .arch-table { overflow:hidden; }
-  .arch-row {
-    padding:14px 24px; display:flex; justify-content:space-between;
-    align-items:center; border-bottom:1px solid var(--border);
-  }
-  .arch-row:last-child { border-bottom:none; }
-  .arch-name { font-size:13px; font-weight:600; color:#fff; }
-  .arch-role { font-size:11px; color:var(--muted); }
-  pre.tree {
-    font-size:11px; color:var(--muted); line-height:1.8;
-    overflow-x:auto; font-family:'JetBrains Mono','SF Mono',monospace;
-    white-space:pre;
-  }
-
-  /* ── Footer ────────────────────────── */
-  .footer {
-    text-align:center; padding:40px 24px 60px;
-    border-top:1px solid var(--border);
-  }
-
-  /* ── Sections visibility ───────────── */
-  .section-content { display:none; }
-  .section-content.active { display:block; }
-
-  /* ── Phone screens visibility ──────── */
-  .phone-screen { display:none; }
-  .phone-screen.active { display:block; }
-
-  /* ── Pulse animation ───────────────── */
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .pulse { animation: pulse 2s infinite; }
-
-  /* ── Stat chip color variants ──────── */
-  .chip-red { background:rgba(255,59,48,0.06); border:1px solid rgba(255,59,48,0.1); }
-  .chip-orange { background:rgba(255,149,0,0.06); border:1px solid rgba(255,149,0,0.1); }
-  .chip-green { background:rgba(52,199,89,0.06); border:1px solid rgba(52,199,89,0.1); }
-
-  /* ── Responsive ────────────────────── */
-  @media (max-width:700px) {
-    .phones-row { flex-direction:column; align-items:center; }
-    .grid-3, .grid-2, .grid-stats, .grid-detail { grid-template-columns:1fr; }
-  }
-
-  /* Smooth transitions */
-  .section-content { animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-  /* Timer circle */
-  .timer-ring {
-    width:100px; height:100px; border-radius:50%;
-    border:3px solid rgba(255,59,48,0.2);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    background:rgba(255,255,255,0.02);
-  }
+@media(max-width:840px){
+  .phones-row{flex-direction:column;align-items:center}
+  .grid-features,.grid-arch{grid-template-columns:1fr}
+  .phone{width:340px;height:740px}
+}
 </style>
 </head>
 <body>
 
-<!-- ══════════════════ HERO ══════════════════ -->
+<!-- ═══════════════ HERO ═══════════════ -->
 <div class="hero">
-  <div class="hero-badge">
-    <div class="hero-logo">C</div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+    <div style="width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--accent),#FF6B5B);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900">C</div>
     <span class="tag">PWA • React • TypeScript</span>
   </div>
-  <h1>Programme Candito</h1>
-  <p>Application PWA de suivi d'entraînement powerlifting. Programme Candito 6 semaines avec coach contextuel, mode séance immersif et calcul automatique des charges.</p>
-  <div class="tabs" id="mainTabs">
-    <button class="tab-btn active" onclick="switchSection('overview')">Vue d'ensemble</button>
-    <button class="tab-btn" onclick="switchSection('screens')">Écrans</button>
-    <button class="tab-btn" onclick="switchSection('features')">Fonctionnalités</button>
-    <button class="tab-btn" onclick="switchSection('architecture')">Architecture</button>
+  <h1 style="font-size:clamp(36px,5vw,56px);font-style:italic;letter-spacing:-0.03em;line-height:1.1;margin:16px 0 12px;background:linear-gradient(135deg,#fff 60%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Programme Candito</h1>
+  <p style="font-size:18px;color:var(--muted);max-width:600px;line-height:1.6">Application PWA de suivi d'entraînement powerlifting. Programme Candito 6 semaines — coach contextuel, mode séance immersif, calcul automatique des charges.</p>
+
+  <div class="section-tabs" id="outerTabs">
+    <button class="stab stab-active" onclick="switchOuter('screens',this)">Aperçu App</button>
+    <button class="stab stab-inactive" onclick="switchOuter('features',this)">Fonctionnalités</button>
+    <button class="stab stab-inactive" onclick="switchOuter('architecture',this)">Architecture</button>
   </div>
 </div>
 
-<div class="container" style="padding-bottom:80px">
+<div class="overview" style="padding-bottom:0">
 
-<!-- ══════════════════ OVERVIEW ══════════════════ -->
-<div class="section-content active" id="sec-overview">
-  <div class="section">
-    <!-- Athlete card -->
-    <div class="glass glass-lg" style="margin-bottom:40px">
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap">
-        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,rgba(255,59,48,0.25),rgba(255,59,48,0.06));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;border:2px solid rgba(255,59,48,0.2)">T</div>
-        <div>
-          <h3 style="font-size:22px;font-weight:800;font-style:italic">Théo</h3>
-          <p style="font-size:12px;color:var(--muted);margin-top:2px">20 ans • 66 kg • 1m70</p>
-        </div>
-        <div style="margin-left:auto;text-align:right">
-          <span style="font-size:36px;font-weight:800;color:var(--accent)">400</span>
-          <span style="font-size:14px;color:var(--muted);margin-left:4px">kg total</span>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
-        <div class="chip-red" style="border-radius:16px;padding:16px 20px">
-          <p class="label label-accent" style="margin-bottom:4px">Squat</p>
-          <p class="value">140 kg</p>
-        </div>
-        <div class="chip-orange" style="border-radius:16px;padding:16px 20px">
-          <p class="label" style="color:var(--orange);margin-bottom:4px">Bench Press</p>
-          <p class="value">100 kg</p>
-        </div>
-        <div class="chip-green" style="border-radius:16px;padding:16px 20px">
-          <p class="label" style="color:var(--green);margin-bottom:4px">Deadlift</p>
-          <p class="value">160 kg</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Program Structure -->
-    <h2 class="section-title">Structure du programme</h2>
-    <div class="grid-3" style="margin-bottom:40px">
-      <div class="glass" style="padding:20px" id="week-s1">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S1</span>
-            <span style="font-size:14px;font-weight:700">Accumulation 1</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">78-82%</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">5 séances • Volume + Hypertrophie</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S2</span>
-            <span style="font-size:14px;font-weight:700">Accumulation 2</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">78-82%</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">5 séances • Volume + Consolidation</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S3</span>
-            <span style="font-size:14px;font-weight:700">Transmutation</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">85-88%</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">3 séances • Intensification</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S4</span>
-            <span style="font-size:14px;font-weight:700">Acclimatation</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">90-93%</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">3 séances • Charges lourdes</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S5</span>
-            <span style="font-size:14px;font-weight:700">Peaking</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">95%+</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">2 séances • Tests AMRAP</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:10px">
-            <span class="p-tag">S6</span>
-            <span style="font-size:14px;font-weight:700">Test / Décharge</span>
-          </div>
-          <span style="font-size:11px;color:var(--muted);font-weight:600">100-102%</span>
-        </div>
-        <p style="font-size:12px;color:var(--muted)">2 séances • Maxis ou Récup</p>
-      </div>
-    </div>
-
-    <!-- Quick stats -->
-    <div class="grid-stats">
-      <div class="glass" style="padding:20px">
-        <p class="label" style="margin-bottom:6px">Durée totale</p>
-        <p style="font-size:20px;font-weight:800">6 semaines</p>
-        <p class="sub">17 séances programmées</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <p class="label" style="margin-bottom:6px">Objectif final</p>
-        <p style="font-size:20px;font-weight:800">PR ou Décharge</p>
-        <p class="sub">Test maxis @100-102%</p>
-      </div>
-      <div class="glass" style="padding:20px">
-        <p class="label" style="margin-bottom:6px">Méthode</p>
-        <p style="font-size:20px;font-weight:800">Périodisation bloc</p>
-        <p class="sub">Accumulation → Peaking</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════ SCREENS ══════════════════ -->
-<div class="section-content" id="sec-screens">
-  <div class="section">
-    <h2 class="section-title">Navigation de l'application</h2>
-    <p style="font-size:14px;color:var(--muted);margin-bottom:32px;max-width:600px">
-      5 onglets principaux avec navigation fluide et transitions animées. Clique sur les onglets du téléphone pour naviguer.
-    </p>
+<!-- ═══════════════ SCREENS ═══════════════ -->
+<div class="outer-section active" id="outer-screens">
+  <div style="padding:40px 0">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:32px;max-width:600px">Clique sur les onglets en bas du téléphone pour naviguer entre les écrans. La maquette reproduit fidèlement l'UI de l'app en production.</p>
 
     <div class="phones-row">
-      <!-- PHONE 1: Main App -->
-      <div class="phone" id="mainPhone">
-        <div class="notch"><div class="notch-bar"></div></div>
-        <div class="phone-content">
-          <!-- Dashboard -->
-          <div class="phone-screen active" id="screen-accueil">
-            <div class="p-title">Tableau de bord...</div>
-            <div class="p-subtitle" style="margin-bottom:16px">samedi 18 avril</div>
-            <!-- Coach -->
-            <div class="p-card">
-              <div class="p-card-body">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
-                  <div style="width:6px;height:6px;border-radius:50%;background:var(--accent)" class="pulse"></div>
-                  <span style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em">Coach Programme Candito</span>
+      <!-- ══ PHONE PRINCIPAL ══ -->
+      <div class="phone">
+        <div class="phone-notch"><div class="phone-notch-bar"></div></div>
+        <div class="phone-scroll" id="phoneScroll">
+
+          <!-- ── ACCUEIL ─────── -->
+          <div class="screen active" id="scr-accueil">
+            <h1 class="page-title">Tableau de bord...</h1>
+            <p class="page-subtitle">samedi 18 avril</p>
+
+            <!-- Coach Card -->
+            <div class="glass" style="margin-top:24px;padding:24px;border:none">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--accent)" class="pulse"></div>
+                <span style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em">Coach Programme Candito</span>
+                <span style="margin-left:auto;font-size:9px;color:var(--dim);font-weight:700;font-style:italic;text-transform:uppercase;letter-spacing:0.15em">Fondations</span>
+              </div>
+              <h2 style="font-size:22px;margin-bottom:4px">Bonjour, Théo.</h2>
+              <div style="width:32px;height:1px;background:rgba(255,59,48,0.2);margin:8px 0"></div>
+              <p style="font-size:13px;color:var(--muted);line-height:1.7;max-width:90%">S1, premier matin. 80% et volume élevé — la régularité prime sur l'intensité.</p>
+            </div>
+
+            <!-- Next Session Hero -->
+            <div class="glass" style="margin-top:16px;padding:32px 24px;border:none;position:relative;overflow:hidden">
+              <div style="position:absolute;top:-48px;right:-48px;width:224px;height:224px;background:rgba(255,59,48,0.08);border-radius:50%;filter:blur(48px);pointer-events:none"></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent)" stroke="var(--accent)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span style="font-size:10px;font-weight:700;color:rgba(255,59,48,0.8);text-transform:uppercase;letter-spacing:0.1em">Lundi — Bas du corps — Lourd</span>
+              </div>
+              <h3 style="font-size:32px;font-style:italic;letter-spacing:-0.02em;margin-bottom:4px">Squat Low Bar</h3>
+              <p style="font-size:16px;color:var(--muted);letter-spacing:0.03em">4 séries × 6-8 reps</p>
+              <!-- Weight badge -->
+              <div style="display:inline-flex;align-items:baseline;gap:5px;padding:10px 20px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);margin-top:16px">
+                <span style="font-size:42px;font-style:italic;letter-spacing:-0.03em;line-height:1">115</span>
+                <span style="font-size:18px;color:var(--accent);padding-top:4px">kg</span>
+              </div>
+              <!-- Accessory exercises -->
+              <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.04)">
+                <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.15);text-transform:uppercase;letter-spacing:0.15em">Plan de bataille accessoire</span>
+                <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:rgba(255,255,255,0.8)">Soulevé de terre</span><span class="muted" style="font-weight:500">2×6</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:rgba(255,255,255,0.8)">Hip Thrust</span><span class="muted" style="font-weight:500">3×8-10</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:rgba(255,255,255,0.8)">Hack Squat</span><span class="muted" style="font-weight:500">3×8-12</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:rgba(255,255,255,0.8)">Hanging Leg Raises</span><span class="muted" style="font-weight:500">3×10-15</span></div>
                 </div>
-                <p style="font-size:18px;font-weight:800;font-style:italic;margin-bottom:4px">Bonjour, Théo.</p>
-                <div style="width:32px;height:1px;background:rgba(255,59,48,0.2);margin:8px 0"></div>
-                <p style="font-size:12px;color:var(--muted);line-height:1.6">S1, premier matin. 80% et volume élevé — la régularité prime sur l'intensité.</p>
+              </div>
+              <!-- CTA -->
+              <button class="cta-btn" style="margin-top:24px">
+                DÉMARRER LA SÉANCE
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+
+            <!-- Athlete Stats -->
+            <div class="glass" style="margin-top:16px;padding:32px 24px;border:none">
+              <span class="label" style="margin-bottom:24px;display:block">Dossier Athlète</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px 48px">
+                <div style="border-left:1px solid rgba(255,255,255,0.04);padding-left:16px">
+                  <span style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:6px">Squat</span>
+                  <span style="font-size:40px;font-style:italic;letter-spacing:-0.03em;line-height:1">140</span>
+                  <span style="font-size:12px;color:rgba(255,255,255,0.15);font-weight:700;text-transform:uppercase;margin-left:4px">kg</span>
+                </div>
+                <div style="border-left:1px solid rgba(255,255,255,0.04);padding-left:16px">
+                  <span style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:6px">Bench</span>
+                  <span style="font-size:40px;font-style:italic;letter-spacing:-0.03em;line-height:1">100</span>
+                  <span style="font-size:12px;color:rgba(255,255,255,0.15);font-weight:700;text-transform:uppercase;margin-left:4px">kg</span>
+                </div>
+                <div style="border-left:1px solid rgba(255,255,255,0.04);padding-left:16px">
+                  <span style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:6px">Deadlift</span>
+                  <span style="font-size:40px;font-style:italic;letter-spacing:-0.03em;line-height:1">160</span>
+                  <span style="font-size:12px;color:rgba(255,255,255,0.15);font-weight:700;text-transform:uppercase;margin-left:4px">kg</span>
+                </div>
+                <div style="border-left:1px solid rgba(255,255,255,0.04);padding-left:16px">
+                  <span style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;display:block;margin-bottom:6px">Total</span>
+                  <span style="font-size:40px;font-style:italic;letter-spacing:-0.03em;line-height:1;color:var(--accent)">400</span>
+                  <span style="font-size:12px;color:rgba(255,255,255,0.15);font-weight:700;text-transform:uppercase;margin-left:4px">kg</span>
+                </div>
+              </div>
+              <!-- Progress ring -->
+              <div style="display:flex;align-items:center;gap:20px;margin-top:32px">
+                <div style="position:relative;width:64px;height:64px;flex-shrink:0">
+                  <svg width="64" height="64" viewBox="0 0 80 80" style="transform:rotate(-90deg);position:absolute;inset:0">
+                    <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="3"/>
+                    <circle cx="40" cy="40" r="32" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-dasharray="201" stroke-dashoffset="177"/>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font-size:14px;font-style:italic">12%</span></div>
+                </div>
+                <div>
+                  <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">Progression du programme</p>
+                  <p style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:500">2 sur 17 séances complétées</p>
+                </div>
               </div>
             </div>
-            <!-- Next session -->
-            <div class="p-card p-card-accent">
-              <div class="p-card-body">
-                <p class="label" style="margin-bottom:6px">Prochaine séance</p>
-                <p style="font-size:16px;font-weight:800;font-style:italic;margin-bottom:4px">Bas du corps — Lourd</p>
-                <p style="font-size:11px;color:var(--muted)">Squat 4×6-8 • DL 2×6 • Hip Thrust 3×8-10</p>
-                <div class="p-btn">▶ Démarrer la séance</div>
+
+            <p style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.2em;opacity:0.4;font-style:italic;text-align:center;margin-top:32px">Forge ton corps, forge ton mental • Programme Candito</p>
+          </div>
+
+          <!-- ── WARMUP ──────── -->
+          <div class="screen" id="scr-warmup">
+            <h1 class="page-title">Échauffement</h1>
+            <p class="page-subtitle">Mobilité & Gamme montante</p>
+
+            <div class="glass" style="margin-top:24px">
+              <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--accent-muted);display:flex;align-items:center;justify-content:center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                </div>
+                <h3 style="font-size:16px;font-style:italic">Bas du corps</h3>
+              </div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px">Foam Rolling quad/fessiers/ischio</span><span style="font-size:12px;color:var(--muted)">60-90s/zone</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px">Cat-Camel</span><span style="font-size:12px;color:var(--muted)">2×10</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px">Hip Thrust activation</span><span style="font-size:12px;color:var(--muted)">3×10 BW</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px">Cossack Squat</span><span style="font-size:12px;color:var(--muted)">2×8/côté</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px">Dead Bugs</span><span style="font-size:12px;color:var(--muted)">2×8/côté</span></div>
+              <!-- Gamme separator -->
+              <div style="padding:8px 20px;display:flex;align-items:center;gap:12px;background:rgba(255,59,48,0.015)">
+                <div style="flex:1;height:1px;background:var(--border)"></div>
+                <span style="font-size:9px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.15em;white-space:nowrap">Gamme montante</span>
+                <div style="flex:1;height:1px;background:var(--border)"></div>
+              </div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Squat @40%</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">1×8</span><span class="tag">56 kg</span></div></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Squat @60%</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">1×5</span><span class="tag">84 kg</span></div></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Squat @75%</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">1×3</span><span class="tag">105 kg</span></div></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px">Squat @85%</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">1×1</span><span class="tag">119 kg</span></div></div>
+            </div>
+          </div>
+
+          <!-- ── PROGRAMME ───── -->
+          <div class="screen" id="scr-programme">
+            <h1 class="page-title">Programme</h1>
+            <p class="page-subtitle">Accumulation 1 — Muscular Hypertrophy — 80%</p>
+
+            <!-- Week pills -->
+            <div style="display:flex;gap:8px;overflow-x:auto;margin:20px -24px 0;padding:0 24px 4px;scrollbar-width:none;-ms-overflow-style:none">
+              <button class="pill pill-active" style="display:flex;flex-direction:column;align-items:center;gap:6px">S1<div style="display:flex;gap:3px"><div style="width:4px;height:4px;border-radius:50%;background:rgba(10,14,19,0.7)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(10,14,19,0.7)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(10,14,19,0.25)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(10,14,19,0.25)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(10,14,19,0.25)"></div></div></button>
+              <button class="pill pill-inactive" style="display:flex;flex-direction:column;align-items:center;gap:6px">S2<div style="display:flex;gap:3px"><div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12)"></div><div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.12)"></div></div></button>
+              <button class="pill pill-inactive">S3</button>
+              <button class="pill pill-inactive">S4</button>
+              <button class="pill pill-inactive">S5</button>
+              <button class="pill pill-inactive">S6</button>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+              <h2 style="font-size:20px;font-style:italic">Semaine 1</h2>
+              <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);background:var(--accent-muted);padding:4px 10px;border-radius:var(--radius-pill)">Active</span>
+            </div>
+
+            <!-- Session cards -->
+            <div style="display:flex;flex-direction:column;gap:20px;margin-top:20px">
+              <!-- S1 Lundi -->
+              <div class="glass">
+                <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                  <div><p class="label" style="margin-bottom:4px;letter-spacing:0.15em">Lundi</p><h3 style="font-size:15px;font-style:italic">Bas du corps — Lourd</h3></div>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+                </div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Squat Low Bar</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">4×6-8</span><span class="tag">109–115 kg</span></div></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Soulevé de terre</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">2×6</span><span class="tag">125–131 kg</span></div></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Hip Thrust</span><span style="font-size:12px;color:var(--muted)">3×8-10</span></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Hack Squat</span><span style="font-size:12px;color:var(--muted)">3×8-12</span></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px">Hanging Leg Raises</span><span style="font-size:12px;color:var(--muted)">3×10-15</span></div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)">
+                  <button class="cta-ghost cta-btn" style="padding:16px 0;font-size:11px">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Démarrer la séance
+                  </button>
+                </div>
+              </div>
+
+              <!-- S1 Mardi -->
+              <div class="glass">
+                <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+                  <div><p class="label" style="margin-bottom:4px;letter-spacing:0.15em">Mardi</p><h3 style="font-size:15px;font-style:italic">Haut du corps — Lourd</h3></div>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>
+                </div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Développé couché</span><div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;color:var(--muted)">4×6-8</span><span class="tag">78–82 kg</span></div></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Dips</span><span style="font-size:12px;color:var(--muted)">3×8-12</span></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)"><span style="font-size:13px">Rowing buste penché</span><span style="font-size:12px;color:var(--muted)">3×8-12</span></div>
+                <div style="padding:12px 20px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px">Face Pulls</span><span style="font-size:12px;color:var(--muted)">4×15-20</span></div>
+                <div style="padding:16px 20px;border-top:1px solid var(--border)">
+                  <button class="cta-ghost cta-btn" style="padding:16px 0;font-size:11px">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Démarrer la séance
+                  </button>
+                </div>
               </div>
             </div>
-            <!-- Stats -->
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
-              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Squat</p><p style="font-size:22px;font-weight:800">140</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
-              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Bench</p><p style="font-size:22px;font-weight:800">100</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
-              <div class="p-card"><div style="padding:12px;text-align:center"><p class="label" style="margin-bottom:4px">Deadlift</p><p style="font-size:22px;font-weight:800">160</p><p style="font-size:9px;color:var(--dim)">kg</p></div></div>
-            </div>
-            <div class="p-card"><div style="padding:14px 16px;display:flex;justify-content:space-between;align-items:center"><span class="label">Total</span><span style="font-size:26px;font-weight:800;color:var(--accent)">400 kg</span></div></div>
           </div>
 
-          <!-- Warmup -->
-          <div class="phone-screen" id="screen-warmup">
-            <div class="p-title">Échauffement</div>
-            <div class="p-subtitle" style="margin-bottom:16px">Mobilité & Gamme montante</div>
-            <div class="p-card">
-              <div class="p-card-header"><span style="font-size:14px">🔥</span><span style="font-size:14px;font-weight:800;font-style:italic">Bas du corps</span></div>
-              <div class="p-row"><span style="font-size:12px">Foam Rolling</span><span style="font-size:11px;color:var(--muted)">60-90s/zone</span></div>
-              <div class="p-row"><span style="font-size:12px">Cat-Camel</span><span style="font-size:11px;color:var(--muted)">2×10</span></div>
-              <div class="p-row"><span style="font-size:12px">Hip Thrust activation</span><span style="font-size:11px;color:var(--muted)">3×10 BW</span></div>
-              <div class="p-row"><span style="font-size:12px">Cossack Squat</span><span style="font-size:11px;color:var(--muted)">2×8/côté</span></div>
-              <div class="p-row"><span style="font-size:12px">Dead Bugs</span><span style="font-size:11px;color:var(--muted)">2×8/côté</span></div>
-              <div style="padding:8px 16px;display:flex;align-items:center;gap:8px;background:rgba(255,59,48,0.02)"><div style="flex:1;height:1px;background:var(--border)"></div><span style="font-size:8px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.15em">Gamme montante Squat</span><div style="flex:1;height:1px;background:var(--border)"></div></div>
-              <div class="p-row"><span style="font-size:12px">@40%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×8</span><span class="p-tag">56 kg</span></div></div>
-              <div class="p-row"><span style="font-size:12px">@60%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×5</span><span class="p-tag">84 kg</span></div></div>
-              <div class="p-row"><span style="font-size:12px">@75%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×3</span><span class="p-tag">105 kg</span></div></div>
-              <div class="p-row" style="border-bottom:none"><span style="font-size:12px">@85%</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">×1</span><span class="p-tag">119 kg</span></div></div>
-            </div>
-          </div>
+          <!-- ── NUTRITION ───── -->
+          <div class="screen" id="scr-nutrition">
+            <h1 class="page-title">Nutrition</h1>
+            <p class="page-subtitle">Macros & Timing — Jours d'entraînement</p>
 
-          <!-- Programme -->
-          <div class="phone-screen" id="screen-programme">
-            <div class="p-title">Programme</div>
-            <div class="p-subtitle" style="margin-bottom:16px">Accumulation 1 — 80%</div>
-            <div class="pills" style="margin-bottom:16px">
-              <div class="pill active">S1</div><div class="pill">S2</div><div class="pill">S3</div><div class="pill">S4</div><div class="pill">S5</div><div class="pill">S6</div>
-            </div>
-            <p style="font-size:16px;font-weight:800;font-style:italic;margin-bottom:14px">Semaine 1</p>
-            <div class="p-card">
-              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Lundi</p><p style="font-size:14px;font-weight:800;font-style:italic">Bas du corps — Lourd</p></div>
-              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Squat 4×6-8 @78-82%</span><span class="p-tag">109-115 kg</span></div>
-              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
-            </div>
-            <div class="p-card">
-              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Mardi</p><p style="font-size:14px;font-weight:800;font-style:italic">Haut du corps — Lourd</p></div>
-              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Bench 4×6-8 @78-82%</span><span class="p-tag">78-82 kg</span></div>
-              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
-            </div>
-            <div class="p-card">
-              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><p class="label" style="margin-bottom:4px">Jeudi</p><p style="font-size:14px;font-weight:800;font-style:italic">Haut — Léger</p></div>
-              <div class="p-row"><span style="font-size:11px;color:rgba(255,255,255,0.7)">Larsen 4×8-10 @65-75%</span><span class="p-tag">65-75 kg</span></div>
-              <div style="padding:10px 16px"><div class="p-btn">▶ Démarrer la séance</div></div>
-            </div>
-          </div>
-
-          <!-- Nutrition -->
-          <div class="phone-screen" id="screen-nutrition">
-            <div class="p-title">Nutrition</div>
-            <div class="p-subtitle" style="margin-bottom:16px">Macros & Timing</div>
-            <div class="p-card">
-              <div class="p-card-header"><span>🥩</span><span style="font-size:14px;font-weight:800;font-style:italic">Macros journaliers</span></div>
-              <div style="padding:16px;display:flex;gap:8px">
-                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--accent)">180g</p><p class="label" style="margin-top:2px">Protéines</p><p style="font-size:9px;color:var(--dim);margin-top:2px">2.7g/kg</p></div>
-                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--orange)">330g</p><p class="label" style="margin-top:2px">Glucides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">5g/kg</p></div>
-                <div style="flex:1;text-align:center"><p style="font-size:22px;font-weight:800;color:var(--green)">75g</p><p class="label" style="margin-top:2px">Lipides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">1.1g/kg</p></div>
+            <div class="glass" style="margin-top:24px">
+              <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--accent-muted);display:flex;align-items:center;justify-content:center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                </div>
+                <h3 style="font-size:16px;font-style:italic">Macros journaliers</h3>
+              </div>
+              <div style="padding:20px;display:flex;gap:8px">
+                <div style="flex:1;text-align:center"><p style="font-size:24px;font-style:italic;color:var(--accent)">180g</p><p class="label" style="margin-top:4px;letter-spacing:0.1em">Protéines</p><p style="font-size:9px;color:var(--dim);margin-top:2px">2.7g/kg</p></div>
+                <div style="flex:1;text-align:center"><p style="font-size:24px;font-style:italic;color:var(--orange)">330g</p><p class="label" style="margin-top:4px;letter-spacing:0.1em">Glucides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">5g/kg</p></div>
+                <div style="flex:1;text-align:center"><p style="font-size:24px;font-style:italic;color:var(--green)">75g</p><p class="label" style="margin-top:4px;letter-spacing:0.1em">Lipides</p><p style="font-size:9px;color:var(--dim);margin-top:2px">1.1g/kg</p></div>
               </div>
             </div>
-            <div class="p-card">
-              <div class="p-card-header"><span>⏰</span><span style="font-size:14px;font-weight:800;font-style:italic">Timing repas</span></div>
-              <div class="p-row"><span style="font-size:11px;font-weight:600">Pré-training (2h)</span><span style="font-size:11px;color:var(--muted)">Glucides + Protéines</span></div>
-              <div class="p-row"><span style="font-size:11px;font-weight:600">Post-training (30min)</span><span style="font-size:11px;color:var(--muted)">Whey 30g + Banane</span></div>
-              <div class="p-row" style="border-bottom:none"><span style="font-size:11px;font-weight:600">Dîner</span><span style="font-size:11px;color:var(--muted)">Protéines + Riz</span></div>
+
+            <div class="glass" style="margin-top:16px">
+              <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--accent-muted);display:flex;align-items:center;justify-content:center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3 style="font-size:16px;font-style:italic">Timing repas</h3>
+              </div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:600">Pré-training (2h)</span><span style="font-size:12px;color:var(--muted)">Glucides + Protéines</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:600">Post-training (30min)</span><span style="font-size:12px;color:var(--muted)">Whey 30g + Banane</span></div>
+              <div style="padding:12px 20px;display:flex;justify-content:space-between"><span style="font-size:12px;font-weight:600">Dîner</span><span style="font-size:12px;color:var(--muted)">Protéines + Légumes + Riz</span></div>
             </div>
           </div>
 
-          <!-- Profil -->
-          <div class="phone-screen" id="screen-profil">
-            <div class="p-title">Profil</div>
-            <div class="p-subtitle" style="margin-bottom:16px">Athlète & Paramètres</div>
-            <div style="text-align:center;padding:8px 0;margin-bottom:12px">
-              <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,rgba(255,59,48,0.25),rgba(255,59,48,0.06));margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;border:2px solid rgba(255,59,48,0.2)">T</div>
-              <p style="font-size:20px;font-weight:800;font-style:italic">Théo</p>
-              <p style="font-size:10px;color:var(--muted);margin-top:4px;font-weight:600">Cycle 1 • Semaine 1</p>
-              <p style="font-size:28px;font-weight:800;color:var(--accent);margin-top:8px">400 kg</p>
+          <!-- ── PROFIL ──────── -->
+          <div class="screen" id="scr-profil">
+            <h1 class="page-title">Profil</h1>
+            <p class="page-subtitle">Athlète & Paramètres</p>
+
+            <!-- Hero avatar -->
+            <div style="text-align:center;padding:24px 0 8px">
+              <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(255,59,48,0.25),rgba(255,59,48,0.06));margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:30px;font-style:italic;border:2px solid rgba(255,59,48,0.15)">T</div>
+              <h2 style="font-size:22px;font-style:italic">Théo</h2>
+              <p style="font-size:10px;color:var(--muted);margin-top:6px;font-weight:600">Cycle 1 • Semaine 1</p>
+              <p style="font-size:32px;font-style:italic;color:var(--accent);margin-top:8px;letter-spacing:-0.02em">400 kg</p>
               <p style="font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:0.15em;font-weight:700">Total</p>
             </div>
-            <div class="p-card">
-              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><span class="label">Max. Actuels (1RM)</span></div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
-                <div style="padding:14px 12px;text-align:center;border-right:1px solid var(--border)"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">SQ</p><p style="font-size:20px;font-weight:800">140</p></div>
-                <div style="padding:14px 12px;text-align:center;border-right:1px solid var(--border)"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">BP</p><p style="font-size:20px;font-weight:800">100</p></div>
-                <div style="padding:14px 12px;text-align:center"><p style="font-size:9px;font-weight:700;color:var(--accent);margin-bottom:4px">DL</p><p style="font-size:20px;font-weight:800">160</p></div>
+
+            <!-- 1RM section -->
+            <div style="margin-top:16px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
+                <span class="label" style="letter-spacing:0.1em">Max. Actuels (1RM)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                <div class="glass" style="padding:16px;text-align:center">
+                  <p style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:8px">SQUAT</p>
+                  <p style="font-size:24px;font-style:italic">140</p>
+                </div>
+                <div class="glass" style="padding:16px;text-align:center">
+                  <p style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:8px">BENCH</p>
+                  <p style="font-size:24px;font-style:italic">100</p>
+                </div>
+                <div class="glass" style="padding:16px;text-align:center">
+                  <p style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:8px">DEADLIFT</p>
+                  <p style="font-size:24px;font-style:italic">160</p>
+                </div>
               </div>
             </div>
-            <div class="p-card">
-              <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><span class="label">Progression du cycle</span></div>
-              <div style="padding:12px 16px;display:flex;gap:3px;align-items:center">
-                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+
+            <!-- Timeline -->
+            <div style="margin-top:24px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span class="label" style="letter-spacing:0.1em">Cycle 1 — 2/17 séances</span>
               </div>
-              <div style="padding:0 16px 12px"><span style="font-size:10px;color:var(--muted)">2 / 17 séances</span></div>
+              <div style="display:flex;gap:3px;align-items:center;padding:8px 0">
+                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+                <div style="flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,0.06)"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Bottom Nav -->
+        <!-- Bottom nav -->
         <div class="phone-nav">
-          <button class="nav-btn active" onclick="switchScreen('accueil')" id="nav-accueil"><div class="nav-icon">🏠</div><span class="nav-label">Accueil</span></button>
-          <button class="nav-btn" onclick="switchScreen('warmup')" id="nav-warmup"><div class="nav-icon">⚡</div><span class="nav-label">Warm up</span></button>
-          <button class="nav-btn" onclick="switchScreen('programme')" id="nav-programme"><div class="nav-icon">📅</div><span class="nav-label">Programme</span></button>
-          <button class="nav-btn" onclick="switchScreen('nutrition')" id="nav-nutrition"><div class="nav-icon">🥗</div><span class="nav-label">Nutrition</span></button>
-          <button class="nav-btn" onclick="switchScreen('profil')" id="nav-profil"><div class="nav-icon">👤</div><span class="nav-label">Profil</span></button>
+          <button class="nav-btn active" onclick="switchPhone('accueil',this)" id="pnav-accueil">
+            <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <span class="nav-label">Accueil</span>
+          </button>
+          <button class="nav-btn" onclick="switchPhone('warmup',this)" id="pnav-warmup">
+            <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <span class="nav-label">Warm up</span>
+          </button>
+          <button class="nav-btn" onclick="switchPhone('programme',this)" id="pnav-programme">
+            <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></div>
+            <span class="nav-label">Programme</span>
+          </button>
+          <button class="nav-btn" onclick="switchPhone('nutrition',this)" id="pnav-nutrition">
+            <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 17 3.5s2.5 2 2.5 6.5a7.5 7.5 0 0 1-7.5 7.5"/><path d="M11.5 13c2.5-2 3.5-6 3.5-6"/></svg></div>
+            <span class="nav-label">Nutrition</span>
+          </button>
+          <button class="nav-btn" onclick="switchPhone('profil',this)" id="pnav-profil">
+            <div class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <span class="nav-label">Profil</span>
+          </button>
         </div>
       </div>
 
-      <!-- PHONE 2: Focus Mode -->
-      <div class="phone phone-sm">
-        <div class="notch"><div class="notch-bar"></div></div>
-        <div style="padding:16px 20px 0;display:flex;justify-content:space-between;align-items:flex-start">
-          <div>
-            <p style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.3em">Mode Séance</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px;font-style:italic">Bas du corps — Lourd</p>
-          </div>
-          <span style="font-size:11px;font-weight:700;color:var(--muted)">12:34</span>
-        </div>
-        <!-- Progress -->
-        <div style="display:flex;gap:3px;padding:16px 20px 0">
-          <div style="flex:1;height:3px;border-radius:4px;background:var(--accent)"></div>
-          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.4)"></div>
-          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
-          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
-          <div style="flex:1;height:3px;border-radius:4px;background:rgba(255,255,255,0.1)"></div>
-        </div>
-        <!-- Exercise -->
-        <div style="flex:1;padding:32px 20px;display:flex;flex-direction:column;justify-content:center;gap:14px">
-          <p class="label" style="font-size:9px">Exercice 2 / 5</p>
-          <h2 style="font-size:34px;font-weight:800;font-style:italic;letter-spacing:-0.02em;line-height:1.1">Squat Low Bar</h2>
-          <p style="font-size:15px;color:rgba(255,255,255,0.4);font-style:italic">4 séries × 6-8 reps</p>
-          <!-- Weight -->
-          <div style="display:inline-flex;align-items:baseline;gap:6px;padding:12px 20px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);align-self:flex-start">
-            <span style="font-size:40px;font-weight:800">115</span>
-            <span style="font-size:18px;font-weight:800;color:var(--accent)">kg</span>
-          </div>
-          <!-- Sets -->
-          <div style="display:flex;gap:6px;align-items:center">
-            <div style="flex:1;height:5px;border-radius:4px;background:var(--accent)"></div>
-            <div style="flex:1;height:5px;border-radius:4px;background:var(--accent)"></div>
-            <div style="flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,0.3)"></div>
-            <div style="flex:1;height:5px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
-          </div>
-          <p class="label" style="font-size:10px">Série 3 / 4</p>
-          <!-- Timer -->
-          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-            <div class="timer-ring">
-              <span style="font-size:32px;font-weight:800">87</span>
-              <span style="font-size:7px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.2em">Recovery</span>
+      <!-- ══ PHONE FOCUS MODE ══ -->
+      <div class="phone" style="height:720px">
+        <div class="phone-notch"><div class="phone-notch-bar"></div></div>
+        <div style="flex:1;display:flex;flex-direction:column;padding:56px 20px 0">
+          <!-- Top bar -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <p style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.3em">Mode Séance</p>
+              <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;font-style:italic">Bas du corps — Lourd</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:11px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums">12:34</span>
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              </div>
+              <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- CTA -->
-        <div style="padding:0 20px 28px">
-          <button class="p-cta">✓ Série faite</button>
+
+          <!-- Progress dots -->
+          <div style="display:flex;gap:4px;margin-top:24px">
+            <div style="flex:1;height:2px;border-radius:4px;background:var(--accent)"></div>
+            <div style="flex:1;height:2px;border-radius:4px;background:rgba(255,255,255,0.4)"></div>
+            <div style="flex:1;height:2px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+            <div style="flex:1;height:2px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+            <div style="flex:1;height:2px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+          </div>
+
+          <!-- Exercise -->
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px">
+            <p style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em">Exercice 2 / 5</p>
+            <h2 style="font-size:40px;font-style:italic;letter-spacing:-0.02em;line-height:1.1">Squat Low Bar</h2>
+            <p style="font-size:10px;color:rgba(255,255,255,0.15);font-variant-numeric:tabular-nums">Dernière fois : 112.5 kg × 7 @8</p>
+            <p style="font-size:18px;color:rgba(255,255,255,0.4);font-style:italic">4 séries × 6-8 reps</p>
+
+            <!-- Weight badge -->
+            <div style="display:inline-flex;align-items:baseline;gap:6px;padding:14px 24px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.04);align-self:flex-start">
+              <span style="font-size:48px;font-style:italic;letter-spacing:-0.03em;line-height:1">115</span>
+              <span style="font-size:20px;color:var(--accent);padding-top:4px">kg</span>
+            </div>
+
+            <!-- Sets bar -->
+            <div>
+              <div style="display:flex;gap:6px;margin-bottom:8px">
+                <div style="flex:1;height:6px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:6px;border-radius:4px;background:var(--accent)"></div>
+                <div style="flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,0.3)"></div>
+                <div style="flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,0.08)"></div>
+              </div>
+              <p style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em">Série 3 / 4</p>
+            </div>
+
+            <!-- Timer -->
+            <div style="display:flex;justify-content:center;padding:8px 0">
+              <div style="position:relative;width:160px;height:160px">
+                <svg width="160" height="160" viewBox="0 0 100 100" style="transform:rotate(-90deg);position:absolute;inset:0">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="4"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="110" style="filter:blur(8px);opacity:0.3"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="110"/>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="width:70%;height:70%;border-radius:50%;background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center">
+                    <span style="font-size:42px;font-style:italic;letter-spacing:-0.03em;line-height:1">87</span>
+                    <span style="font-size:8px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.2em;margin-top:4px">Recovery</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div style="padding-bottom:32px">
+            <button class="cta-btn" style="padding:22px 0;font-size:13px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Série faite
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <p style="text-align:center;font-size:11px;color:var(--dim);margin-top:24px;font-style:italic">
-      Gauche : Navigation principale • Droite : Mode Séance (Focus Mode)
-    </p>
+    <p style="text-align:center;font-size:11px;color:var(--dim);margin-top:24px;font-style:italic">Gauche : Navigation principale • Droite : Mode Séance (Focus Mode)</p>
   </div>
 </div>
 
-<!-- ══════════════════ FEATURES ══════════════════ -->
-<div class="section-content" id="sec-features">
-  <div class="section">
-    <h2 class="section-title">Fonctionnalités clés</h2>
-    <div class="grid-2">
-      <div class="feat-card" style="border-left:3px solid var(--accent)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(255,59,48,0.1)">🧠</div>
-          <h3 class="feat-title">Coach IA contextuel</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Messages personnalisés par semaine, heure du jour et performance récente. Le coach adapte ses conseils à ton RPE moyen et tes jours de repos.</p>
-      </div>
-      <div class="feat-card" style="border-left:3px solid var(--green)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(52,199,89,0.1)">🎯</div>
-          <h3 class="feat-title">Mode Séance immersif</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Interface plein écran : timer Nexus Pulse, saisie poids/reps/RPE, suggestions de progression, et estimation 1RM automatique.</p>
-      </div>
-      <div class="feat-card" style="border-left:3px solid var(--orange)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(255,149,0,0.1)">📊</div>
-          <h3 class="feat-title">Calcul auto des charges</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Toutes les charges de 40% à 102% auto-calculées à partir de tes 1RM. Arrondi au 2.5 kg. Modifie un 1RM → tout se met à jour.</p>
-      </div>
-      <div class="feat-card" style="border-left:3px solid var(--purple)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(88,86,214,0.1)">🔄</div>
-          <h3 class="feat-title">Gestion de cycles</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Archive automatique de chaque cycle (1RM, séances, PRs). Nouveau cycle avec suggestion de 1RM basée sur tes performances.</p>
-      </div>
-      <div class="feat-card" style="border-left:3px solid var(--pink)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(255,45,85,0.1)">✏️</div>
-          <h3 class="feat-title">Programme personnalisable</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Override d'exercices, séries/reps et pourcentages directement dans l'app. Ton programme s'adapte à toi.</p>
-      </div>
-      <div class="feat-card" style="border-left:3px solid var(--blue)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-          <div class="feat-icon" style="background:rgba(0,122,255,0.1)">📱</div>
-          <h3 class="feat-title">PWA installable</h3>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.7">Hors-ligne, installable sur l'écran d'accueil. Service Worker, Wake Lock pour garder l'écran allumé en séance.</p>
-      </div>
-    </div>
-
-    <!-- Detail box -->
-    <div class="detail-box">
-      <h3 style="font-size:20px;font-weight:800;font-style:italic;margin-bottom:16px">Mode Séance — Détails</h3>
-      <div class="grid-detail">
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Nexus Pulse Timer</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Timer circulaire animé avec vibration. Durées ajustables (1:30, 2:00, 3:00, 5:00).</p></div>
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Saisie rapide</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Poids pré-rempli + boutons ±2.5 kg. Sélection RPE visuelle (6 à 10).</p></div>
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Estimation 1RM auto</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Si RPE ≥ 8 et poids > 1RM actuel → suggestion via formule d'Epley.</p></div>
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Mode Companion</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Vue simplifiée plein écran. Idéal pour les lunettes embuées.</p></div>
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Wake Lock</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Écran allumé pendant toute la séance. Réactivation automatique.</p></div>
-        <div><p style="font-size:13px;font-weight:700;margin-bottom:4px">Persistance séance</p><p style="font-size:12px;color:var(--muted);line-height:1.6">Séries faites et poids sauvegardés. Recharge sans perte.</p></div>
-      </div>
+<!-- ═══════════════ FEATURES ═══════════════ -->
+<div class="outer-section" id="outer-features">
+  <div style="padding:40px 0">
+    <h2 style="font-size:24px;font-style:italic;margin-bottom:32px">Fonctionnalités clés</h2>
+    <div class="grid-features">
+      <div class="glass" style="padding:24px;border-left:3px solid var(--accent)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:var(--accent-muted);display:flex;align-items:center;justify-content:center;font-size:20px">🧠</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">Coach IA contextuel</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">Messages personnalisés par semaine, heure du jour et RPE récent. Le coach adapte ses conseils selon ta dernière séance, tes jours de repos et ta fatigue accumulée.</p></div>
+      <div class="glass" style="padding:24px;border-left:3px solid var(--green)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:rgba(52,199,89,0.1);display:flex;align-items:center;justify-content:center;font-size:20px">🎯</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">Mode Séance immersif</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">Plein écran avec Nexus Pulse Timer, saisie poids/reps/RPE par série, estimation 1RM automatique (Epley), mode Companion simplifié, et Wake Lock.</p></div>
+      <div class="glass" style="padding:24px;border-left:3px solid var(--orange)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:rgba(255,149,0,0.1);display:flex;align-items:center;justify-content:center;font-size:20px">📊</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">Calcul auto des charges</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">40% à 102% auto-calculés depuis tes 1RM. Arrondi au 2.5 kg. Modifie un 1RM → toutes les charges du programme se mettent à jour instantanément.</p></div>
+      <div class="glass" style="padding:24px;border-left:3px solid #5856D6"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:rgba(88,86,214,0.1);display:flex;align-items:center;justify-content:center;font-size:20px">🔄</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">Gestion de cycles</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">Archive automatique de chaque cycle (1RM, séances, PRs). Lancement d'un nouveau cycle avec suggestion de 1RM basée sur tes logs.</p></div>
+      <div class="glass" style="padding:24px;border-left:3px solid #FF2D55"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:rgba(255,45,85,0.1);display:flex;align-items:center;justify-content:center;font-size:20px">✏️</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">Programme personnalisable</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">Override d'exercices, séries/reps et pourcentages directement dans l'app. Ton programme s'adapte à tes besoins, pas l'inverse.</p></div>
+      <div class="glass" style="padding:24px;border-left:3px solid #007AFF"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><div style="width:40px;height:40px;border-radius:12px;background:rgba(0,122,255,0.1);display:flex;align-items:center;justify-content:center;font-size:20px">📱</div><h3 style="font-size:16px;font-weight:700;font-family:'Inter',sans-serif">PWA installable</h3></div><p style="font-size:13px;color:var(--muted);line-height:1.7">Hors-ligne, installable sur écran d'accueil. Service Worker cache-first, Wake Lock, Web Push notifications d'entraînement.</p></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════ ARCHITECTURE ══════════════════ -->
-<div class="section-content" id="sec-architecture">
-  <div class="section">
-    <h2 class="section-title">Architecture technique</h2>
+<!-- ═══════════════ ARCHITECTURE ═══════════════ -->
+<div class="outer-section" id="outer-architecture">
+  <div style="padding:40px 0">
+    <h2 style="font-size:24px;font-style:italic;margin-bottom:32px">Architecture technique</h2>
 
-    <!-- Tech stack -->
-    <div class="glass arch-table" style="margin-bottom:32px">
-      <div style="padding:16px 24px;border-bottom:1px solid var(--border)"><h3 style="font-size:14px;font-weight:700">Stack technique</h3></div>
-      <div class="arch-row"><span class="arch-name">React + TypeScript</span><span class="arch-role">Framework UI</span></div>
-      <div class="arch-row"><span class="arch-name">Vite</span><span class="arch-role">Build & Dev Server</span></div>
-      <div class="arch-row"><span class="arch-name">Tailwind CSS</span><span class="arch-role">Styling (design system custom)</span></div>
-      <div class="arch-row"><span class="arch-name">Framer Motion</span><span class="arch-role">Animations & Transitions</span></div>
-      <div class="arch-row"><span class="arch-name">IndexedDB (idb-keyval)</span><span class="arch-role">Persistance locale</span></div>
-      <div class="arch-row"><span class="arch-name">Cloudflare Pages</span><span class="arch-role">Hébergement & Workers</span></div>
-      <div class="arch-row"><span class="arch-name">Service Worker</span><span class="arch-role">Mode hors-ligne & Cache</span></div>
-      <div class="arch-row"><span class="arch-name">Web Push API</span><span class="arch-role">Notifications d'entraînement</span></div>
-      <div class="arch-row"><span class="arch-name">Lucide React</span><span class="arch-role">Icônes</span></div>
+    <div class="glass" style="margin-bottom:32px;overflow:hidden">
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border)"><h3 style="font-size:14px;font-weight:700;font-family:'Inter',sans-serif">Stack technique</h3></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">React + TypeScript</span><span style="font-size:11px;color:var(--muted)">Framework UI</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">Vite</span><span style="font-size:11px;color:var(--muted)">Build & Dev Server</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">Tailwind CSS v4</span><span style="font-size:11px;color:var(--muted)">Design system custom</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">Framer Motion + Anime.js</span><span style="font-size:11px;color:var(--muted)">Animations</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">IndexedDB (idb-keyval)</span><span style="font-size:11px;color:var(--muted)">Persistance locale</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">Cloudflare Pages</span><span style="font-size:11px;color:var(--muted)">Hébergement & Workers</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:600">Service Worker</span><span style="font-size:11px;color:var(--muted)">Mode hors-ligne</span></div>
+      <div style="padding:14px 24px;display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:600">Lucide React</span><span style="font-size:11px;color:var(--muted)">Icônes</span></div>
     </div>
 
-    <!-- Component tree -->
     <div class="glass" style="padding:32px;margin-bottom:32px">
-      <h3 style="font-size:14px;font-weight:700;margin-bottom:20px">Structure des composants</h3>
+      <h3 style="font-size:14px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:20px">Structure des composants</h3>
       <pre class="tree">App
-├── CanditoProvider          ← State global (IndexedDB + migrations)
-│   ├── ToastProvider        ← Système de notifications toast
+├── CanditoProvider          ← State global (IndexedDB + migrations v1→v6)
+│   ├── ToastProvider        ← Notifications toast
 │   └── AppContent
-│       ├── AppLayout        ← Layout + BottomNav (5 onglets)
+│       ├── AppLayout        ← Layout + BottomNav (5 onglets) + Swipe
 │       ├── Dashboard        ← Accueil
-│       │   ├── CoachCard    ← Messages contextuels IA
-│       │   ├── NextSessionHero
-│       │   ├── LastSessionCard
-│       │   └── AthleteStats
-│       ├── Warmup           ← Échauffement (bas/haut du corps)
+│       │   ├── CoachCard    ← Messages contextuels par semaine/heure/RPE
+│       │   ├── NextSessionHero  ← Prochain exercice + poids animé
+│       │   ├── LastSessionCard  ← Résumé dernière séance + tonnage
+│       │   └── AthleteStats     ← 1RM grid + progress ring animé
+│       ├── Warmup           ← Mobilité + Gamme montante (bas/haut)
 │       ├── Programme        ← Sélecteur semaine + SessionCards
-│       │   ├── WeekSelector ← Pills S1-S6
-│       │   ├── SessionCard  ← Résumé exercices + charges
-│       │   └── FocusMode    ← Séance immersive plein écran
-│       │       ├── NexusPulse Timer
-│       │       ├── Set Logger (poids/RPE)
-│       │       ├── 1RM Suggestion
-│       │       └── Companion Mode
-│       ├── Nutrition        ← Macros + Timing
+│       │   ├── WeekSelector     ← Pills S1-S6 avec dots progression
+│       │   ├── SessionCard      ← Exercices + charges calculées
+│       │   └── FocusMode        ← Séance immersive plein écran
+│       │       ├── NexusPulse Timer  ← Timer circulaire SVG animé
+│       │       ├── Set Logger        ← Poids ±2.5 / RPE / reps
+│       │       ├── 1RM Suggestion    ← Epley auto si RPE ≥ 8
+│       │       └── Companion Mode    ← Vue simplifiée grand format
+│       ├── Nutrition        ← Macros périodisées + Timing repas
 │       └── Profil           ← Navigation stack interne
-│           ├── AthleteHero  ← Nom, 1RM, total
-│           ├── SessionTimeline
-│           ├── PRSection    ← Records personnels
-│           ├── LiftProgressGraph
-│           ├── CycleHistory
-│           ├── SessionHistory
-│           ├── Settings     ← Export/Import/Personnalisation
-│           ├── ProgramMainView  ← Vue édition programme
-│           └── SessionMainView  ← Vue édition session</pre>
+│           ├── AthleteHero      ← Avatar, nom éditable, total
+│           ├── SessionTimeline  ← Barre 17 séances
+│           ├── PRSection        ← Records personnels CRUD
+│           ├── LiftProgressGraph ← Graphe trajectoire de force
+│           ├── CycleHistory     ← Cycles archivés
+│           ├── ProgramMainView  ← Personnalisation programme
+│           └── Settings         ← Export/Import JSON</pre>
     </div>
 
-    <!-- Data flow -->
-    <div class="grid-stats">
-      <div class="glass" style="padding:20px">
-        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">État global (CanditoContext)</h4>
-        <ul style="padding-left:16px">
-          <li style="font-size:12px;color:var(--muted);line-height:2">1RM athlète (Squat / Bench / Deadlift)</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Sessions complétées + Logs détaillés</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Records personnels (PRs)</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Historique des cycles</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Overrides programme</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Migration auto du schéma (v1→v6)</li>
-        </ul>
-      </div>
-      <div class="glass" style="padding:20px">
-        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">Persistance</h4>
-        <ul style="padding-left:16px">
-          <li style="font-size:12px;color:var(--muted);line-height:2">IndexedDB via idb-keyval (principal)</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">localStorage fallback + migration auto</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Session en cours persistée séparément</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Export/Import JSON complet</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">100% local — pas de backend</li>
-        </ul>
-      </div>
-      <div class="glass" style="padding:20px">
-        <h4 style="font-size:13px;font-weight:700;margin-bottom:12px">PWA & Offline</h4>
-        <ul style="padding-left:16px">
-          <li style="font-size:12px;color:var(--muted);line-height:2">Service Worker avec cache-first</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Manifest.json (standalone, portrait)</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Banner d'installation iOS/Android</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Mise à jour avec prompt utilisateur</li>
-          <li style="font-size:12px;color:var(--muted);line-height:2">Web Push notifications</li>
-        </ul>
-      </div>
+    <div class="grid-arch">
+      <div class="glass" style="padding:20px"><h4 style="font-size:13px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:12px">État global</h4><ul style="padding-left:16px"><li style="font-size:12px;color:var(--muted);line-height:2">1RM athlète (SQ/BP/DL)</li><li style="font-size:12px;color:var(--muted);line-height:2">Sessions + Logs détaillés par série</li><li style="font-size:12px;color:var(--muted);line-height:2">Records personnels (PRs)</li><li style="font-size:12px;color:var(--muted);line-height:2">Historique multi-cycles</li><li style="font-size:12px;color:var(--muted);line-height:2">Overrides programme (exos/séries/%)</li><li style="font-size:12px;color:var(--muted);line-height:2">Migration auto v1→v6</li></ul></div>
+      <div class="glass" style="padding:20px"><h4 style="font-size:13px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:12px">Persistance</h4><ul style="padding-left:16px"><li style="font-size:12px;color:var(--muted);line-height:2">IndexedDB via idb-keyval</li><li style="font-size:12px;color:var(--muted);line-height:2">localStorage fallback + migration</li><li style="font-size:12px;color:var(--muted);line-height:2">Session en cours persistée séparément</li><li style="font-size:12px;color:var(--muted);line-height:2">Export/Import JSON complet</li><li style="font-size:12px;color:var(--muted);line-height:2">100% local — zéro backend</li></ul></div>
+      <div class="glass" style="padding:20px"><h4 style="font-size:13px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:12px">PWA & Offline</h4><ul style="padding-left:16px"><li style="font-size:12px;color:var(--muted);line-height:2">Service Worker cache-first</li><li style="font-size:12px;color:var(--muted);line-height:2">Manifest standalone portrait</li><li style="font-size:12px;color:var(--muted);line-height:2">Banner install iOS/Android</li><li style="font-size:12px;color:var(--muted);line-height:2">Update prompt utilisateur</li><li style="font-size:12px;color:var(--muted);line-height:2">Web Push notifications</li></ul></div>
     </div>
   </div>
 </div>
 
 </div>
 
-<!-- ══════════════════ FOOTER ══════════════════ -->
+<!-- Footer -->
 <div class="footer">
-  <p style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.2em;font-weight:700;font-style:italic">
-    Forge ton corps, forge ton mental • Programme Candito
-  </p>
-  <p style="font-size:11px;color:var(--dim);margin-top:8px">
-    Développé avec Antigravity — Par Théo
-  </p>
+  <p style="font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.2em;font-weight:700;font-style:italic">Forge ton corps, forge ton mental • Programme Candito</p>
+  <p style="font-size:11px;color:var(--dim);margin-top:8px">Développé avec Antigravity — Par Théo</p>
 </div>
 
 <script>
-// ── Section switching ────────────────────────
-function switchSection(id) {
-  document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-  document.getElementById('sec-' + id).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.classList.add('active');
+function switchPhone(id, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('scr-' + id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('phoneScroll').scrollTop = 0;
 }
 
-// ── Phone screen switching ───────────────────
-function switchScreen(id) {
-  document.querySelectorAll('.phone-screen').forEach(el => el.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById('nav-' + id).classList.add('active');
+function switchOuter(id, btn) {
+  document.querySelectorAll('.outer-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('outer-' + id).classList.add('active');
+  document.querySelectorAll('.stab').forEach(b => { b.classList.remove('stab-active'); b.classList.add('stab-inactive'); });
+  btn.classList.remove('stab-inactive');
+  btn.classList.add('stab-active');
 }
 </script>
 </body>
