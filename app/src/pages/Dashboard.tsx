@@ -6,6 +6,7 @@ import { InstallBanner } from '@/components/common/InstallBanner'
 import { NextSessionHero } from '@/components/dashboard/NextSessionHero'
 import { AthleteStats } from '@/components/dashboard/AthleteStats'
 import { LastSessionCard } from '@/components/dashboard/LastSessionCard'
+import { ResumeBanner } from '@/components/common/ResumeBanner'
 import { useCandito } from '@/context/CanditoContext'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
 
@@ -27,6 +28,8 @@ export function Dashboard() {
             {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}
         </p>
       </div>
+
+      <ResumeBanner />
 
       <div className="flex flex-col gap-6">
         <CoachCard />
