@@ -154,6 +154,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
         setExIdx(data.exIdx || 0)
         setSetsDone(data.setsDone || 0)
         setSetLogs(data.setLogs || {})
+        if (data.pendingSet) setPendingSet(data.pendingSet)
         if (data.startedAt) startedAtRef.current = data.startedAt
       } catch (e) {
         console.error("Failed to restore session", e)
@@ -162,9 +163,9 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   }, [PERSIST_KEY])
 
   useEffect(() => {
-    const data = { exIdx, setsDone, setLogs, startedAt: startedAtRef.current }
+    const data = { exIdx, setsDone, setLogs, pendingSet, startedAt: startedAtRef.current }
     localStorage.setItem(PERSIST_KEY, JSON.stringify(data))
-  }, [PERSIST_KEY, exIdx, setsDone, setLogs])
+  }, [PERSIST_KEY, exIdx, setsDone, setLogs, pendingSet])
 
   // ── Screen Wake Lock ────────────────────────────────────────────────
   useEffect(() => {
