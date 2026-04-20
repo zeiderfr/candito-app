@@ -247,6 +247,13 @@ export function Programme() {
   const [s6Variant, setS6Variant] = useState<S6Variant>(
     state.currentWeekId === 's6_dec' ? 's6_dec' : 's6_test'
   )
+
+  useEffect(() => {
+    setSelectedWeekId(state.currentWeekId)
+    if (state.currentWeekId.startsWith('s6')) {
+      setS6Variant(state.currentWeekId as S6Variant)
+    }
+  }, [state.currentWeekId])
   const [focusSession, setFocusSession] = useState<Session | null>(null)
 
   const handleToggle = (sessionId: string, currentSession: Session) => {
