@@ -2,8 +2,24 @@ import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useCandito } from '@/context/CanditoContext'
 import { useWorkoutSchedule } from '@/hooks/useWorkoutSchedule'
-import { COACH_MESSAGES, type CoachTimeSlot } from '@/data/program'
+import { COACH_MESSAGES, PROGRAM_METADATA, type CoachTimeSlot } from '@/data/program'
 import type { SessionLog } from '@/types'
+import { Sun, Coffee, Sunset, Moon } from 'lucide-react'
+
+// ── Time-of-day config ──────────────────────────────────────────────
+const TIME_ICON: Record<CoachTimeSlot, typeof Sun> = {
+  matin: Sun,
+  midi: Coffee,
+  aprem: Sunset,
+  soir: Moon,
+}
+
+const TIME_TINT: Record<CoachTimeSlot, string> = {
+  matin:  'from-amber-500/5 to-transparent',
+  midi:   'from-yellow-500/5 to-transparent',
+  aprem:  'from-orange-500/5 to-transparent',
+  soir:   'from-blue-900/10 to-transparent',
+}
 
 function getTimeContext(): { slot: CoachTimeSlot; greeting: string } {
   const hour = new Date().getHours()
@@ -55,7 +71,7 @@ export function CoachCard() {
   const { state } = useCandito()
   const { workoutState } = useWorkoutSchedule()
 
-  const { greeting, message, tone } = useMemo(() => {
+  const { greeting, message, tone, slot } = useMemo(() => {
     const { slot, greeting } = getTimeContext()
     const logs = state.progress.sessionLogs
 
@@ -88,14 +104,12 @@ export function CoachCard() {
     } else if (last != null && daysSince === 1 && avgRPE != null && avgRPE >= 8.5) {
       contextualMessage = `Ta séance d'hier était exigeante (RPE ${avgRPE}). Profite de cette journée de récupération.`
     } else if (daysSince != null && daysSince >= 4 && last != null) {
-      // FIX: Utiliser le prochain focus si disponible, sinon fallback sur la dernière séance
       const nextFocus = workoutState.type === 'workout' 
         ? workoutState.session.focus 
         : null
       const focus = nextFocus ?? last.sessionFocus ?? last.sessionId
       contextualMessage = `${daysSince} jours sans entraînement. La prochaine séance : ${focus}. Lance-toi.`
     } else if (nextLift != null) {
-      // PERFORMANCE REMINDER: Toujours tenter de montrer le top set précédent pour le lift à venir
       const prev = last ? topWeightForLift(last, nextLift) : null
       if (prev) {
         contextualMessage = `La dernière fois en ${LIFT_LABEL[nextLift]} : ${prev.weight} kg × ${prev.reps} reps. Vise un poil plus haut.`
@@ -107,34 +121,43 @@ export function CoachCard() {
     const pool = weekData[slot]
     const fallback = pool[new Date().getDay() % pool.length]
 
-    return { greeting, message: contextualMessage ?? fallback, tone: weekData.tone }
+    return { greeting, message: contextualMessage ?? fallback, tone: weekData.tone, slot }
   }, [state.currentWeekId, state.progress.sessionLogs, workoutState])
+
+  const TimeIcon = TIME_ICON[slot]
 
   return (
     <div className={cn(
-      "glass p-6 rounded-card border-none flex flex-col gap-3",
+      "glass p-5 rounded-card border-none flex flex-col gap-4",
+      "bg-gradient-to-br", TIME_TINT[slot],
       "animate-in fade-in slide-in-from-bottom-4 duration-300"
     )}>
-      <div className="flex items-center justify-between mb-2">
+      {/* Header : icône + label + tone */}
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="size-2 rounded-full bg-accent animate-pulse" />
+          <TimeIcon size={14} className="text-accent" />
           <span className="text-[10px] font-bold text-accent uppercase tracking-widest">
             Coach Programme Candito
           </span>
         </div>
-        <span className="text-[9px] text-dim/60 uppercase tracking-widest font-bold italic">
+        <span className="text-[9px] text-dim/50 uppercase tracking-widest font-bold italic">
           {tone}
         </span>
       </div>
 
-      <div className="space-y-1">
-        <h2 className="text-2xl font-display text-white">
+      {/* Greeting */}
+      <div>
+        <h2 className="text-2xl font-display text-white leading-tight">
           {greeting}, {state.athlete.name}.
         </h2>
+        <p className="text-[10px] text-muted/50 uppercase tracking-widest mt-0.5 font-bold">
+          {PROGRAM_METADATA[state.currentWeekId]?.subtitle}
+        </p>
       </div>
 
-      <div className="h-[1px] w-8 bg-accent/20 my-1" />
+      <div className="h-[1px] w-8 bg-accent/20" />
 
+      {/* Message */}
       <p className="text-muted text-sm leading-relaxed max-w-[90%]">
         {message}
       </p>
