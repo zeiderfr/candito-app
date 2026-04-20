@@ -138,6 +138,25 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
     }
   }, [state, isLoading])
 
+  // ── Auto-advance week on load (retroactive fix) ───────────────────────
+  useEffect(() => {
+    if (isLoading) return
+    setState(prev => {
+      let weekId = prev.currentWeekId
+      while (true) {
+        const sessions = PROGRAM_DATA[weekId]?.sessions.map(s => s.id) ?? []
+        const allDone = sessions.length > 0 &&
+          sessions.every(id => prev.progress.completedSessions.includes(id))
+        if (!allDone) break
+        const idx = WEEK_AUTO_ORDER.indexOf(weekId as typeof WEEK_AUTO_ORDER[number])
+        if (idx < 0 || idx >= WEEK_AUTO_ORDER.length - 1) break
+        weekId = WEEK_AUTO_ORDER[idx + 1]
+      }
+      if (weekId === prev.currentWeekId) return prev
+      return { ...prev, currentWeekId: weekId }
+    })
+  }, [isLoading])
+
   const updateRM = useCallback((newRM: Partial<RM>) => {
     setState((prev) => ({
       ...prev,
@@ -153,14 +172,27 @@ export function CanditoProvider({ children }: { children: ReactNode }) {
   const toggleSession = useCallback((sessionId: string) => {
     setState((prev) => {
       const completed = prev.progress.completedSessions.includes(sessionId)
+      const newCompleted = completed
+        ? prev.progress.completedSessions.filter(id => id !== sessionId)
+        : [...prev.progress.completedSessions, sessionId]
+
+      let newWeekId = prev.currentWeekId
+      if (!completed) {
+        const sessions = PROGRAM_DATA[prev.currentWeekId]?.sessions.map(s => s.id) ?? []
+        const allDone = sessions.length > 0 &&
+          sessions.every(id => newCompleted.includes(id))
+        if (allDone) {
+          const idx = WEEK_AUTO_ORDER.indexOf(prev.currentWeekId as typeof WEEK_AUTO_ORDER[number])
+          if (idx >= 0 && idx < WEEK_AUTO_ORDER.length - 1) {
+            newWeekId = WEEK_AUTO_ORDER[idx + 1]
+          }
+        }
+      }
+
       return {
         ...prev,
-        progress: {
-          ...prev.progress,
-          completedSessions: completed
-            ? prev.progress.completedSessions.filter(id => id !== sessionId)
-            : [...prev.progress.completedSessions, sessionId],
-        },
+        currentWeekId: newWeekId,
+        progress: { ...prev.progress, completedSessions: newCompleted },
       }
     })
   }, [])
