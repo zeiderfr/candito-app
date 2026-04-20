@@ -128,13 +128,16 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const wakeLockRef = useRef<WakeLockSentinel | null>(null)
   const startedAtRef = useRef(new Date().toISOString())
 
-  // ── Rest Timer ──────────────────────────────────────────────────────
+  // ── Rest Timer (S9: timestamp-based, background-resilient) ─────────
   const [restDuration, setRestDuration] = useState(120)
+  const [restEndsAt, setRestEndsAt] = useState<number | null>(null)
   const [restRemaining, setRestRemaining] = useState(0)
-  const [restActive, setRestActive] = useState(false)
   const [restJustDone, setRestJustDone] = useState(false)
   const restIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const justDoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Dérivé — remplace l'ancien state restActive
+  const restActive = restEndsAt !== null && restRemaining > 0
 
   // ── S6: Nouveaux refs ───────────────────────────────────────────────
   const elapsedIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -167,7 +170,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
     localStorage.setItem(PERSIST_KEY, JSON.stringify(data))
   }, [PERSIST_KEY, exIdx, setsDone, setLogs, pendingSet])
 
-  // ── Screen Wake Lock ────────────────────────────────────────────────
+  // ── Screen Wake Lock + Timer resync (S9: background-resilient) ─────
   useEffect(() => {
     const acquire = async () => {
       try {
@@ -177,33 +180,46 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       } catch { /* non-critique */ }
     }
     acquire()
-    const handleVisibility = () => { if (document.visibilityState === 'visible') acquire() }
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        acquire()
+        // S9: Recalcul instantané du timer au retour de background
+        if (restEndsAt) {
+          const remaining = Math.max(0, Math.round((restEndsAt - Date.now()) / 1000))
+          setRestRemaining(remaining)
+          if (remaining === 0) {
+            setRestEndsAt(null)
+            setRestJustDone(true)
+            navigator.vibrate?.([200, 100, 200])
+            justDoneTimerRef.current = setTimeout(() => setRestJustDone(false), 2200)
+          }
+        }
+      }
+    }
     document.addEventListener('visibilitychange', handleVisibility)
     return () => {
       wakeLockRef.current?.release()
       document.removeEventListener('visibilitychange', handleVisibility)
     }
-  }, [])
+  }, [restEndsAt])
 
-  // ── Timer countdown ─────────────────────────────────────────────────
+  // ── Timer countdown (S9: basé sur restEndsAt, pas sur décrémentation) ──
   useEffect(() => {
-    if (!restActive) return
+    if (!restEndsAt) return
     restIntervalRef.current = setInterval(() => {
-      setRestRemaining(prev => {
-        if (prev <= 1) {
-          setRestActive(false)
-          setRestJustDone(true)
-          navigator.vibrate?.([200, 100, 200])
-          justDoneTimerRef.current = setTimeout(() => setRestJustDone(false), 2200)
-          return 0
-        }
-        return prev - 1
-      })
+      const remaining = Math.max(0, Math.round((restEndsAt - Date.now()) / 1000))
+      setRestRemaining(remaining)
+      if (remaining === 0) {
+        setRestEndsAt(null)
+        setRestJustDone(true)
+        navigator.vibrate?.([200, 100, 200])
+        justDoneTimerRef.current = setTimeout(() => setRestJustDone(false), 2200)
+      }
     }, 1000)
     return () => {
       if (restIntervalRef.current) clearInterval(restIntervalRef.current)
     }
-  }, [restActive])
+  }, [restEndsAt])
 
   // ── S6: Chrono de séance ────────────────────────────────────────────
   useEffect(() => {
@@ -281,15 +297,17 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   // ── Helpers ─────────────────────────────────────────────────────────
   const stopTimer = () => {
     if (restIntervalRef.current) clearInterval(restIntervalRef.current)
-    setRestActive(false)
+    setRestEndsAt(null)
     setRestJustDone(false)
     setRestRemaining(0)
   }
 
   const changeRestDuration = (newDuration: number) => {
-    if (restActive) {
-      const elapsedRest = restDuration - restRemaining
-      const newRemaining = Math.max(0, newDuration - elapsedRest)
+    if (restEndsAt) {
+      // Recalculer le timestamp de fin en conservant le temps écoulé
+      const elapsed = restDuration - restRemaining
+      const newRemaining = Math.max(0, newDuration - elapsed)
+      setRestEndsAt(Date.now() + newRemaining * 1000)
       setRestRemaining(newRemaining)
     }
     setRestDuration(newDuration)
@@ -298,8 +316,8 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
   const maybeStartRest = (nextSetsDone: number) => {
     const willFinish = nextSetsDone >= totalSets && isLastExercise
     if (!willFinish) {
+      setRestEndsAt(Date.now() + restDuration * 1000)
       setRestRemaining(restDuration)
-      setRestActive(true)
     }
   }
 
