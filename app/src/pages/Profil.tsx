@@ -11,6 +11,7 @@ import { SessionTimeline } from '@/components/profil/SessionTimeline'
 import { PRSection } from '@/components/profil/PRSection'
 import { CycleHistorySection } from '@/components/profil/CycleHistorySection'
 import { SessionHistorySection } from '@/components/profil/SessionHistorySection'
+import { CycleRMGraph } from '@/components/profil/CycleRMGraph'
 import { SettingsSection } from '@/components/profil/SettingsSection'
 import { ProgramMainView } from '@/components/profil/ProgramMainView'
 import { SessionMainView } from '@/components/profil/SessionMainView'
@@ -184,6 +185,10 @@ function ProfileMainView({ onGoToProgram }: { onGoToProgram: () => void }) {
       )}
 
       <SessionHistorySection />
+
+      {state.cycleHistory && state.cycleHistory.length > 0 && (
+        <CycleRMGraph />
+      )}
 
       {state.cycleHistory && state.cycleHistory.length > 0 && (
         <CycleHistorySection history={state.cycleHistory} />
