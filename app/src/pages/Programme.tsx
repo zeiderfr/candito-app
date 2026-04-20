@@ -7,6 +7,7 @@ import { resolveSession } from '@/lib/programResolver'
 import { calcWeight } from '@/lib/weightCalc'
 import { CheckCircle2, Circle, Play } from 'lucide-react'
 import { FocusMode } from '@/components/session/FocusMode'
+import { SessionErrorBoundary } from '@/components/common/SessionErrorBoundary'
 import { type Session } from '@/types'
 import { useToasts } from '@/context/ToastContext'
 
@@ -333,17 +334,19 @@ export function Programme() {
       {/* Focus Mode overlay — AnimatePresence pour cinematic enter/exit */}
       <AnimatePresence>
         {focusSession && (
-          <FocusMode
-            key={focusSession.id}
-            session={focusSession}
-            rm={state.athlete.rm}
-            onClose={() => setFocusSession(null)}
-            onComplete={(log) => {
-              logSession(log)
-              toggleSession(focusSession.id)
-              setFocusSession(null)
-            }}
-          />
+          <SessionErrorBoundary key={focusSession.id}>
+            <FocusMode
+              key={focusSession.id}
+              session={focusSession}
+              rm={state.athlete.rm}
+              onClose={() => setFocusSession(null)}
+              onComplete={(log) => {
+                logSession(log)
+                toggleSession(focusSession.id)
+                setFocusSession(null)
+              }}
+            />
+          </SessionErrorBoundary>
         )}
       </AnimatePresence>
 
