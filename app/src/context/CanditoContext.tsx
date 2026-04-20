@@ -3,6 +3,9 @@ import { get, set } from 'idb-keyval'
 import { type CanditoState, type CycleSnapshot, type RM, type PR, type SessionLog, type ExerciseOverride } from '../types'
 import { suggestNewRM } from '../lib/weightCalc'
 import { STORAGE_KEYS } from '../lib/storageKeys'
+import { PROGRAM_DATA, WEEK_ORDER } from '../data/program'
+
+const WEEK_AUTO_ORDER = WEEK_ORDER.filter(w => w !== 's6_test')
 
 const STORAGE_KEY = STORAGE_KEYS.CANDITO_STATE
 const CURRENT_VERSION = 6
