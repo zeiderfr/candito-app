@@ -1,11 +1,11 @@
 ---
 name: product-engineer
-description: "Compétence ultime d'architecture produit pour PWA fitness React/TypeScript. Fusionne philosophie produit (product-inventor), stack CANDITO (frontend-dev-guidelines), architecture décisionnelle, workflow de développement, et process de conception. Source de vérité pour toute implémentation du projet."
+description: "Compétence ultime d'architecture produit pour PWA fitness React/TypeScript. Fusionne philosophie produit, stack CANDITO, patterns code splitting/extraction, React.lazy, React.memo, ADR format, workflow de développement, et process de conception. Source de vérité pour toute implémentation du projet."
 category: architecture
 risk: safe
-source: "Fusion : CANDITO-POWER-SKILL + Development + Brainstorming + sickn33/antigravity-awesome-skills (frontend-dev-guidelines, fp-react, hig-patterns)"
+source: "Fusion : CANDITO-POWER-SKILL + Development + Brainstorming + architecture-patterns + sickn33/antigravity-awesome-skills (frontend-dev-guidelines, fp-react, hig-patterns)"
 date_added: "2026-04-14"
-tags: [react, typescript, pwa, architecture, product-thinking, workflow, state-management]
+tags: [react, typescript, pwa, architecture, product-thinking, workflow, state-management, code-splitting, react-lazy, react-memo, refactoring]
 ---
 
 # PRODUCT ENGINEER — Architecture & Philosophie Produit
@@ -412,3 +412,84 @@ Bordures : rgba(255,255,255,0.07)
 - Migration du state (nouveau champ dans CanditoState)
 - Évaluation de faisabilité d'une feature (FFCI)
 - Review de code pour conformité aux patterns du projet
+
+---
+
+## PARTIE — Patterns d'Architecture Code
+
+### Règle des 3 responsabilités
+
+Un fichier/composant doit être extrait si :
+- Il gère **3 responsabilités ou plus** (affichage + logique métier + appels données)
+- Il dépasse **300 lignes**
+- Il est **copié-collé** ailleurs avec des variations légères
+
+### Code Splitting — React.lazy + Suspense
+
+Appliquer pour : pages non visibles au premier rendu, composants lourds conditionnels, libs tierces d'une seule page.
+
+```tsx
+// App.tsx
+const Dashboard  = lazy(() => import('@/pages/Dashboard'))
+const Warmup     = lazy(() => import('@/pages/Warmup'))
+const Programme  = lazy(() => import('@/pages/Programme'))
+const Profil     = lazy(() => import('@/pages/Profil'))
+
+const PageFallback = () => (
+  <div className="flex flex-col gap-4 p-6">
+    {[...Array(4)].map((_, i) => (
+      <div key={i} className="animate-shimmer h-20 rounded-2xl" />
+    ))}
+  </div>
+)
+
+<Suspense fallback={<PageFallback />}>{renderContent()}</Suspense>
+```
+
+### React.memo — Quand l'appliquer
+
+Uniquement si : le composant se re-rend souvent sans que ses props changent ET est coûteux à rendre (liste longue, SVG graphe).
+
+```tsx
+// Composants CANDITO prioritaires : NextSessionHero, SessionCard, AthleteStats
+export const NextSessionHero = React.memo(
+  function NextSessionHero({ workoutState, getWeight }: Props) { ... }
+)
+```
+
+### Extraction de sous-composants
+
+Extraire quand : le bloc dépasse ~80 lignes, a des props claires, pourrait être testé en isolation.
+Si > 4 props drillées → utiliser `useCandito()` directement dans le sous-composant.
+
+### Limites des modules
+
+```
+pages/      → Orchestration uniquement, pas de logique métier
+components/ → UI avec props, pas d'appels directs au state global
+hooks/      → Logique réutilisable (useTimer, useWorkoutSchedule…)
+lib/        → Fonctions pures sans React (calcWeight, epley, formatDate)
+data/       → Données statiques et types, zéro side effects
+context/    → State global partagé, un contexte = une responsabilité
+```
+
+### Architecture Decision Record (ADR) — Format léger
+
+```
+Décision : [Quoi]
+Contexte : [Pourquoi maintenant]
+Options envisagées : [A, B, C]
+Choix retenu : [Lequel et pourquoi]
+Conséquences : [Ce qu'on gagne, ce qu'on sacrifie]
+```
+
+### Anti-patterns architecture
+
+| ❌ Éviter | ✅ Faire à la place |
+|----------|-------------------|
+| Pages > 500 lignes | Extraire sous-composants dans `components/feature/` |
+| `import` tout au démarrage | `React.lazy` pour pages et libs tierces |
+| Props drilling > 3 niveaux | `useCandito()` directement dans le sous-composant |
+| Logique métier dans le JSX | Hook personnalisé ou fonction pure dans `lib/` |
+| Copier-coller un bloc | Extraire en composant ou fonction réutilisable |
+| Abstraction prématurée | N'extraire que ce qui existe en double ou triple |
