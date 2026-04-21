@@ -1,14 +1,15 @@
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useCandito } from '@/context/CanditoContext'
 import { calcWeight } from '@/lib/weightCalc'
-import { Flame } from 'lucide-react'
+import { Check, Footprints, Dumbbell, ArrowUp } from 'lucide-react'
 
 interface WarmupExercise {
   name: string
   sets: number
   reps: string
   isGamme?: boolean
-  lift?: 'squat' | 'bench'
+  lift?: 'squat' | 'bench' | 'deadlift'
   percentage?: number
 }
 
@@ -33,79 +34,128 @@ const UPPER_BODY: WarmupExercise[] = [
   { name: 'Gamme Bench @75%', sets: 1, reps: '3',  isGamme: true, lift: 'bench', percentage: 0.75 },
 ]
 
-// ── Séparateur ──────────────────────────────────────────────────────
-function GammeSeparator() {
+const DEADLIFT: WarmupExercise[] = [
+  { name: 'Foam Rolling ischio/fessiers/mollets', sets: 1, reps: '60-90s/zone' },
+  { name: 'Hip Hinge bodyweight', sets: 2, reps: '10' },
+  { name: 'RDL léger (barre vide)', sets: 2, reps: '8' },
+  { name: 'Good Morning', sets: 2, reps: '8' },
+  { name: 'Gamme DL @40%',  sets: 1, reps: '8', isGamme: true, lift: 'deadlift', percentage: 0.40 },
+  { name: 'Gamme DL @60%',  sets: 1, reps: '5', isGamme: true, lift: 'deadlift', percentage: 0.60 },
+  { name: 'Gamme DL @75%',  sets: 1, reps: '3', isGamme: true, lift: 'deadlift', percentage: 0.75 },
+  { name: 'Gamme DL @85%',  sets: 1, reps: '1', isGamme: true, lift: 'deadlift', percentage: 0.85 },
+]
+
+// ── ExerciseRow ─────────────────────────────────────────────────────
+function ExerciseRow({ id, name, sets, reps, weight, checked, onToggle }: {
+  id: string
+  name: string
+  sets: number
+  reps: string
+  weight?: number
+  checked: boolean
+  onToggle: (id: string) => void
+}) {
   return (
-    <div className="flex items-center gap-3 px-5 py-2 bg-accent/[0.03]">
-      <div className="h-px flex-1 bg-border" />
-      <span className="text-[9px] font-bold text-dim uppercase tracking-widest whitespace-nowrap">
-        Gamme montante
-      </span>
-      <div className="h-px flex-1 bg-border" />
-    </div>
+    <button
+      onClick={() => onToggle(id)}
+      className={cn(
+        "w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors cursor-pointer",
+        "hover:bg-white/[0.02] active:bg-white/[0.04]",
+        checked && "opacity-40"
+      )}
+    >
+      {/* Checkbox custom */}
+      <div className={cn(
+        "size-5 rounded-md border shrink-0 flex items-center justify-center transition-all",
+        checked
+          ? "bg-accent border-accent"
+          : "border-white/20 bg-transparent"
+      )}>
+        {checked && <Check size={11} className="text-background" strokeWidth={3} />}
+      </div>
+
+      {/* Nom + métadonnée */}
+      <div className="flex-1 min-w-0">
+        <p className={cn(
+          "text-sm font-medium leading-snug",
+          checked ? "text-muted line-through" : "text-white"
+        )}>
+          {name}
+        </p>
+        <p className="text-[11px] text-muted/60 tabular-nums mt-0.5">
+          {sets}×{reps}
+        </p>
+      </div>
+
+      {/* Badge poids (gamme seulement) */}
+      {weight != null && weight > 0 && (
+        <span className="text-[12px] font-bold tabular-nums text-accent bg-accent/10 px-2.5 py-1 rounded-pill shrink-0">
+          {weight} kg
+        </span>
+      )}
+    </button>
   )
 }
 
-// ── WarmupCard ──────────────────────────────────────────────────────
-function WarmupCard({ title, exercises, rm }: {
+// ── WarmupSection ───────────────────────────────────────────────────
+function WarmupSection({ title, icon: Icon, exercises, rm, prefix, checked, onToggle }: {
   title: string
+  icon: typeof Footprints
   exercises: WarmupExercise[]
-  rm: { squat: number; bench: number }
+  rm: { squat: number; bench: number; deadlift: number }
+  prefix: string
+  checked: Set<string>
+  onToggle: (id: string) => void
 }) {
-  // Séparer mobilité et gamme
   const mobility = exercises.filter(e => !e.isGamme)
   const gamme    = exercises.filter(e => e.isGamme)
 
   return (
-    <div className="glass rounded-card overflow-hidden">
-      {/* Card header */}
-      <div className="px-5 py-4 border-b border-border flex items-center gap-3">
-        <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-          <Flame size={16} />
+    <div className="glass rounded-2xl overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border">
+        <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
+          <Icon size={15} className="text-accent" />
         </div>
-        <h3 className="text-lg font-display text-white italic">{title}</h3>
+        <h3 className="text-base font-display text-white italic flex-1">{title}</h3>
+        {/* Mini compteur section */}
+        <span className="text-[10px] text-muted tabular-nums">
+          {[
+            ...exercises.filter(e => !e.isGamme).map((_, i) => `${prefix}_mob_${i}`),
+            ...exercises.filter(e => e.isGamme).map((_, i) => `${prefix}_gamme_${i}`),
+          ].filter(id => checked.has(id)).length}/{exercises.length}
+        </span>
       </div>
 
-      {/* Exercices de mobilité */}
-      <div className="divide-y divide-border">
+      {/* Mobilité */}
+      <div className="divide-y divide-border/50">
         {mobility.map((ex, i) => (
-          <div key={i} className="px-5 py-3.5 flex items-center justify-between gap-3">
-            <p className="text-sm text-white/80 flex-1 min-w-0 truncate">{ex.name}</p>
-            <span className="text-xs text-muted tabular-nums shrink-0">
-              {ex.sets}×{ex.reps}
-            </span>
-          </div>
+          <ExerciseRow key={i} id={`${prefix}_mob_${i}`} name={ex.name} sets={ex.sets} reps={ex.reps} checked={checked.has(`${prefix}_mob_${i}`)} onToggle={onToggle} />
         ))}
       </div>
 
-      {/* Séparateur */}
-      <GammeSeparator />
-
-      {/* Gamme montante */}
-      <div className="divide-y divide-border/50">
-        {gamme.map((ex, i) => {
-          const weight = ex.lift && ex.percentage
-            ? calcWeight(rm[ex.lift], ex.percentage)
-            : 0
-          return (
-            <div
-              key={i}
-              className="flex items-center justify-between gap-3 px-5 py-3.5 border-l-2 border-accent/40"
-            >
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-white font-medium truncate">{ex.name}</p>
-                <p className="text-xs text-muted tabular-nums mt-0.5">{ex.sets}×{ex.reps}</p>
-              </div>
-              <span className={cn(
-                "text-sm font-bold tabular-nums shrink-0 bg-accent/10 px-2.5 py-1 rounded-pill",
-                weight > 0 ? "text-accent" : "text-muted"
-              )}>
-                {weight > 0 ? `${weight} kg` : '—'}
-              </span>
-            </div>
-          )
-        })}
-      </div>
+      {/* Séparateur gamme */}
+      {gamme.length > 0 && (
+        <>
+          <div className="flex items-center gap-3 px-4 py-2 bg-accent/[0.03] border-y border-border/50">
+            <div className="h-px flex-1 bg-accent/20" />
+            <span className="text-[9px] font-bold text-accent/60 uppercase tracking-widest">
+              Gamme montante
+            </span>
+            <div className="h-px flex-1 bg-accent/20" />
+          </div>
+          <div className="divide-y divide-border/40 border-l-2 border-accent/30 ml-4 mr-0">
+            {gamme.map((ex, i) => {
+              const weight = ex.lift && ex.percentage
+                ? calcWeight(rm[ex.lift], ex.percentage)
+                : undefined
+              return (
+                <ExerciseRow key={i} id={`${prefix}_gamme_${i}`} name={ex.name} sets={ex.sets} reps={ex.reps} weight={weight} checked={checked.has(`${prefix}_gamme_${i}`)} onToggle={onToggle} />
+              )
+            })}
+          </div>
+        </>
+      )}
     </div>
   )
 }
@@ -113,40 +163,63 @@ function WarmupCard({ title, exercises, rm }: {
 // ── Main Export ──────────────────────────────────────────────────────
 export function Warmup() {
   const { state } = useCandito()
-  const rm = { squat: state.athlete.rm.squat, bench: state.athlete.rm.bench }
+  const rm = { squat: state.athlete.rm.squat, bench: state.athlete.rm.bench, deadlift: state.athlete.rm.deadlift }
+
+  const [checked, setChecked] = useState<Set<string>>(new Set())
+
+  const toggle = (id: string) =>
+    setChecked(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+
+  const total = LOWER_BODY.length + UPPER_BODY.length + DEADLIFT.length
+  const done  = checked.size
+  const pct   = Math.round((done / total) * 100)
 
   return (
     <div className={cn(
       "flex flex-col gap-6",
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
-      {/* Editorial Header */}
-      <div className="space-y-1">
+      {/* Header + progression */}
+      <div>
         <h1 className="text-4xl font-display text-white italic tracking-tight">
           Warm up
         </h1>
-        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
-          Protocole d'activation pré-séance
-        </p>
+        {/* Barre de progression globale */}
+        <div className="mt-4 space-y-1.5">
+          <div className="flex justify-between text-[10px] text-muted">
+            <span className="uppercase tracking-widest font-bold">Progression</span>
+            <span className="tabular-nums">{done} / {total}</span>
+          </div>
+          <div className="h-1 bg-border rounded-full overflow-hidden">
+            <div className="h-full bg-accent rounded-full transition-all duration-300"
+                 style={{ width: `${pct}%` }} />
+          </div>
+        </div>
       </div>
 
-      {/* Note protocole Wenning */}
-      <div className="glass px-5 py-4 rounded-xl">
-        <p className="text-sm text-muted leading-relaxed">
+      {/* Note Wenning */}
+      <div className="px-4 py-3 rounded-xl bg-white/[0.02] border border-border">
+        <p className="text-[11px] text-muted leading-relaxed">
           <span className="text-white font-semibold">Protocole Wenning — </span>
-          2 exercices d'activation × 3 séries × 10 reps, tempo lent, charge légère.
-          Focus : activation musculaire sans accumuler de fatigue avant la séance.
+          activation musculaire sans accumuler de fatigue.
         </p>
       </div>
 
-      <WarmupCard title="Bas du Corps — Squat" exercises={LOWER_BODY} rm={rm} />
-      <WarmupCard title="Haut du Corps — Bench" exercises={UPPER_BODY} rm={rm} />
+      <WarmupSection title="Bas du corps — Squat" icon={Footprints} exercises={LOWER_BODY} rm={rm} prefix="lower" checked={checked} onToggle={toggle} />
+      <WarmupSection title="Haut du corps — Bench" icon={Dumbbell} exercises={UPPER_BODY} rm={rm} prefix="upper" checked={checked} onToggle={toggle} />
+      <WarmupSection title="Deadlift" icon={ArrowUp} exercises={DEADLIFT} rm={rm} prefix="dl" checked={checked} onToggle={toggle} />
 
-      <footer className="pt-4 pb-4 text-center">
-        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40 italic">
-          Les gammes montantes utilisent tes 1RM actuels
-        </p>
-      </footer>
+      {/* Reset */}
+      {done > 0 && (
+        <button onClick={() => setChecked(new Set())}
+          className="text-[10px] text-muted/40 uppercase tracking-widest text-center w-full py-2 hover:text-muted transition-colors cursor-pointer">
+          Réinitialiser
+        </button>
+      )}
     </div>
   )
 }
