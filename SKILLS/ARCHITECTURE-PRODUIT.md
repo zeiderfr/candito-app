@@ -1,5 +1,5 @@
 ---
-name: product-engineer
+name: architecture-produit
 description: "Compétence ultime d'architecture produit pour PWA fitness React/TypeScript. Fusionne philosophie produit, stack CANDITO, patterns code splitting/extraction, React.lazy, React.memo, ADR format, workflow de développement, et process de conception. Source de vérité pour toute implémentation du projet."
 category: architecture
 risk: safe

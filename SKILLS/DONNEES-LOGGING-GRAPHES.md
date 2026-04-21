@@ -1,5 +1,5 @@
 ---
-name: data-tracking
+name: donnees-logging-graphes
 description: "Compétence ultime pour le logging de séances, transformations FP, visualisation SVG de progression, KPIs sportifs, export/import JSON, et install PWA. Couvre : principes FP immutables, calcul Epley/1RM, modélisation TypeScript, SVG charts sans dépendance, KPI dashboard patterns, File API, et bannière d'installation iOS/Android."
 category: data
 risk: safe

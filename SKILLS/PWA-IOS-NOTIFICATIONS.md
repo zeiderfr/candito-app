@@ -1,5 +1,5 @@
 ---
-name: pwa-mobile
+name: pwa-ios-notifications
 description: "Compétence ultime PWA + iOS Safari + Notifications + Offline pour React/Vite. Fusionne : safe areas iPhone, manifest.json, Service Worker lifecycle, Notification API client-side, offline-first localStorage, install UX iOS/Android. Source de vérité pour tout comportement natif de l'app."
 category: pwa
 risk: safe

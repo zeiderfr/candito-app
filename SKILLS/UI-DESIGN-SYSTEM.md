@@ -1,5 +1,5 @@
 ---
-name: design-system
+name: ui-design-system
 description: "Système de design ultime pour PWA dark fitness. Fusionne direction artistique, tokens couleur, typographie, composants, accessibilité, glassmorphism et Tailwind v4. Source de vérité visuelle pour tout travail UI dans le projet."
 category: design
 risk: safe

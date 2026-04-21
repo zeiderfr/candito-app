@@ -1,5 +1,5 @@
 ---
-name: motion-design
+name: animations-transitions
 description: "Compétence animation ultime pour PWA fitness React. Fusionne micro-interactions, page transitions, Framer Motion, Anime.js, Tailwind @keyframes, scroll experiences, iOS HIG motion, et performance 60fps. Couvre chaque surface animée du projet avec des patterns prêts à l'emploi."
 category: animation
 risk: safe
