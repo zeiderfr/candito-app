@@ -1,8 +1,7 @@
-import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useCandito } from '@/context/CanditoContext'
 import { calcWeight } from '@/lib/weightCalc'
-import { Check, Footprints, Dumbbell, ArrowUp } from 'lucide-react'
+import { Footprints, Dumbbell, ArrowUp } from 'lucide-react'
 
 interface WarmupExercise {
   name: string
@@ -46,39 +45,22 @@ const DEADLIFT: WarmupExercise[] = [
 ]
 
 // ── ExerciseRow ─────────────────────────────────────────────────────
-function ExerciseRow({ id, name, sets, reps, weight, checked, onToggle }: {
-  id: string
+function ExerciseRow({ name, sets, reps, weight }: {
   name: string
   sets: number
   reps: string
   weight?: number
-  checked: boolean
-  onToggle: (id: string) => void
 }) {
   return (
-    <button
-      onClick={() => onToggle(id)}
+    <div
       className={cn(
-        "w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors cursor-pointer",
-        "hover:bg-white/[0.02] active:bg-white/[0.04]",
-        checked && "opacity-40"
+        "w-full flex items-center gap-3 px-4 py-3.5 text-left",
       )}
     >
-      {/* Checkbox custom */}
-      <div className={cn(
-        "size-5 rounded-md border shrink-0 flex items-center justify-center transition-all",
-        checked
-          ? "bg-accent border-accent"
-          : "border-white/20 bg-transparent"
-      )}>
-        {checked && <Check size={11} className="text-background" strokeWidth={3} />}
-      </div>
-
       {/* Nom + métadonnée */}
       <div className="flex-1 min-w-0">
         <p className={cn(
-          "text-sm font-medium leading-snug",
-          checked ? "text-muted line-through" : "text-white"
+          "text-sm font-medium leading-snug text-white"
         )}>
           {name}
         </p>
@@ -93,19 +75,16 @@ function ExerciseRow({ id, name, sets, reps, weight, checked, onToggle }: {
           {weight} kg
         </span>
       )}
-    </button>
+    </div>
   )
 }
 
 // ── WarmupSection ───────────────────────────────────────────────────
-function WarmupSection({ title, icon: Icon, exercises, rm, prefix, checked, onToggle }: {
+function WarmupSection({ title, icon: Icon, exercises, rm }: {
   title: string
   icon: typeof Footprints
   exercises: WarmupExercise[]
   rm: { squat: number; bench: number; deadlift: number }
-  prefix: string
-  checked: Set<string>
-  onToggle: (id: string) => void
 }) {
   const mobility = exercises.filter(e => !e.isGamme)
   const gamme    = exercises.filter(e => e.isGamme)
@@ -118,19 +97,12 @@ function WarmupSection({ title, icon: Icon, exercises, rm, prefix, checked, onTo
           <Icon size={15} className="text-accent" />
         </div>
         <h3 className="text-base font-display text-white italic flex-1">{title}</h3>
-        {/* Mini compteur section */}
-        <span className="text-[10px] text-muted tabular-nums">
-          {[
-            ...exercises.filter(e => !e.isGamme).map((_, i) => `${prefix}_mob_${i}`),
-            ...exercises.filter(e => e.isGamme).map((_, i) => `${prefix}_gamme_${i}`),
-          ].filter(id => checked.has(id)).length}/{exercises.length}
-        </span>
       </div>
 
       {/* Mobilité */}
       <div className="divide-y divide-border/50">
         {mobility.map((ex, i) => (
-          <ExerciseRow key={i} id={`${prefix}_mob_${i}`} name={ex.name} sets={ex.sets} reps={ex.reps} checked={checked.has(`${prefix}_mob_${i}`)} onToggle={onToggle} />
+          <ExerciseRow key={i} name={ex.name} sets={ex.sets} reps={ex.reps} />
         ))}
       </div>
 
@@ -150,7 +122,7 @@ function WarmupSection({ title, icon: Icon, exercises, rm, prefix, checked, onTo
                 ? calcWeight(rm[ex.lift], ex.percentage)
                 : undefined
               return (
-                <ExerciseRow key={i} id={`${prefix}_gamme_${i}`} name={ex.name} sets={ex.sets} reps={ex.reps} weight={weight} checked={checked.has(`${prefix}_gamme_${i}`)} onToggle={onToggle} />
+                <ExerciseRow key={i} name={ex.name} sets={ex.sets} reps={ex.reps} weight={weight} />
               )
             })}
           </div>
@@ -165,40 +137,19 @@ export function Warmup() {
   const { state } = useCandito()
   const rm = { squat: state.athlete.rm.squat, bench: state.athlete.rm.bench, deadlift: state.athlete.rm.deadlift }
 
-  const [checked, setChecked] = useState<Set<string>>(new Set())
-
-  const toggle = (id: string) =>
-    setChecked(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
-
-  const total = LOWER_BODY.length + UPPER_BODY.length + DEADLIFT.length
-  const done  = checked.size
-  const pct   = Math.round((done / total) * 100)
-
   return (
     <div className={cn(
       "flex flex-col gap-6",
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
-      {/* Header + progression */}
+      {/* Header */}
       <div>
         <h1 className="text-4xl font-display text-white italic tracking-tight">
           Warm up
         </h1>
-        {/* Barre de progression globale */}
-        <div className="mt-4 space-y-1.5">
-          <div className="flex justify-between text-[10px] text-muted">
-            <span className="uppercase tracking-widest font-bold">Progression</span>
-            <span className="tabular-nums">{done} / {total}</span>
-          </div>
-          <div className="h-1 bg-border rounded-full overflow-hidden">
-            <div className="h-full bg-accent rounded-full transition-all duration-300"
-                 style={{ width: `${pct}%` }} />
-          </div>
-        </div>
+        <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-2">
+          Protocole d'activation pré-séance (Guide)
+        </p>
       </div>
 
       {/* Note Wenning */}
@@ -209,17 +160,10 @@ export function Warmup() {
         </p>
       </div>
 
-      <WarmupSection title="Bas du corps — Squat" icon={Footprints} exercises={LOWER_BODY} rm={rm} prefix="lower" checked={checked} onToggle={toggle} />
-      <WarmupSection title="Haut du corps — Bench" icon={Dumbbell} exercises={UPPER_BODY} rm={rm} prefix="upper" checked={checked} onToggle={toggle} />
-      <WarmupSection title="Deadlift" icon={ArrowUp} exercises={DEADLIFT} rm={rm} prefix="dl" checked={checked} onToggle={toggle} />
+      <WarmupSection title="Bas du corps — Squat" icon={Footprints} exercises={LOWER_BODY} rm={rm} />
+      <WarmupSection title="Haut du corps — Bench" icon={Dumbbell} exercises={UPPER_BODY} rm={rm} />
+      <WarmupSection title="Deadlift" icon={ArrowUp} exercises={DEADLIFT} rm={rm} />
 
-      {/* Reset */}
-      {done > 0 && (
-        <button onClick={() => setChecked(new Set())}
-          className="text-[10px] text-muted/40 uppercase tracking-widest text-center w-full py-2 hover:text-muted transition-colors cursor-pointer">
-          Réinitialiser
-        </button>
-      )}
     </div>
   )
 }
