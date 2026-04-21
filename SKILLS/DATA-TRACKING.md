@@ -1,16 +1,96 @@
 ---
 name: data-tracking
-description: "Compétence ultime pour le logging de séances, visualisation SVG de progression, KPIs sportifs, export/import JSON, et install PWA. Couvre : modélisation TypeScript, SVG charts sans dépendance, KPI dashboard patterns, File API, et bannière d'installation iOS/Android."
+description: "Compétence ultime pour le logging de séances, transformations FP, visualisation SVG de progression, KPIs sportifs, export/import JSON, et install PWA. Couvre : principes FP immutables, calcul Epley/1RM, modélisation TypeScript, SVG charts sans dépendance, KPI dashboard patterns, File API, et bannière d'installation iOS/Android."
 category: data
 risk: safe
-source: "Fusion : Session Logging & Data + sickn33/antigravity-awesome-skills (kpi-dashboard-design, claude-d3js-skill, fp-react)"
+source: "Fusion : Session Logging & Data + fp-data-transforms + sickn33/antigravity-awesome-skills (kpi-dashboard-design, claude-d3js-skill, fp-react)"
 date_added: "2026-04-14"
-tags: [data, typescript, svg, charts, kpi, logging, export, import, pwa-install, localStorage]
+tags: [data, typescript, svg, charts, kpi, logging, export, import, pwa-install, localStorage, fp, immutability, epley]
 ---
 
 # DATA TRACKING — Logging, Visualisation & KPIs
 
-Compétence tout-en-un pour : logger des séances d'entraînement, visualiser la progression en SVG pur (0 dépendance), afficher des KPIs sportifs, et gérer l'export/import de données.
+Compétence tout-en-un pour : transformer et logger des séances d'entraînement, visualiser la progression en SVG pur (0 dépendance), afficher des KPIs sportifs, et gérer l'export/import de données.
+
+---
+
+## PARTIE 0 — Principes FP (Transformations immutables)
+
+### Quand appliquer
+- Transformer des `SessionLog[]` bruts en données visuelles (courbes, tableaux)
+- Calculer des dérivés depuis des données existantes (1RM estimé depuis RPE + poids)
+- Agréger des séries en résumés par exercice ou par semaine
+- Migrer un schéma de données sans toucher au stockage brut
+
+### 1. Immutabilité stricte — ne jamais muter le state
+
+```ts
+// ❌ Mutation
+sessionLog.exercises.push(newExercise)
+
+// ✅ Immutable
+const updatedLog = { ...sessionLog, exercises: [...sessionLog.exercises, newExercise] }
+```
+
+### 2. Transformer ≠ Stocker
+
+Les données IndexedDB sont les données brutes canoniques.
+Les données affichées sont TOUJOURS calculées à la volée. Ne jamais stocker un dérivé.
+
+```ts
+// ❌ Stocker un dérivé
+{ ..., total: squat + bench + deadlift }
+
+// ✅ Calculer à l'affichage
+const total = rm.squat + rm.bench + rm.deadlift
+```
+
+### 3. Calcul 1RM — Epley modifié avec correction RPE
+
+```ts
+const rirFromRpe = (rpe: number): number => Math.max(0, 10 - rpe)
+
+const estimateRM = (weight: number, reps: number, rpe?: number | null): number => {
+  const effectiveReps = rpe ? reps + rirFromRpe(rpe) : reps
+  const raw = weight * (1 + effectiveReps / 30)
+  return Math.round(raw / 2.5) * 2.5
+}
+```
+
+### 4. groupBy / agrégation pour les graphes
+
+```ts
+// Regrouper les PRs par lift
+const prsByLift = prs.reduce<Record<string, PR[]>>((acc, pr) => ({
+  ...acc,
+  [pr.lift]: [...(acc[pr.lift] ?? []), pr],
+}), {})
+
+// Volume hebdomadaire
+const weeklyVolume = (logs: SessionLog[]): Record<string, number> =>
+  logs.reduce<Record<string, number>>((acc, log) => {
+    const week = log.date.slice(0, 7)
+    const volume = log.exercises.flatMap(e => e.sets)
+      .reduce((sum, s) => sum + (s.weight ?? 0) * (s.reps ?? 0), 0)
+    return { ...acc, [week]: (acc[week] ?? 0) + volume }
+  }, {})
+```
+
+### 5. Null-safety obligatoire
+
+```ts
+// ✅ Optional chaining partout sur les propriétés imbriquées
+const weight = log?.exercises?.[0]?.sets?.[0]?.weight ?? null
+```
+
+### Anti-patterns FP
+
+| ❌ Éviter | ✅ Faire à la place |
+|----------|-------------------|
+| Muter un objet state | `{ ...obj, field: newValue }` |
+| Stocker un total calculable | Le calculer à l'affichage |
+| `for` loops imbriqués | `flatMap` / `reduce` / `map` chaînés |
+| Calculs dans le render JSX | Hook personnalisé ou fonction pure dans `lib/` |
 
 ---
 
