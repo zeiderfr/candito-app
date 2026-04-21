@@ -114,7 +114,7 @@ export function Nutrition() {
 
       {/* Macro grid 2×2 */}
       <div className="grid grid-cols-2 gap-3">
-        <MacroCard label="Protéines" value={macros.p} unit="g" protocol="2.2 g/kg — constant" color="var(--color-accent)" />
+        <MacroCard label="Protéines" value={macros.p} unit="g" protocol={isTraining ? '2.2 g/kg — training' : '2.0 g/kg — maintien'} color="var(--color-accent)" />
         <MacroCard label="Glucides"  value={macros.g} unit="g" protocol="Variable / charge" color="rgba(255,255,255,0.8)" />
         <MacroCard label="Lipides"   value={macros.l} unit="g" protocol="~1 g/kg — hormonal" color="rgba(255,255,255,0.5)" />
         <MacroCard label="Calories"  value={macros.kcal} unit="kcal" protocol={isTraining ? 'Surplus S1-4' : 'Maintien S5-6'} color="rgba(255,255,255,0.3)" />
