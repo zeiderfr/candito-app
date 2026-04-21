@@ -130,7 +130,7 @@ export function Nutrition() {
         </div>
         <div className="relative px-4 py-2">
           {/* Ligne verticale */}
-          <div className="absolute left-[35px] top-6 bottom-6 w-px bg-border" />
+          <div className="absolute left-[38px] top-6 bottom-6 w-px bg-border" />
           <div className="space-y-0 divide-y divide-border/40">
             {TIMING.map(t => (
               <div key={t.step} className="flex gap-4 py-4 pl-1">
