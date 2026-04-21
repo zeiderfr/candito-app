@@ -1,5 +1,5 @@
 ---
-name: antigravity-orchestrator
+name: routeur-multi-skills
 description: "Meta-skill that routes any project to the right Antigravity skill(s) and manages handoffs between them. Use this skill when the user doesn't know which skill to use, when a project needs multiple skills (e.g., design + frontend + backend), or when starting any new project from scratch. Also use it when the user says 'par où je commence', 'quel skill utiliser', 'j'ai un projet complet à construire', or any variant of needing a complete, multi-skill workflow. This skill orchestrates — it does not replace specialized skills."
 category: ultimate-bundle
 risk: safe

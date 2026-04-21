@@ -1,5 +1,5 @@
 ---
-name: application-performance
+name: performance-pwa
 description: Optimisation des performances React PWA. Profiling, lazy loading, memoization, bundle analysis, Core Web Vitals, IndexedDB optimisations. Cible LCP < 2.5s et bundle initial < 200KB gzip.
 category: performance
 risk: safe

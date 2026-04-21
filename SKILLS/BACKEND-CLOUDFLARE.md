@@ -1,5 +1,5 @@
 ---
-name: cloudflare-edge
+name: backend-cloudflare
 description: "Compétence Cloudflare Edge pour le projet : Pages Functions (API serverless), Scheduled Workers (cron VAPID push), KV Namespace (subscriptions), wrangler.toml, TypeScript Workers. Couvre l'architecture complète des notifications push server-side et le pipeline de déploiement Cloudflare Pages."
 category: backend
 risk: safe

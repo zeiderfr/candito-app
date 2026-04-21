@@ -1,5 +1,5 @@
 ---
-name: antigravity-idea-to-design
+name: ideation-et-conception
 description: "Ultimate skill for transforming raw ideas into validated, implementation-ready designs with optimized prompts. Combines structured brainstorming, design facilitation, and prompt engineering into one seamless creative pipeline. Use this skill when the user has a vague idea, wants to brainstorm a feature, needs to think through architecture, wants to plan before building, needs help articulating their vision, or says things like 'j'ai une idée', 'je veux créer', 'comment on pourrait faire', 'aide-moi à réfléchir', 'planifions', or any variant of wanting to go from concept to concrete plan."
 category: ultimate-bundle
 risk: safe
