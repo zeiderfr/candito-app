@@ -89,21 +89,28 @@ export function useCoach() {
         if (response.error) throw new Error(response.error)
 
         let hasToolUse = false
+        const assistantBlocks = response.content
+        const toolResultBlocks: any[] = []
         
-        for (const block of response.content) {
+        for (const block of assistantBlocks) {
           if (block.type === 'text') {
             assistantText += block.text
           } else if (block.type === 'tool_use') {
             hasToolUse = true
             const result = executeTool(block.name, block.input)
             toolCallsMade.push({ name: block.name, result })
-
-            loopHistory.push({ role: 'assistant', content: response.content })
-            loopHistory.push({
-              role: 'user',
-              content: [{ type: 'tool_result', tool_use_id: block.id, content: result }]
+            
+            toolResultBlocks.push({
+              type: 'tool_result',
+              tool_use_id: block.id,
+              content: result
             })
           }
+        }
+
+        if (hasToolUse) {
+          loopHistory.push({ role: 'assistant', content: assistantBlocks })
+          loopHistory.push({ role: 'user', content: toolResultBlocks })
         }
 
         if (!hasToolUse || response.stop_reason === 'end_turn') {
