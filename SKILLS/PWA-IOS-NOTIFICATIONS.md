@@ -16,6 +16,24 @@ Compétence tout-en-un pour transformer une app React/Vite en PWA installable et
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Configurer les meta tags iOS PWA (`apple-mobile-web-app-*`)
+- Gérer le manifest.json (icônes, orientation, display, theme_color)
+- Implémenter ou débugger le Service Worker (install, activate, fetch)
+- Demander la permission de notification et afficher une notif côté client
+- Gérer les safe areas iPhone (env(safe-area-inset-*), viewport-fit=cover)
+- Implémenter la bannière d'installation iOS/Android
+- Gérer l'offline (cache strategy, fallback page)
+
+**Ne pas utiliser quand :**
+- Les notifications sont envoyées depuis un serveur (VAPID, CRON) → BACKEND-CLOUDFLARE
+- Le problème est lié aux performances de chargement → PERFORMANCE-PWA
+- Le problème est purement visuel → UI-DESIGN-SYSTEM
+
+---
+
 ## PARTIE 1 — Meta Tags & Manifest (Fondations)
 
 ### index.html — Tags obligatoires

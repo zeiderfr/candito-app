@@ -16,6 +16,23 @@ Compétence tout-en-un pour les animations du projet. Couvre : micro-interaction
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Ajouter ou modifier une animation Framer Motion (hover, tap, layout, stagger)
+- Créer une transition de page ou de composant
+- Implémenter des micro-interactions (feedback tactile, état loading, success)
+- Utiliser Anime.js pour des séquences multi-étapes ou des compteurs animés
+- Optimiser la performance d'une animation (60fps, GPU, will-change)
+- Respecter `prefers-reduced-motion` dans une animation existante
+
+**Ne pas utiliser quand :**
+- Le composant est purement statique (pas d'animation) → UI-DESIGN-SYSTEM
+- Le problème est de performance globale (bundle, LCP) → PERFORMANCE-PWA
+- L'animation est une simple transition CSS (`transition-all`) → gérable inline
+
+---
+
 ## PARTIE 1 — Stack & Règle d'Or
 
 | Outil | Quand l'utiliser |

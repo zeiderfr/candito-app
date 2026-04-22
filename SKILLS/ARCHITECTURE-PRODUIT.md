@@ -14,6 +14,23 @@ Compétence maîtresse pour toute implémentation dans le projet. Combine philos
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Structurer une nouvelle feature (découpage composants, hooks, state)
+- Prendre une décision d'architecture (ADR : "on fait X ou Y ?")
+- Refactorer du code existant (extraction hook, découpage module)
+- Choisir un pattern React (React.lazy, React.memo, context vs props)
+- Définir le stack technique ou le périmètre d'une feature (YAGNI)
+- Cadrer une implémentation avant de coder
+
+**Ne pas utiliser quand :**
+- La tâche est purement visuelle → UI-DESIGN-SYSTEM
+- L'idée n'est pas encore définie → IDEATION-ET-CONCEPTION
+- Le besoin est une optimisation de perf ciblée → PERFORMANCE-PWA
+
+---
+
 ## PARTIE 1 — Les 5 Lois Inégociables
 
 > "Je n'implémente pas des features. J'invente des expériences pour un athlète en salle."

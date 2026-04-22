@@ -14,6 +14,24 @@ Système de design complet pour le projet : tokens couleur, typographie, composa
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Créer ou modifier un composant UI (bouton, card, badge, modal, input)
+- Appliquer les tokens couleur, typographie ou spacing du projet
+- Choisir une couleur, un style glassmorphism, ou un effet visuel
+- Implémenter un pattern Tailwind CSS v4 (dark mode, variantes, responsive)
+- Questions d'accessibilité (contraste, focus, ARIA)
+- Définir l'esthétique d'une nouvelle page ou section
+
+**Ne pas utiliser quand :**
+- Le composant nécessite des animations → ANIMATIONS-TRANSITIONS
+- Le composant affiche des données sportives/graphiques → DONNEES-LOGGING-GRAPHES
+- Le problème est architectural (structure, state management) → ARCHITECTURE-PRODUIT
+- Le comportement est lié à la PWA (safe areas, manifest) → PWA-IOS-NOTIFICATIONS
+
+---
+
 ## PARTIE 1 — Direction Artistique
 
 ### Identité visuelle du projet

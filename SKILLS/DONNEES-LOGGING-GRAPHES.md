@@ -14,6 +14,23 @@ Compétence tout-en-un pour : transformer et logger des séances d'entraînement
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Logger une séance d'entraînement (sets, reps, poids, RPE)
+- Calculer le 1RM estimé via la formule Epley
+- Construire des graphiques SVG de progression (sans librairie externe)
+- Afficher des KPIs sportifs (volume, intensité, tendances)
+- Implémenter l'export/import JSON des données utilisateur
+- Appliquer des transformations FP immutables sur `SessionLog[]`
+
+**Ne pas utiliser quand :**
+- Le composant n'a pas de logique data (pur UI) → UI-DESIGN-SYSTEM
+- Le backend de stockage est Cloudflare KV → BACKEND-CLOUDFLARE
+- Le besoin est une animation sur les graphiques → ANIMATIONS-TRANSITIONS
+
+---
+
 ## PARTIE 0 — Principes FP (Transformations immutables)
 
 ### Quand appliquer
