@@ -137,3 +137,49 @@ L'hydrothérapie thermique ne doit pas être perçue comme une solution monolith
 La science moderne souligne l'importance d'individualiser ces protocoles en fonction du sexe, du niveau d'entraînement et des croyances de l'athlète. Alors que l'effet placebo semble expliquer une partie des bénéfices observés, les réponses cardiovasculaires, neurochimiques et immunologiques documentées confirment que l'usage stratégique des températures reste l'un des moyens les plus efficaces et les plus accessibles pour optimiser la récupération et la performance sportive. L'avenir de cette discipline réside probablement dans une meilleure compréhension des seuils thermiques individuels et dans l'intégration de technologies permettant un contrôle précis de la température et de la durée d'exposition pour maximiser l'hormèse sans risquer le surentraînement ou l'accident cardiovasculaire.
 
 *(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+
+## Sources
+- Bains glacés, bénéfices santé ? | Observatoire de la prévention de l ..., https://observatoireprevention.org/2025/08/28/bains-glaces-benefices-sante/
+- EFFECTS OF COLD WATER IMMERSION AND CONTRAST WATER THERAPY FOR RECOVERY FROM TEAM SPORT: A SYSTEMATIC REVIEW AND META-ANALYSIS - ResearchGate, https://www.researchgate.net/profile/Trevor-Higgins-2/publication/305110535_The_Effects_of_Cold_Water_Immersion_and_Contrast_Water_Therapy_for_Recovery_from_Team_Sport_A_Systematic_Review_and_Meta-Analysis/links/5a8f656c45851535bcd384f0/The-Effects-of-Cold-Water-Immersion-and-Contrast-Water-Therapy-for-Recovery-from-Team-Sport-A-Systematic-Review-and-Meta-Analysis.pdf
+- Effects of cold-water immersion on health and wellbeing: A systematic review and meta-analysis - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11778651/
+- Bain chauds, froid ou contrasté : lequel choisir pour mieux récupérer? - Bioptimisation, https://bioptimisation.fr/blogs/recovery/hydrotherapie
+- Quels sont les bienfaits de la douche froide après le sport ? - Ekoï - EKOI, https://www.ekoi.fr/fr/blog/quels-sont-les-bienfaits-de-la-douche-froide-apres-le-sport
+- Should You Take Hot Or Cold Showers? - NIB, https://www.nib.com.au/the-checkup/everyday-health/general-health-guides-and-faqs/hot-or-cold-showers
+- No acceleration of recovery from exercise-induced muscle damage after cold or hot water immersion in women: A randomised controlled trial - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12057877/
+- Effect of home‐based hot bathing on exercise‐induced adaptations associated with short‐term resistance exercise training in young men - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11780495/
+- Which Is Better After a Workout: Hot or Cold Shower? | BodySpec, https://www.bodyspec.com/blog/post/which_is_better_after_a_workout_hot_or_cold_shower
+- Benefits of Warm Showers for Athletes - Rheem Philippines, https://www.rheemphilippines.com/blog/benefits-of-warm-showers-for-athletes/
+- Effect of the Depth of Cold Water Immersion on Sleep Architecture and Recovery Among Well-Trained Male Endurance Runners - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC8044518/
+- Cold Plunge vs. Cold Showers: Which is Better for Recovery in Malaysia?, https://www.warriorplunge.com/blogs/beyond-the-chill/cold-plunge-vs-cold-showers-which-is-better-for-recovery-in-malaysia
+- Cold Shower vs Cold Plunge: Key Differences for Recovery and Energy, https://plungecrafters.com/blogs/diy-cold-plunge-chronicles/cold-shower-vs-cold-plunge
+- Hot Water Immersion Better than Cold to Maintain Exercise Performance | American Physiological Society, https://www.physiology.org/detail/news/2024/11/21/hot-water-immersion-better-than-cold-to-maintain-exercise-performance
+- Does cold therapy improve sleep and mood? - Study Summary - Examine.com, https://examine.com/research-feed/study/0Axn51/
+- Prendre une douche froide après un entraînement présente-t-il des ..., https://www.nike.com/ca/fr/a/bienfaits-douche-froide
+- Effect of hot water immersion on acute physiological responses ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC10354234/
+- Impact of different doses of cold water immersion (duration and temperature variations) on recovery from acute exercise-induced muscle damage: a network meta-analysis - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11897523/
+- Cold Showers vs. Ice Baths: Which Is Better for Exercise Recovery? - Peloton, https://www.onepeloton.com/blog/cold-shower-vs-ice-bath
+- The Impact of Hot v. Cold Water Immersion on Post-Exercise Recovery - IdeaExchange@UAkron, https://ideaexchange.uakron.edu/cgi/viewcontent.cgi?article=3606&context=honors_research_projects
+- Should You Take a Hot or Cold Shower After a Workout to Boost Recovery? - GoodRx, https://www.goodrx.com/well-being/movement-exercise/hot-or-cold-shower-after-workout
+- L'utilisation quotidienne des douches froides : bienfaits et dangers - M comme Mutuelle, https://www.mcommemutuelle.com/magazine/douches-froides-prendre-la-temperature-de-leurs-effets-sur-votre-corps-et-votre-bien-etre/
+- Après l'effort sportif : un bain froid ou chaud ? – ICE BOOST®, https://ice-boost.com/blogs/ice-blog/apres-l-effort-sportif-un-bain-froid-ou-chaud
+- Contrast Water Therapy and Exercise Induced Muscle Damage: A ..., https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0062356
+- Impact of different doses of cold water immersion (duration and temperature variations) on recovery from acute exercise-induced muscle damage: a network meta-analysis - Frontiers, https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2025.1525726/full
+- The effects of cold water immersion and active recovery on ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC5285720/
+- COLD BATH: What SCIENCE REALLY Says (ft Nicolas Ott) - YouTube, https://www.youtube.com/watch?v=9IFAS3LmqWw
+- Cold- and hot-water immersion are not more effective than placebo ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC12528220/
+- Precooling and Sport Performance - Human Kinetics, https://us.humankinetics.com/blogs/excerpt/precooling-and-sport-performance
+- Full article: Pre-exercise hot water immersion increased circulatory heat shock proteins but did not alter muscle damage markers or endurance capacity after eccentric exercise - Taylor & Francis, https://www.tandfonline.com/doi/full/10.1080/23328940.2024.2313954
+- Y a-t-il des avantages à prendre une douche froide après une séance d'entraînement, https://www.polar.com/blog/fr/avantages-douche-froide/
+- Bain chaud ou bain froid après l'effort : lequel favorise le plus la récupération? - HiPRO, https://hipro.danone.fr/bain-chaud-ou-froid/
+- The Hot & Cold Truth: How Contrast Therapy Boosts Your Recovery - Awaken For Wellness, https://awakenforwellness.com/the-hot-cold-truth/
+- What Is Contrast Therapy, and Should You Try It After Your Next Workout? - Peloton, https://www.onepeloton.com/blog/contrast-therapy
+- Hot or Cold Shower After a Workout? Best Recovery Method - Fitness Premier Clubs, https://fitnesspremierclubs.com/hot-or-cold-shower-after-a-workout-which-is-more-effective/
+- The Use of Contrast Therapy in Soft Tissue Injury Management and Post-Exercise Recovery: A Scoping Review, https://knowledge.lancashire.ac.uk/id/eprint/35883/1/35883%20Richards%20J%202020%20The%20Use%20of%20Contrast%20Therapy%20in%20Soft%20Tissue%20Injury%20Management%20and%20Post-Exercise%20Recovery.pdf
+- The Impact of Cold-Water Immersion on Mental Health: A Qualitative Study - Scholars Crossing, https://digitalcommons.liberty.edu/cgi/viewcontent.cgi?article=8439&context=doctoral
+- Les bienfaits de la douche froide - Santé sur le Net, https://www.sante-sur-le-net.com/bienfaits-douche-froide/
+- Effects of cold-water immersion on health and wellbeing: A systematic review and meta-analysis | PLOS One - Research journals, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0317615
+- Water immersion methods do not alter muscle damage and inflammation biomarkers after high-intensity sprinting and jumping exercise - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC7674333/
+- Cold- and hot-water immersion are not more effective than placebo for the recovery of physical performance and training adaptations in national level soccer players - PubMed, https://pubmed.ncbi.nlm.nih.gov/40498100/
+- Bain glacé et douche froide sont-ils la panacée après l'effort - Université de Montpellier, https://www.umontpellier.fr/articles/bain-glace-et-douche-froide-sont-ils-la-panacee-apres-leffort
+- Cold Water Immersion Safety and Timing Tips Explained - IMPACT Physical Therapy, https://impactphysicaltherapy.com/blog/cold-water-immersion-faq-safety-timing-tips/
+- Découvrez les Effets Physiologiques des Douches Froides sur la Récupération Musculaire et la Réduction de l'Inflammation - Buzzfit, https://buzzfit.ca/fr/decouvrez-les-effets-physiologiques-des-douches-froides-sur-la-recuperation-musculaire-et-la-reduction-de-linflammation/
