@@ -5,4 +5,5 @@ export const STORAGE_KEYS = {
   LAST_TRAINING_NOTIF: 'last_training_notif',
   TRAINING_NOTIF_DISMISSED: 'training_notif_dismissed',
   NOTIFS_ENABLED: 'candito_notifs_enabled',
+  COACH_HISTORY: 'candito_coach_history',
 } as const
