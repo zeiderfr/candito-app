@@ -16,17 +16,20 @@ The skill operates in "magic mode" - it works silently behind the scenes, only i
 
 This is a **universal skill** that works in any terminal context, not limited to Obsidian vaults or specific project structures.
 
-## When to Use
+## 🎯 Quand utiliser ce skill
 
-Invoke this skill when:
+**Utiliser quand :**
+- L'utilisateur dit : "génère-moi un prompt", "crée un prompt pour", "optimise ce prompt", "je veux tester mon agent IA"
+- Le prompt est vague, générique ou mal structuré
+- L'utilisateur veut envoyer un prompt à un autre outil IA (ChatGPT, autre agent)
+- La tâche nécessite un raisonnement step-by-step (debug, analyse, design)
+- L'utilisateur ne connaît pas les frameworks de prompting (RTF, RISEN, CoT...)
+- L'utilisateur veut améliorer un prompt existant
 
-- User provides a vague or generic prompt (e.g., "help me code Python")
-- User has a complex idea but struggles to articulate it clearly
-- User's prompt lacks structure, context, or specific requirements
-- Task requires step-by-step reasoning (debugging, analysis, design)
-- User needs a prompt for a specific AI task but doesn't know prompting frameworks
-- User wants to improve an existing prompt's effectiveness
-- User asks variations of "how do I ask AI to..." or "create a prompt for..."
+**Ne pas utiliser quand :**
+- L'utilisateur veut exécuter une tâche directement → utiliser le skill spécialisé
+- La demande est une feature concrète à coder → ARCHITECTURE-PRODUIT ou UI-DESIGN-SYSTEM
+- Le contexte est déjà clair et structuré → aller directement au skill de build
 
 ## Workflow
 
