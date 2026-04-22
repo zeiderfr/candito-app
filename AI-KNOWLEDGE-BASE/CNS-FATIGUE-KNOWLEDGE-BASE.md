@@ -1,3 +1,10 @@
+---
+title: "Fatigue du SNC et Autorégulation en Powerlifting"
+domain: "recovery"
+tags: ["cns","fatigue","vbt","hrv","autoregulation"]
+source_type: "markdown"
+---
+
 # Base de Connaissances - Fatigue Nerveuse et Monitorage
 
 ## Analyse systémique de la récupération neuromusculaire en powerlifting : Physiologie de la fatigue, monitorage de la charge et optimisation des processus de restauration

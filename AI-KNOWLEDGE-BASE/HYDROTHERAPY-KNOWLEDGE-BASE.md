@@ -1,3 +1,10 @@
+---
+title: "Hydrothérapie Thermique dans la Performance Sportive"
+domain: "recovery"
+tags: ["hydrotherapy","recovery","cwi","hwi","cwt"]
+source_type: "markdown"
+---
+
 # Base de Connaissances Récupération - Hydrothérapie Thermique
 
 ## Analyse Physiologique et Clinique de l'Hydrothérapie Thermique dans la Performance Sportive : Étude de l'Impact des Protocoles de Température sur la Récupération, l'Adaptation et la Santé de l'Athlète

@@ -1,3 +1,10 @@
+---
+title: "Optimisation du Volume et Programmation des Exercices Accessoires (SBD)"
+domain: "performance"
+tags: ["powerlifting","sbd","volume","programming","periodization"]
+source_type: "markdown"
+---
+
 # Base de Connaissances - Optimisation SBD & Volume (Powerlifting)
 
 ## Analyse Avancée de l’Optimisation du Volume et de la Programmation des Exercices Accessoires pour l’Augmentation du Total SBD en Force Athlétique

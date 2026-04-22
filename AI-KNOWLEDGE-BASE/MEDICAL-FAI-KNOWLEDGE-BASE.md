@@ -1,3 +1,10 @@
+---
+title: "Conflit Fémoro-Acétabulaire (CFA) chez l'Athlète de Force"
+domain: "medical"
+tags: ["fai","cfa","hip","cam","pincer","arthroscopy"]
+source_type: "markdown"
+---
+
 # Base de Connaissances Médicales - Conflit Fémoro-Acétabulaire (CFA) en Powerlifting
 
 ## Analyse Médicale Complète du Conflit Fémoro-Acétabulaire chez l'Athlète de Force

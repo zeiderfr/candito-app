@@ -1,3 +1,10 @@
+---
+title: "Programmation pour l'Athlète de 66 kg en Force Athlétique"
+domain: "performance"
+tags: ["66kg","programming","biomechanics","peaking","nutrition"]
+source_type: "markdown"
+---
+
 # Base de Connaissances - Programmation Spécifique (Athlète 66 kg)
 
 ## Analyse Scientifique et Ingénierie de la Performance en Force Athlétique : Rapport Global de Programmation pour l'Athlète de 66 kg

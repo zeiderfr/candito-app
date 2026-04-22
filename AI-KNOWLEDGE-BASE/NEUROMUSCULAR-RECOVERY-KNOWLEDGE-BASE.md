@@ -1,3 +1,10 @@
+---
+title: "Optimisation Neuromusculaire et Régénération Systémique"
+domain: "recovery"
+tags: ["warmup","neuromuscular","parasympathetic","recovery"]
+source_type: "markdown"
+---
+
 # Base de Connaissances - Optimisation Neuromusculaire & Régénération
 
 ## Analyse exhaustive des protocoles d'optimisation neuromusculaire et de régénération systémique en force athlétique

@@ -1,3 +1,10 @@
+---
+title: "Épidémiologie et Protocoles de Réhabilitation en Force Athlétique"
+domain: "medical"
+tags: ["injury","rehabilitation","hsr","peace-and-love","bfr"]
+source_type: "markdown"
+---
+
 # Base de Connaissances - Épidémiologie et Réhabilitation des Blessures (SBD)
 
 ## Rapport d'analyse clinique : Épidémiologie, biomécanique des lésions et protocoles de réhabilitation en force athlétique (SBD)
