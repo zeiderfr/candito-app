@@ -23,6 +23,8 @@ export const onRequestPost = async (context: any) => {
 
   try {
     const { messages, athleteProfile } = await request.json();
+    console.log("Chat request received for:", athleteProfile.name);
+    console.log("Message count:", messages.length);
 
     const client = new Anthropic({
       apiKey: env.VITE_ANTHROPIC_API_KEY,
@@ -70,11 +72,14 @@ ${KNOWLEDGE_BASE}
       messages: messages,
     });
 
+    console.log("Anthropic response received. Stop reason:", response.stop_reason);
+
     return new Response(JSON.stringify(response), {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
     });
 
   } catch (err: any) {
+    console.error("API Proxy Error:", err);
     return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { 'Access-Control-Allow-Origin': '*' } });
   }
 };
