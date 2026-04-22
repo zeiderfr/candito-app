@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { UpdatePrompt } from '@/components/common/UpdatePrompt'
+import { CoachFAB } from '@/components/coach/CoachFAB'
 
 const Dashboard  = lazy(() => import('@/pages/Dashboard').then(m => ({ default: m.Dashboard })))
 const Warmup     = lazy(() => import('@/pages/Warmup').then(m => ({ default: m.Warmup })))
@@ -74,7 +75,7 @@ function AppContent() {
       case 'warmup':     return <Warmup />
       case 'programme':  return <Programme />
       case 'nutrition':  return <Nutrition />
-case 'profil':     return <Profil />
+      case 'profil':     return <Profil />
     }
   }
 
@@ -96,6 +97,7 @@ case 'profil':     return <Profil />
             </motion.div>
           </AnimatePresence>
         </Suspense>
+        <CoachFAB />
       </AppLayout>
     </NavigationContext.Provider>
   )
