@@ -1,18 +1,42 @@
 ---
-name: ai-agent-app-integration
-description: "Design and implement a production-ready AI agent with tool use inside a client application, including optimized database architecture for conversation history, embeddings, and knowledge retrieval."
+name: in-app-ai-agent-tool-use-rag
+description: "Design and implement an AI agent embedded in a client app: tool use that mutates app state via natural language, multi-tier database (conversation history + vector RAG), and source ingestion pipeline (PDF, web, YouTube)."
 category: engineering
 risk: safe
 source: self
 source_type: self
 date_added: "2026-04-22"
 author: theodiez
-tags: [ai-agent, tool-use, claude-api, rag, vector-db, react, pwa, database, embeddings]
+tags: [ai-agent, tool-use, claude-api, rag, vector-db, react, pwa, database, embeddings, conversation-history, function-calling]
 tools: [claude]
 license: "MIT"
 ---
 
-# AI Agent App Integration
+# In-App AI Agent — Tool Use & RAG Database
+
+## Trigger Conditions
+
+**INVOKE this skill when ANY of the following is true:**
+
+- User asks how to add a chat interface, virtual coach, or AI assistant inside an existing app
+- User wants an AI that can **take actions** in the app (log data, update state, move items, mark things done) via conversation — not just answer questions
+- Code contains or is about to contain `tool_use` / `tools` in a Claude API call that maps to app functions
+- User asks how to connect an external knowledge base (NotebookLM, Notion, Google Drive, PDFs, YouTube, web scraping) to their app
+- User wants to build or design a **RAG pipeline** (retrieval-augmented generation) over heterogeneous sources
+- User asks how to persist conversation history across sessions in a PWA or client-side app
+- User asks about database schema design for AI features (embeddings, vector search, conversation store, tool call logs)
+- User wants to understand the **agentic loop** pattern (multiple tool calls per turn until `stop_reason === 'end_turn'`)
+- User asks how to securely expose an Anthropic API key in a frontend/PWA app
+
+**SKIP this skill when:**
+
+- The user only wants a simple Q&A chatbot with no tool use or app state mutation
+- The task is purely about Claude API prompt design with no database or tool integration
+- The user is building a standalone backend agent (no client app integration) — use `@claude-api` instead
+- The question is about general database design unrelated to AI (no embeddings, no conversation history, no RAG)
+- The app already has a working agent and the user just needs to fix a bug — use `@systematic-debugging` instead
+
+---
 
 ## Overview
 
