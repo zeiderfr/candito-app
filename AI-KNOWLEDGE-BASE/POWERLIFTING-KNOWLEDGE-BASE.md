@@ -145,4 +145,48 @@ L'augmentation du total SBD est un voyage de longue haleine qui exige de placer 
 
 En intégrant ces principes de volume et en sélectionnant les exercices accessoires les plus porteurs de transfert, l'athlète se donne les moyens de transformer son potentiel physique en une performance brute et mesurable sur le plateau de compétition.
 
-*(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+## Sources
+- SBD musculation - Le guide force et technique | Avis - L'Atelier Gym, https://lateliergym.fr/definition-sbd-musculation/
+- Les bases de la planification en musculation - CHUV, https://www.chuv.ch/fileadmin/sites/cms/documents/planificationmusculationfinal.pdf
+- Le guide ultime de la programmation en powerlifting - Iron Bull Strength Canada, https://ca.ironbullstrength.com/fr/blogs/powerlifting/powerlifting-program
+- Programming and Periodization For Hypertrophy | ft. Mike Israetel & Eric Helms : r/weightroom - Reddit, https://www.reddit.com/r/weightroom/comments/84fvbh/programming_and_periodization_for_hypertrophy_ft/
+- Hypertrophy Training Volume: How Many Sets to Build Muscle? - Outlift, https://outlift.com/hypertrophy-training-volume/
+- The Volume Roundtable feat. Mike Israetel, Eric Helms, Layne Norton, Greg Nuckols - The Jeff Nippard Podcast | Lyssna här - Poddtoppen, https://poddtoppen.se/podcast/905054765/the-jeff-nippard-podcast/the-volume-roundtable-feat-mike-israetel-eric-helms-layne-norton-greg-nuckols
+- Dr. Mike Israetel's Training Tips for Hypertrophy : r/weightroom - Reddit, https://www.reddit.com/r/weightroom/comments/6674a4/dr_mike_israetels_training_tips_for_hypertrophy/
+- Has anybody implemented Dr. Mike Israetel's tips for Hypertrophy i.e. MV, MEV, MAV and MRV? : r/naturalbodybuilding - Reddit, https://www.reddit.com/r/naturalbodybuilding/comments/18p9a1z/has_anybody_implemented_dr_mike_israetels_tips/
+- Hypertrophie : comment mieux appréhender le continuum de répétitions en musculation, https://www.valdemarne.fr/newsletters/sport-sante-et-preparation-physique/hypertrophie-comment-mieux-apprehender-le-continuum-de-repetitions-en-musculation
+- Périodisation pour le Powerlifting - Montreal Powerhouse, https://www.montrealpowerhouse.com/fr/articles/periodisation-pour-le-powerlifting
+- Comment paramétrer une séance d'hypertrophie en musculation ? | Blog Sportifeo, https://www.sportifeo.com/blog/musculation/comment-parametrer-une-seance-dhypertrophie-en-musculation/
+- LE SBD en préparation physique (Squat Bench Deadlift) - We Are Athletic - WAATH, https://www.weareathletic.com/blog/le-sbd-en-preparation-physique-squat-bench-deadlift
+- 5 Accessory Exercises for the Squat - Westside Barbell, https://www.westside-barbell.com/a/blog/wsbb-blog-5-accessory-exercises-for-the-squat
+- Movement Tiers for Squat and Deadlift Weakness - EliteFTS, https://elitefts.com/blogs/motivation/movement-tiers-for-squat-and-deadlift-weakness
+- The Most Important Accessory Exercises to Get Stronger in the SBD - Thor Athletics, https://thor-athletics.com/blogs/tips-information/the-most-important-accessory-exercises-to-get-stronger-in-the-sbd
+- Les exercices accessoires les plus importants pour devenir plus fort dans le SBD, https://thorathletics.fr/blogs/conseils-informations/les-principaux-exercices-accessoires-pour-devenir-plus-fort-en-sbd
+- The 9 Best Squat Accessory Lifts and How to Choose Yours -, https://characterstrength.co.uk/post/the-9-best-squat-accessory-lifts-and-how-to-choose-yours
+- 10 Powerlifting Accessory Exercises | Mirafit, https://mirafit.co.uk/blog/10-powerlifting-accessory-exercises/
+- The Best Accessory Lifts For A Bigger Squat | Juggernaut Training Systems, https://www.jtsstrength.com/best-accessory-lifts-bigger-squat/
+- Les ASTUCES Squat, Bench, Deadlift que vous IGNOREZ - YouTube, https://www.youtube.com/watch?v=QTJ98vsZGzM
+- Most useful bench variations? : r/powerlifting - Reddit, https://www.reddit.com/r/powerlifting/comments/1i023uf/most_useful_bench_variations/
+- Best Accessory Exercises to Improve Your Bench Press – UPPPER ..., https://uppper.com/blogs/news/best-accessory-exercises-to-improve-your-bench-press
+- Top 5 Accessory Exercises to Boost Your Bench Press - Muscle & Fitness, https://www.muscleandfitness.com/flexonline/training/top-5-supportive-exercises-boost-your-bench-press/
+- 6 Best Accessory Exercises For Your Bench Press - Seriously Strong Training, https://seriouslystrongtraining.com/the-6-best-accessory-exercises-to-improve-your-bench-press/
+- Starting Conjugate: Deadlift Accessory Exercises - Westside Barbell, https://www.westside-barbell.com/a/blog/starting-conjugate-deadlift-accessory-exercises
+- SBD en Musculation : Qu'est-ce que c'est ? - Unistrength, https://unistrength.fr/fr/nos-conseils-sbd-squat-bench-et-deadlift.htm?srsltid=AfmBOoo5ZoDEic96f_A2asAWhIHRfNyI9gDrPrwWGSsjSASK9KCU4Ty0
+- 8 Best Deadlift Accessory Exercises for Max Pulling Strength | Legion, https://legionathletics.com/deadlift-accessory-exercises/
+- The 6 Best Accessory Exercises for The Conventional Deadlift - Seriously Strong Training, https://seriouslystrongtraining.com/the-6-best-accessory-exercises-for-the-conventional-deadlift/
+- The 15 Best Deadlift Accessory Exercises for a More Powerful Pull | BarBend, https://barbend.com/best-deadlift-accessory-exercises/
+- 16 Best Deadlift Variations to Build Strength | Garage Gym Reviews, https://www.garagegymreviews.com/deadlift-variations
+- Block Periodization: Definition, Types, Uses, and Examples - Hevy Coach, https://hevycoach.com/glossary/block-periodization/
+- A Practical Guide for Implementing Block Periodization for Powerlifting - EliteFTS, https://elitefts.com/blogs/motivation/a-practical-guide-for-implementing-block-periodization-for-powerlifting
+- PowerliftingMag – Communauté force athlétique et powerlifting, entraînements force, programmes force, nutrition – programmes force, force athlétique, musculation, powerlifting, exercices, musculation ,entraînements, nutrition, https://www.powerliftingmag.fr/
+- Programme de musculation Wendler pour la force : avis ..., https://www.superphysique.org/articles/4272
+- Managing Fatigue in Powerlifting, https://precisionpowerlifting.com/2020/02/18/managing-fatigue-in-powerlifting/
+- A Practical Approach to Deloading: Recommendations and Considerations for Strength and Physique Sports, https://shura.shu.ac.uk/35313/3/Bell-APracticalApproach%28AM%29.pdf
+- Integrating Deloading into Strength and Physique Sports Training Programmes: An International Delphi Consensus Approach - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC10511399/
+- A Practical Approach to Deloading: Recommendations and Considerations for Strength and Physique Sports - DORAS | DCU Research Repository, https://doras.dcu.ie/31501/1/a_practical_approach_to_deloading__recommendations.203%282%29.pdf
+- Deloading Practices in Strength and Physique Sports: A Cross-sectional Survey - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC10948666/
+- L'organisation de l'entrainement : la périodisation (I ..., https://www.powerliftingmag.fr/lorganisation-de-lentrainement-la-periodisation/
+- Entraînement d'hypertrophie : comment développer ses muscles et renforcer son corps, https://sportplus.de/fr-fr/blogs/conseils/hypertrophietraining
+- The Top 3 Powerlifting Exercises: Squat, Bench Press, And Deadlift - Generation Iron, https://generationiron.com/top-3-powerlifting-exercises/
+- Tous les aspects de la musculation dévoilés. - QNT, https://www.qntsport.com/blogs/news/la-musculation
+

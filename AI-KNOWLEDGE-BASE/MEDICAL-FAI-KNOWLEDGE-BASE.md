@@ -121,4 +121,62 @@ Pour continuer à pratiquer le powerlifting malgré un historique de CFA, plusie
 
 En conclusion, le conflit fémoro-acétabulaire est une pathologie sérieuse mais gérable. Grâce à une détection précise, des ajustements techniques intelligents et, si nécessaire, une chirurgie arthroscopique moderne, l'athlète de powerlifting peut non seulement guérir de ses douleurs, mais aussi prolonger sa carrière sportive tout en préservant la santé de son capital articulaire.[7, 9, 57, 58] Une collaboration étroite entre le chirurgien, le kinésithérapeute et l'entraîneur est le gage d'un retour réussi au plus haut niveau de force.[37, 42, 46]
 
-*(Sources : Bibliographie complète de la Revue Médicale et des publications scientifiques de traumatologie sportive intégrées pour l'agent IA).*
+## Sources
+- Le conflit fémoro-acétabulaire - Revue Médicale Suisse, https://www.revmed.ch/revue-medicale-suisse/2007/revue-medicale-suisse-105/le-conflit-femoro-acetabulaire
+- Aspects cliniques et radiologiques du conflit fémoro-acétabulaire - Revue Médicale Suisse, https://www.revmed.ch/revue-medicale-suisse/2006/revue-medicale-suisse-73/aspects-cliniques-et-radiologiques-du-conflit-femoro-acetabulaire
+- Femoroacetabular impingement syndrome: Nonarthritic hip pain in young adults - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC2293316/
+- Quels sont les facteurs de risques d'un conflit fémoro-acétabulaire de la hanche ? | Dr Paillard | Paris, https://www.chirurgie-orthopedique-paris.com/quels-sont-facteurs-de-risque-conflit-femoro-acetabulaire-hanche/
+- Hip Arthritis | Johns Hopkins Medicine, https://www.hopkinsmedicine.org/health/conditions-and-diseases/hip-arthritis
+- Signs That Your Hip Pain Could Be Hip Impingement | Joshua D. Harris, https://joshuaharrismd.com/signs-that-your-hip-pain-could-be-hip-impingement/
+- Traitement d'un Conflit Fémoro-Acétabulaire à Lausanne | Dr Jaën, https://www.chirurgie-orthopedique-lausanne.com/pathologies-hanche/conflit-femoro-acetabulaire/
+- Physical Therapy Guide to Hip Impingement (Femoroacetabular Impingement) - Choose PT, https://www.choosept.com/guide/physical-therapy-guide-hip-impingement-femoroacetabular
+- Understanding Hip Impingement | Children's Hospital Colorado, https://www.childrenscolorado.org/advances-answers/recent-articles/femoroacetabular-impingement/
+- Conflit fémoro-acétabulaire - Hôpital de La Tour, https://www.la-tour.ch/fr/conflit-femoro-acetabulaire
+- Femoroacetabular Impingement - StatPearls - NCBI Bookshelf - NIH, https://www.ncbi.nlm.nih.gov/books/NBK547699/
+- Conflit fémoro-acétabulaire : causes, symptômes et traitement. Clínica Universidad de Navarra, https://www.cun.es/fr/maladies-traitements/maladies/conflit-femoro-acetabulaire
+- Le conflit fémoro-acétabulaire - AWS, https://fmoq-mdq.s3.us-east-1.amazonaws.com/legacy/Media/120550/075-080DrTremblay1013.pdf
+- FADDIR Test | Femoroacetabular Impingement (FAI) Assessment - Physiotutors, https://www.physiotutors.com/wiki/faddir-test/
+- Etiology of Femoroacetabular Impingement in Athletes: A Review of Recent Findings - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC4513226/
+- Comment ne pas passer à côté d'un diagnostic d'épiphysiolyse fémorale supérieure, https://www.paediatrieschweiz.ch/fr/diagnostic-depiphysiolyse-femorale-superieure/
+- Hip Impingement | Johns Hopkins Medicine, https://www.hopkinsmedicine.org/health/conditions-and-diseases/hip-impingement
+- Exercises For FAI Syndrome - [P]rehab - The Prehab Guys, https://theprehabguys.com/fai-syndrome-exercises/
+- Biomechanical analysis of hip, knee, and ankle joint contact forces ..., https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0327973
+- The Hip Impingement Solution | Juggernaut Training Systems, https://www.jtsstrength.com/the-hip-impingement-solution/
+- Sensitivity and Specificity for Physical Examination Tests in Diagnosing Prearthritic Intra-Articular Hip Pathology Are Highly Variable: A Systematic Review - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12276548/
+- FAI Diagnostic Tests and Injections - Upright Health, https://www.uprighthealth.com/fai-tests
+- Reliability of FABER test in correlation with alpha angle in diagnosis of cam type femoroacetabular impingement - Journal of Orthopaedics Trauma Surgery and Related Research, https://www.jotsrr.org/articles/reliability-of-faber-test-in-correlation-with-alpha-angle-in-diagnosis-of-cam-type-femoroacetabular-impingement-11813.html
+- Special tests for FAI - the truth about FADIR and FABER and other hip impingement tests, https://www.uprighthealth.com/blog/FAI-special-tests
+- Conflit fémoro-acétabulaire - Clinique du sport Bordeaux - Mérignac, https://www.cliniquedusport-bx.fr/Conflit-femoro-acetabulaire
+- L'imagerie des membres inférieurs, https://www.lesommetavotreportee.qc.ca/files/PDF/Imagerie%20membres%20inferieurs%20-%20Presentation%20Dre%20Fortin.pdf
+- The Dunn View - Roentgen Ray Reader, http://roentgenrayreader.blogspot.com/2012/02/dunn-view_08.html
+- Comprehensive Clinical Evaluation of Femoroacetabular Impingement - Jorge Chahla, MD, https://www.jorgechahlamd.com/wp-content/uploads/2019/12/142-Hip-XR.pdf
+- Comparison of MRI, CT, Dunn 45° and Dunn 90° alpha angle measurements in femoroacetabular impingement - PubMed, https://pubmed.ncbi.nlm.nih.gov/29218683/
+- A Biomechanical Review of the Squat Exercise: Implications for Clinical Practice, https://ijspt.scholasticahq.com/article/94600-a-biomechanical-review-of-the-squat-exercise-implications-for-clinical-practice
+- Fixing Hip Impingement - Squat University, https://squatuniversity.com/2017/10/21/fixing-hip-impingement/
+- Squat form with CAM type FAI, and exercise replacements in the beginner template, https://forum.barbellmedicine.com/t/squat-form-with-cam-type-fai-and-exercise-replacements-in-the-beginner-template/10964
+- Femoroacetabular Impingement - E3 Rehab, https://e3rehab.com/fai/
+- Hip Pinching During Squats? Try These 4 Squat Variations Instead (FAI Rehab Guide), https://www.youtube.com/watch?v=m5a4w0roz4g
+- Leaning Forward, Over-Tucking, and Butt Winking in a Squat - Katie St.Clair Fitness, https://www.katiestclairfitness.com/blog/butt-winking-leaning-forward-and-over-tucking-in-a-squat
+- 7 Best Hip Impingement Exercises for Recovery - MGS Physiotherapy, https://www.mgs.physio/top-7-hip-impingement-exercises-to-support-hip-health/
+- Exercising with Hip Impingement (FAI) - Beacon Orthopaedics & Sports Medicine, https://www.beaconortho.com/blog/exercising-fai/
+- FAI and the Rehab Process: Re-Activation and Re-Alignment - EliteFTS, https://elitefts.com/blogs/motivation/fai-and-the-rehab-process-re-activation-and-re-alignment
+- What Is 'Butt Wink' and How Do You Prevent It? - Back In Motion, https://backinmotion.com.au/blog-article/what-is-butt-wink-and-how-do-you-prevent-it
+- Understanding The Butt Wink: How To Fix Your Squat - Movement Enhanced, https://movementenhanced.com.au/understanding-the-butt-wink-how-to-fix-your-squat/
+- Explaining Anterior and Posterior Pelvic Tilt in the Squat and How it Influences Hip Pain (FAI) - YouTube, https://www.youtube.com/watch?v=8Byr4_N-2_8
+- Advancements in Arthroscopic Hip Surgery - OrthoVirginia, https://www.orthovirginia.com/blog/advancements-in-arthroscopic-hip-surgery/
+- Two-Year Outcomes of Primary Arthroscopic Surgery in Patients with Femoroacetabular Impingement - Dr. Marc Philippon, https://www.drmarcphilipponmd.com/pdf/two-year-outcomes-of-primary-arthroscopic-surgery-3.pdf
+- Long term impacts of arthroscopic labral and capsular management, https://dralisongrimaldi.com/blog/long-term-impacts-of-arthroscopic-labral-and-capsular-management/
+- Arthroscopic Acetabular Labral Repair Versus Labral Debridement: Long-term Survivorship and Functional Outcomes - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC9274418/
+- Post Operative Hip Arthroscopy Rehabilitation Protocol for Dr.Hergandoc - David Hergan MD, https://www.davidherganmd.com/pdf/post-operative-hip-arthroscopy-rehabilitation-protocol-for-dr-hergan.pdf
+- Post-Operative Hip Arthroscopy Rehabilitation Protocol | Physical Therapy (PT), https://manhattansportsdoc.com/post-operative-hip-arthroscopy-rehab-protocol/
+- Rehabilitation s/p Hip Arthroscopy, Femoro/Acetabuloplasty with or ..., https://www.slu.edu/medicine/orthopaedic-surgery/sports-medicine/-pdf/hip-arthroscopy-with-withoutlabral.pdf
+- HIP ARTHROSCOPY POST-‐OPERATIVE REHABILITATION PROTOCOL | OrthoVirginia, https://www.orthovirginia.com/wp-content/uploads/2022/04/mook-hip-arthroscopy-rehabilitation-protocol.pdf
+- HIP ARTHROSCOPY CLINICAL PRACTICE GUIDELINE - The Ohio State University Wexner Medical Center, https://wexnermedical.osu.edu/~/media/files/wexnermedical/patient-care/healthcare-services/sports-medicine/education/medical-professionals/tenex/hiplabral.pdf?la=en
+- CONSERVATIVE MANAGEMENT FOR FEMOROACETABULAR IMPINGEMENT (FAI) - Fowler Kennedy Sport Medicine Clinic, https://www.fowlerkennedy.com/wp-content/uploads/2023/03/CONSERVATIVE-MANAGEMENT-FOR-FEMOROACETABULAR-IMPINGEMENT-FAI-November-2015.pdf
+- Five-Year Follow-up After Hip Arthroscopic Surgery in the Horsens-Aarhus Femoroacetabular Impingement (HAFAI) Cohort - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC8908400/
+- Hip Pain While Squatting? Here's How To Fix It (FAI Impingement) - YouTube, https://www.youtube.com/watch?v=xVUzxzVDPyI
+- Long Term Management of FAI - Nathan Carlson - Running Mate, https://runningmatekc.com/long-term-management-of-fai/
+- Non-operative Management and Outcomes of Femoroacetabular Impingement Syndrome, https://pmc.ncbi.nlm.nih.gov/articles/PMC10587039/
+- Posterior Pelvic Tilt During the Squat: A Biomechanical Perspective and Possible Exercise Solution - Preprints.org, https://www.preprints.org/frontend/manuscript/584f217e3130c8e0fd312a016e8e068c/download_pub
+- Optimizing Conservative Treatment for Femoroacetabular Impingement Syndrome: A Scoping Review of Rehabilitation Strategies - MDPI, https://www.mdpi.com/2076-3417/15/5/2821
+- Five-Year Outcomes After Arthroscopic Surgery for Femoroacetabular Impingement Syndrome in Elite Athletes - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC7227125/
