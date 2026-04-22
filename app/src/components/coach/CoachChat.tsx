@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Send, ArrowLeft, MessageCircle } from 'lucide-react'
-import { useCoach, CoachMessage } from '../../hooks/useCoach'
+import { useCoach } from '../../hooks/useCoach'
+import type { CoachMessage } from '../../hooks/useCoach'
 import { cn } from '../../lib/utils'
 
 const TOOL_LABELS: Record<string, string> = {
