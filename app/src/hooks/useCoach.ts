@@ -5,7 +5,7 @@ import { STORAGE_KEYS } from '../lib/storageKeys'
 
 export interface CoachMessage {
   role: 'user' | 'assistant'
-  content: string
+  content: string | any[]
   timestamp: number
   toolCalls?: { name: string; result: string }[]
 }
@@ -72,7 +72,7 @@ export function useCoach() {
       let continueLoop = true
       let assistantText = ''
       const toolCallsMade: { name: string; result: string }[] = []
-      const loopHistory = updatedMsgs.map(m => ({ role: m.role, content: m.content }))
+      const loopHistory: any[] = updatedMsgs.map(m => ({ role: m.role, content: m.content }))
       let iterations = 0
 
       while (continueLoop && iterations < 5) {
@@ -116,7 +116,7 @@ export function useCoach() {
         content: assistantText,
         timestamp: Date.now(),
         toolCalls: toolCallsMade.length > 0 ? toolCallsMade : undefined,
-      }
+      } as CoachMessage
 
       await persistHistory([...updatedMsgs, assistantMsg])
     } catch (err: any) {
