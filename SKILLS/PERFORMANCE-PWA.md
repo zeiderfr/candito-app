@@ -9,6 +9,24 @@ date_added: 2026-04-16
 
 # APPLICATION PERFORMANCE — Optimisation React PWA
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Bundle initial > 200KB gzip, LCP > 2.5s, ou INP > 200ms
+- L'app rame ou freeze sur mobile (jank, scroll lent)
+- Besoin de lazy loading, code splitting ou React.lazy
+- Optimiser la memoization (React.memo, useMemo, useCallback)
+- Analyse de bundle (Rollup Visualizer, Lighthouse audit)
+- Optimiser le cache Service Worker ou les stratégies réseau
+
+**Ne pas utiliser quand :**
+- Le problème est visuel/UI → UI-DESIGN-SYSTEM
+- Le problème concerne les animations → ANIMATIONS-TRANSITIONS
+- Le problème est lié au déploiement Cloudflare → BACKEND-CLOUDFLARE
+- Les métriques sont dans les cibles → ne pas optimiser "par précaution"
+
+---
+
 ## Métriques cibles CANDITO
 
 | Métrique | Cible | Actuel |

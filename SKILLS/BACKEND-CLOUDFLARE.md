@@ -24,6 +24,23 @@ KV Namespace CANDITO_SUBS  → Stockage subscriptions (TTL 90j)
 
 ---
 
+## 🎯 Quand utiliser ce skill
+
+**Utiliser quand :**
+- Configurer ou modifier les notifications push server-side (VAPID, CRON)
+- Déployer via Wrangler (`wrangler deploy`, `wrangler dev`)
+- Créer ou modifier une Pages Function (`functions/api/*.ts`)
+- Gérer les subscriptions push dans KV Namespace
+- Configurer `wrangler.toml` (cron triggers, KV bindings, env vars)
+- Débugger le Scheduled Worker (`training-reminder`)
+
+**Ne pas utiliser quand :**
+- Les notifications sont côté client (Service Worker, permission UI) → PWA-IOS-NOTIFICATIONS
+- Le problème est purement frontend → UI-DESIGN-SYSTEM ou ARCHITECTURE-PRODUIT
+- Déploiement de l'app frontend → géré par Cloudflare Pages automatiquement
+
+---
+
 ## PARTIE 1 — TypeScript Types Workers
 
 ### Types fondamentaux (Cloudflare Workers)

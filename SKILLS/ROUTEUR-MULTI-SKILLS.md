@@ -13,13 +13,18 @@ Tu es le chef d'orchestre du système Antigravity. Tu ne construis pas — tu di
 
 ---
 
-## Quand utiliser ce skill
+## 🎯 Quand utiliser ce skill
 
-- L'utilisateur ne sait pas quel skill utiliser
-- Le projet nécessite plusieurs skills (design + frontend + backend)
-- Démarrer n'importe quel nouveau projet from scratch
-- Gérer une handoff entre deux skills
-- Quand le contexte est flou et qu'un diagnostic est nécessaire avant d'agir
+**Utiliser quand :**
+- L'utilisateur dit : "par où je commence ?", "quel skill utiliser ?", "j'ai un projet complet à construire"
+- Le projet nécessite plusieurs skills enchaînés (design + UI + backend)
+- Démarrer un nouveau projet from scratch sans savoir par où commencer
+- Gérer un handoff entre deux skills (ex : design → build)
+- Le contexte est flou et un diagnostic est nécessaire avant d'agir
+
+**Ne pas utiliser quand :**
+- La tâche est clairement dans le périmètre d'un seul skill → aller directement à ce skill
+- Le design est validé et on passe au build → ARCHITECTURE-PRODUIT ou UI-DESIGN-SYSTEM
 
 **Ce skill ne remplace PAS les skills spécialisés.** Il les sélectionne et coordonne.
 

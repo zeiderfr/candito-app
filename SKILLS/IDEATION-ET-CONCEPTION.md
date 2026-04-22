@@ -16,18 +16,22 @@ Your user is a creative person who thinks in vibes, visuals, and feelings — no
 
 ---
 
-## Quand utiliser ce skill
+## 🎯 Quand utiliser ce skill
 
-- The user has a vague idea and wants help shaping it
-- Before any implementation — think first, build second
-- Planning a new feature, product, or project
-- When the user needs help articulating what they want
-- When multiple approaches exist and the user needs help choosing
-- When the user asks "how should I..." or "what if we..."
-- Whenever the prompt needs to be refined before sending to another AI tool
+**Utiliser quand :**
+- L'utilisateur dit : "j'ai une idée", "je veux créer", "comment on pourrait faire", "aide-moi à réfléchir", "planifions"
+- L'idée est vague, floue ou pas encore articulée
+- Avant toute implémentation — réfléchir d'abord, coder ensuite
+- Planifier une nouvelle feature, un produit, ou un projet from scratch
+- Quand plusieurs approches existent et qu'il faut choisir
+- L'utilisateur demande "how should I..." ou "what if we..."
 
-**Durée estimée :** 20-45 minutes pour un projet simple, 1-2h pour un projet complexe.
-**Ne pas utiliser si :** l'idée est déjà clairement définie et documentée → aller directement au skill de build approprié.
+**Ne pas utiliser quand :**
+- L'idée est déjà clairement définie → aller directement au skill de build (ARCHITECTURE-PRODUIT, UI-DESIGN-SYSTEM, etc.)
+- La tâche est un bug fix ou refacto technique → ARCHITECTURE-PRODUIT
+- Le design est validé et on entre en phase de code → skill de build direct
+
+**Durée estimée :** 20-45 min pour un projet simple, 1-2h pour un projet complexe.
 
 ---
 
