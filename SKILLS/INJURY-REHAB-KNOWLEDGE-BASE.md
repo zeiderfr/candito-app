@@ -174,3 +174,45 @@ La force athlétique, bien que présentant un risque de blessure aiguë modéré
 Le passage du modèle RICE au modèle PEACE & LOVE marque une transition vers une réhabilitation plus proactive, où l'athlète devient acteur de sa guérison. En intégrant des protocoles de renforcement spécifiques (HSR, isométrie), une nutrition optimisée et une surveillance rigoureuse des paramètres biomécaniques, le powerlifter peut non seulement revenir à son niveau antérieur, mais souvent construire une structure plus résiliente. La prévention, passant par une mobilité adéquate et une technique irréprochable, demeure néanmoins la meilleure stratégie pour une carrière longue et fructueuse sur les plateaux de compétition.
 
 *(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+
+## Sources
+- Prevalence and Consequences of Injuries in Powerlifting: A Cross ..., https://pubmed.ncbi.nlm.nih.gov/29785405/
+- Injuries in weightlifting and powerlifting: an updated systematic ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC11624822/
+- Injuries among weightlifters and powerlifters: a systematic review - PubMed, https://pubmed.ncbi.nlm.nih.gov/27707741/
+- Injuries in weightlifting and powerlifting: an updated systematic review - PubMed, https://pubmed.ncbi.nlm.nih.gov/39650568/
+- Prevalence and Consequences of Injuries in Powerlifting: A Cross-sectional Study - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC5954586/
+- Managing patella tendinopathy in powerlifting Pt.2 – Building ..., https://modernphysio.com.au/managing-patella-tendinopathy-in-powerlifting-pt-2-building-tolerance/
+- Fixing Hip Impingement - Squat University, https://squatuniversity.com/2017/10/21/fixing-hip-impingement/
+- Femoroacetabular Impingement - E3 Rehab, https://e3rehab.com/fai/
+- Bicep, Elbow and Shoulder Pain from Low Bar Squats - PowerliftingToWin, https://www.powerliftingtowin.com/bicep-elbow-and-shoulder-pain-from-low-bar-squats/
+- Elbow Pain While Lifting Weights: Tendinitis and the Squat - Barbell Logic, https://barbell-logic.com/elbow-pain-while-lifting-weights/
+- Why you're getting elbow pain during squats and how to fix it, https://www.momentptp.com/blogs/elbow-pain-with-squats
+- How to avoid common bench press injuries - St John & St Elizabeth Hospital, https://hje.org.uk/blog/the-bench-press-how-to-avoid-injury-and-stay-fit/
+- Upper extremity weightlifting injuries: Diagnosis and management ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC5895929/
+- Pectoralis Major Repair (Acute & Chronic) Seattle, WA | Pectoral Tear Bellevue, https://www.grantgarciamd.com/pectoralis-major-repair-shoulder-knee-sports-surgeon-seattle-bellevue-everett-kirkland-wa.html
+- How to Fix Shoulder Pain During Bench Press - Anytime Physio, https://anytimephysio.com.au/shoulder-pain-bench-press/
+- How to Return to Pressing Exercises with Shoulder Pain - Physio Network, https://www.physio-network.com/blog/pressing-exercises-shoulder-pain/
+- Is Deadlift Good for Herniated Discs? - Total Ortho Sports Medicine, https://www.totalorthosportsmed.com/deadlift-for-herniated-discs/
+- Deadlift With Herniated Disc: How To Lift Without Injury - Deuk Spine Institute, https://deukspine.com/blog/deadlift-with-herniated-discs/
+- Strength Training with Disc Injuries: An Athlete's Recovery Guide, https://spectrumtherapynj.com/blogs/news/strength-training-with-disc-injuries-an-athletes-recovery-guide
+- Deadlifting with a Herniated Disc: Why Avoidance Is Keeping You ..., https://backinshapeprogram.com/2026/01/deadlifting-with-a-herniated-disc-why-avoidance-is-keeping-you-weak-and-what-to-do-instead/
+- Stop Deadlifting With A Mixed Grip | DrJohnRusin.com, https://drjohnrusin.com/stop-deadlifting-with-a-mixed-grip/
+- Straps vs Mixed Grip When Deadlifting (Pros & Cons of Each) - Strength Resurgence, https://www.strengthresurgence.com/straps-vs-mixed-grip-when-deadlifting/
+- Why A Hook Grip is Superior for Deadlifts - SoCal Powerlifting, https://www.socalpowerlifting.net/post/why-a-hook-grip-is-superior-for-deadlifts
+- Grip Variation in Deadlift Training - TRAINFITNESS, https://train.fitness/personal-trainer-blogs/grip-variation-in-deadlift-training
+- Should I switch to either straps/hook grip from mixed grip on deadlifts? : r/workout - Reddit, https://www.reddit.com/r/workout/comments/1qoarvk/should_i_switch_to_either_strapshook_grip_from/
+- Forget RICE: Why PEACE & LOVE is the Modern Approach to Injury Recovery, https://ptsmc.com/rice-vs-peace-and-love/
+- R.I.C.E vs P.E.A.C.E and L.O.V.E: The New Protocol for Injury Recovery - Active Balance - Physio and Wellness, https://www.activebalancephysio.com.au/r-i-c-e-vs-p-e-a-c-e-and-l-o-v-e-the-new-protocol-for-injury-recovery
+- Understanding the PEACE & LOVE Protocol for Soft Tissue Injuries, https://www.movewellinjuryclinic.com/post/understanding-the-peace-love-protocol-for-soft-tissue-injuries
+- Managing Acute Soft Tissue Injuries With PEACE & LOVE - Spectrum Health, https://www.spectrumhealth.ie/blog/managing-acute-soft-tissue-injuries-with-peace-amp-love
+- Pectoralis Major Repair Rehabilitation Guideline - Sanford Health, https://www.sanfordhealth.org/-/media/org/files/medical-professionals/resources-and-education/pectoralis-major-guideline.pdf
+- Non-Operative Labral/FAI Hip Rehabilitation ... - Sanford Health, https://www.sanfordhealth.org/-/media/org/files/medical-professionals/resources-and-education/hip-labrum-and--fai-non-operative-rehabilitation-guideline.pdf
+- The Best Exercises for Femoroacetabular Impingement (FAI) - YouTube, https://www.youtube.com/watch?v=u2QF2j7TWKQ
+- Optimizing Performance and Health: Nutrition Considerations for Female Athletes in Strength and Conditioning - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12803723/
+- Nutritional Strategies for Enhancing Performance and Training Adaptation in Weightlifters, https://pmc.ncbi.nlm.nih.gov/articles/PMC11720227/
+- Current Perspectives on Protein Supplementation in Athletes: General Guidance and Special Considerations for Diabetes—A Narrative Review - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12655512/
+- Understanding the Role of Rest and Recovery in Weightlifting, https://www.usaweightlifting.org/news/2024/march/10/understanding-the-role-of-rest-and-recovery-in-weightlifting
+- Rest and recovery are critical for athletes of all ages from students to pros to older adults, https://www.uchealth.org/today/rest-and-recovery-for-athletes-physiological-psychological-well-being/
+- Blood flow restriction in elite sport: From rehab to hypertrophy and beyond - Sportsmith, https://www.sportsmith.co/articles/blood-flow-restriction-in-elite-sport-from-rehab-to-hypertrophy-and-beyond/
+- Evidence-Based Return-to-Play Protocols for Athletes | Physio Cure Dubai, https://physiocuredubai.com/blog/return-to-play-protocols-after-injury
+- Sport-specific training and return to sport after ACL reconstruction in elite athletes: a narrative review - Annals of Joint, https://aoj.amegroups.org/article/view/9466/html

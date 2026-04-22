@@ -133,3 +133,47 @@ L'excellence en powerlifting ne se joue pas uniquement sous la barre, mais dans 
 En aval de la séance, l'athlète doit devenir un expert en régulation nerveuse. La bascule vers l'état parasympathique par la respiration, le soutien nutritionnel immédiat et la priorité absolue donnée au sommeil constituent les piliers de la longévité dans ce sport. Si les technologies modernes (compression, EMS, sauna) offrent des avantages marginaux appréciables, elles ne sont que des compléments à une gestion intelligente de la fatigue et du stress global. Le powerlifter moderne est un athlète qui comprend que la force est autant une qualité neurologique qu'une capacité musculaire, et que sa préservation passe par un respect scrupuleux des cycles biologiques de l'organisme.
 
 *(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+
+## Sources
+- The Ultimate Warm Up Guide to Improve Lifting Performance - Hunt ..., https://kylehuntfitness.com/the-ultimate-warm-up-guide-to-improve-lifting-performance/
+- Best Warm-Up for Strength Training, Backed by Science - JEFIT, https://www.jefit.com/wp/general-fitness/best-warm-up-for-strength-training-backed-by-science/
+- 6 Recovery Methods for Stress Management - EliteFTS, https://elitefts.com/blogs/rehab-recovery/effective-recovery
+- The Impact of Nutrition on Your Weightlifting Performance, https://www.usaweightlifting.org/news/2024/february/08/the-impact-of-nutrition-on-your-weightlifting-performance
+- How to Warm-Up for Powerlifting - Boostcamp, https://www.boostcamp.app/blogs/best-guide-to-warm-ups-for-powerlifting
+- 12 essential warm-ups before weight lifting | FOI - Florida Orthopaedic Institute, https://www.floridaortho.com/news/12-essential-warm-ups-before-weight-lifting/
+- Warm-Up - Squat University, https://squatuniversity.com/category/warm-up/
+- Top Six Recovery Methods for Athletes - EliteFTS, https://elitefts.com/blogs/nutrition/top-six-recovery-methods-for-athletes
+- Olympic Weightlifting Warm-Up Routine - Mathias Method Strength, https://mathiasmethod.com/warm-up-exercises/weightlifting-warm-up-routine/
+- Her Squat Mobility Warm-Up Is GOLD! - YouTube, https://www.youtube.com/shorts/xu0ngRdXbzk
+- How To WARM UP Like An Elite Powerlifter - YouTube, https://www.youtube.com/shorts/uWBs0GdGcic
+- Matt Wenning's Conugate Training Secrets - Exodus Strength, https://www.exodus-strength.com/forum/viewtopic.php?t=1362
+- Wenning Warm-up - Max Effort Squat or Deadlift | Boostcamp App, https://www.boostcamp.app/users/a0mahX-wenning-warm-up-max-effort-squat-or-deadlift
+- conjugate - Wenning Strength, https://wenningstrength.com/wp-content/uploads/Conjugate-Strength-Training-for-Beginners_SAMPLEWEEK.pdf
+- the manual - Wenning Strength, https://wenningstrength.com/wp-content/uploads/The_Comeback-Manual_SAMPLE.pdf
+- Strength-Training-for-Beginners-SAMPLE.pdf - 1 www.wenningstrength.com, https://wenningstrength.com/wp-content/uploads/Strength-Training-for-Beginners-SAMPLE.pdf
+- 3 Things I Learned At Kabuki Strength Movement Fundamentals Seminar - Ellis Elite Fitness, https://www.elliselitefit.com/blog/3-things-i-learned-at-kabuki-strength-movement-fundamentals-seminar
+- Optimize Your Nervous System: Offset Load Warm-Up with Chris Duffin #functionaltraining, https://www.youtube.com/watch?v=j9ngPAB3JzM
+- #Kabuki Movement #Philosophy | Principles of Loaded Movement Seminar - YouTube, https://www.youtube.com/watch?v=dpCCUd96c04
+- World Champion Powerlifter's Deadlift Warm Up - YouTube, https://www.youtube.com/shorts/C7mH5DRE5Cw
+- Le meilleur ÉCHAUFFEMENT en POWERLIFTING - YouTube, https://www.youtube.com/watch?v=Rj5Yi-XWigA
+- FAQs: Breathing for Post-Workout Recovery - Dupont Fitness, https://dupontfitness.ca/post/faqs-breathing-post-workout-recovery
+- The Power of Breathwork for Recovery and Stress Management - Everyone Active, https://www.everyoneactive.com/content-hub/health/breathwork/
+- Force musculaire : entre neurones et fibres, qui commande ? - LAROQ, https://www.laroq.com/2025/08/26/force-musculaire/
+- The Role of Breathing Techniques in Strength Training Recovery - Speediance Europe, https://speediance.eu/en-fi/blogs/news/the-role-of-breathing-techniques-in-strength-training-recovery
+- Deep Breathing & the Parasympathetic Nervous System: The Connection | Othership, https://www.othership.us/resources/deep-breathing-the-parasympathetic-nervous-system-the-connection
+- The Effects of Slow Breathing during Inter-Set Recovery on Power Performance in the Barbell Back Squat - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11307190/
+- Does Eating Right After Lifting Make a Difference? – RP Strength, https://rpstrength.com/blogs/videos/does-eating-right-after-lifting-make-a-difference
+- How to Build the Perfect Post-Workout Meal for Recovery - BarBend, https://barbend.com/news/perfect-post-workout-meal-for-recovery/
+- Nutritional Strategies to Improve Post-exercise Recovery and Subsequent Exercise Performance: A Narrative Review - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12297025/
+- Fatigue nerveuse et la musculation intensive : comment la réduire ..., https://www.aqeelab-nutrition.fr/blogs/nos-conseils/fatigue-nerveuse-et-la-musculation-intensive-comment-la-reduire
+- Pratiquants de force, bienvenue - Nutrimuscle, https://www.nutrimuscle.com/pages/powerlift
+- Monitoring and Maximizing Recovery | Juggernaut Training Systems, https://www.jtsstrength.com/monitoring-and-maximizing-recovery/
+- Post-exercise cold water immersion attenuates acute anabolic signalling and long-term adaptations in muscle to strength training - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC4594298/
+- Throwing cold water on muscle growth: A systematic review with meta‐analysis of the effects of postexercise cold water immersion on resistance training‐induced hypertrophy - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11235606/
+- The Impact of Post-Exercise Cold Water Immersion (CWI) on Resistance Training-Induced Muscle Hypertrophy: A Comprehensive Summary of the Meta-Analysis - Medium, https://medium.com/@RepsWithRoscoe/the-impact-of-post-exercise-cold-water-immersion-cwi-on-resistance-training-induced-muscle-453be57851e2
+- Could Post-Workout Ice Baths Hinder Your Hypertrophy? - Men's Health, https://www.menshealth.com/uk/building-muscle/train-smarter/a46764921/cold-water-immersion-post-workout/
+- Effects of combining cold exposure and compression on muscle recovery: a randomized crossover study - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12197928/
+- The Complete Guide to Compression Therapy for Athletes - Pliability, https://pliability.com/stories/compression-therapy-for-athletes
+- Effects of Compression Garments on Muscle Strength and Power Recovery Post-Exercise: A Systematic Review and Meta-Analysis - MDPI, https://www.mdpi.com/2075-1729/15/3/438
+- The Holy Trinity of Recovery - EliteFTS, https://elitefts.com/blogs/rehab-recovery/holy-trinity-of-recovery
+- La clé du rendement en force athlétique et musculation : le système ..., https://www.powerliftingmag.fr/la-cle-du-rendement-en-force-athletique-et-musculation-le-systeme-nerveux/

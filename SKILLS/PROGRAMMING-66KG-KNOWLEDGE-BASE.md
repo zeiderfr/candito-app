@@ -172,3 +172,58 @@ L'aspect mental est primordial. La visualisation des mouvements et l'arrivée pr
 L'élaboration de cet entraînement pour un athlète de 20 ans et 66 kg n'est pas une destination mais un point de départ. La force athlétique est une science de l'adaptation continue. Les premières années de pratique doivent se concentrer sur l'acquisition d'une technique parfaite et d'une base hypertrophique solide. Avec le temps, l'athlète devra affiner son autorégulation, identifier ses propres leviers biomécaniques et ajuster son volume d'entraînement en fonction de sa capacité de récupération neurologique décroissante avec l'augmentation de l'intensité absolue.[2, 49] La rigueur dans la tenue d'un journal d'entraînement, incluant les scores RPE et les métriques de récupération, transformera cette pratique empirique en une démarche scientifique de haute performance. Dans cette quête, la patience est la vertu suprême : la force est une construction lente, mais sa fondation, une fois établie sur des principes mécaniques et physiologiques sains, est pratiquement inébranlable.[52, 53]
 
 *(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+
+## Sources
+- Fundamentals of Powerlifting | Iron Health, https://www.ironhealth.co/blog/fundamentals-of-powerlifting
+- Entraînement et force athlétique | Clés du Powerlifting - FIT' & RACK, https://www.fitandrack.com/blog/nos-tutoriels-4/comment-optimiser-son-entrainement-et-ses-performances-en-powerlifting-16
+- 1RM (one-repetition maximum) Testing - Science for Sport, https://www.scienceforsport.com/1rm-testing/
+- The Best Training Frequency for Strength Gains - Power Plant Gym - Strength Training Gym in Aston, PA, https://thepowerplantgym.com/powerlifting/best-training-frequency-strength-gains/
+- Powerlifting Technique and Leverages - PowerliftingToWin, https://www.powerliftingtowin.com/powerlifting-technique-the-scientific-principles/
+- Upright Squatting Only For Short Legs? - YouTube, https://www.youtube.com/watch?v=No_k3HG0URA
+- Long Femur vs Short Femur Squat - YouTube, https://www.youtube.com/shorts/btKQM_4Iwws
+- Tailoring Your Squat and Deadlift Setup: Embracing Body Morphology, https://befittrainingphysio.com/tailoring-your-squat-and-deadlift-setup-embracing-body-morphology/
+- Should the bench press rules for powerlifting change?, https://www.socalpowerlifting.net/post/should-the-bench-press-rules-for-powerlifting-change
+- The New IPF Bench Press Rules May Kill The Sport of Powerlifting - ZAO Strength, https://zaostrength.com/the-new-ipf-bench-press-rules-may-kill-the-sport-of-powerlifting/
+- International Powerlifting Federation Unveils Bench Press Rule Change for 2023 | BarBend, https://barbend.com/news/ipf-bench-press-rule-change-2023/
+- The Most Common Technique Mistakes for the Main Lifts - Mash Elite Performance, https://www.mashelite.com/most-common-technique-mistakes/
+- Peaking for Powerlifting: Training by Tony Bonvechio in TrainHeroic, https://marketplace.trainheroic.com/workout-plan/program/bonvechio-program-1712689374
+- Powerlifting Debate #2: The Deadlift: Conventional vs Sumo - Stronger Experts, https://www.strongerexperts.com/blog/powerlifting-debate-2-the-deadlift-conventional-vs-sumo
+- Clearing Up the Sumo vs Conventional Deadlift Debate - Moose Coaching, https://moosecoaching.com/blogs/moose-coaching/clearing-up-the-sumo-vs-conventional-deadlift-debate
+- Choosing the Right Deadlift: Sumo vs. Conventional - Power Rack Strength, https://www.powerrackstrength.com/choosing-the-right-deadlift-sumo-vs-conventional/
+- Training Frequency for Hypertrophy: The Evidence-Based Bible - Weightology, https://weightology.net/the-members-area/evidence-based-guides/training-frequency-for-hypertrophy-the-evidence-based-bible/
+- The Minimum Effective Training Dose Required for 1RM Strength in Powerlifters - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC8435792/
+- Élaborer un programme powerlifting efficace pour progresser, https://bodyhomefitness.fr/programme-powerlifting-efficace/
+- Programme de Force pour débutants en force athlétique : Starting ..., https://www.powerliftingmag.fr/programme-de-force-pour-debutants-en-force-athletique-starting-strength/
+- Evolution d'un programme de débutant à confirmé (partie 2) - Theperfclub, https://www.theperfclub.com/programme-entrainement-de-debutant/
+- The Candito Six-Week Strength Training Program, Explained - BarBend, https://barbend.com/candito-6-week-powerlifting-program/
+- A Review of Jonnie Candito's 6 Week Strength Program - PowerliftingToWin, https://www.powerliftingtowin.com/candito-6-week-strength-program/
+- Creating the 5/3/1 Workout Plan in LiftTrack, https://lifttrackapp.com/creating-531-workout-plan-in-lifttrack/
+- 5/3/1 Workout Explained: How to Use the 5/3/1 Method - 2026 - MasterClass, https://www.masterclass.com/articles/5-3-1-workout-explained
+- Accurate RPE Calculator for Strength Training - Gravitus Workout Tracker, https://gravitus.com/tools/rpe-calculator/
+- The Rate of Perceived Exertion (RPE) Scale Explained - Hevy App, https://www.hevyapp.com/rpe-scale/
+- RPE calculator | Estimate 1RM and create an RPE chart - VBTcoach, https://www.vbtcoach.com/rpe-1rm-calculator
+- NASM One Rep Max Calculator | Free Strength Assessment Tool, https://www.nasm.org/resources/one-rep-max-calculator
+- Mastering the 1 Rep Max Test for Trainers in 2026 - PTPioneer, https://www.ptpioneer.com/personal-training/certifications/study/1-rep-max/
+- The Sticking Point in the Bench Press, the Squat, and the Deadlift: Similarities and Differences, and Their Significance for Research and Practice - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC5357260/
+- Powerlifting Recovery Nutrition: Tips for Optimal Recovery, https://fiercelyfueled.com/powerlifting-recovery-nutrition/
+- Optimal Protein Intake Guide & Calculator, https://examine.com/guides/protein-intake/
+- Setting Up Your Powerlifting Macros – PowerliftingToWin, https://www.powerliftingtowin.com/powerlifting-macros/
+- The Impact of Nutrition on Your Weightlifting Performance, https://www.usaweightlifting.org/news/2024/february/08/the-impact-of-nutrition-on-your-weightlifting-performance
+- Joe DeFranco's Limber 11 Routine | PDF - Scribd, https://www.scribd.com/doc/288693295/Joe-DeFranco-s-Limber-11
+- Joe D's "Limber 11" (flexibility routine) - DeFranco's Training, https://www.defrancostraining.com/joe-ds-qlimber-11q-flexibility-routine/
+- Joe DeFranco's "Limber 11" (flexibility routine) (enhanced Agile 8) : r/weightroom - Reddit, https://www.reddit.com/r/weightroom/comments/1kq3v6/joe_defrancos_limber_11_flexibility_routine/
+- Joe DeFranco's "Limber 11" (flexibility routine) - YouTube, https://www.youtube.com/watch?v=FSSDLDhbacc
+- 10 Essential Weightlifters Equipment for 2025 Beginners - Katamu Co, https://katamu.co/en-si/blogs/news/weightlifters-equipment
+- Is Weightlifting Gear Worth It? How to Pick the Best Gear - ISSA, https://www.issaonline.com/blog/post/geared-up-for-lifting-is-weightlifting-gear-worth-it
+- How would you rank powerlifting equipment in terms of importance? - Reddit, https://www.reddit.com/r/powerlifting/comments/61nbpd/how_would_you_rank_powerlifting_equipment_in/
+- 13 Must-Have Powerlifting Gears: Powerful Preparations to Unleash Your Strength, https://nordiclifting.com/blogs/fitness/13-must-have-powerlifting-gears-powerful-preparations-to-unleash-your-strength
+- 5 Common Deadlift Mistakes (And How to Fix Them) - Pillar Kinetic, https://pillarkinetic.com/sports-medicine/5-common-deadlift-mistakes-and-how-to-fix-them/
+- Compendium to Overcoming Weak Points : r/powerlifting - Reddit, https://www.reddit.com/r/powerlifting/comments/7vwoxh/compendium_to_overcoming_weak_points/
+- Make the Bottom of the Lift Harder - BONVEC STRENGTH, https://bonvecstrength.com/2021/08/03/make-the-bottom-of-the-lift-harder/
+- The Best Accessory Exercises for a Stronger Bench, Squat, and Deadlift - Iron & Mettle, https://www.ironandmettlefitness.com/blog/2025/2/8/the-best-accessory-exercises-for-a-stronger-bench-squat-and-deadlift
+- The 6 Best Deadlift Accessories for Smashing Your Sticking Points - BarBend, https://barbend.com/deadlift-accessories/
+- Peaking for Powerlifting | Juggernaut Training Systems, https://www.jtsstrength.com/peaking-powerlifting/
+- Testing Your 1-Rep Max - Drew Murphy Strength (Gym, Personal Training, Group Training, Programming, Meal Plans), https://www.drewmurphystrength.com/stuff/testingyour1repmax
+- A Comprehensive Guide to Powerlifting - SF HealthTech, https://sfhealthtech.com/blogs/post/guide-to-powerlifting
+- A Hardcore Look At Wendler's 5/3/1 Powerlifting Routine | Muscle & Strength, https://www.muscleandstrength.com/workouts/hardcore-look-at-jim-wendlers-5-3-1-powerlifting-system.html
+- The 5/3/1 Program - Ironmaster, https://www.ironmaster.com/blog/2026/03/25/the-5-3-1-program/

@@ -122,3 +122,48 @@ La gestion de la récupération en powerlifting exige un équilibre subtil entre
 L'utilisation d'outils comme le VBT et l'HRV offre des données objectives pour valider les sensations subjectives de l'athlète. Un powerlifter performant n'est pas celui qui s'entraîne le plus dur à chaque séance, mais celui qui sait identifier le moment où son système nerveux est prêt pour une intensité maximale et celui où il doit reculer pour permettre la surcompensation. La récupération est, au même titre que le squat ou le bench, une compétence qui se développe par l'écoute du corps et l'ajustement constant des variables environnementales et structurelles. L'objectif final est de transformer le stress de l'entraînement en gain de force durable, en évitant les pièges du surentraînement sympathique et de l'épuisement central.
 
 *(Sources : Bibliographie complète extraite de NotebookLM pour alimenter l'agent IA).*
+
+## Sources
+- Biomarkers of peripheral muscle fatigue during exercise - PMC - NIH, https://pmc.ncbi.nlm.nih.gov/articles/PMC3534479/
+- Exercise-Induced Central Fatigue: Biomarkers and Non- Medicinal Interventions - Semantic Scholar, https://pdfs.semanticscholar.org/9fc8/960fc858159aaedfc0abe23d504c39471733.pdf
+- Exercise-Induced Central Fatigue: Biomarkers and Non-Medicinal Interventions - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC12096901/
+- Physical exercise-induced fatigue: the role of serotonergic and dopaminergic systems - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC5649871/
+- Beyond Tired: Understanding Fatigue, Overreaching, and ... - CrossFit, https://www.crossfit.com/pro-coach/crossfit-overtraining-fatigue-performance
+- Study on the differences in peripheral fatigue responses ... - Frontiers, https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2025.1661217/full
+- (PDF) Central and Peripheral Fatigue During Resistance Exercise ..., https://www.researchgate.net/publication/290479889_Central_and_Peripheral_Fatigue_During_Resistance_Exercise_-_A_Critical_Review
+- Nutritional Strategies for Enhancing Performance and Training ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC11720227/
+- Central nervous system fatigue - Wikipedia, https://en.wikipedia.org/wiki/Central_nervous_system_fatigue
+- Monitoring Resistance Training in Real Time with Wearable Technology: Current Applications and Future Directions - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC10525173/
+- Velocity loss thresholds: VBT fatigue tracking - VBTcoach, https://www.vbtcoach.com/blog/velocity-loss-guidelines-for-fatigue-with-velocity-based-training
+- Velocity-Based Training Chart & Zones - SimpliFaster, https://simplifaster.com/articles/velocity-based-training-chart-zones/
+- Récupération musculaire : guide complet (25 conseils) - Protéalpes, https://protealpes.com/recuperation-musculaire-guide-complet-25-conseils/
+- Les super-pouvoirs de la récupération musculaire - Toutelanutrition.com, https://www.toutelanutrition.com/blogs/wikifit/les-super-pouvoirs-de-la-recuperation-musculaire
+- Comment assurer une récupération musculaire optimale ? - Conseil Sport Decathlon, https://conseilsport.decathlon.fr/comment-assurer-une-recuperation-musculaire-optimale
+- Combien de jours de surcompensation ? - O.K.R, https://www.okr.fr/blogs/prise-de-muscle/combien-de-jours-de-surcompensation
+- Principe de surcompensation : comprendre le mécanisme clé de la progression sportive, https://www.nutrimuscle.com/blogs/actualites/principe-surcompensation-entrainement
+- La surcompensation - Endur'activ, https://www.endur-activ.com/la-surcompensation-3/
+- 3 CNS Fatigue Myths - Menno Henselmans, https://mennohenselmans.com/cns-fatigue/
+- Neuromuscular Fatigue and Recovery after Heavy Resistance, Jump, and Sprint Training, https://pubmed.ncbi.nlm.nih.gov/30067591/
+- Central fatigue: the serotonin hypothesis and beyond - PubMed, https://pubmed.ncbi.nlm.nih.gov/17004850/
+- Central and Peripheral Fatigue in Physical Exercise Explained: A Narrative Review, https://www.semanticscholar.org/paper/Central-and-Peripheral-Fatigue-in-Physical-Exercise-Tornero-Aguilera-Jim%C3%A9nez-Morcillo/3f64362d95bb93555755d6944270a3061873c72e
+- Serotonin induces central fatigue by inhibiting action ... - Frontiers, https://internal-www.frontiersin.org/10.3389/conf.fnins.2015.90.00004/event_abstract
+- A Guide to Velocity Based Training for Clinicians and Coaches - Meloq Devices, https://meloqdevices.com/fr-FR/blogs/meloq-updates/velocity-based-training
+- Max Strength and VBT - Catapult Sports, https://www.catapult.com/blog/max-strength-vbt
+- Using Velocity-Based Training to Manage Fatigue and Optimize Resistance Training, https://resources.keiser.com/velocity-based-training
+- HRV monitoring for strength and power athletes  - HRV4Training, https://www.hrv4training.com/blog2/hrv-monitoring-for-strength-and-power-athletes
+- Understanding Your TRAC Score - Reactive Training Systems, https://store.reactivetrainingsystems.com/blogs/application-articles/understanding-your-trac-score
+- Changes in Heart Rate Variability and Fatigue Measures Following Moderate Load Resistance Exercise - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC9273014/
+- Le Deload Pour La Récupération Active - Blog Eric Favre | Sport Nutrition Expert, https://www.ericfavre.com/lifestyle/le-deload/
+- Integrating Deloading into Strength and Physique Sports Training ..., https://pmc.ncbi.nlm.nih.gov/articles/PMC10511399/
+- Emerging Strategies with Mike Tuchscherer - RTS : r/weightroom, https://www.reddit.com/r/weightroom/comments/n67ymb/emerging_strategies_with_mike_tuchscherer_rts/
+- All About Intensity - Reactive Training Systems, https://store.reactivetrainingsystems.com/blogs/advanced-concepts/all-about-intensity
+- Simply The Best: Tuchscherer's Reactive Training Systems - PowerliftingToWin, https://www.powerliftingtowin.com/a-review-of-mike-tuchscherers-reactive-training-systems-rts/
+- Auto-Regulation in Strength Training by Mike Tuchscherer-JTSstrength.com - YouTube, https://www.youtube.com/watch?v=MS1YyV3Kdw8
+- Sommeil et musculation : pourquoi tes gains se font la nuit - Ironside Fitness Canada, https://www.ironsidefitness.ca/fr/blogs/nutrition-recuperation/sommeil-et-musculation-gains-nuit
+- Fatigue nerveuse et la musculation intensive : comment la réduire - AqeeLab Nutrition, https://www.aqeelab-nutrition.fr/blogs/nos-conseils/fatigue-nerveuse-et-la-musculation-intensive-comment-la-reduire
+- Timing nutritionnel et récupération : maximiser ses gains - QNT, https://www.qntsport.com/blogs/news/timing-nutritionnel-et-recuperation
+- 7 Strategies To Fight CNS Fatigue (Laying on the Couch Is One of Them) - 4legsfitness.com, https://4legsfitness.com/blogs/articles/cns-fatigue
+- Active Recovery for Athletes | Zone 2 Training and Rest Day Optimization, https://www.truesportsphysicaltherapy.com/blogs/guide-to-active-recovery-for-athletes-during-physical-therapy
+- Active Recovery for Athletes: Unlock 2025 Potential - Fitness CF, https://fitnesscfgyms.com/active-recovery-for-athletes/
+- How to Implement Active Recovery in Strength Training - Speediance Europe, https://speediance.eu/en-mt/blogs/news/how-to-implement-active-recovery-in-strength-training
+- Active Recovery Strategies for Strength Athletes - TrainHeroic, https://www.trainheroic.com/blog/active-recovery-strategies-for-strength-athletes/
