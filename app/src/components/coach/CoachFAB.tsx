@@ -17,11 +17,13 @@ export function CoachFAB() {
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
             className={cn(
-              "fixed right-4 bottom-[104px] z-50", // bottom-[104px] is above the bottom nav
+              // safe-area-aware : nav = h-20 (80px) + inset-bottom + 12px gap
+              "fixed right-4 z-50",
               "size-14 rounded-full bg-accent shadow-xl shadow-accent/30",
               "flex items-center justify-center text-background",
               "active:scale-95 transition-transform duration-100"
             )}
+            style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 92px)' }}
           >
             <MessageCircle size={24} />
           </motion.button>
@@ -35,7 +37,8 @@ export function CoachFAB() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[100] overflow-hidden"
+            // h-dvh : s'ajuste dynamiquement quand le clavier mobile apparaît
+            className="fixed inset-x-0 top-0 z-[100] h-dvh"
           >
             <CoachChat onClose={() => setIsOpen(false)} />
           </motion.div>
