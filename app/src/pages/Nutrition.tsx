@@ -148,40 +148,28 @@ export function Nutrition() {
         <MacroCard label="Protéines" value={macros.p} unit="g" protocol={isTraining ? '2.2 g/kg — training' : '2.0 g/kg — maintien'} color="var(--color-accent)" />
         <MacroCard label="Glucides"  value={macros.g} unit="g" protocol="Variable / charge" color="rgba(255,255,255,0.8)" />
         <MacroCard label="Lipides"   value={macros.l} unit="g" protocol="~1 g/kg — hormonal" color="rgba(255,255,255,0.5)" />
-        <MacroCard label="Calories"  value={macros.kcal} unit="kcal" protocol={isTraining ? 'Surplus S1-4' : 'Maintien S5-6'} color="rgba(255,255,255,0.3)" />
+        <MacroCard label="Calories"  value={macros.kcal} unit="kcal" protocol={`Cible : ${metabolism.target} kcal`} color="rgba(255,255,255,0.3)" />
       </div>
 
-      {/* Timing séance — Timeline verticale */}
-      <div className="glass rounded-2xl overflow-hidden">
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border">
-          <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
-            <Clock size={15} className="text-accent" />
-          </div>
-          <h3 className="text-base font-display text-white italic">Timing séance</h3>
+      {/* Timing séance — 3 cartes empilées */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 px-1">
+          <Clock size={13} className="text-accent" />
+          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Timing séance</span>
         </div>
-        <div className="relative px-4 py-2">
-          {/* Ligne verticale */}
-          <div className="absolute left-[38px] top-6 bottom-6 w-px bg-border" />
-          <div className="space-y-0 divide-y divide-border/40">
-            {TIMING.map(t => (
-              <div key={t.step} className="flex gap-4 py-4 pl-1">
-                {/* Numéro */}
-                <div className="size-9 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 z-10">
-                  <span className="text-[11px] font-bold text-accent">{t.step}</span>
-                </div>
-                {/* Contenu */}
-                <div className="flex-1 pt-1">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-sm font-bold text-white">{t.label}</span>
-                    <span className="text-[10px] text-muted">{t.timing}</span>
-                  </div>
-                  <p className="text-[12px] text-white/70 mt-1">{t.foods}</p>
-                  <p className="text-[10px] text-muted/60 mt-0.5">→ {t.goal}</p>
-                </div>
-              </div>
-            ))}
+        {TIMING.map(t => (
+          <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-7xl font-display italic text-white/[0.06] select-none pointer-events-none leading-none">
+              {t.step}
+            </span>
+            <div className="flex items-center justify-between gap-3 relative">
+              <span className="text-sm font-bold text-white">{t.label}</span>
+              <span className="text-[10px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
+            </div>
+            <p className="text-[12px] text-white/70 mt-2 relative">{t.foods}</p>
+            <p className="text-[10px] text-muted/70 mt-1 relative">→ {t.goal}</p>
           </div>
-        </div>
+        ))}
       </div>
 
       {/* Hydratation — Card simple */}
