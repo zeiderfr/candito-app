@@ -26,15 +26,15 @@ function MacroCard({ label, value, unit, protocol, color }: {
 const TIMING = [
   { step: '01', label: 'Pré-séance',  timing: '1–2h avant', foods: 'Glucides complexes + Protéines', goal: 'Énergie & substrat' },
   { step: '02', label: 'Intra',       timing: 'Optionnel',  foods: 'Glucides rapides',               goal: 'Maintien glycémique' },
-  { step: '03', label: 'Post-séance', timing: '< 1h après', foods: 'Whey + Glucides rapides',       goal: 'Récupération' },
+  { step: '03', label: 'Post-séance', timing: '< 1h après', foods: 'Whey + Glucides rapides',        goal: 'Récupération' },
 ]
 
 // ── Supplements Data ────────────────────────────────────────────────
 const SUPPLEMENTS = [
-  { name: 'Créatine monohydrate', dose: '5 g', timing: 'N\'importe quel moment' },
-  { name: 'Caféine (optionnel)',   dose: '3-5 mg/kg', timing: '30 min avant séance' },
-  { name: 'Vitamine D',           dose: '2000–4000 UI', timing: 'Avec un repas gras' },
-  { name: 'Magnésium',            dose: '300–400 mg', timing: 'Le soir' },
+  { name: 'Créatine monohydrate', dose: '5 g',         timing: 'N\'importe quel moment' },
+  { name: 'Caféine (optionnel)',  dose: '3–5 mg/kg',   timing: '30 min avant séance' },
+  { name: 'Vitamine D',          dose: '2000–4000 UI', timing: 'Avec un repas gras' },
+  { name: 'Magnésium',           dose: '300–400 mg',   timing: 'Le soir' },
 ]
 
 // ── Main Export ─────────────────────────────────────────────────────
@@ -60,24 +60,22 @@ export function Nutrition() {
     return schedule[today] !== null && schedule[today] !== undefined
   })
 
-  // ── Métabolisme (Katch-McArdle, 10% MG fixe, KB 66kg) ──
-  const metabolism = useMemo(() => {
-    const leanMass = weight * 0.9
-    const bmr = Math.round(370 + 21.6 * leanMass)
-    const tdee = Math.round(bmr * 1.5)
-    const isSurplusPhase = ['s1', 's2', 's3', 's4'].includes(state.currentWeekId)
-    const target = isSurplusPhase ? tdee + 150 : tdee
-    return { bmr, tdee, target, isSurplusPhase }
-  }, [weight, state.currentWeekId])
-
-  // ── Calcul macros dynamiques ──
+  // ── Macros KB (Katch-McArdle, 10% MG fixe, KB 66kg) ──
+  // P et L fixés par la KB, G calculé pour atteindre la cible TDEE de phase
   const macros = useMemo(() => {
-    const p = Math.round(weight * (isTraining ? 2.2 : 2.0))
-    const l = Math.round(weight * (isTraining ? 1.0 : 1.1))
-    const g = Math.round(weight * (isTraining ? 4.8 : 3.2))
+    const leanMass = weight * 0.9                                    // 10% MG
+    const bmr     = 370 + 21.6 * leanMass                           // Katch-McArdle
+    const tdee    = Math.round(bmr * 1.5)                           // facteur activité KB
+    const isSurplus = ['s1', 's2', 's3', 's4'].includes(state.currentWeekId)
+    const target  = isSurplus ? tdee + 150 : tdee                   // +150 kcal surplus KB
+
+    const p = Math.round(weight * (isTraining ? 2.2 : 2.0))        // KB: 1.8–2.2 g/kg
+    const l = Math.round(weight * 1.0)                              // KB: 0.6–1.0 g/kg max
+    const g = Math.max(0, Math.round((target - p * 4 - l * 9) / 4)) // G comble la cible
     const kcal = p * 4 + g * 4 + l * 9
-    return { p, l, g, kcal }
-  }, [weight, isTraining])
+
+    return { p, l, g, kcal, isSurplus }
+  }, [weight, isTraining, state.currentWeekId])
 
   return (
     <div className={cn(
@@ -104,27 +102,6 @@ export function Nutrition() {
         </div>
       </div>
 
-      {/* Métabolisme de base — Katch-McArdle (10% MG) */}
-      <div className="glass rounded-xl px-4 py-3">
-        <p className="text-[9px] font-bold text-muted uppercase tracking-widest mb-3">Métabolisme de base</p>
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div>
-            <p className="text-lg font-display italic tabular-nums text-white/50">{metabolism.bmr}</p>
-            <p className="text-[9px] text-muted uppercase tracking-widest mt-0.5">BMR</p>
-          </div>
-          <div>
-            <p className="text-lg font-display italic tabular-nums text-white">{metabolism.tdee}</p>
-            <p className="text-[9px] text-muted uppercase tracking-widest mt-0.5">TDEE</p>
-          </div>
-          <div>
-            <p className="text-lg font-display italic tabular-nums text-accent">{metabolism.target}</p>
-            <p className="text-[9px] text-accent/70 uppercase tracking-widest mt-0.5">
-              {metabolism.isSurplusPhase ? 'Surplus' : 'Maintien'}
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Toggle Entraînement / Repos */}
       <div className="flex gap-2 p-1 bg-white/[0.03] rounded-xl border border-border">
         {['Entraînement', 'Repos'].map((label, i) => (
@@ -145,10 +122,10 @@ export function Nutrition() {
 
       {/* Macro grid 2×2 */}
       <div className="grid grid-cols-2 gap-3">
-        <MacroCard label="Protéines" value={macros.p} unit="g" protocol={isTraining ? '2.2 g/kg — training' : '2.0 g/kg — maintien'} color="var(--color-accent)" />
-        <MacroCard label="Glucides"  value={macros.g} unit="g" protocol="Variable / charge" color="rgba(255,255,255,0.8)" />
-        <MacroCard label="Lipides"   value={macros.l} unit="g" protocol="~1 g/kg — hormonal" color="rgba(255,255,255,0.5)" />
-        <MacroCard label="Calories"  value={macros.kcal} unit="kcal" protocol={`Cible : ${metabolism.target} kcal`} color="rgba(255,255,255,0.3)" />
+        <MacroCard label="Protéines" value={macros.p} unit="g" protocol={isTraining ? '2.2 g/kg — KB max' : '2.0 g/kg — maintien'} color="var(--color-accent)" />
+        <MacroCard label="Glucides"  value={macros.g} unit="g" protocol={`${(macros.g / weight).toFixed(1)} g/kg — KB 5–10`} color="rgba(255,255,255,0.8)" />
+        <MacroCard label="Lipides"   value={macros.l} unit="g" protocol="1.0 g/kg — KB max" color="rgba(255,255,255,0.5)" />
+        <MacroCard label="Calories"  value={macros.kcal} unit="kcal" protocol={macros.isSurplus ? 'TDEE + surplus S1–S4' : 'TDEE maintenance S5–S6'} color="rgba(255,255,255,0.3)" />
       </div>
 
       {/* Timing séance — 3 cartes empilées */}
@@ -158,13 +135,13 @@ export function Nutrition() {
           <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Timing séance</span>
         </div>
         {TIMING.map(t => (
-          <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden">
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-7xl font-display italic text-white/[0.06] select-none pointer-events-none leading-none">
+          <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden border-l-2 border-accent/20">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[80px] font-display italic text-white/[0.08] select-none pointer-events-none leading-none">
               {t.step}
             </span>
             <div className="flex items-center justify-between gap-3 relative">
               <span className="text-sm font-bold text-white">{t.label}</span>
-              <span className="text-[10px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
+              <span className="text-[10px] font-bold text-accent bg-accent/15 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
             </div>
             <p className="text-[12px] text-white/70 mt-2 relative">{t.foods}</p>
             <p className="text-[10px] text-muted/70 mt-1 relative">→ {t.goal}</p>
