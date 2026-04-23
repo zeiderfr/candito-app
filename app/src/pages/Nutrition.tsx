@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { useCandito } from '@/context/CanditoContext'
 import { WEEK_SCHEDULE_MAP } from '../data/program'
-import { Clock, Droplets, Zap, RefreshCw, Pill } from 'lucide-react'
+import { Clock, Droplets, Pill } from 'lucide-react'
 
 // ── MacroCard ───────────────────────────────────────────────────────
 function MacroCard({ label, value, unit, protocol, color }: {
@@ -24,9 +24,9 @@ function MacroCard({ label, value, unit, protocol, color }: {
 
 // ── Timing Data ─────────────────────────────────────────────────────
 const TIMING = [
-  { step: '1', label: 'Pré-séance', timing: '1–2h avant', foods: 'Glucides complexes + Protéines', goal: 'Énergie & substrat', icon: Clock },
-  { step: '2', label: 'Intra',      timing: 'Optionnel',  foods: 'Glucides rapides',               goal: 'Maintien glycémique', icon: Zap },
-  { step: '3', label: 'Post-séance', timing: '< 1h après', foods: 'Whey + Glucides rapides',       goal: 'Récupération', icon: RefreshCw },
+  { step: '01', label: 'Pré-séance',  timing: '1–2h avant', foods: 'Glucides complexes + Protéines', goal: 'Énergie & substrat' },
+  { step: '02', label: 'Intra',       timing: 'Optionnel',  foods: 'Glucides rapides',               goal: 'Maintien glycémique' },
+  { step: '03', label: 'Post-séance', timing: '< 1h après', foods: 'Whey + Glucides rapides',       goal: 'Récupération' },
 ]
 
 // ── Supplements Data ────────────────────────────────────────────────
