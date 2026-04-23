@@ -75,6 +75,17 @@ export function useCoach() {
     const updatedMsgs = [...messages, userMsg]
     setMessages(updatedMsgs)
 
+    if (!import.meta.env.VITE_ANTHROPIC_API_KEY) {
+      const errMsg: CoachMessage = {
+        role: 'assistant',
+        content: 'Clé API manquante — vérifie le fichier .env.local et redémarre le serveur (npm run dev).',
+        timestamp: Date.now(),
+      }
+      await persistHistory([...updatedMsgs, errMsg])
+      setIsLoading(false)
+      return
+    }
+
     try {
       const loopHistory: Anthropic.MessageParam[] = updatedMsgs.map(m => ({
         role: m.role,
@@ -128,9 +139,10 @@ export function useCoach() {
       await persistHistory([...updatedMsgs, assistantMsg])
     } catch (err) {
       console.error('Coach error:', err)
+      const detail = err instanceof Error ? err.message : String(err)
       const errorMsg: CoachMessage = {
         role: 'assistant',
-        content: 'Une erreur est survenue. Réessaie dans un moment.',
+        content: `Erreur : ${detail}`,
         timestamp: Date.now(),
       }
       await persistHistory([...updatedMsgs, errorMsg])
