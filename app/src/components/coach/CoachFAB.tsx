@@ -17,7 +17,7 @@ export function CoachFAB() {
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
             className={cn(
-              "fixed right-4 bottom-[88px] z-50", // bottom-[88px] is above the bottom nav
+              "fixed right-4 bottom-[104px] z-50", // bottom-[104px] is above the bottom nav
               "size-14 rounded-full bg-accent shadow-xl shadow-accent/30",
               "flex items-center justify-center text-background",
               "active:scale-95 transition-transform duration-100"
