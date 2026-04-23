@@ -60,6 +60,16 @@ export function Nutrition() {
     return schedule[today] !== null && schedule[today] !== undefined
   })
 
+  // ── Métabolisme (Katch-McArdle, 10% MG fixe, KB 66kg) ──
+  const metabolism = useMemo(() => {
+    const leanMass = weight * 0.9
+    const bmr = Math.round(370 + 21.6 * leanMass)
+    const tdee = Math.round(bmr * 1.5)
+    const isSurplusPhase = ['s1', 's2', 's3', 's4'].includes(state.currentWeekId)
+    const target = isSurplusPhase ? tdee + 150 : tdee
+    return { bmr, tdee, target, isSurplusPhase }
+  }, [weight, state.currentWeekId])
+
   // ── Calcul macros dynamiques ──
   const macros = useMemo(() => {
     const p = Math.round(weight * (isTraining ? 2.2 : 2.0))
@@ -91,6 +101,27 @@ export function Nutrition() {
           <button onClick={() => adjustWeight(-1)} aria-label="Diminuer le poids" className="size-7 rounded-lg bg-white/5 text-muted hover:text-white text-sm font-bold transition-colors cursor-pointer">−</button>
           <span className="text-sm font-bold text-white tabular-nums w-12 text-center">{weight} kg</span>
           <button onClick={() => adjustWeight(+1)} aria-label="Augmenter le poids" className="size-7 rounded-lg bg-white/5 text-muted hover:text-white text-sm font-bold transition-colors cursor-pointer">+</button>
+        </div>
+      </div>
+
+      {/* Métabolisme de base — Katch-McArdle (10% MG) */}
+      <div className="glass rounded-xl px-4 py-3">
+        <p className="text-[9px] font-bold text-muted uppercase tracking-widest mb-3">Métabolisme de base</p>
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div>
+            <p className="text-lg font-display italic tabular-nums text-white/50">{metabolism.bmr}</p>
+            <p className="text-[9px] text-muted uppercase tracking-widest mt-0.5">BMR</p>
+          </div>
+          <div>
+            <p className="text-lg font-display italic tabular-nums text-white">{metabolism.tdee}</p>
+            <p className="text-[9px] text-muted uppercase tracking-widest mt-0.5">TDEE</p>
+          </div>
+          <div>
+            <p className="text-lg font-display italic tabular-nums text-accent">{metabolism.target}</p>
+            <p className="text-[9px] text-accent/70 uppercase tracking-widest mt-0.5">
+              {metabolism.isSurplusPhase ? 'Surplus' : 'Maintien'}
+            </p>
+          </div>
         </div>
       </div>
 

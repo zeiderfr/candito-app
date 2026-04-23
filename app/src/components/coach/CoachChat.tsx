@@ -61,7 +61,7 @@ export function CoachChat({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background/95 backdrop-blur-xl">
+    <div className="flex flex-col h-full bg-background">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 border-b border-white/5"
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))', paddingBottom: '1rem' }}>
