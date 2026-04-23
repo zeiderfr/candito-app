@@ -5,7 +5,7 @@ import { STORAGE_KEYS } from '../lib/storageKeys'
 
 export interface CoachMessage {
   role: 'user' | 'assistant'
-  content: string | any[]
+  content: string
   timestamp: number
   toolCalls?: { name: string; result: string }[]
 }
@@ -17,7 +17,6 @@ export function useCoach() {
   const [messages, setMessages] = useState<CoachMessage[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  // Charger l'historique au montage
   useEffect(() => {
     get(STORAGE_KEYS.COACH_HISTORY).then((saved: CoachMessage[] | undefined) => {
       if (saved?.length) setMessages(saved)
@@ -56,7 +55,7 @@ export function useCoach() {
           return 'Outil inconnu'
       }
     } catch (err: any) {
-      return `Erreur d'exécution de l'outil : ${err.message}`
+      return `Erreur : ${err.message}`
     }
   }, [addPR, toggleSession, updateRM])
 
@@ -69,54 +68,30 @@ export function useCoach() {
     setMessages(updatedMsgs)
 
     try {
-      let continueLoop = true
-      let assistantText = ''
+      // Proxy call to Gemini
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: messages, // On envoie l'historique (sans le dernier message qui est userText)
+          userText: userText,
+          athleteProfile: state.athlete
+        })
+      }).then(r => r.json())
+
+      if (response.error) throw new Error(response.error)
+
+      let assistantText = response.text
       const toolCallsMade: { name: string; result: string }[] = []
-      // Anthropic expects content as string or array of blocks
-      const loopHistory: any[] = updatedMsgs.map(m => ({ role: m.role, content: m.content }))
-      let iterations = 0
 
-      while (continueLoop && iterations < 5) {
-        iterations++
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            messages: loopHistory, 
-            athleteProfile: state.athlete 
-          })
-        }).then(r => r.json())
-
-        if (response.error) throw new Error(response.error)
-
-        let hasToolUse = false
-        const assistantBlocks = response.content
-        const toolResultBlocks: any[] = []
-        
-        for (const block of assistantBlocks) {
-          if (block.type === 'text') {
-            assistantText += block.text
-          } else if (block.type === 'tool_use') {
-            hasToolUse = true
-            const result = executeTool(block.name, block.input)
-            toolCallsMade.push({ name: block.name, result })
-            
-            toolResultBlocks.push({
-              type: 'tool_result',
-              tool_use_id: block.id,
-              content: result
-            })
-          }
+      // Handle function calls if any
+      if (response.functionCalls && response.functionCalls.length > 0) {
+        for (const fc of response.functionCalls) {
+          const result = executeTool(fc.name, fc.args)
+          toolCallsMade.push({ name: fc.name, result })
         }
-
-        if (hasToolUse) {
-          loopHistory.push({ role: 'assistant', content: assistantBlocks })
-          loopHistory.push({ role: 'user', content: toolResultBlocks })
-        }
-
-        if (!hasToolUse || response.stop_reason === 'end_turn') {
-          continueLoop = false
-        }
+        // Pour Gemini via proxy, on s'arrête ici pour simplifier (pas de multi-tour complexe pour l'instant)
+        // L'IA aura déjà généré son texte de réponse parallèlement aux calls.
       }
 
       const assistantMsg: CoachMessage = {
@@ -124,15 +99,14 @@ export function useCoach() {
         content: assistantText || '…',
         timestamp: Date.now(),
         toolCalls: toolCallsMade.length > 0 ? toolCallsMade : undefined,
-      } as CoachMessage
+      }
 
       await persistHistory([...updatedMsgs, assistantMsg])
     } catch (err: any) {
       console.error('Coach error:', err)
-      const detail = err instanceof Error ? err.message : String(err)
       const errorMsg: CoachMessage = {
         role: 'assistant',
-        content: `Erreur : ${detail}`,
+        content: `Erreur : ${err.message}`,
         timestamp: Date.now(),
       }
       await persistHistory([...updatedMsgs, errorMsg])
