@@ -18,6 +18,7 @@ const MAX_HISTORY = 30
 const client = new Anthropic({
   apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY,
   dangerouslyAllowBrowser: true,
+  baseURL: import.meta.env.DEV ? '/anthropic' : 'https://api.anthropic.com',
 })
 
 export function useCoach() {
