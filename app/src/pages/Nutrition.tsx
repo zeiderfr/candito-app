@@ -109,9 +109,9 @@ export function Nutrition() {
             key={label}
             onClick={() => setIsTraining(i === 0)}
             className={cn(
-              "flex-1 py-2 rounded-lg text-[11px] font-bold uppercase tracking-widest transition-all cursor-pointer",
+              "flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all cursor-pointer",
               isTraining === (i === 0)
-                ? "bg-accent text-background shadow-lg"
+                ? "bg-accent text-white shadow-lg"
                 : "text-muted hover:text-white"
             )}
           >
@@ -132,7 +132,7 @@ export function Nutrition() {
       <div className="space-y-2">
         <div className="flex items-center gap-2 px-1">
           <Clock size={13} className="text-accent" />
-          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Timing séance</span>
+          <span className="text-xs font-semibold text-muted">Timing séance</span>
         </div>
         {TIMING.map(t => (
           <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden border-l-2 border-accent/20">
@@ -141,10 +141,10 @@ export function Nutrition() {
             </span>
             <div className="flex items-center justify-between gap-3 relative">
               <span className="text-sm font-bold text-white">{t.label}</span>
-              <span className="text-[10px] font-bold text-accent bg-accent/15 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
+              <span className="text-[11px] font-semibold text-accent bg-accent/15 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
             </div>
             <p className="text-[12px] text-white/70 mt-2 relative">{t.foods}</p>
-            <p className="text-[10px] text-muted/70 mt-1 relative">→ {t.goal}</p>
+            <p className="text-xs text-muted/70 mt-1 relative">{t.goal}</p>
           </div>
         ))}
       </div>
@@ -153,16 +153,16 @@ export function Nutrition() {
       <div className="glass rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Droplets size={14} className="text-accent" />
-          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Hydratation</span>
+          <span className="text-xs font-semibold text-muted">Hydratation</span>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl bg-accent/5 border border-accent/10 p-3 text-center">
-            <p className="text-2xl font-display italic text-accent">3–4<span className="text-base font-sans not-italic"> L</span></p>
-            <p className="text-[9px] text-muted uppercase tracking-widest mt-1">Entraînement</p>
+            <p className="text-2xl font-bold text-accent">3–4<span className="text-base font-medium"> L</span></p>
+            <p className="text-[11px] text-muted mt-1">Entraînement</p>
           </div>
           <div className="rounded-xl bg-white/[0.02] border border-border p-3 text-center">
-            <p className="text-2xl font-display italic text-white/60">2.5–3<span className="text-base font-sans not-italic text-muted"> L</span></p>
-            <p className="text-[9px] text-muted uppercase tracking-widest mt-1">Repos</p>
+            <p className="text-2xl font-bold text-white/60">2.5–3<span className="text-base font-medium text-muted"> L</span></p>
+            <p className="text-[11px] text-muted mt-1">Repos</p>
           </div>
         </div>
       </div>
@@ -173,7 +173,7 @@ export function Nutrition() {
           <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
             <Pill size={15} className="text-accent" />
           </div>
-          <h3 className="text-base font-display text-white italic">Suppléments</h3>
+          <h3 className="text-base font-semibold text-white">Suppléments</h3>
         </div>
         <div className="px-4">
           {SUPPLEMENTS.map((s, i) => (
