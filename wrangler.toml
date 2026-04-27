@@ -9,3 +9,8 @@ id = "15eeb67e39fa4b55b1e7105ebda9f11f" # Injecté par Antigravity
 
 [vars]
 VAPID_PUBLIC_KEY = "BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE"
+
+# ⚠️ GEMINI_API_KEY est configuré comme SECRET Cloudflare (pas dans [vars]).
+# Pour le définir/mettre à jour :
+#   npx wrangler pages secret put GEMINI_API_KEY --project-name programme-candito
+# Les secrets ne sont jamais visibles dans les logs ni dans le dashboard.
