@@ -1,36 +1,133 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { KNOWLEDGE_BASE } from '../../app/src/data/knowledgeBase';
-import { COACH_FUNCTION_DECLARATIONS } from '../../app/src/lib/coachTools';
+import { KNOWLEDGE_BASE } from './_kb-data';
+import { COACH_FUNCTION_DECLARATIONS } from './_coach-tools';
 
-export const onRequestOptions = async () => {
+// ── Types ────────────────────────────────────────────────────────────
+interface Env {
+  GEMINI_API_KEY: string;
+}
+
+interface ChatRequestBody {
+  messages: Array<{ role: string; content: string }>;
+  userText: string;
+  athleteProfile: {
+    name?: string;
+    rm?: { squat?: number; bench?: number; deadlift?: number };
+  };
+}
+
+// ── CORS ─────────────────────────────────────────────────────────────
+const ALLOWED_ORIGINS = [
+  'https://programme-candito.pages.dev',
+  'http://localhost:5173',
+  'http://localhost:4173',
+];
+
+function getCorsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get('Origin') ?? '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+  };
+}
+
+// ── Rate Limiting (in-memory, per-isolate) ───────────────────────────
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 20;       // requêtes max
+const RATE_WINDOW_MS = 60_000; // par minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+
+  entry.count++;
+  return entry.count > RATE_LIMIT;
+}
+
+function getClientIP(request: Request): string {
+  return request.headers.get('CF-Connecting-IP')
+    ?? request.headers.get('X-Forwarded-For')?.split(',')[0]?.trim()
+    ?? 'unknown';
+}
+
+// ── Validation ───────────────────────────────────────────────────────
+function validateBody(body: unknown): body is ChatRequestBody {
+  if (!body || typeof body !== 'object') return false;
+  const b = body as Record<string, unknown>;
+  return (
+    typeof b.userText === 'string' &&
+    b.userText.trim().length > 0 &&
+    b.userText.length <= 2000 &&
+    Array.isArray(b.messages) &&
+    typeof b.athleteProfile === 'object' &&
+    b.athleteProfile !== null
+  );
+}
+
+// ── CORS Preflight ───────────────────────────────────────────────────
+export const onRequestOptions: PagesFunction<Env> = async (context) => {
   return new Response(null, {
     status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
+    headers: getCorsHeaders(context.request),
   });
 };
 
-export const onRequestPost = async (context: any) => {
+// ── Main Handler ─────────────────────────────────────────────────────
+export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { request, env } = context;
+  const corsHeaders = getCorsHeaders(request);
 
-  const apiKey = env.VITE_GEMINI_API_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: "Missing Gemini API key" }), { 
-      status: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' }
-    });
+  // Rate limiting
+  const ip = getClientIP(request);
+  if (isRateLimited(ip)) {
+    return new Response(
+      JSON.stringify({ error: 'Trop de requêtes. Réessaie dans une minute.' }),
+      { status: 429, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
   }
 
-  try {
-    const { messages, athleteProfile, userText } = await request.json();
+  // API key check
+  const apiKey = env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return new Response(
+      JSON.stringify({ error: 'GEMINI_API_KEY non configurée sur le serveur.' }),
+      { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
 
+  // Parse & validate body
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return new Response(
+      JSON.stringify({ error: 'Corps de requête invalide (JSON attendu).' }),
+      { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
+
+  if (!validateBody(body)) {
+    return new Response(
+      JSON.stringify({ error: 'Paramètres manquants ou invalides (userText, messages, athleteProfile requis).' }),
+      { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
+
+  const { messages, userText, athleteProfile } = body;
+
+  try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash',
-      systemInstruction: `Tu es le coach personnel de ${athleteProfile.name || 'l\'athlète'}, intégré dans l'application Programme Candito 6 semaines.
+      systemInstruction: `Tu es le coach personnel de ${athleteProfile.name || "l'athlète"}, intégré dans l'application Programme Candito 6 semaines.
 
 ## Profil Athlète
 - Nom : ${athleteProfile.name || 'Inconnu'}
@@ -45,11 +142,11 @@ export const onRequestPost = async (context: any) => {
 --- BASE DE CONNAISSANCES ---
 ${KNOWLEDGE_BASE}
 --- FIN BASE DE CONNAISSANCES ---`,
-      tools: [{ functionDeclarations: COACH_FUNCTION_DECLARATIONS }],
+      tools: [{ functionDeclarations: COACH_FUNCTION_DECLARATIONS as any }],
     });
 
-    // Convertir l'historique au format Gemini
-    const chatHistory = messages.map((m: any) => ({
+    // Convert history to Gemini format
+    const chatHistory = messages.map((m: { role: string; content: string }) => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: typeof m.content === 'string' ? m.content : JSON.stringify(m.content) }],
     }));
@@ -62,14 +159,14 @@ ${KNOWLEDGE_BASE}
       text: response.text(),
       functionCalls: response.functionCalls(),
     }), {
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
 
   } catch (err: any) {
-    console.error("Gemini Proxy Error:", err);
-    return new Response(JSON.stringify({ error: err.message }), { 
-      status: 500, 
-      headers: { 'Access-Control-Allow-Origin': '*' } 
+    console.error('Gemini Proxy Error:', err);
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
     });
   }
 };
