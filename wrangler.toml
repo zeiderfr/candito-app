@@ -11,7 +11,10 @@ id = "15eeb67e39fa4b55b1e7105ebda9f11f" # Injecté par Antigravity
 VAPID_PUBLIC_KEY = "BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE"
 VITE_APP_SECRET = "738c8128ada7af466af04947c93dcceb137d1bcdad56b905bd11876f4456a9b6"
 
-# ⚠️ GEMINI_API_KEY est configuré comme SECRET Cloudflare (pas dans [vars]).
-# Pour le définir/mettre à jour :
-#   npx wrangler pages secret put GEMINI_API_KEY --project-name programme-candito
-# Les secrets ne sont jamais visibles dans les logs ni dans le dashboard.
+# SECRETS Cloudflare (chiffrés, jamais dans git) :
+#   GEMINI_API_KEY  → npx wrangler pages secret put GEMINI_API_KEY --project-name programme-candito
+#   APP_SECRET      → npx wrangler pages secret put APP_SECRET --project-name programme-candito
+#
+# NOTE : VITE_APP_SECRET est dans [vars] (disponible au build Vite).
+# Sa valeur est injectée dans le bundle JS (semi-publique par design).
+# La vraie sécurité repose sur APP_SECRET côté Function (chiffré).
