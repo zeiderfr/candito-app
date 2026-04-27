@@ -96,7 +96,7 @@ function NexusPulse({
         >
           {Math.max(0, remaining)}
         </motion.span>
-        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/40 mt-1">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 mt-1">
           {remaining > 0 ? 'Recovery' : 'Ready'}
         </p>
       </motion.div>
@@ -459,7 +459,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
 
         {/* Exercise info */}
         <div className="text-center space-y-3">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
+          <p className="text-[10px] font-bold text-muted">
             Exercice {exIdx + 1} / {session.exercises.length}
           </p>
           <h2 className="text-6xl font-display text-white italic tracking-tight leading-[1.05]">
@@ -490,7 +490,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           <div className="flex flex-col items-center gap-3">
             <NexusPulse remaining={restRemaining} total={restDuration} size={240} />
             {restJustDone && (
-              <p className="text-sm font-bold text-accent-success uppercase tracking-widest animate-pulse">
+              <p className="text-sm font-bold text-accent-success animate-pulse">
                 Récupération terminée ✓
               </p>
             )}
@@ -517,13 +517,13 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               exit={{ opacity: 0, scale: 0.9 }}
               whileTap={{ scale: 0.97 }}
               className={cn(
-                'w-full py-7 rounded-pill font-bold uppercase tracking-widest text-[15px]',
+                'w-full py-7 rounded-pill font-bold text-[15px]',
                 'flex items-center justify-center gap-3 shadow-lg',
                 isCompleting
-                  ? 'bg-accent text-background shadow-accent/20 cursor-pointer'
+                  ? 'bg-accent text-white shadow-accent/20 cursor-pointer'
                   : allSetsDone
                   ? 'bg-white text-background shadow-white/10 cursor-pointer'
-                  : 'bg-accent text-background shadow-accent/20 cursor-pointer',
+                  : 'bg-accent text-white shadow-accent/20 cursor-pointer',
               )}
             >
               {isCompleting ? (
@@ -556,10 +556,10 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
         style={{ paddingTop: 'max(3.5rem, env(safe-area-inset-top))' }}
       >
         <div>
-          <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-accent">
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
             Mode Séance
           </span>
-          <p className="text-sm text-white/50 mt-0.5 font-display italic">{session.focus}</p>
+          <p className="text-sm text-white/50 mt-0.5 font-semibold">{session.focus}</p>
         </div>
         {/* S6: Chrono + boutons */}
         <div className="flex items-center gap-2 mt-0.5">
@@ -596,7 +596,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
       {/* ── Exercice actif ────────────────────────────────────────── */}
       <div key={exIdx} className="flex-1 flex flex-col justify-center px-6 gap-6 animate-in fade-in slide-in-from-right-4 duration-300">
         <div className="space-y-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted tabular-nums">
+          <p className="text-[10px] font-bold text-muted tabular-nums">
             Exercice {exIdx + 1} / {session.exercises.length}
           </p>
           <h2 className="text-5xl font-display text-white italic tracking-tight leading-[1.1]">
@@ -648,7 +648,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               />
             ))}
           </div>
-          <p className="text-[11px] font-bold uppercase tracking-widest text-muted">
+          <p className="text-[11px] font-bold text-muted">
             {allSetsDone ? 'Toutes les séries terminées' : `Série ${setsDone + 1} / ${totalSets}`}
           </p>
         </div>
@@ -686,7 +686,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                         key={d}
                         onClick={() => changeRestDuration(d)}
                         className={cn(
-                          'px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer border',
+                          'px-4 py-2 rounded-full text-[10px] font-bold transition-all cursor-pointer border',
                           restDuration === d
                             ? 'bg-accent/20 border-accent/40 text-accent'
                             : 'bg-white/5 border-white/5 text-muted hover:text-white',
@@ -698,13 +698,13 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                   </div>
                   <button
                     onClick={stopTimer}
-                    className="px-6 py-2.5 rounded-full bg-white/10 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-white/20 transition-colors cursor-pointer"
+                    className="px-6 py-2.5 rounded-full bg-white/10 text-white text-[11px] font-bold hover:bg-white/20 transition-colors cursor-pointer"
                   >
                     Prêt →
                   </button>
                 </>
               ) : (
-                <p className="text-sm font-bold text-accent-success uppercase tracking-widest py-2 animate-pulse">
+                <p className="text-sm font-bold text-accent-success py-2 animate-pulse">
                   Récupération terminée ✓
                 </p>
               )}
@@ -725,13 +725,13 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               exit={{ opacity: 0, y: 20 }}
               whileTap={{ scale: 0.96 }}
               className={cn(
-                "w-full py-6 rounded-pill font-bold uppercase tracking-widest text-[13px]",
+                "w-full py-6 rounded-pill font-bold text-[13px]",
                 "flex items-center justify-center gap-3 shadow-lg",
                 isCompleting
-                  ? "bg-accent text-background shadow-accent/20 cursor-pointer"
+                  ? "bg-accent text-white shadow-accent/20 cursor-pointer"
                   : allSetsDone
                   ? "bg-white text-background shadow-white/10 cursor-pointer"
-                  : "bg-accent text-background shadow-accent/20 cursor-pointer"
+                  : "bg-accent text-white shadow-accent/20 cursor-pointer"
               )}
             >
               {isCompleting ? (
@@ -748,7 +748,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
         {setsDone > 0 && !allSetsDone && !restActive && (
           <button
             onClick={() => setSetsDone(s => s - 1)}
-            className="w-full text-[10px] font-bold uppercase tracking-widest text-muted hover:text-white transition-colors duration-200 cursor-pointer py-2"
+            className="w-full text-[10px] font-bold text-muted hover:text-white transition-colors duration-200 cursor-pointer py-2"
           >
             ← Annuler la dernière série
           </button>
@@ -784,7 +784,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             <div className="flex gap-3 mt-4">
               <button
                 onClick={() => setPendingRM(null)}
-                className="flex-1 py-3 text-[11px] font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
+                className="flex-1 py-3 text-[11px] font-bold text-muted hover:text-white transition-colors cursor-pointer"
               >
                 Ignorer
               </button>
@@ -793,7 +793,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                   updateRM({ [pendingRM.lift]: pendingRM.value })
                   setPendingRM(null)
                 }}
-                className="flex-[2] bg-accent text-background py-3 rounded-pill text-[11px] font-bold uppercase tracking-widest shadow-lg shadow-accent/20 cursor-pointer hover:bg-accent-hover transition-colors"
+                className="flex-[2] bg-accent text-white py-3 rounded-pill text-[11px] font-bold shadow-lg shadow-accent/20 cursor-pointer hover:bg-accent-hover transition-colors"
               >
                 Mettre à jour ✓
               </button>
@@ -809,12 +809,12 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
           style={{ paddingBottom: 'max(2.5rem, env(safe-area-inset-bottom))' }}
         >
           <div className="text-center space-y-6">
-            <h3 className="text-lg font-display italic text-white">Série {setsDone + 1} terminée</h3>
+            <h3 className="text-lg font-semibold text-white">Série {setsDone + 1} terminée</h3>
 
             <div className="space-y-4">
               {/* S6: Steppers ±2.5 + input poids */}
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">Poids (kg)</label>
+                <label className="text-[10px] text-muted font-bold">Poids (kg)</label>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => adjustWeight(-2.5)}
@@ -840,7 +840,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-muted font-bold">RPE (optionnel)</label>
+                <label className="text-[10px] text-muted font-bold">RPE (optionnel)</label>
                 <div className="flex items-center justify-between gap-1">
                   {[6, 7, 7.5, 8, 8.5, 9, 10].map(r => (
                     <button
@@ -848,7 +848,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                       onClick={() => setPendingSet(p => p ? { ...p, rpe: p.rpe === r ? null : r } : null)}
                       className={cn(
                         "flex-1 h-10 rounded-full text-[11px] font-bold font-display flex items-center justify-center transition-colors cursor-pointer",
-                        pendingSet.rpe === r ? "bg-accent text-background" : "bg-white/5 text-muted hover:text-white"
+                        pendingSet.rpe === r ? "bg-accent text-white" : "bg-white/5 text-muted hover:text-white"
                       )}
                     >
                       {r}
@@ -861,7 +861,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
             <div className="flex gap-3">
               <button
                 onClick={handleSkip}
-                className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
+                className="flex-1 py-3 text-xs font-bold text-muted hover:text-white transition-colors cursor-pointer"
               >
                 Passer
               </button>
@@ -869,7 +869,7 @@ export function FocusMode({ session, rm, onClose, onComplete }: FocusModeProps) 
                 onClick={handleConfirm}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                className="flex-[2] bg-accent hover:bg-accent-hover py-3 rounded-pill text-background text-xs font-bold uppercase tracking-widest transition-colors shadow-lg shadow-accent/20 cursor-pointer"
+                className="flex-[2] bg-accent hover:bg-accent-hover py-3 rounded-pill text-background text-xs font-bold transition-colors shadow-lg shadow-accent/20 cursor-pointer"
               >
                 OK ✓
               </motion.button>

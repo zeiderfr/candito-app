@@ -37,7 +37,7 @@ export function ProgramMainView({
               key={wId}
               onClick={() => setSelectedWeek(wId)}
               className={cn(
-                'px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 transition-all duration-300 cursor-pointer',
+                'px-4 py-2 rounded-full text-[10px] font-bold shrink-0 transition-all duration-300 cursor-pointer',
                 isSelected
                   ? 'bg-accent text-white shadow-lg shadow-accent/20'
                   : 'bg-white/5 text-muted hover:text-white hover:bg-white/10',
@@ -54,7 +54,7 @@ export function ProgramMainView({
       {/* Info semaine + Reset */}
       <div className="flex items-start justify-between bg-white/[0.03] p-4 rounded-2xl border border-white/5">
         <div className="space-y-1">
-          <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Description</p>
+          <p className="text-[10px] font-bold text-accent">Description</p>
           <p className="text-xs text-muted leading-snug">
             {PROGRAM_METADATA[selectedWeek]?.subtitle}
           </p>
@@ -65,7 +65,7 @@ export function ProgramMainView({
               resetWeekOverrides(selectedWeek)
               showToast({ message: 'Semaine réinitialisée.', duration: 4000 })
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 text-[11px] font-semibold tracking-wider transition-all cursor-pointer"
           >
             <RotateCcw size={11} />
             Reset

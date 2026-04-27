@@ -135,11 +135,11 @@ export function SettingsSection({ onGoToProgram }: { onGoToProgram: () => void }
         <div className="pt-3 space-y-3">
           <button
             onClick={handleExport}
-            className="w-full py-3 bg-white/5 text-white rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-accent/10 hover:text-accent transition-colors cursor-pointer"
+            className="w-full py-3 bg-white/5 text-white rounded-xl text-[11px] font-bold hover:bg-accent/10 hover:text-accent transition-colors cursor-pointer"
           >
             Exporter les données
           </button>
-          <label className="w-full py-3 bg-white/5 text-muted rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center justify-center">
+          <label className="w-full py-3 bg-white/5 text-muted rounded-xl text-[11px] font-bold hover:bg-white/10 hover:text-white transition-colors cursor-pointer flex items-center justify-center">
             Importer un fichier
             <input type="file" accept=".json" onChange={handleImport} className="sr-only" />
           </label>

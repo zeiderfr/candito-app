@@ -145,7 +145,7 @@ export function SessionHistorySection() {
       {logs.length > 5 && (
         <button
           onClick={() => setShowAll(v => !v)}
-          className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold text-muted hover:text-white transition-colors cursor-pointer"
         >
           {showAll ? (
             <>Voir moins <ChevronDown size={12} /></>

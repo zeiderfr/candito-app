@@ -55,7 +55,7 @@ export function PRSection({
       <div className="grid grid-cols-3 gap-3">
         {lastPRPerLift.map(({ lift, pr }) => (
           <div key={lift} className="glass rounded-2xl p-4 text-center space-y-1 border border-border">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-muted capitalize">{lift}</p>
+            <p className="text-[11px] font-bold text-muted capitalize">{lift}</p>
             {pr ? (
               <>
                 <p className="text-xl font-semibold text-white tabular-nums">{pr.weight}</p>
@@ -83,7 +83,7 @@ export function PRSection({
                   key={l}
                   onClick={() => setFormLift(l)}
                   className={cn(
-                    'flex-1 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors cursor-pointer capitalize',
+                    'flex-1 py-2 rounded-lg text-[10px] font-bold transition-colors cursor-pointer capitalize',
                     formLift === l ? 'bg-accent text-white' : 'bg-white/5 text-muted'
                   )}
                 >
@@ -93,7 +93,7 @@ export function PRSection({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-widest text-muted block mb-1">Poids (kg)</label>
+                <label className="text-[11px] font-bold text-muted block mb-1">Poids (kg)</label>
                 <input
                   type="number" inputMode="decimal" value={formWeight}
                   onChange={e => setFormWeight(e.target.value)}
@@ -102,7 +102,7 @@ export function PRSection({
                 />
               </div>
               <div>
-                <label className="text-[11px] font-bold uppercase tracking-widest text-muted block mb-1">Répétitions</label>
+                <label className="text-[11px] font-bold text-muted block mb-1">Répétitions</label>
                 <input
                   type="number" inputMode="numeric" value={formReps}
                   onChange={e => setFormReps(e.target.value)}
@@ -119,7 +119,7 @@ export function PRSection({
             <button
               onClick={handleSubmit}
               disabled={estimated === null}
-              className="w-full py-3 bg-accent text-white rounded-xl text-[11px] font-bold uppercase tracking-widest cursor-pointer hover:bg-accent-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-accent text-white rounded-xl text-[11px] font-bold cursor-pointer hover:bg-accent-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Enregistrer
             </button>
@@ -136,7 +136,7 @@ export function PRSection({
               className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.03] border border-white/5"
             >
               <div className="flex items-center gap-3">
-                <span className="text-[11px] font-bold uppercase tracking-widest text-accent capitalize w-14">{pr.lift}</span>
+                <span className="text-[11px] font-bold text-accent capitalize w-14">{pr.lift}</span>
                 <span className="text-sm font-bold text-white tabular-nums">{pr.weight} kg × {pr.reps}</span>
               </div>
               <div className="flex items-center gap-2">

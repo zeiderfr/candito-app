@@ -151,7 +151,7 @@ export function UpdatePrompt() {
             onClick={handleUpdate}
             className={cn(
               "w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-background",
-              "text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all",
+              "text-[12px] font-bold rounded-pill transition-all",
               "shadow-lg shadow-accent/20"
             )}
           >
@@ -160,7 +160,7 @@ export function UpdatePrompt() {
 
           <button
             onClick={() => setShow(false)}
-            className="text-[10px] text-muted font-bold uppercase tracking-widest hover:text-white transition-colors py-2"
+            className="text-[10px] text-muted font-bold hover:text-white transition-colors py-2"
           >
             PLUS TARD
           </button>

@@ -28,7 +28,7 @@ export function SessionMainView({
     >
       {/* Focus de la session */}
       <div className="space-y-2">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-accent/60">Nom de la séance</p>
+        <p className="text-[10px] font-bold text-accent/60">Nom de la séance</p>
         <ProfilInlineTextField
           value={resolved.focus}
           onSave={v => setSessionFocus(weekId, sessionId, v)}
@@ -39,7 +39,7 @@ export function SessionMainView({
 
       {/* Exercices */}
       <div className="space-y-4">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Structure des Exercices</p>
+        <p className="text-[10px] font-bold text-muted">Structure des Exercices</p>
         {resolved.exercises.map((ex, i) => (
           <div key={i} className="glass rounded-2xl p-6 space-y-4 border border-border hover:border-accent/10 transition-colors">
             <ProfilInlineTextField
@@ -50,7 +50,7 @@ export function SessionMainView({
             />
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Séries</label>
+                <label className="text-[11px] font-bold text-muted">Séries</label>
                 <ProfilInlineTextField
                   value={ex.sets}
                   onSave={v => setExerciseOverride(weekId, sessionId, i, { sets: v })}
@@ -60,7 +60,7 @@ export function SessionMainView({
               </div>
               {ex.reps && (
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Reps</label>
+                  <label className="text-[11px] font-bold text-muted">Reps</label>
                   <ProfilInlineTextField
                     value={ex.reps}
                     onSave={v => setExerciseOverride(weekId, sessionId, i, { reps: v })}
@@ -71,7 +71,7 @@ export function SessionMainView({
               )}
             </div>
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Note technique</label>
+              <label className="text-[11px] font-bold text-muted">Note technique</label>
               <ProfilInlineTextField
                 value={ex.note ?? ''}
                 onSave={v => setExerciseOverride(weekId, sessionId, i, { note: v || undefined })}
@@ -90,7 +90,7 @@ export function SessionMainView({
             showToast({ message: `Séance "${resolved.focus}" réinitialisée.`, duration: 4000 })
             onBack()
           }}
-          className="w-full flex items-center justify-center gap-2 py-4 text-[10px] font-bold uppercase tracking-widest text-danger/60 hover:text-danger transition-colors cursor-pointer border border-danger/20 rounded-2xl bg-danger/5"
+          className="w-full flex items-center justify-center gap-2 py-4 text-[10px] font-bold text-danger/60 hover:text-danger transition-colors cursor-pointer border border-danger/20 rounded-2xl bg-danger/5"
         >
           <RotateCcw size={12} />
           Réinitialiser cette séance

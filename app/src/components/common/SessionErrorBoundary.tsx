@@ -89,7 +89,7 @@ export class SessionErrorBoundary extends Component<Props, State> {
           <div className="flex flex-col gap-3">
             <button
               onClick={this.handleRecover}
-              className="w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-background text-[12px] font-bold uppercase tracking-widest rounded-pill transition-all shadow-lg shadow-accent/20 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-background text-[12px] font-bold rounded-pill transition-all shadow-lg shadow-accent/20 flex items-center justify-center gap-2 cursor-pointer"
             >
               <RotateCcw size={14} />
               Reprendre la séance
@@ -97,7 +97,7 @@ export class SessionErrorBoundary extends Component<Props, State> {
 
             <button
               onClick={this.handleDiscard}
-              className="w-full py-4 bg-white/5 hover:bg-white/10 active:scale-95 text-muted hover:text-white text-[11px] font-bold uppercase tracking-widest rounded-pill transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-4 bg-white/5 hover:bg-white/10 active:scale-95 text-muted hover:text-white text-[11px] font-bold rounded-pill transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Trash2 size={12} />
               Abandonner

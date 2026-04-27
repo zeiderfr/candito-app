@@ -128,7 +128,7 @@ export function CycleRMGraph() {
       {/* Section label */}
       <div className="flex items-center gap-2 px-1">
         <TrendingUp size={14} className="text-muted" />
-        <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
+        <span className="text-[10px] font-bold text-muted">
           Évolution 1RM
         </span>
       </div>
@@ -139,12 +139,12 @@ export function CycleRMGraph() {
           {LIFTS.map(l => (
             <div key={l.key} className="flex items-center gap-1.5">
               <span className="size-1.5 rounded-full" style={{ backgroundColor: l.color }} />
-              <span className="text-[11px] font-bold text-muted uppercase tracking-widest">{l.label}</span>
+              <span className="text-[11px] font-bold text-muted">{l.label}</span>
             </div>
           ))}
           <div className="flex items-center gap-1.5">
             <span className="w-4 h-px border-t border-dashed border-white/20" />
-            <span className="text-[11px] font-bold text-muted uppercase tracking-widest">Total</span>
+            <span className="text-[11px] font-bold text-muted">Total</span>
           </div>
         </div>
 
