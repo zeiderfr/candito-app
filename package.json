@@ -5,7 +5,7 @@
   "main": "build-kb.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"Skipping build, using pre-built assets\""
+    "build": "npm install && cd app && npm run build"
   },
   "repository": {
     "type": "git",
