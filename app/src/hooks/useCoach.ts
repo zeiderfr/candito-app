@@ -71,7 +71,10 @@ export function useCoach() {
       // Proxy call to Gemini
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-App-Secret': import.meta.env.VITE_APP_SECRET ?? '',
+        },
         body: JSON.stringify({
           messages: messages, // On envoie l'historique (sans le dernier message qui est userText)
           userText: userText,

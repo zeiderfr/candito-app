@@ -5,6 +5,7 @@ import { COACH_FUNCTION_DECLARATIONS } from './_coach-tools';
 // ── Types ────────────────────────────────────────────────────────────
 interface Env {
   GEMINI_API_KEY: string;
+  APP_SECRET: string;
 }
 
 interface ChatRequestBody {
@@ -91,6 +92,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return new Response(
       JSON.stringify({ error: 'Trop de requêtes. Réessaie dans une minute.' }),
       { status: 429, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+    );
+  }
+
+  // App secret check — bloque les appels directs hors app
+  const appSecret = env.APP_SECRET;
+  if (appSecret && request.headers.get('X-App-Secret') !== appSecret) {
+    return new Response(
+      JSON.stringify({ error: 'Unauthorized' }),
+      { status: 401, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
     );
   }
 
