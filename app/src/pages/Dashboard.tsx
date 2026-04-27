@@ -57,7 +57,7 @@ export function Dashboard() {
       </div>
 
       <footer className="pt-8 pb-4 text-center">
-        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40 italic">
+        <p className="text-xs text-muted/40 font-medium">
           Forge ton corps, forge ton mental • Programme Candito
         </p>
       </footer>
