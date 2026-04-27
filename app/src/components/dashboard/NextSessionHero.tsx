@@ -114,10 +114,10 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       <div className="flex flex-col gap-6">
         <div className="space-y-4">
           <div className="space-y-1">
-            <h3 className="text-4xl font-display text-white italic tracking-tight">
+            <h3 className="text-[28px] font-bold text-white tracking-[-0.5px]">
               {primaryEx!.name}
             </h3>
-            <p className="text-muted text-lg tracking-wide">
+            <p className="text-muted text-[15px]">
               {primaryEx!.sets} séries × {primaryEx!.reps} reps
             </p>
           </div>
@@ -129,19 +129,19 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             )}>
               <span
                 ref={weightRef}
-                className="text-5xl font-display text-white tracking-tighter tabular-nums"
+                className="text-5xl font-bold text-white tracking-[-2px] tabular-nums"
               >
                 0
               </span>
-              <span className="text-xl font-display text-accent pt-2">kg</span>
+              <span className="text-xl font-semibold text-accent pt-2">kg</span>
             </div>
           )}
         </div>
 
         {/* Accessoires */}
         <div className="space-y-3 pt-2 border-t border-white/5">
-          <span className="text-[9px] font-bold text-muted/60 uppercase tracking-widest">
-            Plan de bataille accessoire
+          <span className="text-xs font-semibold text-dim">
+            Exercices accessoires
           </span>
           <div className="flex flex-col gap-2">
             {session.exercises.slice(1).map((ex, i) => (

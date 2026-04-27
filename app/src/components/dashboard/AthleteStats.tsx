@@ -99,7 +99,7 @@ function ProgressRing({ pct }: { pct: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-sm font-display italic text-white tabular-nums leading-none">
+        <span className="text-sm font-semibold text-white tabular-nums leading-none">
           {pct}%
         </span>
       </div>
@@ -133,8 +133,8 @@ export function AthleteStats({
       'glass p-8 rounded-card border-none flex flex-col gap-8',
       'animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150',
     )}>
-      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
-        Dossier Athlète {/* Mise à jour déployée */}
+      <span className="text-xs font-semibold text-muted">
+        Dossier Athlète
       </span>
 
       {/* Stat numbers - Editorial Grid */}
@@ -146,17 +146,17 @@ export function AthleteStats({
           { label: 'Total',    value: total, isAccent: true },
         ].map((stat) => (
           <div key={stat.label} className="flex flex-col gap-1 border-l border-white/5 pl-4 group hover:border-accent/30 transition-colors">
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em] mb-1">
+            <span className="text-xs font-medium text-dim mb-1">
               {stat.label}
             </span>
             <div className="flex items-baseline gap-1.5">
               <span className={cn(
-                'text-5xl font-display italic tabular-nums leading-none tracking-tight',
+                'text-5xl font-bold tabular-nums leading-none tracking-[-1px]',
                 stat.isAccent ? 'text-accent' : 'text-white',
               )}>
                 {stat.value}
               </span>
-              <span className="text-xs text-muted/30 font-bold uppercase">kg</span>
+              <span className="text-xs text-dim font-medium">kg</span>
             </div>
           </div>
         ))}
