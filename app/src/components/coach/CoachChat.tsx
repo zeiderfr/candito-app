@@ -28,7 +28,7 @@ function MessageBubble({ message }: { message: CoachMessage }) {
         className={cn(
           "max-w-[85%] px-4 py-2.5 text-sm",
           isUser
-            ? "bg-accent text-background rounded-2xl rounded-tr-sm"
+            ? "bg-accent text-white rounded-2xl rounded-tr-sm"
             : "bg-white/5 border border-white/10 text-white rounded-2xl rounded-tl-sm"
         )}
       >
@@ -71,10 +71,10 @@ export function CoachChat({ onClose }: { onClose: () => void }) {
         >
           <ArrowLeft size={20} />
         </button>
-        <h2 className="font-display italic text-xl text-white flex-1">Coach Candito</h2>
+        <h2 className="font-semibold text-xl text-white flex-1">Coach Candito</h2>
         <button
           onClick={clearHistory}
-          className="text-[10px] uppercase tracking-widest text-muted hover:text-white transition-colors"
+          className="text-[10px] text-muted hover:text-white transition-colors"
         >
           Effacer
         </button>

@@ -79,7 +79,7 @@ function LiftRow({
             × {set.reps}
           </span>
           {set.rpe != null && (
-            <span className="text-[9px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
+            <span className="text-[11px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
               @{set.rpe}
             </span>
           )}
@@ -151,7 +151,7 @@ export function LastSessionCard() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ClockArrowUp size={13} className="text-muted" />
-          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
+          <span className="text-[10px] font-bold text-muted">
             Dernière séance
           </span>
         </div>
