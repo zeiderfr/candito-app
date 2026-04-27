@@ -47,16 +47,16 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       )}>
         <div className="flex items-center gap-2">
           <Moon size={14} className="text-dim" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-dim">
+          <span className="text-xs font-semibold text-dim">
             Mode Récupération
           </span>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-3xl font-display text-white">
+          <h3 className="text-[22px] font-semibold text-white">
             {workoutState.action}
           </h3>
-          <p className="text-muted text-xs leading-relaxed max-w-[95%]">
+          <p className="text-muted text-sm leading-relaxed max-w-[95%]">
             {workoutState.suggestion} Le progrès se construit aussi dans le calme.
           </p>
         </div>
@@ -71,11 +71,11 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-accent group-hover:bg-accent/10 transition-all shrink-0">
               <Coffee size={16} />
             </div>
-            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
+            <span className="text-[11px] font-medium text-muted group-hover:text-white leading-tight">
               Conseils<br />Nutrition
             </span>
           </button>
-          
+
           <button
             onClick={() => navigate('warmup')}
             className={cn(
@@ -85,7 +85,7 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-white group-hover:bg-white/10 transition-all shrink-0">
               <Zap size={16} />
             </div>
-            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
+            <span className="text-[11px] font-medium text-muted group-hover:text-white leading-tight">
               Mobilité<br />Active
             </span>
           </button>
@@ -105,7 +105,7 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Zap size={14} className="text-accent fill-accent" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent/80">
+          <span className="text-xs font-semibold text-accent/80">
             {session.day} — {session.focus}
           </span>
         </div>
@@ -158,15 +158,11 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
         onClick={() => navigate('programme')}
         className={cn(
           'w-full bg-accent hover:bg-accent-hover active:scale-[0.98] transition-all duration-200',
-          'text-background font-bold uppercase tracking-widest text-[12px] py-6 px-4 rounded-pill',
+          'text-white font-semibold text-[15px] py-5 px-4 rounded-[14px]',
           'flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer',
         )}>
-        DÉMARRER LA SÉANCE
-        <ChevronRight size={16} />
+        Démarrer la séance
       </button>
-
-      {/* Decorative pulse */}
-      <div className="absolute top-0 right-0 -mr-12 -mt-12 size-56 bg-accent/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
     </div>
   )
 })

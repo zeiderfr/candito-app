@@ -20,5 +20,18 @@ desktop.ini
 *.log
 npm-debug.log*
 
-# Dependencies (si applicable plus tard)
+# Dependencies
 node_modules/
+
+# Environment variables (NEVER commit API keys)
+.env
+.env.*
+.env.local
+
+# Build outputs
+dist/
+assets/
+
+# Cloudflare Wrangler state
+.wrangler/
+
