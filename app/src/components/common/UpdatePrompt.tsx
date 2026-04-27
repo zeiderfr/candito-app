@@ -140,7 +140,7 @@ export function UpdatePrompt() {
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-display text-white italic">Mise à jour</h2>
+          <h2 className="text-[22px] font-semibold text-white">Mise à jour</h2>
           <p className="text-muted text-sm leading-relaxed">
             Une nouvelle version du programme est disponible pour ton entraînement.
           </p>
@@ -150,19 +150,19 @@ export function UpdatePrompt() {
           <button
             onClick={handleUpdate}
             className={cn(
-              "w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-background",
-              "text-[12px] font-bold rounded-pill transition-all",
+              "w-full py-5 bg-accent hover:bg-accent-hover active:scale-95 text-white",
+              "text-[15px] font-semibold rounded-[14px] transition-all",
               "shadow-lg shadow-accent/20"
             )}
           >
-            INSTALLER MAINTENANT
+            Installer maintenant
           </button>
 
           <button
             onClick={() => setShow(false)}
-            className="text-[10px] text-muted font-bold hover:text-white transition-colors py-2"
+            className="text-xs text-muted font-medium hover:text-white transition-colors py-2"
           >
-            PLUS TARD
+            Plus tard
           </button>
         </div>
       </div>
