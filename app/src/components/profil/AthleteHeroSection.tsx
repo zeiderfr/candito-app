@@ -16,7 +16,7 @@ export function AthleteRMField({
 
   return (
     <div className="glass rounded-[24px] p-4 flex flex-col items-center gap-2 border border-border group hover:border-accent/40 transition-colors">
-      <label className="text-[9px] font-bold uppercase tracking-widest text-muted/60 capitalize">{lift}</label>
+      <label className="text-[11px] font-semibold text-muted/60 capitalize">{lift}</label>
       <div className="flex items-baseline gap-1">
         <input
           type="number"
@@ -25,9 +25,9 @@ export function AthleteRMField({
           onChange={e => setDraft(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={e => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
-          className="w-16 bg-transparent text-xl font-display italic text-white text-center focus:outline-none focus:text-accent transition-colors text-base"
+          className="w-16 bg-transparent text-xl font-semibold text-white text-center focus:outline-none focus:text-accent transition-colors text-base"
         />
-        <span className="text-[10px] text-muted font-bold">KG</span>
+        <span className="text-xs text-muted font-medium">kg</span>
       </div>
     </div>
   )
@@ -58,24 +58,24 @@ export function AthleteHeroSection({
               onChange={e => onNameChange(e.target.value)}
               onBlur={onNameBlur}
               onKeyDown={e => e.key === 'Enter' && onNameBlur()}
-              className="w-full bg-accent/5 border-b-2 border-accent/60 px-2 py-1 text-2xl font-display italic text-white focus:outline-none text-base"
+              className="w-full bg-accent/5 border-b-2 border-accent/60 px-2 py-1 text-2xl font-semibold text-white focus:outline-none text-base"
             />
           ) : (
             <button
               onClick={onEditName}
-              className="text-white text-3xl font-display italic hover:text-accent transition-colors cursor-pointer text-left leading-tight"
+              className="text-white text-[22px] font-semibold hover:text-accent transition-colors cursor-pointer text-left leading-tight"
             >
               {name}
             </button>
           )}
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-[10px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-full tabular-nums">
+            <span className="text-xs font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full tabular-nums">
               Total {total} kg
             </span>
-            <span className="text-[10px] text-muted font-bold uppercase tracking-widest">
+            <span className="text-xs text-muted font-medium">
               Cycle {cycleNumber}
             </span>
-            <span className="text-[10px] text-muted font-bold uppercase tracking-widest">
+            <span className="text-xs text-muted font-medium">
               {currentWeekId.replace('_', ' ').toUpperCase()}
             </span>
           </div>
