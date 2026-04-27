@@ -136,7 +136,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite',
+      model: 'gemini-1.5-flash',
       systemInstruction: `Tu es le coach personnel de ${athleteProfile.name || "l'athlète"}, intégré dans l'application Programme Candito 6 semaines.
 
 ## Profil Athlète
