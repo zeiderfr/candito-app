@@ -74,7 +74,7 @@ export function InstallBanner() {
       <div className="flex items-center gap-3 shrink-0">
         {!isIOS() && deferredPrompt && (
           <button onClick={handleInstall}
-            className="text-[10px] font-bold text-accent hover:text-white transition-colors duration-200 cursor-pointer">
+            className="text-[10px] font-bold uppercase tracking-widest text-accent hover:text-white transition-colors duration-200 cursor-pointer">
             Installer
           </button>
         )}

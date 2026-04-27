@@ -59,7 +59,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                     toast.onUndo?.()
                     removeToast(toast.id)
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/20 text-accent text-xs font-semibold hover:bg-accent/30 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent/30 transition-colors"
                 >
                   <Undo2 size={12} />
                   Annuler

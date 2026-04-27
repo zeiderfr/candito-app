@@ -164,7 +164,7 @@ export function NewCycleModal({
             onClick={handleConfirm}
             className={cn(
               "flex-1 py-3 rounded-xl bg-accent/10 border border-accent/30",
-              "text-accent font-bold text-sm",
+              "text-accent font-bold text-sm uppercase tracking-widest",
               "hover:bg-accent/20 transition-colors cursor-pointer"
             )}
           >

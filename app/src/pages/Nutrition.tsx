@@ -10,14 +10,14 @@ function MacroCard({ label, value, unit, protocol, color }: {
 }) {
   return (
     <div className="glass rounded-2xl p-4 flex flex-col gap-2">
-      <span className="text-[11px] font-semibold text-muted">{label}</span>
+      <span className="text-[9px] font-bold text-muted uppercase tracking-widest">{label}</span>
       <div className="flex items-baseline gap-1">
-        <span className="text-3xl font-bold tabular-nums" style={{ color }}>
+        <span className="text-3xl font-display italic tabular-nums" style={{ color }}>
           {value}
         </span>
-        <span className="text-[11px] text-muted font-medium">{unit}</span>
+        <span className="text-[11px] text-muted font-bold">{unit}</span>
       </div>
-      <span className="text-[11px] text-muted/60 leading-relaxed">{protocol}</span>
+      <span className="text-[9px] text-muted/60 leading-relaxed">{protocol}</span>
     </div>
   )
 }
@@ -82,19 +82,19 @@ export function Nutrition() {
       "flex flex-col gap-6",
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
-      {/* Header */}
+      {/* Editorial Header */}
       <div className="space-y-1">
-        <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
+        <h1 className="text-4xl font-display text-white italic tracking-tight">
           Nutrition
         </h1>
-        <p className="text-dim text-[13px] font-medium">
+        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
           Protocole nutritionnel dynamique
         </p>
       </div>
 
       {/* Sélecteur de poids (inline, compact) */}
       <div className="flex items-center justify-between px-4 py-3 glass rounded-xl">
-        <span className="text-xs text-muted font-semibold">Poids de corps</span>
+        <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Poids de corps</span>
         <div className="flex items-center gap-3">
           <button onClick={() => adjustWeight(-1)} aria-label="Diminuer le poids" className="size-7 rounded-lg bg-white/5 text-muted hover:text-white text-sm font-bold transition-colors cursor-pointer">−</button>
           <span className="text-sm font-bold text-white tabular-nums w-12 text-center">{weight} kg</span>
@@ -109,9 +109,9 @@ export function Nutrition() {
             key={label}
             onClick={() => setIsTraining(i === 0)}
             className={cn(
-              "flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all cursor-pointer",
+              "flex-1 py-2 rounded-lg text-[11px] font-bold uppercase tracking-widest transition-all cursor-pointer",
               isTraining === (i === 0)
-                ? "bg-accent text-white shadow-lg"
+                ? "bg-accent text-background shadow-lg"
                 : "text-muted hover:text-white"
             )}
           >
@@ -132,19 +132,19 @@ export function Nutrition() {
       <div className="space-y-2">
         <div className="flex items-center gap-2 px-1">
           <Clock size={13} className="text-accent" />
-          <span className="text-xs font-semibold text-muted">Timing séance</span>
+          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Timing séance</span>
         </div>
         {TIMING.map(t => (
           <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden border-l-2 border-accent/20">
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[80px] font-bold text-white/[0.08] select-none pointer-events-none leading-none">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[80px] font-display italic text-white/[0.08] select-none pointer-events-none leading-none">
               {t.step}
             </span>
             <div className="flex items-center justify-between gap-3 relative">
               <span className="text-sm font-bold text-white">{t.label}</span>
-              <span className="text-[11px] font-semibold text-accent bg-accent/15 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
+              <span className="text-[10px] font-bold text-accent bg-accent/15 px-2.5 py-1 rounded-full shrink-0">{t.timing}</span>
             </div>
             <p className="text-[12px] text-white/70 mt-2 relative">{t.foods}</p>
-            <p className="text-xs text-muted/70 mt-1 relative">{t.goal}</p>
+            <p className="text-[10px] text-muted/70 mt-1 relative">→ {t.goal}</p>
           </div>
         ))}
       </div>
@@ -153,16 +153,16 @@ export function Nutrition() {
       <div className="glass rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-3">
           <Droplets size={14} className="text-accent" />
-          <span className="text-xs font-semibold text-muted">Hydratation</span>
+          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Hydratation</span>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl bg-accent/5 border border-accent/10 p-3 text-center">
-            <p className="text-2xl font-bold text-accent">3–4<span className="text-base font-medium"> L</span></p>
-            <p className="text-[11px] text-muted mt-1">Entraînement</p>
+            <p className="text-2xl font-display italic text-accent">3–4<span className="text-base font-sans not-italic"> L</span></p>
+            <p className="text-[9px] text-muted uppercase tracking-widest mt-1">Entraînement</p>
           </div>
           <div className="rounded-xl bg-white/[0.02] border border-border p-3 text-center">
-            <p className="text-2xl font-bold text-white/60">2.5–3<span className="text-base font-medium text-muted"> L</span></p>
-            <p className="text-[11px] text-muted mt-1">Repos</p>
+            <p className="text-2xl font-display italic text-white/60">2.5–3<span className="text-base font-sans not-italic text-muted"> L</span></p>
+            <p className="text-[9px] text-muted uppercase tracking-widest mt-1">Repos</p>
           </div>
         </div>
       </div>
@@ -173,7 +173,7 @@ export function Nutrition() {
           <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
             <Pill size={15} className="text-accent" />
           </div>
-          <h3 className="text-base font-semibold text-white">Suppléments</h3>
+          <h3 className="text-base font-display text-white italic">Suppléments</h3>
         </div>
         <div className="px-4">
           {SUPPLEMENTS.map((s, i) => (
@@ -183,7 +183,7 @@ export function Nutrition() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white font-medium">{s.name}</p>
-                <p className="text-xs text-muted mt-0.5">{s.timing}</p>
+                <p className="text-[10px] text-muted mt-0.5">{s.timing}</p>
               </div>
               <span className="text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-pill shrink-0 tabular-nums">
                 {s.dose}

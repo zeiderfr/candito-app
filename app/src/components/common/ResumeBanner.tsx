@@ -50,7 +50,7 @@ export function ResumeBanner() {
             </div>
             <button
               onClick={handleResume}
-              className="text-[10px] font-bold text-accent hover:text-white transition-colors cursor-pointer shrink-0 px-3 py-1.5 rounded-full bg-accent/10 hover:bg-accent/20"
+              className="text-[10px] font-bold uppercase tracking-widest text-accent hover:text-white transition-colors cursor-pointer shrink-0 px-3 py-1.5 rounded-full bg-accent/10 hover:bg-accent/20"
             >
               Reprendre
             </button>

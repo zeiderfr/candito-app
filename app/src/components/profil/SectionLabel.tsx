@@ -4,7 +4,7 @@ export function SectionLabel({ icon, children }: { icon: ReactNode; children: Re
   return (
     <div className="flex items-center gap-2">
       <span className="text-accent">{icon}</span>
-      <p className="text-xs font-semibold text-muted">{children}</p>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{children}</p>
     </div>
   )
 }

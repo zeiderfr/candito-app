@@ -55,11 +55,11 @@ export function Profil() {
                 <ChevronLeft size={24} />
               </button>
             )}
-            <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
+            <h1 className="text-4xl font-display text-white italic tracking-tight">
               {VIEW_TITLES[current.id]}
             </h1>
           </div>
-          <p className="text-dim text-[13px] font-medium">
+          <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
             {current.id === 'profile' ? 'Athlète & Paramètres' : 'Configuration'}
           </p>
         </div>
@@ -156,9 +156,9 @@ function ProfileMainView({ onGoToProgram }: { onGoToProgram: () => void }) {
           <button
             onClick={() => setShowNewCycleModal(true)}
             className={cn(
-              'text-xs font-semibold px-3 py-1.5 rounded-full transition-all cursor-pointer',
+              'text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full transition-all cursor-pointer',
               cycleComplete
-                ? 'bg-accent text-white'
+                ? 'bg-accent text-background'
                 : 'bg-white/5 text-muted hover:text-white'
             )}
           >

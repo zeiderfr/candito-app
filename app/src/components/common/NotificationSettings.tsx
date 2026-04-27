@@ -252,7 +252,7 @@ function NotifRow({
       {/* Statut / Bouton */}
       <div className="shrink-0">
         {isChecking || isUnsupported ? (
-          <span className="text-[10px] text-muted/50 font-bold">
+          <span className="text-[10px] text-muted/50 font-bold uppercase tracking-widest">
             {isUnsupported ? 'N/A' : '…'}
           </span>
         ) : isOn ? (
@@ -262,7 +262,7 @@ function NotifRow({
           >
             <Check size={12} strokeWidth={3} className="group-hover:hidden" />
             <BellOff size={12} className="hidden group-hover:block" />
-            <span className="text-[10px] font-bold">
+            <span className="text-[10px] font-bold uppercase tracking-widest">
               <span className="group-hover:hidden">Activé</span>
               <span className="hidden group-hover:inline">Désactiver</span>
             </span>
@@ -270,17 +270,17 @@ function NotifRow({
         ) : isDenied ? (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-danger/10 text-danger">
             <AlertTriangle size={12} />
-            <span className="text-[10px] font-bold">Bloqué</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest">Bloqué</span>
           </div>
         ) : (
           <button
             onClick={onActivate}
             disabled={isLoading}
             className={cn(
-              'px-3 py-1.5 rounded-full text-[10px] font-bold transition-all cursor-pointer',
+              'px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all cursor-pointer',
               isLoading
                 ? 'bg-white/5 text-muted cursor-not-allowed'
-                : 'bg-accent text-white hover:bg-accent-hover'
+                : 'bg-accent text-background hover:bg-accent-hover'
             )}
           >
             {isLoading ? '...' : 'Activer'}

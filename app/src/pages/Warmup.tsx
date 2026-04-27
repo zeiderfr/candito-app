@@ -96,7 +96,7 @@ function WarmupSection({ title, icon: Icon, exercises, rm }: {
         <div className="size-8 rounded-lg bg-accent/10 flex items-center justify-center">
           <Icon size={15} className="text-accent" />
         </div>
-        <h3 className="text-base font-semibold text-white flex-1">{title}</h3>
+        <h3 className="text-base font-display text-white italic flex-1">{title}</h3>
       </div>
 
       {/* Mobilité */}
@@ -111,7 +111,7 @@ function WarmupSection({ title, icon: Icon, exercises, rm }: {
         <>
           <div className="flex items-center gap-3 px-4 py-2 bg-accent/[0.03] border-y border-border/50">
             <div className="h-px flex-1 bg-accent/20" />
-            <span className="text-[11px] font-medium text-accent/60">
+            <span className="text-[9px] font-bold text-accent/60 uppercase tracking-widest">
               Gamme montante
             </span>
             <div className="h-px flex-1 bg-accent/20" />
@@ -144,11 +144,11 @@ export function Warmup() {
     )}>
       {/* Header */}
       <div>
-        <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
+        <h1 className="text-4xl font-display text-white italic tracking-tight">
           Warm up
         </h1>
-        <p className="text-[13px] text-muted font-medium mt-2">
-          Protocole d'activation pré-séance
+        <p className="text-[10px] text-muted font-bold uppercase tracking-widest mt-2">
+          Protocole d'activation pré-séance (Guide)
         </p>
       </div>
 

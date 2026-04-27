@@ -223,7 +223,7 @@ export function PushNotificationManager() {
                     onClick={() => subscribeUser(weekId)}
                     disabled={status === 'loading'}
                     className={cn(
-                      "flex-1 py-3 rounded-xl font-bold text-[10px] transition-all cursor-pointer",
+                      "flex-1 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer",
                       status === 'success'
                         ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                         : "bg-white text-black hover:bg-accent hover:text-white"
@@ -236,7 +236,7 @@ export function PushNotificationManager() {
             </div>
 
             {isIOS() && status !== 'success' && (
-              <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2 text-[11px] text-muted italic">
+              <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-2 text-[9px] text-muted italic">
                 <Cloud size={10} className="text-accent/40" />
                 <span>Optimum avec l'app sur l'écran d'accueil</span>
               </div>

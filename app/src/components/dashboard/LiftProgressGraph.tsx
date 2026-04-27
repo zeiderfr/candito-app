@@ -14,7 +14,7 @@ const LIFTS = [
 export function LiftProgressGraph({ prs }: LiftProgressGraphProps) {
   if (prs.length === 0) return (
     <div className="glass rounded-card p-5 h-48 flex items-center justify-center">
-      <p className="text-muted text-xs font-bold opacity-30">En attente de records...</p>
+      <p className="text-muted text-xs uppercase tracking-widest font-bold opacity-30">En attente de records...</p>
     </div>
   )
 
@@ -57,7 +57,7 @@ export function LiftProgressGraph({ prs }: LiftProgressGraphProps) {
           {LIFTS.map(l => (
             <div key={l.key} className="flex items-center gap-1.5">
               <span className="size-1.5 rounded-full" style={{ backgroundColor: l.color }} />
-              <span className="text-[11px] font-bold text-muted">{l.label}</span>
+              <span className="text-[9px] font-bold text-muted uppercase tracking-widest">{l.label}</span>
             </div>
           ))}
         </div>

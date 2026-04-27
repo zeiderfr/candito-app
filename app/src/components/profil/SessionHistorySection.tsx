@@ -90,7 +90,7 @@ function SessionCard({ log }: { log: SessionLog }) {
                           {best.weight} kg
                         </span>
                         {best.rpe != null && (
-                          <span className="text-[11px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
+                          <span className="text-[9px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
                             @{best.rpe}
                           </span>
                         )}
@@ -145,7 +145,7 @@ export function SessionHistorySection() {
       {logs.length > 5 && (
         <button
           onClick={() => setShowAll(v => !v)}
-          className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold text-muted hover:text-white transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold uppercase tracking-widest text-muted hover:text-white transition-colors cursor-pointer"
         >
           {showAll ? (
             <>Voir moins <ChevronDown size={12} /></>

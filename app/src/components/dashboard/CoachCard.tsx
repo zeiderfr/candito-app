@@ -136,21 +136,21 @@ export function CoachCard() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <TimeIcon size={14} className="text-accent" />
-          <span className="text-xs font-semibold text-accent">
+          <span className="text-[10px] font-bold text-accent uppercase tracking-widest">
             Coach Programme Candito
           </span>
         </div>
-        <span className="text-[11px] text-dim font-medium italic">
+        <span className="text-[9px] text-dim/50 uppercase tracking-widest font-bold italic">
           {tone}
         </span>
       </div>
 
       {/* Greeting */}
       <div>
-        <h2 className="text-[22px] font-semibold text-white leading-tight">
+        <h2 className="text-2xl font-display text-white leading-tight">
           {greeting}, {state.athlete.name}.
         </h2>
-        <p className="text-xs text-dim mt-0.5 font-medium">
+        <p className="text-[10px] text-muted/50 uppercase tracking-widest mt-0.5 font-bold">
           {PROGRAM_METADATA[state.currentWeekId]?.subtitle}
         </p>
       </div>

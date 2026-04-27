@@ -1,7 +1,7 @@
 import { useEffect, useRef, memo } from 'react'
 import { animate } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { Zap, Moon, Coffee } from 'lucide-react'
+import { Zap, ChevronRight, Moon, Coffee } from 'lucide-react'
 import { type Session } from '@/types'
 import { useNavigation } from '@/context/NavigationContext'
 
@@ -47,16 +47,16 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       )}>
         <div className="flex items-center gap-2">
           <Moon size={14} className="text-dim" />
-          <span className="text-xs font-semibold text-dim">
+          <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-dim">
             Mode Récupération
           </span>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-[22px] font-semibold text-white">
+          <h3 className="text-3xl font-display text-white">
             {workoutState.action}
           </h3>
-          <p className="text-muted text-sm leading-relaxed max-w-[95%]">
+          <p className="text-muted text-xs leading-relaxed max-w-[95%]">
             {workoutState.suggestion} Le progrès se construit aussi dans le calme.
           </p>
         </div>
@@ -71,11 +71,11 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-accent group-hover:bg-accent/10 transition-all shrink-0">
               <Coffee size={16} />
             </div>
-            <span className="text-[11px] font-medium text-muted group-hover:text-white leading-tight">
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
               Conseils<br />Nutrition
             </span>
           </button>
-
+          
           <button
             onClick={() => navigate('warmup')}
             className={cn(
@@ -85,7 +85,7 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             <div className="size-9 rounded-xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-white group-hover:bg-white/10 transition-all shrink-0">
               <Zap size={16} />
             </div>
-            <span className="text-[11px] font-medium text-muted group-hover:text-white leading-tight">
+            <span className="text-[9px] font-bold text-muted group-hover:text-white uppercase tracking-widest leading-tight">
               Mobilité<br />Active
             </span>
           </button>
@@ -105,7 +105,7 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Zap size={14} className="text-accent fill-accent" />
-          <span className="text-xs font-semibold text-accent/80">
+          <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-accent/80">
             {session.day} — {session.focus}
           </span>
         </div>
@@ -114,10 +114,10 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
       <div className="flex flex-col gap-6">
         <div className="space-y-4">
           <div className="space-y-1">
-            <h3 className="text-[28px] font-bold text-white tracking-[-0.5px]">
+            <h3 className="text-4xl font-display text-white italic tracking-tight">
               {primaryEx!.name}
             </h3>
-            <p className="text-muted text-[15px]">
+            <p className="text-muted text-lg tracking-wide">
               {primaryEx!.sets} séries × {primaryEx!.reps} reps
             </p>
           </div>
@@ -129,19 +129,19 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
             )}>
               <span
                 ref={weightRef}
-                className="text-5xl font-bold text-white tracking-[-2px] tabular-nums"
+                className="text-5xl font-display text-white tracking-tighter tabular-nums"
               >
                 0
               </span>
-              <span className="text-xl font-semibold text-accent pt-2">kg</span>
+              <span className="text-xl font-display text-accent pt-2">kg</span>
             </div>
           )}
         </div>
 
         {/* Accessoires */}
         <div className="space-y-3 pt-2 border-t border-white/5">
-          <span className="text-xs font-semibold text-dim">
-            Exercices accessoires
+          <span className="text-[9px] font-bold text-muted/60 uppercase tracking-widest">
+            Plan de bataille accessoire
           </span>
           <div className="flex flex-col gap-2">
             {session.exercises.slice(1).map((ex, i) => (
@@ -158,11 +158,15 @@ export const NextSessionHero = memo(function NextSessionHero({ workoutState, get
         onClick={() => navigate('programme')}
         className={cn(
           'w-full bg-accent hover:bg-accent-hover active:scale-[0.98] transition-all duration-200',
-          'text-white font-semibold text-[15px] py-5 px-4 rounded-[14px]',
+          'text-background font-bold uppercase tracking-widest text-[12px] py-6 px-4 rounded-pill',
           'flex items-center justify-center gap-2 shadow-lg shadow-accent/20 cursor-pointer',
         )}>
-        Démarrer la séance
+        DÉMARRER LA SÉANCE
+        <ChevronRight size={16} />
       </button>
+
+      {/* Decorative pulse */}
+      <div className="absolute top-0 right-0 -mr-12 -mt-12 size-56 bg-accent/10 rounded-full blur-3xl pointer-events-none animate-pulse" />
     </div>
   )
 })

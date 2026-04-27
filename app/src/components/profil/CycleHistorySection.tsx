@@ -40,7 +40,7 @@ export function CycleHistorySection({ history }: { history: CycleSnapshot[] }) {
                   <div className="grid grid-cols-3 gap-2 text-center">
                     {(['squat', 'bench', 'deadlift'] as const).map(lift => (
                       <div key={lift}>
-                        <p className="text-[11px] text-muted capitalize">{lift}</p>
+                        <p className="text-[9px] text-muted uppercase tracking-widest capitalize">{lift}</p>
                         <p className="text-sm font-bold text-white tabular-nums">{cycle.rm[lift]} kg</p>
                       </div>
                     ))}
