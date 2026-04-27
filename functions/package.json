@@ -1,0 +1,8 @@
+{
+  "name": "candito-functions",
+  "private": true,
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@anthropic-ai/sdk": "^0.90.0"
+  }
+}
