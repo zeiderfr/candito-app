@@ -19,12 +19,12 @@ export function Dashboard() {
       "flex flex-col gap-6",
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
-      {/* Editorial Header */}
+      {/* Header */}
       <div className="space-y-1">
-        <h1 className="text-4xl font-display text-white italic tracking-tight">
-          Tableau de bord...
+        <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
+          Tableau de bord
         </h1>
-        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
+        <p className="text-dim text-[13px] font-medium">
             {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}
         </p>
       </div>

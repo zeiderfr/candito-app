@@ -50,24 +50,14 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               aria-current={isActive ? 'page' : undefined}
             >
               <div className="relative flex items-center justify-center size-11">
-                {isActive && (
-                  <motion.div
-                    layoutId="tab-pill"
-                    className="absolute inset-0 rounded-xl bg-accent/15"
-                    transition={{ type: "spring", stiffness: 420, damping: 28 }}
-                  />
-                )}
                 <Icon
                   size={24}
-                  strokeWidth={isActive ? 2.5 : 2}
-                  className={cn(
-                    "relative z-10 transition-all duration-300",
-                    isActive ? "scale-125 -translate-y-0.5" : "scale-100"
-                  )}
+                  strokeWidth={2}
+                  className="transition-colors duration-200"
                 />
               </div>
               <span className={cn(
-                "text-[11px] font-bold uppercase tracking-wider transition-opacity duration-200",
+                "text-[10px] font-medium transition-opacity duration-200",
                 isActive ? "opacity-100" : "opacity-60"
               )}>
                 {item.label}
