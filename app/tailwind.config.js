@@ -7,20 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#0a0e13',
-        surface: 'rgba(255, 255, 255, 0.04)',
-        border: 'rgba(255, 255, 255, 0.07)',
+        background: '#000000',
+        surface: 'rgba(28, 28, 30, 0.85)',
+        'surface-elevated': 'rgba(44, 44, 46, 0.95)',
+        border: 'rgba(84, 84, 88, 0.65)',
         accent: {
-          DEFAULT: '#66bb6a',
-          muted: 'rgba(76, 175, 80, 0.1)',
+          DEFAULT: '#0A84FF',
+          hover: '#409CFF',
+          muted: 'rgba(10, 132, 255, 0.15)',
         },
-        muted: 'rgba(255, 255, 255, 0.45)',
-        dim: 'rgba(255, 255, 255, 0.25)',
-        danger: '#ef5350',
+        muted: 'rgba(235, 235, 245, 0.6)',
+        dim: 'rgba(235, 235, 245, 0.3)',
+        danger: '#FF453A',
       },
       fontFamily: {
-        sans: ['"DM Sans"', 'sans-serif'],
-        display: ['"Instrument Serif"', 'serif'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       zIndex: {
         10: '10',

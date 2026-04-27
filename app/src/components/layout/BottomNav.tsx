@@ -27,7 +27,7 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
   return (
     <nav className={cn(
       "fixed bottom-0 left-0 right-0 z-30",
-      "glass border-t border-border bg-background/80 backdrop-blur-xl",
+      "border-t border-border bg-background/90 backdrop-blur-xl",
       "pb-[env(safe-area-inset-bottom)] px-4"
     )}>
       <div className="max-w-[680px] mx-auto flex justify-between items-center h-20">

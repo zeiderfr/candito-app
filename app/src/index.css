@@ -76,7 +76,11 @@
 
 @layer utilities {
   .glass {
-    @apply bg-surface backdrop-blur-md border border-border;
+    background: var(--color-surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 0.5px solid rgba(255, 255, 255, 0.10);
+    border-radius: inherit;
   }
 
   .text-gradient {
