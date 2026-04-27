@@ -39,7 +39,7 @@ export function ProgramMainView({
               className={cn(
                 'px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 transition-all duration-300 cursor-pointer',
                 isSelected
-                  ? 'bg-accent text-background shadow-lg shadow-accent/20'
+                  ? 'bg-accent text-white shadow-lg shadow-accent/20'
                   : 'bg-white/5 text-muted hover:text-white hover:bg-white/10',
                 isCurrent && !isSelected ? 'ring-1 ring-accent/40' : ''
               )}
@@ -65,7 +65,7 @@ export function ProgramMainView({
               resetWeekOverrides(selectedWeek)
               showToast({ message: 'Semaine réinitialisée.', duration: 4000 })
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer"
           >
             <RotateCcw size={11} />
             Reset

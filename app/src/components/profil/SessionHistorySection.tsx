@@ -90,7 +90,7 @@ function SessionCard({ log }: { log: SessionLog }) {
                           {best.weight} kg
                         </span>
                         {best.rpe != null && (
-                          <span className="text-[9px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
+                          <span className="text-[11px] font-bold text-muted bg-white/5 px-1.5 py-0.5 rounded-full tabular-nums">
                             @{best.rpe}
                           </span>
                         )}

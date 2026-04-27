@@ -33,7 +33,7 @@ export function SessionMainView({
           value={resolved.focus}
           onSave={v => setSessionFocus(weekId, sessionId, v)}
           placeholder="Ex : Bas lourd"
-          textClass="text-2xl font-display italic text-white"
+          textClass="text-2xl font-semibold text-white"
         />
       </div>
 
@@ -50,7 +50,7 @@ export function SessionMainView({
             />
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[9px] font-bold uppercase tracking-widest text-muted">Séries</label>
+                <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Séries</label>
                 <ProfilInlineTextField
                   value={ex.sets}
                   onSave={v => setExerciseOverride(weekId, sessionId, i, { sets: v })}
@@ -60,7 +60,7 @@ export function SessionMainView({
               </div>
               {ex.reps && (
                 <div className="space-y-1.5">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-muted">Reps</label>
+                  <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Reps</label>
                   <ProfilInlineTextField
                     value={ex.reps}
                     onSave={v => setExerciseOverride(weekId, sessionId, i, { reps: v })}
@@ -71,7 +71,7 @@ export function SessionMainView({
               )}
             </div>
             <div className="space-y-1.5">
-              <label className="text-[9px] font-bold uppercase tracking-widest text-muted">Note technique</label>
+              <label className="text-[11px] font-bold uppercase tracking-widest text-muted">Note technique</label>
               <ProfilInlineTextField
                 value={ex.note ?? ''}
                 onSave={v => setExerciseOverride(weekId, sessionId, i, { note: v || undefined })}
