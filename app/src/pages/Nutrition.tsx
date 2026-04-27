@@ -10,14 +10,14 @@ function MacroCard({ label, value, unit, protocol, color }: {
 }) {
   return (
     <div className="glass rounded-2xl p-4 flex flex-col gap-2">
-      <span className="text-[9px] font-bold text-muted uppercase tracking-widest">{label}</span>
+      <span className="text-[11px] font-semibold text-muted">{label}</span>
       <div className="flex items-baseline gap-1">
-        <span className="text-3xl font-display italic tabular-nums" style={{ color }}>
+        <span className="text-3xl font-bold tabular-nums" style={{ color }}>
           {value}
         </span>
-        <span className="text-[11px] text-muted font-bold">{unit}</span>
+        <span className="text-[11px] text-muted font-medium">{unit}</span>
       </div>
-      <span className="text-[9px] text-muted/60 leading-relaxed">{protocol}</span>
+      <span className="text-[11px] text-muted/60 leading-relaxed">{protocol}</span>
     </div>
   )
 }
@@ -82,19 +82,19 @@ export function Nutrition() {
       "flex flex-col gap-6",
       "animate-in fade-in slide-in-from-bottom-2 duration-300"
     )}>
-      {/* Editorial Header */}
+      {/* Header */}
       <div className="space-y-1">
-        <h1 className="text-4xl font-display text-white italic tracking-tight">
+        <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
           Nutrition
         </h1>
-        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
+        <p className="text-dim text-[13px] font-medium">
           Protocole nutritionnel dynamique
         </p>
       </div>
 
       {/* Sélecteur de poids (inline, compact) */}
       <div className="flex items-center justify-between px-4 py-3 glass rounded-xl">
-        <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Poids de corps</span>
+        <span className="text-xs text-muted font-semibold">Poids de corps</span>
         <div className="flex items-center gap-3">
           <button onClick={() => adjustWeight(-1)} aria-label="Diminuer le poids" className="size-7 rounded-lg bg-white/5 text-muted hover:text-white text-sm font-bold transition-colors cursor-pointer">−</button>
           <span className="text-sm font-bold text-white tabular-nums w-12 text-center">{weight} kg</span>
