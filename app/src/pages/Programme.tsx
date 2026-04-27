@@ -276,12 +276,12 @@ export function Programme() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Editorial Header */}
+      {/* Header */}
       <div className="space-y-1">
-        <h1 className="text-4xl font-display text-white italic tracking-tight">
+        <h1 className="text-[28px] font-bold text-white tracking-[-0.5px]">
           Programme
         </h1>
-        <p className="text-dim text-[10px] uppercase tracking-[0.3em] font-bold">
+        <p className="text-dim text-[13px] font-medium">
           {meta?.subtitle ?? 'Programme Candito — Force'}
         </p>
       </div>
@@ -297,11 +297,11 @@ export function Programme() {
 
       {/* Week Title */}
       <div className="flex items-center gap-3">
-        <h2 className="text-xl font-display text-white italic">
+        <h2 className="text-xl font-semibold text-white">
           {meta?.title}
         </h2>
         {isActiveWeek && (
-          <span className="text-[9px] font-bold uppercase tracking-widest text-accent bg-accent/10 px-2.5 py-1 rounded-pill">
+          <span className="text-[11px] font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-pill">
             Active
           </span>
         )}
