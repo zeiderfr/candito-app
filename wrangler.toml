@@ -3,6 +3,9 @@ name = "programme-candito"
 pages_build_output_dir = "."
 compatibility_date = "2026-04-14"
 
+[build]
+command = "npm install && cd app && npm run build"
+
 [[kv_namespaces]]
 binding = "CANDITO_SUBS"
 id = "15eeb67e39fa4b55b1e7105ebda9f11f" # Injecté par Antigravity
