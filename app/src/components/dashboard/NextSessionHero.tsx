@@ -1,7 +1,7 @@
 import { useEffect, useRef, memo } from 'react'
 import { animate } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { Zap, ChevronRight, Moon, Coffee } from 'lucide-react'
+import { Zap, Moon, Coffee } from 'lucide-react'
 import { type Session } from '@/types'
 import { useNavigation } from '@/context/NavigationContext'
 

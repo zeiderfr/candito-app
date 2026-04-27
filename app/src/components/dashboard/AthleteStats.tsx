@@ -83,7 +83,7 @@ function ProgressRing({ pct }: { pct: number }) {
         <circle
           cx="40" cy="40" r={R}
           fill="none"
-          stroke="rgba(255,255,255,0.03)"
+          stroke="rgba(84,84,88,0.3)"
           strokeWidth="3"
         />
         {/* Progress */}
@@ -166,7 +166,7 @@ export function AthleteStats({
       <div className="flex items-center gap-5">
         <ProgressRing pct={progressPct} />
         <div className="flex-1 space-y-1.5">
-          <p className="text-[11px] font-bold text-white uppercase tracking-wider">
+          <p className="text-[13px] font-semibold text-white">
             Progression du programme
           </p>
           <p className="text-[11px] text-muted font-medium">
