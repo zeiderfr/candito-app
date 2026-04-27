@@ -136,7 +136,7 @@ export function Nutrition() {
         </div>
         {TIMING.map(t => (
           <div key={t.step} className="glass rounded-2xl p-4 relative overflow-hidden border-l-2 border-accent/20">
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[80px] font-display italic text-white/[0.08] select-none pointer-events-none leading-none">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[80px] font-bold text-white/[0.08] select-none pointer-events-none leading-none">
               {t.step}
             </span>
             <div className="flex items-center justify-between gap-3 relative">
