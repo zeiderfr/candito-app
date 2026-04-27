@@ -71,9 +71,9 @@ function WeekSelector({
               key={pill}
               onClick={() => onWeekChange(getWeekIdForPill(pill, s6Variant))}
               className={cn(
-                "flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-pill text-[11px] font-bold uppercase tracking-widest shrink-0 transition-colors duration-200 cursor-pointer",
+                "flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-pill text-[11px] font-semibold shrink-0 transition-colors duration-200 cursor-pointer",
                 isActive
-                  ? "bg-accent text-background"
+                  ? "bg-accent text-white"
                   : "bg-white/5 text-muted hover:text-white"
               )}
             >
@@ -109,7 +109,7 @@ function WeekSelector({
                 onWeekChange(v.id)
               }}
               className={cn(
-                "flex-1 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 cursor-pointer",
+                "flex-1 py-2 rounded-lg text-[11px] font-semibold transition-colors duration-200 cursor-pointer",
                 s6Variant === v.id && v.id === 's6_test'
                   ? "bg-accent/20 text-accent border border-accent/40"
                   : s6Variant === v.id
@@ -151,8 +151,8 @@ const SessionCard = memo(function SessionCard({
       {/* Header */}
       <div className="px-5 py-4 border-b border-border flex items-center justify-between">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{session.day}</p>
-          <h3 className="text-base font-display text-white italic mt-0.5">{session.focus}</h3>
+          <p className="text-xs font-semibold text-muted">{session.day}</p>
+          <h3 className="text-base font-semibold text-white mt-0.5">{session.focus}</h3>
         </div>
         <button
           onClick={onToggle}
@@ -161,7 +161,7 @@ const SessionCard = memo(function SessionCard({
         >
           {isCompleted ? (
             <div className="flex items-center gap-2">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-accent">Done</span>
+              <span className="text-xs font-semibold text-accent">Fait</span>
               <CheckCircle2 size={22} className="text-accent" />
             </div>
           ) : (
@@ -209,9 +209,9 @@ const SessionCard = memo(function SessionCard({
           <button
             onClick={onStart}
             className={cn(
-              "w-full py-4 rounded-pill text-[11px] font-bold uppercase tracking-widest",
+              "w-full py-4 rounded-[14px] text-[13px] font-semibold",
               "flex items-center justify-center gap-2",
-              "bg-white/5 text-white hover:bg-accent hover:text-background",
+              "bg-white/5 text-white hover:bg-accent hover:text-white",
               "transition-colors duration-200 cursor-pointer"
             )}
           >
@@ -355,17 +355,17 @@ export function Programme() {
         onClick={() => setCurrentWeek(selectedWeekId)}
         disabled={isActiveWeek}
         className={cn(
-          "w-full py-4 rounded-pill text-[12px] font-bold uppercase tracking-widest transition-all duration-200 cursor-pointer",
+          "w-full py-4 rounded-[14px] text-[14px] font-semibold transition-all duration-200 cursor-pointer",
           isActiveWeek
             ? "bg-white/5 text-muted opacity-40 cursor-not-allowed"
-            : "bg-accent text-background hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20"
+            : "bg-accent text-white hover:bg-accent-hover active:scale-[0.98] shadow-lg shadow-accent/20"
         )}
       >
-        {isActiveWeek ? 'SEMAINE ACTIVE' : 'ACTIVER CETTE SEMAINE'}
+        {isActiveWeek ? 'Semaine active' : 'Activer cette semaine'}
       </button>
 
       <footer className="pt-4 pb-4 text-center">
-        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] opacity-40 italic">
+        <p className="text-xs text-muted/40 font-medium">
           Forge ton corps, forge ton mental • Programme Candito
         </p>
       </footer>
