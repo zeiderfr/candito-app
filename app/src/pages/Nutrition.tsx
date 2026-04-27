@@ -183,7 +183,7 @@ export function Nutrition() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-white font-medium">{s.name}</p>
-                <p className="text-[10px] text-muted mt-0.5">{s.timing}</p>
+                <p className="text-xs text-muted mt-0.5">{s.timing}</p>
               </div>
               <span className="text-[11px] font-bold text-accent bg-accent/10 px-2.5 py-1 rounded-pill shrink-0 tabular-nums">
                 {s.dose}
