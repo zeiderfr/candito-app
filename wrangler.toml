@@ -9,6 +9,7 @@ id = "15eeb67e39fa4b55b1e7105ebda9f11f" # Injecté par Antigravity
 
 [vars]
 VAPID_PUBLIC_KEY = "BDudDlJbtu4YN-BHT9pkn0cCRUVSD_3BeocMK3mCDcYsE2frcq1C_zh5oG_sNc6ylt7rv7xVwdi-T2iu-Zm69dE"
+VITE_APP_SECRET = "738c8128ada7af466af04947c93dcceb137d1bcdad56b905bd11876f4456a9b6"
 
 # ⚠️ GEMINI_API_KEY est configuré comme SECRET Cloudflare (pas dans [vars]).
 # Pour le définir/mettre à jour :
